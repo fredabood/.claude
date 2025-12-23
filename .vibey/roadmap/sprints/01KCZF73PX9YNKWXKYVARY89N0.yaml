@@ -22,60 +22,28 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MZ
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Token budget enforcement
-  - Checkpoint/rollback support
-  - Human approval gates
-  description: |
-    Add safety guardrails for autonomous execution:
-
-    1. Token Budget Enforcement:
-       - Check remaining budget before each task
-       - Stop execution when budget exhausted
-       - Support per-task and per-session budgets
-       - Integration with token estimation system
-
-    2. Checkpoint/Rollback:
-       - Create git checkpoint before each task
-       - Tag checkpoint with task ID
-       - Option to rollback failed tasks
-       - Preserve rollback history
-
-    3. Human Approval Gates:
-       - Configurable approval requirements
-       - Pause for approval on critical tasks
-       - Notification system (terminal, email, webhook)
-       - Timeout handling for approvals
-
-    Configuration:
-    ```yaml
-    safety:
-      require_approval:
-        - complexity: [complex, very_complex]
-        - priority: critical
-        - task_type: infrastructure
-      checkpoint:
-        enabled: true
-        auto_rollback_on_failure: false
-      budget:
-        per_session: 100000
-        per_task: 25000
-    ```
+  deliverables: []
+  description: "Add safety guardrails for autonomous execution:\n\n1. Token Budget\
+    \ Enforcement:\n   - Check remaining budget before each task\n   - Stop execution\
+    \ when budget exhausted\n   - Support per-task and per-session budgets\n   - Integration\
+    \ with token estimation system\n\n2. Checkpoint/Rollback:\n   - Create git checkpoint\
+    \ before each task\n   - Tag checkpoint with task ID\n   - Option to rollback\
+    \ failed tasks\n   - Preserve rollback history\n\n3. Human Approval Gates:\n \
+    \  - Configurable approval requirements\n   - Pause for approval on critical tasks\n\
+    \   - Notification system (terminal, email, webhook)\n   - Timeout handling for\
+    \ approvals\n\nConfiguration:\n```yaml\nsafety:\n  require_approval:\n    - complexity:\
+    \ [complex, very_complex]\n    - priority: critical\n    - task_type: infrastructure\n\
+    \  checkpoint:\n    enabled: true\n    auto_rollback_on_failure: false\n  budget:\n\
+    \    per_session: 100000\n    per_task: 25000\n```\n"
   goal: Implement safety guardrails for autonomous execution
-  success_criteria:
-  - Budget limits are enforced
-  - Checkpoints created before each task
-  - Approval gates pause execution correctly
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

@@ -7,10 +7,10 @@ task:
   title: Create cross-repo relationship data models
   description: 'Define data models for cross-repo relationships: 1) SubmoduleReference
     linking parent roadmap to submodule roadmap, 2) CrossRepoRequirement for push-down
-    requirements, 3) CrossRepoDependency for task dependencies across repos,
-    4) AggregatedProgress for roll-up metrics. Add to vibey/roadmap/models/.'
+    requirements, 3) CrossRepoDependency for task dependencies across repos, 4) AggregatedProgress
+    for roll-up metrics. Add to vibey/roadmap/models/.'
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
@@ -24,10 +24,13 @@ task:
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - 01KCMP3EX1K7BVMF69WH8DC2DF
+  blocked_by: []
   depends_on:
-  - 01KCMP3EX1K7BVMF69WH8DC2DF
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

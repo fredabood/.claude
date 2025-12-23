@@ -22,23 +22,14 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCYA0G5135Z8B8ENFD841B0S
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: completed
-    last_checked: '2025-12-20T22:35:51.578439+00:00'
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Budget validation on task creation/update
-  - Budget enforcement during execution
-  - Warning and hard-stop thresholds
+  deliverables: []
   description: 'Implement optional token budget constraints:
 
     - Validate budgets are >= target estimates on task creation
@@ -53,10 +44,7 @@ sprint:
 
     '
   goal: Implement token budget validation and enforcement
-  success_criteria:
-  - Budget fields are optional but validated when set
-  - Warnings issued at configurable thresholds
-  - Hard stops prevent budget overruns when enabled
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

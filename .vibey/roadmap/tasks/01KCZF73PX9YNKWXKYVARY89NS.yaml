@@ -1,123 +1,63 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NS
-  name: Implement TaskPlanVerifier for plan validation and generation
-  description: |
-    Create system to verify and generate task plans before execution:
-
-    ```python
-    class TaskPlanVerifier:
-        def __init__(self, context_root: Path):
-            self.context_root = context_root
-
-        def has_plan(self, task: HierarchicalTicket) -> bool:
-            '''Check if task has a comprehensive plan.'''
-            plan_path = self.get_plan_path(task)
-            return plan_path.exists() and self.is_plan_valid(plan_path)
-
-        def get_plan_path(self, task: HierarchicalTicket) -> Path:
-            '''Get path to task plan file.'''
-            # .vibey/roadmap/context/sprints/{sprint-slug}/tasks/{task-slug}/TASK_PLAN.md
-            return self.context_root / "sprints" / task.parent_slug / "tasks" / task.slug / "TASK_PLAN.md"
-
-        def is_plan_valid(self, plan_path: Path) -> bool:
-            '''
-            Validate plan covers required sections:
-            - Objective
-            - Approach
-            - Files to modify
-            - Acceptance criteria mapping
-            - Estimated effort
-            '''
-
-        async def generate_plan(self, task: HierarchicalTicket) -> str:
-            '''
-            Generate comprehensive task plan.
-
-            Uses Claude to analyze task and create plan covering:
-            1. Clear objective statement
-            2. Step-by-step approach
-            3. Files that will be modified/created
-            4. How each criterion will be satisfied
-            5. Potential risks and mitigations
-            6. Estimated token usage
-            '''
-
-        def save_plan(self, task: HierarchicalTicket, plan: str):
-            '''Save plan to context directory.'''
-
-        def load_plan(self, task: HierarchicalTicket) -> Optional[str]:
-            '''Load existing plan if available.'''
-    ```
-
-    Plan template:
-    ```markdown
-    # Task Plan: {task.name}
-
-    ## Objective
-    {Clear statement of what this task accomplishes}
-
-    ## Approach
-    1. Step one
-    2. Step two
-    ...
-
-    ## Files
-    - `path/to/file.py` - Description of changes
-    - `path/to/new_file.py` - New file (create)
-
-    ## Acceptance Criteria
-    | Criterion | How to Satisfy |
-    |-----------|----------------|
-    | {criterion 1} | {approach} |
-
-    ## Risks
-    - Risk 1: Mitigation
-    - Risk 2: Mitigation
-
-    ## Estimates
-    - Tokens: ~{estimated_tokens}
-    - Complexity: {complexity}
-    ```
-
-    Files:
-    - vibey/services/implementation/plan_verifier.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NP
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NP
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement TaskPlanVerifier for plan validation and generation
+  description: "Create system to verify and generate task plans before execution:\n\
+    \n```python\nclass TaskPlanVerifier:\n    def __init__(self, context_root: Path):\n\
+    \        self.context_root = context_root\n\n    def has_plan(self, task: HierarchicalTicket)\
+    \ -> bool:\n        '''Check if task has a comprehensive plan.'''\n        plan_path\
+    \ = self.get_plan_path(task)\n        return plan_path.exists() and self.is_plan_valid(plan_path)\n\
+    \n    def get_plan_path(self, task: HierarchicalTicket) -> Path:\n        '''Get\
+    \ path to task plan file.'''\n        # .vibey/roadmap/context/sprints/{sprint-slug}/tasks/{task-slug}/TASK_PLAN.md\n\
+    \        return self.context_root / \"sprints\" / task.parent_slug / \"tasks\"\
+    \ / task.slug / \"TASK_PLAN.md\"\n\n    def is_plan_valid(self, plan_path: Path)\
+    \ -> bool:\n        '''\n        Validate plan covers required sections:\n   \
+    \     - Objective\n        - Approach\n        - Files to modify\n        - Acceptance\
+    \ criteria mapping\n        - Estimated effort\n        '''\n\n    async def generate_plan(self,\
+    \ task: HierarchicalTicket) -> str:\n        '''\n        Generate comprehensive\
+    \ task plan.\n\n        Uses Claude to analyze task and create plan covering:\n\
+    \        1. Clear objective statement\n        2. Step-by-step approach\n    \
+    \    3. Files that will be modified/created\n        4. How each criterion will\
+    \ be satisfied\n        5. Potential risks and mitigations\n        6. Estimated\
+    \ token usage\n        '''\n\n    def save_plan(self, task: HierarchicalTicket,\
+    \ plan: str):\n        '''Save plan to context directory.'''\n\n    def load_plan(self,\
+    \ task: HierarchicalTicket) -> Optional[str]:\n        '''Load existing plan if\
+    \ available.'''\n```\n\nPlan template:\n```markdown\n# Task Plan: {task.name}\n\
+    \n## Objective\n{Clear statement of what this task accomplishes}\n\n## Approach\n\
+    1. Step one\n2. Step two\n...\n\n## Files\n- `path/to/file.py` - Description of\
+    \ changes\n- `path/to/new_file.py` - New file (create)\n\n## Acceptance Criteria\n\
+    | Criterion | How to Satisfy |\n|-----------|----------------|\n| {criterion 1}\
+    \ | {approach} |\n\n## Risks\n- Risk 1: Mitigation\n- Risk 2: Mitigation\n\n##\
+    \ Estimates\n- Tokens: ~{estimated_tokens}\n- Complexity: {complexity}\n```\n\n\
+    Files:\n- vibey/services/implementation/plan_verifier.py (new)\n"
   status: not_started
-  created_at: '2025-12-20T16:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T16:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T16:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/plan_verifier.py exists
-    status: not_met
-  - type: code
-    description: Plan validation checks required sections
-    status: not_met
-  - type: code
-    description: Plan generation creates comprehensive plans
-    status: not_met
-  - type: code
-    description: Plans saved to correct context path
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NN
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

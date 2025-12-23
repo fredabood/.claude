@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P6
-  name: Implement Confluence↔Markdown converter
+  sprint_id: 01KCWDNDQ768HTSN9458MK07P3
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Confluence↔Markdown converter
   description: "Implement bidirectional conversion between Confluence storage\nformat\
     \ and Markdown.\n\nImplementation steps:\n1. Create vibey/adapters/pm/confluence/converter.py:\n\
     \   - ConfluenceMarkdownConverter class\n2. Implement Confluence → Markdown:\n\
@@ -13,44 +17,32 @@ task:
     \ validation:\n   - Verify round-trip conversion\n   - Flag unsupported elements\n\
     \nDeliverables:\n- vibey/adapters/pm/confluence/converter.py\n- Conversion test\
     \ suite\n\nDependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07P4 (client for testing)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ768HTSN9458MK07P3
   status: not_started
-  created_at: '2025-12-19T23:03:36.423791+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.423791+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.423791+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/confluence/converter.py exists
-    status: not_met
-  - type: code
-    description: Confluence→Markdown conversion
-    status: not_met
-  - type: code
-    description: Markdown→Confluence conversion
-    status: not_met
-  - type: test
-    description: Round-trip conversion works
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ768HTSN9458MK07P4

@@ -19,7 +19,13 @@ track:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   quality_gates: []
   assigned_agents: []
@@ -29,7 +35,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-20T16:03:35.659702+00:00'
+    last_updated: '2025-12-19T13:55:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: null
+    notes: 'MIGRATED: Sprints and tasks moved to Semantic Platform Compatibility track (01KCVE6BV6W7FMHB2TPPBCF2EN)'

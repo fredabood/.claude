@@ -22,17 +22,11 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 5
-    completion_percent: 100
+    completion_percent: 100.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: unknown
-    blocker_type: external
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
-    last_checked: null
+  depends_on: []
   depended_on_by: []
   plan_file: null
   deliverables: []

@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQ6
-  name: Implement conflict detection and resolution
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQ2
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement conflict detection and resolution
   description: "Implement conflict detection and resolution UI for handling\ncases\
     \ where both sides have changes.\n\nImplementation steps:\n1. Enhance conflict\
     \ detection:\n   - Field-level conflict detection\n   - Identify which fields\
@@ -14,44 +18,32 @@ task:
     \ conflicts\n   - Track resolution patterns\n\nDeliverables:\n- Conflict detection\
     \ enhancement\n- CLI conflict resolution commands\n- Conflict history logging\n\
     \nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQ5 (bidirectional sync)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ2
   status: not_started
-  created_at: '2025-12-19T23:03:36.422248+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422248+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422248+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: Field-level conflict detection
-    status: not_met
-  - type: code
-    description: Multiple resolution strategies
-    status: not_met
-  - type: code
-    description: CLI conflict resolution commands
-    status: not_met
-  - type: code
-    description: Conflict history logging
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQ5

@@ -1,87 +1,52 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH6
-  name: Write unit tests for core abstractions
-  description: |
-    Create comprehensive unit tests for all Sprint 1 deliverables to ensure
-    the core abstractions work correctly before building adapters.
-
-    Implementation steps:
-    1. Create tests/core/ directory
-    2. Create tests/core/test_ticket.py:
-       - Test HierarchyType enum values
-       - Test TicketStatus enum values
-       - Test Ticket model creation and validation
-       - Test Ticket serialization/deserialization
-       - Test default values and optional fields
-    3. Create tests/adapters/pm/ directory
-    4. Create tests/adapters/pm/test_base.py:
-       - Test that TicketAdapter cannot be instantiated directly
-       - Test that subclasses must implement abstract methods
-       - Test capability property defaults
-    5. Create tests/adapters/pm/test_registry.py:
-       - Test adapter registration
-       - Test adapter retrieval
-       - Test default adapter selection
-       - Test error handling for unknown adapters
-    6. Create tests/services/test_ticket_service.py:
-       - Test service initialization with mock adapter
-       - Test all read operations
-       - Test all write operations
-       - Test convenience methods
-       - Test adapter switching
-
-    Deliverables:
-    - tests/core/test_ticket.py
-    - tests/adapters/pm/test_base.py
-    - tests/adapters/pm/test_registry.py
-    - tests/services/test_ticket_service.py
-
-    Dependencies:
-    - Requires: All Sprint 1 implementation tasks
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write unit tests for core abstractions
+  description: "Create comprehensive unit tests for all Sprint 1 deliverables to ensure\n\
+    the core abstractions work correctly before building adapters.\n\nImplementation\
+    \ steps:\n1. Create tests/core/ directory\n2. Create tests/core/test_ticket.py:\n\
+    \   - Test HierarchyType enum values\n   - Test TicketStatus enum values\n   -\
+    \ Test Ticket model creation and validation\n   - Test Ticket serialization/deserialization\n\
+    \   - Test default values and optional fields\n3. Create tests/adapters/pm/ directory\n\
+    4. Create tests/adapters/pm/test_base.py:\n   - Test that TicketAdapter cannot\
+    \ be instantiated directly\n   - Test that subclasses must implement abstract\
+    \ methods\n   - Test capability property defaults\n5. Create tests/adapters/pm/test_registry.py:\n\
+    \   - Test adapter registration\n   - Test adapter retrieval\n   - Test default\
+    \ adapter selection\n   - Test error handling for unknown adapters\n6. Create\
+    \ tests/services/test_ticket_service.py:\n   - Test service initialization with\
+    \ mock adapter\n   - Test all read operations\n   - Test all write operations\n\
+    \   - Test convenience methods\n   - Test adapter switching\n\nDeliverables:\n\
+    - tests/core/test_ticket.py\n- tests/adapters/pm/test_base.py\n- tests/adapters/pm/test_registry.py\n\
+    - tests/services/test_ticket_service.py\n\nDependencies:\n- Requires: All Sprint\
+    \ 1 implementation tasks\n"
   status: completed
-  created_at: '2025-12-19T23:03:36.420419+00:00'
-  started_at: '2025-12-21T01:10:00+00:00'
-  completed_at: '2025-12-21T01:30:00+00:00'
-  updated_at: '2025-12-19T23:03:36.420419+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420419+00:00'
+  started: '2025-12-21T01:10:00+00:00'
+  completed: '2025-12-21T01:30:00+00:00'
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: tests/core/test_ticket.py exists with comprehensive tests
-    status: met
-  - type: artifact
-    description: tests/adapters/pm/test_base.py exists
-    status: met
-  - type: artifact
-    description: tests/adapters/pm/test_registry.py exists
-    status: met
-  - type: artifact
-    description: tests/services/test_ticket_service.py exists
-    status: met
-  - type: test
-    description: All tests pass
-    status: met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH1
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH2
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH3
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH4
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH5
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: testing
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

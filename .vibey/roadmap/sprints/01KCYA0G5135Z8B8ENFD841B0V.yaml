@@ -22,33 +22,29 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCYA0G5135Z8B8ENFD841B0T
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - CLI commands for token metrics
-  - Token usage reports
-  - MCP tools for token management
-  - Auto-estimation trigger configuration
-  description: |
-    Add CLI and reporting capabilities:
+  deliverables: []
+  description: 'Add CLI and reporting capabilities:
+
     - vibey roadmap tokens <task-id> - View token estimates/actuals
+
     - vibey roadmap tokens --track <id> - View track token summary
+
     - vibey roadmap tokens --budget - View budget utilization
+
     - Token usage reports (by track, sprint, task type)
+
     - MCP tools for querying token metrics
+
+    '
   goal: Provide visibility into token usage and budgets
-  success_criteria:
-  - CLI commands display token metrics clearly
-  - Reports show estimates vs actuals
-  - Budget utilization easily visible
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

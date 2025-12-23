@@ -1,51 +1,57 @@
 task:
   id: 01KD43YW9SS8J7TZEVEHNPKAX0
-  name: CLI revert doesn't support production_ready to in_progress
-  description: |
-    The `vibey roadmap revert` command cannot revert tracks/sprints from
+  sprint_id: 01KD43809NC3FPJJ179MAZRKCK
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: CLI revert doesn't support production_ready to in_progress
+  description: 'The `vibey roadmap revert` command cannot revert tracks/sprints from
+
     production_ready status back to in_progress. This prevents correcting
+
     premature production_ready transitions.
 
+
     Error message:
-    "Cannot revert track from 'production_ready' to 'in_progress'. Valid transitions from 'production_ready': []"
+
+    "Cannot revert track from ''production_ready'' to ''in_progress''. Valid transitions
+    from ''production_ready'': []"
+
 
     Root cause: The revert command only supports limited status transitions.
 
+
     Solution: Update the revert command to support:
+
     - production_ready -> in_progress
+
     - production_ready -> completed (for intermediate revert)
+
     - deployed -> production_ready
+
     - deployed -> completed
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KD43809NC3FPJJ179MAZRKCK
+
+    '
   status: completed
-  created_at: '2025-12-22T21:00:00+00:00'
-  started_at: '2025-12-22T22:53:00+00:00'
-  completed_at: '2025-12-22T22:58:00+00:00'
-  updated_at: '2025-12-22T21:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-22T21:00:00+00:00'
+  started: '2025-12-22T22:53:00+00:00'
+  completed: '2025-12-22T22:58:00+00:00'
+  assigned_agent: null
   priority: medium
-  criteria:
-  - type: code
-    description: Revert supports production_ready -> in_progress
-    status: not_met
-  - type: test
-    description: Can revert track from production_ready to in_progress
-    status: not_met
-  depends_on: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: bug
+  phase_label: null
   estimated_tokens: 400
   actual_tokens: null
   complexity: simple
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

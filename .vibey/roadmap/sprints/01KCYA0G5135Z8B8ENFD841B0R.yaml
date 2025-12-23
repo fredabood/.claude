@@ -22,18 +22,14 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - TokenEstimate model with min/max/target/budget/actual fields
-  - Ticket class (L1) with input_tokens and output_tokens fields
-  - HierarchicalTicket (L2) with aggregation computed properties
-  - YAML and SQLite serialization for token fields
+  deliverables: []
   description: 'Add token estimation to the unified ticket architecture:
 
 
@@ -57,10 +53,7 @@ sprint:
 
     '
   goal: Add token estimation fields using unified ticket architecture
-  success_criteria:
-  - All models updated with new token fields
-  - Database schema migrated
-  - Existing data preserved with sensible defaults
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

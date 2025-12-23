@@ -1,72 +1,50 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH2
-  name: Create vibey/adapters/pm/base.py with TicketAdapter ABC
-  description: |
-    Create the abstract base class that all PM tool adapters must implement. This
-    defines the contract for read, write, and sync operations.
-
-    Implementation steps:
-    1. Create vibey/adapters/pm/ directory with __init__.py
-    2. Create SyncDirection enum: IMPORT, EXPORT, BIDIRECTIONAL
-    3. Create TicketAdapter ABC with:
-       - Identity properties: adapter_name, display_name (abstract)
-       - Capability properties: supported_hierarchy_types, supports_sprints,
-         supports_bidirectional_sync, supports_webhooks
-       - Read operations (abstract): list_projects, get_ticket, list_children, search_tickets
-       - Write operations (abstract): create_ticket, update_ticket, update_status, delete_ticket
-       - Sync operations: sync (with default NotImplementedError), detect_conflicts
-       - Mapping operations (abstract): map_to_generic, map_from_generic
-    4. Add comprehensive docstrings for each method
-    5. Reference existing PlatformAdapter pattern for consistency
-
-    Deliverables:
-    - vibey/adapters/pm/__init__.py
-    - vibey/adapters/pm/base.py
-
-    Dependencies:
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH1 (Generic Ticket model)
-
-    Reference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 3.2
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create vibey/adapters/pm/base.py with TicketAdapter ABC
+  description: "Create the abstract base class that all PM tool adapters must implement.\
+    \ This\ndefines the contract for read, write, and sync operations.\n\nImplementation\
+    \ steps:\n1. Create vibey/adapters/pm/ directory with __init__.py\n2. Create SyncDirection\
+    \ enum: IMPORT, EXPORT, BIDIRECTIONAL\n3. Create TicketAdapter ABC with:\n   -\
+    \ Identity properties: adapter_name, display_name (abstract)\n   - Capability\
+    \ properties: supported_hierarchy_types, supports_sprints,\n     supports_bidirectional_sync,\
+    \ supports_webhooks\n   - Read operations (abstract): list_projects, get_ticket,\
+    \ list_children, search_tickets\n   - Write operations (abstract): create_ticket,\
+    \ update_ticket, update_status, delete_ticket\n   - Sync operations: sync (with\
+    \ default NotImplementedError), detect_conflicts\n   - Mapping operations (abstract):\
+    \ map_to_generic, map_from_generic\n4. Add comprehensive docstrings for each method\n\
+    5. Reference existing PlatformAdapter pattern for consistency\n\nDeliverables:\n\
+    - vibey/adapters/pm/__init__.py\n- vibey/adapters/pm/base.py\n\nDependencies:\n\
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH1 (Generic Ticket model)\n\nReference: UNIFIED_ADAPTER_ARCHITECTURE.md\
+    \ Part 3.2\n"
   status: completed
-  created_at: '2025-12-19T23:03:36.420158+00:00'
-  started_at: '2025-12-21T00:30:00+00:00'
-  completed_at: '2025-12-21T00:40:00+00:00'
-  updated_at: '2025-12-19T23:03:36.420158+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420158+00:00'
+  started: '2025-12-21T00:30:00+00:00'
+  completed: '2025-12-21T00:40:00+00:00'
+  assigned_agent: null
   priority: critical
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/base.py exists
-    status: met
-  - type: code
-    description: TicketAdapter ABC with all abstract methods defined
-    status: met
-  - type: code
-    description: Read operations (list_projects, get_ticket, list_children, search_tickets)
-    status: met
-  - type: code
-    description: Write operations (create_ticket, update_ticket, update_status, delete_ticket)
-    status: met
-  - type: code
-    description: Mapping operations (map_to_generic, map_from_generic)
-    status: met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH1
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

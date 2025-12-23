@@ -1,125 +1,65 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B0Y
-  name: Update YAML and database serialization for token fields
-  description: |
-    Update serialization to persist token models (Tokens, TokenEstimate,
-    TokenEnforcement).
-
-    YAML Format (in ticket YAML files):
-    ```yaml
-    ticket:
-      id: 01ABC...
-      name: Some Task
-      input_tokens:
-        estimate:
-          min: 5000
-          max: 20000
-          target: 10000
-        budget: 25000
-        usage: 8234  # null until execution
-        enforcement:  # Optional per-direction override
-          mode: warn
-          thresholds: [0.8, 0.9, 1.0]
-          grace_percent: 0.1
-          escalation:
-            - at: 0.9
-              mode: soft_stop
-            - at: 1.0
-              mode: hard_stop
-      output_tokens:
-        estimate:
-          min: 2000
-          max: 10000
-          target: 5000
-        budget: 12000
-        usage: 4521
-        enforcement:
-          mode: hard_stop  # Stricter for output
-      total_token_budget: 35000
-      total_token_enforcement:
-        mode: soft_stop
-    ```
-
-    SQLite Schema:
-    ```sql
-    -- Add to tickets table (flattened for query efficiency)
-    -- Estimate fields
-    ALTER TABLE tickets ADD COLUMN input_tokens_estimate_min INTEGER;
-    ALTER TABLE tickets ADD COLUMN input_tokens_estimate_max INTEGER;
-    ALTER TABLE tickets ADD COLUMN input_tokens_estimate_target INTEGER;
-    ALTER TABLE tickets ADD COLUMN input_tokens_budget INTEGER;
-    ALTER TABLE tickets ADD COLUMN input_tokens_usage INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_estimate_min INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_estimate_max INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_estimate_target INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_budget INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_usage INTEGER;
-    ALTER TABLE tickets ADD COLUMN total_token_budget INTEGER;
-
-    -- Enforcement fields (JSON for complex nested structure)
-    ALTER TABLE tickets ADD COLUMN input_tokens_enforcement TEXT;  -- JSON
-    ALTER TABLE tickets ADD COLUMN output_tokens_enforcement TEXT;  -- JSON
-    ALTER TABLE tickets ADD COLUMN total_token_enforcement TEXT;    -- JSON
-    ```
-
-    Files to modify:
-    - vibey/roadmap/serialization/yaml_loader.py
-    - vibey/roadmap/serialization/yaml_dumper.py
-    - vibey/operations/roadmap/database.py (schema)
-    - vibey/roadmap/serialization/sql_loader.py
-    - vibey/roadmap/serialization/sql_dumper.py
-
-    Notes:
-    - Aggregated values computed at runtime (not stored)
-    - Nested structure in YAML, flattened in SQLite
-    - Enforcement stored as JSON in SQLite (complex nested structure)
-    - Handle null/missing values gracefully
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0R
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0R
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update YAML and database serialization for token fields
+  description: "Update serialization to persist token models (Tokens, TokenEstimate,\n\
+    TokenEnforcement).\n\nYAML Format (in ticket YAML files):\n```yaml\nticket:\n\
+    \  id: 01ABC...\n  name: Some Task\n  input_tokens:\n    estimate:\n      min:\
+    \ 5000\n      max: 20000\n      target: 10000\n    budget: 25000\n    usage: 8234\
+    \  # null until execution\n    enforcement:  # Optional per-direction override\n\
+    \      mode: warn\n      thresholds: [0.8, 0.9, 1.0]\n      grace_percent: 0.1\n\
+    \      escalation:\n        - at: 0.9\n          mode: soft_stop\n        - at:\
+    \ 1.0\n          mode: hard_stop\n  output_tokens:\n    estimate:\n      min:\
+    \ 2000\n      max: 10000\n      target: 5000\n    budget: 12000\n    usage: 4521\n\
+    \    enforcement:\n      mode: hard_stop  # Stricter for output\n  total_token_budget:\
+    \ 35000\n  total_token_enforcement:\n    mode: soft_stop\n```\n\nSQLite Schema:\n\
+    ```sql\n-- Add to tickets table (flattened for query efficiency)\n-- Estimate\
+    \ fields\nALTER TABLE tickets ADD COLUMN input_tokens_estimate_min INTEGER;\n\
+    ALTER TABLE tickets ADD COLUMN input_tokens_estimate_max INTEGER;\nALTER TABLE\
+    \ tickets ADD COLUMN input_tokens_estimate_target INTEGER;\nALTER TABLE tickets\
+    \ ADD COLUMN input_tokens_budget INTEGER;\nALTER TABLE tickets ADD COLUMN input_tokens_usage\
+    \ INTEGER;\nALTER TABLE tickets ADD COLUMN output_tokens_estimate_min INTEGER;\n\
+    ALTER TABLE tickets ADD COLUMN output_tokens_estimate_max INTEGER;\nALTER TABLE\
+    \ tickets ADD COLUMN output_tokens_estimate_target INTEGER;\nALTER TABLE tickets\
+    \ ADD COLUMN output_tokens_budget INTEGER;\nALTER TABLE tickets ADD COLUMN output_tokens_usage\
+    \ INTEGER;\nALTER TABLE tickets ADD COLUMN total_token_budget INTEGER;\n\n-- Enforcement\
+    \ fields (JSON for complex nested structure)\nALTER TABLE tickets ADD COLUMN input_tokens_enforcement\
+    \ TEXT;  -- JSON\nALTER TABLE tickets ADD COLUMN output_tokens_enforcement TEXT;\
+    \  -- JSON\nALTER TABLE tickets ADD COLUMN total_token_enforcement TEXT;    --\
+    \ JSON\n```\n\nFiles to modify:\n- vibey/roadmap/serialization/yaml_loader.py\n\
+    - vibey/roadmap/serialization/yaml_dumper.py\n- vibey/operations/roadmap/database.py\
+    \ (schema)\n- vibey/roadmap/serialization/sql_loader.py\n- vibey/roadmap/serialization/sql_dumper.py\n\
+    \nNotes:\n- Aggregated values computed at runtime (not stored)\n- Nested structure\
+    \ in YAML, flattened in SQLite\n- Enforcement stored as JSON in SQLite (complex\
+    \ nested structure)\n- Handle null/missing values gracefully\n"
   status: not_started
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-22T12:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: YAML loader handles nested Tokens structure
-    status: not_met
-  - type: code
-    description: YAML dumper serializes Tokens correctly
-    status: not_met
-  - type: code
-    description: YAML handles TokenEnforcement with escalation steps
-    status: not_met
-  - type: code
-    description: Database schema includes flattened token columns
-    status: not_met
-  - type: code
-    description: Enforcement stored as JSON in SQLite
-    status: not_met
-  - type: test
-    description: Round-trip YAML → DB → YAML preserves token data
-    status: not_met
-  - type: test
-    description: Round-trip preserves per-direction enforcement settings
-    status: not_met
-  depends_on:
-  - 01KCYA0G5135Z8B8ENFD841B0X
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

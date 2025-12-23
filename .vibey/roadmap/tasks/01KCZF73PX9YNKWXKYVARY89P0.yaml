@@ -1,130 +1,63 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89P0
-  name: Implement AgentSpawner for parallel execution
-  description: |
-    Create system to spawn and manage parallel agent processes:
-
-    ```python
-    class AgentSpawner:
-        def __init__(self, config: ImplementConfig):
-            self.config = config
-            self.max_concurrent = config.max_concurrent_agents or 3
-            self.active_agents: Dict[str, AgentProcess] = {}
-
-        async def spawn_agents(
-            self,
-            group: ParallelGroup,
-        ) -> List[AgentProcess]:
-            '''
-            Spawn agents for all tasks in parallel group.
-
-            Each agent:
-            1. Gets isolated context
-            2. Works on separate git branch (if configured)
-            3. Reports progress via shared state
-            '''
-
-        async def spawn_agent(
-            self,
-            task: HierarchicalTicket,
-            context: TaskContext,
-        ) -> AgentProcess:
-            '''
-            Spawn single Claude Code agent for task.
-
-            Command:
-            claude --print --dangerously-skip-permissions \
-              --system-prompt "{system_prompt}" \
-              "{task_prompt}"
-            '''
-
-        async def wait_for_all(
-            self,
-            agents: List[AgentProcess],
-            timeout: Optional[int] = None,
-        ) -> List[ExecutionResult]:
-            '''Wait for all agents to complete.'''
-
-        async def cancel_all(self, agents: List[AgentProcess]):
-            '''Cancel all running agents.'''
-
-        def get_agent_status(self, agent_id: str) -> AgentStatus:
-            '''Get status of specific agent.'''
-    ```
-
-    AgentProcess:
-    ```python
-    @dataclass
-    class AgentProcess:
-        agent_id: str
-        task_id: str
-        process: asyncio.Process
-        started_at: datetime
-        branch: Optional[str]  # Git branch if isolated
-        status: AgentStatus
-        output_buffer: List[str]
-
-        async def wait(self) -> ExecutionResult:
-            '''Wait for process completion.'''
-
-        async def cancel(self):
-            '''Send cancel signal to agent.'''
-
-        def get_output(self) -> str:
-            '''Get current output buffer.'''
-    ```
-
-    Branch isolation (optional):
-    ```bash
-    # Before spawning agent
-    git checkout -b implement/{task_id}
-
-    # Agent executes on branch
-
-    # After completion
-    git checkout main
-    git merge implement/{task_id}
-    ```
-
-    Files:
-    - vibey/services/implementation/spawner.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NR
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NR
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement AgentSpawner for parallel execution
+  description: "Create system to spawn and manage parallel agent processes:\n\n```python\n\
+    class AgentSpawner:\n    def __init__(self, config: ImplementConfig):\n      \
+    \  self.config = config\n        self.max_concurrent = config.max_concurrent_agents\
+    \ or 3\n        self.active_agents: Dict[str, AgentProcess] = {}\n\n    async\
+    \ def spawn_agents(\n        self,\n        group: ParallelGroup,\n    ) -> List[AgentProcess]:\n\
+    \        '''\n        Spawn agents for all tasks in parallel group.\n\n      \
+    \  Each agent:\n        1. Gets isolated context\n        2. Works on separate\
+    \ git branch (if configured)\n        3. Reports progress via shared state\n \
+    \       '''\n\n    async def spawn_agent(\n        self,\n        task: HierarchicalTicket,\n\
+    \        context: TaskContext,\n    ) -> AgentProcess:\n        '''\n        Spawn\
+    \ single Claude Code agent for task.\n\n        Command:\n        claude --print\
+    \ --dangerously-skip-permissions \\\n          --system-prompt \"{system_prompt}\"\
+    \ \\\n          \"{task_prompt}\"\n        '''\n\n    async def wait_for_all(\n\
+    \        self,\n        agents: List[AgentProcess],\n        timeout: Optional[int]\
+    \ = None,\n    ) -> List[ExecutionResult]:\n        '''Wait for all agents to\
+    \ complete.'''\n\n    async def cancel_all(self, agents: List[AgentProcess]):\n\
+    \        '''Cancel all running agents.'''\n\n    def get_agent_status(self, agent_id:\
+    \ str) -> AgentStatus:\n        '''Get status of specific agent.'''\n```\n\nAgentProcess:\n\
+    ```python\n@dataclass\nclass AgentProcess:\n    agent_id: str\n    task_id: str\n\
+    \    process: asyncio.Process\n    started_at: datetime\n    branch: Optional[str]\
+    \  # Git branch if isolated\n    status: AgentStatus\n    output_buffer: List[str]\n\
+    \n    async def wait(self) -> ExecutionResult:\n        '''Wait for process completion.'''\n\
+    \n    async def cancel(self):\n        '''Send cancel signal to agent.'''\n\n\
+    \    def get_output(self) -> str:\n        '''Get current output buffer.'''\n\
+    ```\n\nBranch isolation (optional):\n```bash\n# Before spawning agent\ngit checkout\
+    \ -b implement/{task_id}\n\n# Agent executes on branch\n\n# After completion\n\
+    git checkout main\ngit merge implement/{task_id}\n```\n\nFiles:\n- vibey/services/implementation/spawner.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T16:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T16:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T16:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/spawner.py exists
-    status: not_met
-  - type: code
-    description: Agents spawn in parallel with max limit
-    status: not_met
-  - type: code
-    description: Branch isolation works when enabled
-    status: not_met
-  - type: test
-    description: Agent cancellation works correctly
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NZ
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

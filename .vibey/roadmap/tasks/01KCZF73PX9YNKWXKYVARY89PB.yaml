@@ -1,156 +1,67 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89PB
-  name: Implement PostMortemVersioner for post-mortem stage versioning
-  description: |
-    Create versioning system for the POST_MORTEM stage:
-
-    ```python
-    class PostMortemVersioner:
-        def __init__(self, versioner: ContentVersioner):
-            self.versioner = versioner
-
-        def version_initial_post_mortem(
-            self,
-            ticket: HierarchicalTicket,
-            post_mortem: PostMortem,
-            author: str,
-        ) -> ContentVersion:
-            '''
-            Create initial post-mortem version.
-
-            Generated immediately after task completion.
-            Contains auto-generated analysis.
-            '''
-
-        def version_post_mortem_revision(
-            self,
-            ticket: HierarchicalTicket,
-            revised: PostMortem,
-            author: str,
-            reason: str,
-        ) -> ContentVersion:
-            '''
-            Version post-mortem revision.
-
-            Called when:
-            - Human adds insights
-            - Additional analysis added
-            - Corrections made
-            - Learnings refined
-            '''
-
-        def version_post_mortem_finalization(
-            self,
-            ticket: HierarchicalTicket,
-            final: PostMortem,
-            author: str,
-        ) -> ContentVersion:
-            '''
-            Create final archived version.
-
-            Marks post-mortem as complete and archived.
-            No further revisions expected.
-            '''
-
-        def get_post_mortem_evolution(
-            self,
-            ticket_id: str,
-        ) -> List[PostMortemDelta]:
-            '''
-            Show how post-mortem evolved over time.
-
-            Useful for seeing how understanding
-            of a task changed over time.
-            '''
-    ```
-
-    Post-mortem version metadata:
-    ```python
-    @dataclass
-    class PostMortemVersionMetadata:
-        pm_status: str  # draft, reviewed, finalized, archived
-        learnings_count: int
-        recommendations_count: int
-        reviewed_by: Optional[str]
-        finalized_at: Optional[datetime]
-        linked_to_knowledge_base: bool
-    ```
-
-    Version lifecycle:
-    ```
-    Task Complete
-         │
-         ▼
-    Initial PM (v1) ──► Auto-generated analysis
-         │
-         ▼
-    Revision (v2) ────► Human adds insights
-         │
-         ▼
-    Revision (v3) ────► Corrections/refinements
-         │
-         ▼
-    Finalized (v4) ───► Archived, linked to KB
-    ```
-
-    Integration:
-    ```python
-    # In PostMortemGenerator
-    def generate(self, task, result, context) -> PostMortem:
-        pm = self._generate_post_mortem(task, result, context)
-
-        # Version the initial post-mortem
-        self.pm_versioner.version_initial_post_mortem(
-            ticket=task,
-            post_mortem=pm,
-            author="claude-code",
-        )
-
-        return pm
-    ```
-
-    Files:
-    - vibey/services/implementation/versioning/post_mortem.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89P7
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89P7
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement PostMortemVersioner for post-mortem stage versioning
+  description: "Create versioning system for the POST_MORTEM stage:\n\n```python\n\
+    class PostMortemVersioner:\n    def __init__(self, versioner: ContentVersioner):\n\
+    \        self.versioner = versioner\n\n    def version_initial_post_mortem(\n\
+    \        self,\n        ticket: HierarchicalTicket,\n        post_mortem: PostMortem,\n\
+    \        author: str,\n    ) -> ContentVersion:\n        '''\n        Create initial\
+    \ post-mortem version.\n\n        Generated immediately after task completion.\n\
+    \        Contains auto-generated analysis.\n        '''\n\n    def version_post_mortem_revision(\n\
+    \        self,\n        ticket: HierarchicalTicket,\n        revised: PostMortem,\n\
+    \        author: str,\n        reason: str,\n    ) -> ContentVersion:\n      \
+    \  '''\n        Version post-mortem revision.\n\n        Called when:\n      \
+    \  - Human adds insights\n        - Additional analysis added\n        - Corrections\
+    \ made\n        - Learnings refined\n        '''\n\n    def version_post_mortem_finalization(\n\
+    \        self,\n        ticket: HierarchicalTicket,\n        final: PostMortem,\n\
+    \        author: str,\n    ) -> ContentVersion:\n        '''\n        Create final\
+    \ archived version.\n\n        Marks post-mortem as complete and archived.\n \
+    \       No further revisions expected.\n        '''\n\n    def get_post_mortem_evolution(\n\
+    \        self,\n        ticket_id: str,\n    ) -> List[PostMortemDelta]:\n   \
+    \     '''\n        Show how post-mortem evolved over time.\n\n        Useful for\
+    \ seeing how understanding\n        of a task changed over time.\n        '''\n\
+    ```\n\nPost-mortem version metadata:\n```python\n@dataclass\nclass PostMortemVersionMetadata:\n\
+    \    pm_status: str  # draft, reviewed, finalized, archived\n    learnings_count:\
+    \ int\n    recommendations_count: int\n    reviewed_by: Optional[str]\n    finalized_at:\
+    \ Optional[datetime]\n    linked_to_knowledge_base: bool\n```\n\nVersion lifecycle:\n\
+    ```\nTask Complete\n     │\n     ▼\nInitial PM (v1) ──► Auto-generated analysis\n\
+    \     │\n     ▼\nRevision (v2) ────► Human adds insights\n     │\n     ▼\nRevision\
+    \ (v3) ────► Corrections/refinements\n     │\n     ▼\nFinalized (v4) ───► Archived,\
+    \ linked to KB\n```\n\nIntegration:\n```python\n# In PostMortemGenerator\ndef\
+    \ generate(self, task, result, context) -> PostMortem:\n    pm = self._generate_post_mortem(task,\
+    \ result, context)\n\n    # Version the initial post-mortem\n    self.pm_versioner.version_initial_post_mortem(\n\
+    \        ticket=task,\n        post_mortem=pm,\n        author=\"claude-code\"\
+    ,\n    )\n\n    return pm\n```\n\nFiles:\n- vibey/services/implementation/versioning/post_mortem.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T18:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T18:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T18:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/versioning/post_mortem.py exists
-    status: not_met
-  - type: code
-    description: Initial post-mortem versioned on creation
-    status: not_met
-  - type: code
-    description: Revisions create new versions
-    status: not_met
-  - type: code
-    description: Finalization marks version as archived
-    status: not_met
-  - type: code
-    description: Post-mortem evolution trackable
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89P8
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

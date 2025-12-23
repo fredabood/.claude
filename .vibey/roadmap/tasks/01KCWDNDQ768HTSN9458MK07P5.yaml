@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P5
-  name: Implement ConfluenceAdapter class
+  sprint_id: 01KCWDNDQ768HTSN9458MK07P3
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement ConfluenceAdapter class
   description: "Create the ConfluenceAdapter that implements TicketAdapter for\nConfluence\
     \ spaces and pages (documentation sync).\n\nImplementation steps:\n1. Create vibey/adapters/pm/confluence/adapter.py:\n\
     \   - ConfluenceAdapter extending TicketAdapter\n2. Implement identity and capabilities:\n\
@@ -14,44 +18,32 @@ task:
     \nNote: This is primarily for documentation sync, not task tracking.\n\nDeliverables:\n\
     - vibey/adapters/pm/confluence/__init__.py\n- vibey/adapters/pm/confluence/adapter.py\n\
     \nDependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07P4 (Confluence client)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ768HTSN9458MK07P3
   status: not_started
-  created_at: '2025-12-19T23:03:36.423719+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.423719+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.423719+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/confluence/adapter.py exists
-    status: not_met
-  - type: code
-    description: ConfluenceAdapter implements TicketAdapter
-    status: not_met
-  - type: code
-    description: Space→Page hierarchy
-    status: not_met
-  - type: code
-    description: Content read/write
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ768HTSN9458MK07P4

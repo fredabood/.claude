@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQ9
-  name: Create GitHub REST/GraphQL client
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQ8
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create GitHub REST/GraphQL client
   description: "Create a typed Python client for GitHub REST API and GraphQL API\n\
     for Issues and Projects v2.\n\nImplementation steps:\n1. Create vibey/adapters/pm/github/client.py:\n\
     \   - GitHubClient class\n   - Support both REST and GraphQL\n   - Use GitHub\
@@ -15,44 +19,32 @@ task:
     \ for user context\n6. Add rate limiting and pagination\n\nDeliverables:\n- vibey/adapters/pm/github/client.py\n\
     - vibey/adapters/pm/github/models.py\n\nDependencies:\n- Requires: Sprint 5 complete\
     \ (sync infrastructure)\n\nReference: https://docs.github.com/en/rest"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
   status: not_started
-  created_at: '2025-12-19T23:03:36.422449+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422449+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422449+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/github/client.py exists
-    status: not_met
-  - type: code
-    description: REST API for issues and milestones
-    status: not_met
-  - type: code
-    description: GraphQL API for Projects v2
-    status: not_met
-  - type: code
-    description: Multiple authentication methods
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQ7

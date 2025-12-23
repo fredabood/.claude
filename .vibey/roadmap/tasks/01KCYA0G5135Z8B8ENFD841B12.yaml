@@ -1,163 +1,84 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B12
-  name: Add budget validation on task creation
-  description: |
-    Validate token budgets when tasks are created or updated.
-    Leverages the validators already on Tokens and TokenEstimate models.
-
-    Always-On Validation Rules (per direction - input and output):
-    1. TokenEstimate: min <= target <= max (validated in model)
-    2. Tokens: budget >= estimate.target (validated in model)
-    3. Ticket: total_token_budget >= sum of input+output budgets
-
-    Optional Hierarchical Validation (when require_children_sum_valid=true):
-    4. Parent budget >= sum of children budgets (per direction)
-    5. Parent total_token_budget >= sum of children total_token_budgets
-
-    Implementation:
-    ```python
-    # Model validators (already in Tokens/TokenEstimate from Sprint 1)
-    # Additional validation for hierarchical constraints:
-
-    class Ticket:
-        @model_validator(mode='after')
-        def validate_total_budget(self) -> 'Ticket':
-            # Always validate: total >= input + output
-            if self.total_token_budget:
-                input_budget = self.input_tokens.budget if self.input_tokens else 0
-                output_budget = self.output_tokens.budget if self.output_tokens else 0
-                if self.total_token_budget < (input_budget or 0) + (output_budget or 0):
-                    raise ValueError(
-                        f'total_token_budget ({self.total_token_budget}) must be >= '
-                        f'sum of input ({input_budget}) + output ({output_budget}) budgets'
-                    )
-            return self
-
-
-    class BudgetValidator:
-        '''Validates hierarchical budget constraints.'''
-
-        def validate_children_sum(
-            self,
-            parent: HierarchicalTicket,
-            direction: str,  # 'input', 'output', or 'total'
-        ) -> Optional[ValidationError]:
-            '''
-            Optional validation: sum(children budgets) <= parent budget.
-            Only runs if parent enforcement has require_children_sum_valid=True.
-            '''
-            enforcement = self.get_enforcement(parent, direction)
-            if not enforcement.require_children_sum_valid:
-                return None  # Skip validation if not enabled
-
-            parent_budget = self._get_budget(parent, direction)
-            if not parent_budget:
-                return None  # No parent budget to validate against
-
-            children_sum = sum(
-                self._get_budget(child, direction) or 0
-                for child in parent.children_tickets
-            )
-
-            if children_sum > parent_budget:
-                return ValidationError(
-                    f'{direction} budget sum of children ({children_sum:,}) '
-                    f'exceeds parent budget ({parent_budget:,})'
-                )
-
-            return None
-
-        def validate_on_child_budget_change(
-            self,
-            child: HierarchicalTicket,
-            new_budget: int,
-            direction: str,
-        ) -> Optional[ValidationError]:
-            '''
-            Validate when a child's budget is set or changed.
-            Checks if new budget would violate parent's constraint.
-            '''
-            parent = child.parent
-            if not parent:
-                return None
-
-            enforcement = self.get_enforcement(parent, direction)
-            if not enforcement.require_children_sum_valid:
-                return None
-
-            parent_budget = self._get_budget(parent, direction)
-            if not parent_budget:
-                return None
-
-            # Calculate what the sum would be with the new budget
-            current_child_budget = self._get_budget(child, direction) or 0
-            other_children_sum = sum(
-                self._get_budget(c, direction) or 0
-                for c in parent.children_tickets
-                if c.id != child.id
-            )
-            new_sum = other_children_sum + new_budget
-
-            if new_sum > parent_budget:
-                return ValidationError(
-                    f'Setting {direction} budget to {new_budget:,} would make '
-                    f'children sum ({new_sum:,}) exceed parent budget ({parent_budget:,})'
-                )
-
-            return None
-    ```
-
-    Error Messages:
-    - "Input token budget ({budget}) must be >= target estimate ({target})"
-    - "Invalid token range: min ({min}) > target ({target})"
-    - "Children sum ({sum}) exceeds parent budget ({budget})" (only if enabled)
-
-    Files:
-    - vibey/roadmap/models/ticket/ticket.py (always-on validation)
-    - vibey/services/budget_validator.py (optional hierarchical validation)
-    - vibey/operations/roadmap/update.py (CLI validation integration)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0T
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add budget validation on task creation
+  description: "Validate token budgets when tasks are created or updated.\nLeverages\
+    \ the validators already on Tokens and TokenEstimate models.\n\nAlways-On Validation\
+    \ Rules (per direction - input and output):\n1. TokenEstimate: min <= target <=\
+    \ max (validated in model)\n2. Tokens: budget >= estimate.target (validated in\
+    \ model)\n3. Ticket: total_token_budget >= sum of input+output budgets\n\nOptional\
+    \ Hierarchical Validation (when require_children_sum_valid=true):\n4. Parent budget\
+    \ >= sum of children budgets (per direction)\n5. Parent total_token_budget >=\
+    \ sum of children total_token_budgets\n\nImplementation:\n```python\n# Model validators\
+    \ (already in Tokens/TokenEstimate from Sprint 1)\n# Additional validation for\
+    \ hierarchical constraints:\n\nclass Ticket:\n    @model_validator(mode='after')\n\
+    \    def validate_total_budget(self) -> 'Ticket':\n        # Always validate:\
+    \ total >= input + output\n        if self.total_token_budget:\n            input_budget\
+    \ = self.input_tokens.budget if self.input_tokens else 0\n            output_budget\
+    \ = self.output_tokens.budget if self.output_tokens else 0\n            if self.total_token_budget\
+    \ < (input_budget or 0) + (output_budget or 0):\n                raise ValueError(\n\
+    \                    f'total_token_budget ({self.total_token_budget}) must be\
+    \ >= '\n                    f'sum of input ({input_budget}) + output ({output_budget})\
+    \ budgets'\n                )\n        return self\n\n\nclass BudgetValidator:\n\
+    \    '''Validates hierarchical budget constraints.'''\n\n    def validate_children_sum(\n\
+    \        self,\n        parent: HierarchicalTicket,\n        direction: str, \
+    \ # 'input', 'output', or 'total'\n    ) -> Optional[ValidationError]:\n     \
+    \   '''\n        Optional validation: sum(children budgets) <= parent budget.\n\
+    \        Only runs if parent enforcement has require_children_sum_valid=True.\n\
+    \        '''\n        enforcement = self.get_enforcement(parent, direction)\n\
+    \        if not enforcement.require_children_sum_valid:\n            return None\
+    \  # Skip validation if not enabled\n\n        parent_budget = self._get_budget(parent,\
+    \ direction)\n        if not parent_budget:\n            return None  # No parent\
+    \ budget to validate against\n\n        children_sum = sum(\n            self._get_budget(child,\
+    \ direction) or 0\n            for child in parent.children_tickets\n        )\n\
+    \n        if children_sum > parent_budget:\n            return ValidationError(\n\
+    \                f'{direction} budget sum of children ({children_sum:,}) '\n \
+    \               f'exceeds parent budget ({parent_budget:,})'\n            )\n\n\
+    \        return None\n\n    def validate_on_child_budget_change(\n        self,\n\
+    \        child: HierarchicalTicket,\n        new_budget: int,\n        direction:\
+    \ str,\n    ) -> Optional[ValidationError]:\n        '''\n        Validate when\
+    \ a child's budget is set or changed.\n        Checks if new budget would violate\
+    \ parent's constraint.\n        '''\n        parent = child.parent\n        if\
+    \ not parent:\n            return None\n\n        enforcement = self.get_enforcement(parent,\
+    \ direction)\n        if not enforcement.require_children_sum_valid:\n       \
+    \     return None\n\n        parent_budget = self._get_budget(parent, direction)\n\
+    \        if not parent_budget:\n            return None\n\n        # Calculate\
+    \ what the sum would be with the new budget\n        current_child_budget = self._get_budget(child,\
+    \ direction) or 0\n        other_children_sum = sum(\n            self._get_budget(c,\
+    \ direction) or 0\n            for c in parent.children_tickets\n            if\
+    \ c.id != child.id\n        )\n        new_sum = other_children_sum + new_budget\n\
+    \n        if new_sum > parent_budget:\n            return ValidationError(\n \
+    \               f'Setting {direction} budget to {new_budget:,} would make '\n\
+    \                f'children sum ({new_sum:,}) exceed parent budget ({parent_budget:,})'\n\
+    \            )\n\n        return None\n```\n\nError Messages:\n- \"Input token\
+    \ budget ({budget}) must be >= target estimate ({target})\"\n- \"Invalid token\
+    \ range: min ({min}) > target ({target})\"\n- \"Children sum ({sum}) exceeds parent\
+    \ budget ({budget})\" (only if enabled)\n\nFiles:\n- vibey/roadmap/models/ticket/ticket.py\
+    \ (always-on validation)\n- vibey/services/budget_validator.py (optional hierarchical\
+    \ validation)\n- vibey/operations/roadmap/update.py (CLI validation integration)\n"
   status: not_started
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T12:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: Always-on validation in Ticket model (total >= input + output)
-    status: not_met
-  - type: artifact
-    description: vibey/services/budget_validator.py exists
-    status: not_met
-  - type: code
-    description: Optional children sum validation (when require_children_sum_valid=true)
-    status: not_met
-  - type: code
-    description: Validation on child budget change checks parent constraint
-    status: not_met
-  - type: test
-    description: Tests for always-on validation rules
-    status: not_met
-  - type: test
-    description: Tests for optional hierarchical validation
-    status: not_met
-  depends_on: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

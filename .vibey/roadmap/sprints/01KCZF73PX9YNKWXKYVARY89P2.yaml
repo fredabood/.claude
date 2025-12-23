@@ -22,85 +22,35 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCZF73PX9YNKWXKYVARY89NR
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Ticket-linked branch management
-  - Commit frequency enforcement
-  - Ticket-linked commit messages
-  - Requirements system enforcement in implementation mode
-  description: |
-    Implement tight git integration for disciplined autonomous execution:
-
-    1. Ticket-Linked Branching:
-       - Create feature branch per ticket: `implement/{ticket_id}`
-       - Branch naming conventions enforced
-       - Auto-checkout before task execution
-       - Merge back to main after completion
-
-    2. Commit Frequency:
-       - Require commits at defined intervals
-       - Commit after each logical change
-       - Configurable min/max commit frequency
-       - WIP commits for long-running tasks
-
-    3. Ticket-Linked Commits:
-       - All commits reference ticket ID
-       - Commit message format enforcement
-       - Auto-populate commit metadata
-       - Link commits to task in roadmap
-
-    4. Requirements Enforcement:
-       - Stricter requirements validation in implementation mode
-       - Block execution if git state is dirty
-       - Require clean working tree before task start
-       - Enforce branch protection rules
-
-    Git workflow:
-    ```
-    Task Start:
-    1. Verify clean working tree
-    2. Create branch: implement/{ticket_id}
-    3. Execute task
-
-    During Execution:
-    4. Commit frequently with ticket reference
-    5. Push to remote branch
-
-    Task Complete:
-    6. Final commit with completion message
-    7. Merge to main (or create PR)
-    8. Update ticket with commit references
-    9. Delete feature branch
-    ```
-
-    Commit message format:
-    ```
-    feat(ticket-id): Short description
-
-    Detailed changes...
-
-    Task: {ticket_id}
-    Sprint: {sprint_id}
-    Track: {track_id}
-    ```
+  deliverables: []
+  description: "Implement tight git integration for disciplined autonomous execution:\n\
+    \n1. Ticket-Linked Branching:\n   - Create feature branch per ticket: `implement/{ticket_id}`\n\
+    \   - Branch naming conventions enforced\n   - Auto-checkout before task execution\n\
+    \   - Merge back to main after completion\n\n2. Commit Frequency:\n   - Require\
+    \ commits at defined intervals\n   - Commit after each logical change\n   - Configurable\
+    \ min/max commit frequency\n   - WIP commits for long-running tasks\n\n3. Ticket-Linked\
+    \ Commits:\n   - All commits reference ticket ID\n   - Commit message format enforcement\n\
+    \   - Auto-populate commit metadata\n   - Link commits to task in roadmap\n\n\
+    4. Requirements Enforcement:\n   - Stricter requirements validation in implementation\
+    \ mode\n   - Block execution if git state is dirty\n   - Require clean working\
+    \ tree before task start\n   - Enforce branch protection rules\n\nGit workflow:\n\
+    ```\nTask Start:\n1. Verify clean working tree\n2. Create branch: implement/{ticket_id}\n\
+    3. Execute task\n\nDuring Execution:\n4. Commit frequently with ticket reference\n\
+    5. Push to remote branch\n\nTask Complete:\n6. Final commit with completion message\n\
+    7. Merge to main (or create PR)\n8. Update ticket with commit references\n9. Delete\
+    \ feature branch\n```\n\nCommit message format:\n```\nfeat(ticket-id): Short description\n\
+    \nDetailed changes...\n\nTask: {ticket_id}\nSprint: {sprint_id}\nTrack: {track_id}\n\
+    ```\n"
   goal: Enforce disciplined git practices during autonomous execution
-  success_criteria:
-  - Every task executes on dedicated branch
-  - All commits linked to tickets
-  - Commit frequency requirements met
-  - Clean git history maintained
-  risks:
-  - Merge conflicts from parallel execution
-  - Branch proliferation if cleanup fails
+  success_criteria: []
+  risks: []
   notes: Tighter coupling with git processes as requested
   assigned_agents: []
   quality_gates: []

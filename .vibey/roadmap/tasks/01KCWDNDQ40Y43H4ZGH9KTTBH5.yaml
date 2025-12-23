@@ -1,76 +1,50 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH5
-  name: Create vibey/services/ticket_service.py with TicketService
-  description: |
-    Create the service layer that CLI and MCP will use for all ticket operations.
-    This is the adapter-agnostic interface that enables swapping PM tools.
-
-    Implementation steps:
-    1. Create vibey/services/ directory with __init__.py
-    2. Create TicketService class:
-       - __init__(adapter: Optional[TicketAdapter] = None) - uses default if none
-       - adapter_name property
-       - set_adapter(adapter) method for switching adapters
-       - Read operations: list_projects, get_ticket, list_children,
-         get_workstreams, get_iterations, get_work_items, search
-       - Write operations: create, update, delete
-       - Convenience methods: start, complete, block (common operations)
-       - Sync operations: sync, detect_conflicts
-    3. Add proper type hints for all methods
-    4. Implement error handling with custom exceptions
-    5. Add logging for operations
-    6. Export from vibey/services/__init__.py
-
-    Deliverables:
-    - vibey/services/__init__.py
-    - vibey/services/ticket_service.py
-
-    Dependencies:
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH2 (TicketAdapter ABC)
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH4 (PMAdapterRegistry)
-
-    Reference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 3.3
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create vibey/services/ticket_service.py with TicketService
+  description: "Create the service layer that CLI and MCP will use for all ticket\
+    \ operations.\nThis is the adapter-agnostic interface that enables swapping PM\
+    \ tools.\n\nImplementation steps:\n1. Create vibey/services/ directory with __init__.py\n\
+    2. Create TicketService class:\n   - __init__(adapter: Optional[TicketAdapter]\
+    \ = None) - uses default if none\n   - adapter_name property\n   - set_adapter(adapter)\
+    \ method for switching adapters\n   - Read operations: list_projects, get_ticket,\
+    \ list_children,\n     get_workstreams, get_iterations, get_work_items, search\n\
+    \   - Write operations: create, update, delete\n   - Convenience methods: start,\
+    \ complete, block (common operations)\n   - Sync operations: sync, detect_conflicts\n\
+    3. Add proper type hints for all methods\n4. Implement error handling with custom\
+    \ exceptions\n5. Add logging for operations\n6. Export from vibey/services/__init__.py\n\
+    \nDeliverables:\n- vibey/services/__init__.py\n- vibey/services/ticket_service.py\n\
+    \nDependencies:\n- Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH2 (TicketAdapter ABC)\n\
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH4 (PMAdapterRegistry)\n\nReference: UNIFIED_ADAPTER_ARCHITECTURE.md\
+    \ Part 3.3\n"
   status: completed
-  created_at: '2025-12-19T23:03:36.420355+00:00'
-  started_at: '2025-12-21T01:00:00+00:00'
-  completed_at: '2025-12-21T01:10:00+00:00'
-  updated_at: '2025-12-19T23:03:36.420355+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420355+00:00'
+  started: '2025-12-21T01:00:00+00:00'
+  completed: '2025-12-21T01:10:00+00:00'
+  assigned_agent: null
   priority: critical
-  criteria:
-  - type: artifact
-    description: vibey/services/ticket_service.py exists
-    status: met
-  - type: code
-    description: TicketService class with adapter injection
-    status: met
-  - type: code
-    description: All read operations (list_projects, get_ticket, etc.)
-    status: met
-  - type: code
-    description: All write operations (create, update, delete)
-    status: met
-  - type: code
-    description: Convenience methods (start, complete, block)
-    status: met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH2
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH4
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

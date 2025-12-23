@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQA
-  name: Implement GitHubAdapter class
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQ8
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement GitHubAdapter class
   description: "Create the GitHubAdapter that implements TicketAdapter for\nGitHub\
     \ Issues and Projects v2.\n\nImplementation steps:\n1. Create vibey/adapters/pm/github/adapter.py:\n\
     \   - GitHubAdapter extending TicketAdapter\n   - __init__(client: GitHubClient)\n\
@@ -15,44 +19,32 @@ task:
     \ -> open/close issue\n6. Register with @pm_adapter decorator\n\nDeliverables:\n\
     - vibey/adapters/pm/github/__init__.py\n- vibey/adapters/pm/github/adapter.py\n\
     \nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQ9 (GitHub client)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
   status: not_started
-  created_at: '2025-12-19T23:03:36.422513+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422513+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422513+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: critical
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/github/adapter.py exists
-    status: not_met
-  - type: code
-    description: GitHubAdapter implements TicketAdapter
-    status: not_met
-  - type: code
-    description: Hierarchy mapping works correctly
-    status: not_met
-  - type: code
-    description: All CRUD operations work
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQ9

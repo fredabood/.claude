@@ -1,119 +1,61 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NT
-  name: Implement RoadmapStateVerifier for YAML/SQLite sync
-  description: |
-    Create system to verify roadmap state before each task:
-
-    ```python
-    class RoadmapStateVerifier:
-        def __init__(self, roadmap_root: Path, db_path: Path):
-            self.roadmap_root = roadmap_root
-            self.db_path = db_path
-
-        def verify_sync(self) -> SyncStatus:
-            '''
-            Verify YAML files match SQLite database.
-
-            Checks:
-            1. All YAML files have corresponding DB records
-            2. All DB records have corresponding YAML files
-            3. Field values match between YAML and DB
-            4. Timestamps are consistent
-            '''
-
-        def get_discrepancies(self) -> List[Discrepancy]:
-            '''
-            Get list of all discrepancies between YAML and DB.
-
-            Returns list of:
-            - Missing in DB
-            - Missing in YAML
-            - Field mismatches
-            '''
-
-        def auto_fix(self, discrepancies: List[Discrepancy]) -> FixResult:
-            '''
-            Attempt to auto-fix discrepancies.
-
-            Strategy:
-            - YAML is source of truth
-            - Rebuild DB from YAML if major discrepancies
-            - Log all fixes made
-            '''
-
-        def should_abort(self, status: SyncStatus) -> bool:
-            '''Determine if discrepancies are severe enough to abort.'''
-    ```
-
-    SyncStatus:
-    ```python
-    @dataclass
-    class SyncStatus:
-        is_synced: bool
-        yaml_count: int
-        db_count: int
-        discrepancies: List[Discrepancy]
-        last_verified: datetime
-
-        @property
-        def severity(self) -> str:
-            # none, minor, major, critical
-    ```
-
-    Integration with loop:
-    ```python
-    async def run(self):
-        while not self.should_stop():
-            # Verify state before each task
-            sync_status = self.state_verifier.verify_sync()
-            if not sync_status.is_synced:
-                if sync_status.severity == "critical":
-                    raise RoadmapSyncError(sync_status)
-                self.state_verifier.auto_fix(sync_status.discrepancies)
-
-            task = self.selector.get_next_task()
-            ...
-    ```
-
-    Files:
-    - vibey/services/implementation/state_verifier.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NP
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NP
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement RoadmapStateVerifier for YAML/SQLite sync
+  description: "Create system to verify roadmap state before each task:\n\n```python\n\
+    class RoadmapStateVerifier:\n    def __init__(self, roadmap_root: Path, db_path:\
+    \ Path):\n        self.roadmap_root = roadmap_root\n        self.db_path = db_path\n\
+    \n    def verify_sync(self) -> SyncStatus:\n        '''\n        Verify YAML files\
+    \ match SQLite database.\n\n        Checks:\n        1. All YAML files have corresponding\
+    \ DB records\n        2. All DB records have corresponding YAML files\n      \
+    \  3. Field values match between YAML and DB\n        4. Timestamps are consistent\n\
+    \        '''\n\n    def get_discrepancies(self) -> List[Discrepancy]:\n      \
+    \  '''\n        Get list of all discrepancies between YAML and DB.\n\n       \
+    \ Returns list of:\n        - Missing in DB\n        - Missing in YAML\n     \
+    \   - Field mismatches\n        '''\n\n    def auto_fix(self, discrepancies: List[Discrepancy])\
+    \ -> FixResult:\n        '''\n        Attempt to auto-fix discrepancies.\n\n \
+    \       Strategy:\n        - YAML is source of truth\n        - Rebuild DB from\
+    \ YAML if major discrepancies\n        - Log all fixes made\n        '''\n\n \
+    \   def should_abort(self, status: SyncStatus) -> bool:\n        '''Determine\
+    \ if discrepancies are severe enough to abort.'''\n```\n\nSyncStatus:\n```python\n\
+    @dataclass\nclass SyncStatus:\n    is_synced: bool\n    yaml_count: int\n    db_count:\
+    \ int\n    discrepancies: List[Discrepancy]\n    last_verified: datetime\n\n \
+    \   @property\n    def severity(self) -> str:\n        # none, minor, major, critical\n\
+    ```\n\nIntegration with loop:\n```python\nasync def run(self):\n    while not\
+    \ self.should_stop():\n        # Verify state before each task\n        sync_status\
+    \ = self.state_verifier.verify_sync()\n        if not sync_status.is_synced:\n\
+    \            if sync_status.severity == \"critical\":\n                raise RoadmapSyncError(sync_status)\n\
+    \            self.state_verifier.auto_fix(sync_status.discrepancies)\n\n     \
+    \   task = self.selector.get_next_task()\n        ...\n```\n\nFiles:\n- vibey/services/implementation/state_verifier.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T16:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T16:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T16:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/state_verifier.py exists
-    status: not_met
-  - type: code
-    description: Verifier detects YAML/DB discrepancies
-    status: not_met
-  - type: code
-    description: Auto-fix rebuilds DB from YAML
-    status: not_met
-  - type: test
-    description: Critical discrepancies abort execution
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NN
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

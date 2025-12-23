@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQC
-  name: Implement Projects v2 support
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQ8
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Projects v2 support
   description: "Implement full support for GitHub Projects v2 as an alternative\n\
     to milestone-based organization.\n\nImplementation steps:\n1. Enhance GitHubClient\
     \ for Projects v2 GraphQL:\n   - Query project by number\n   - List project items\
@@ -15,45 +19,32 @@ task:
     \ for Projects v2\n- Projects v2 field mapping\n- CLI import support\n\nDependencies:\n\
     - Requires: 01KCWDNDQ62WMFNTC3YTNT7DQA (GitHubAdapter)\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQB\
     \ (field mapping)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
   status: not_started
-  created_at: '2025-12-19T23:03:36.422658+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422658+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422658+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: Projects v2 GraphQL queries work
-    status: not_met
-  - type: code
-    description: Custom fields mapped correctly
-    status: not_met
-  - type: code
-    description: Status field drives ticket status
-    status: not_met
-  - type: code
-    description: CLI import from Projects v2
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQA
-  - 01KCWDNDQ62WMFNTC3YTNT7DQB

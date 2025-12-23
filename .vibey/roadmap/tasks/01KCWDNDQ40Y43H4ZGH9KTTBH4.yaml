@@ -1,72 +1,49 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH4
-  name: Create vibey/adapters/pm/registry.py with PMAdapterRegistry
-  description: |
-    Create the registry pattern for discovering and managing PM tool adapters.
-    Mirrors the existing AdapterRegistry in vibey/adapters/registry.py.
-
-    Implementation steps:
-    1. Create PMAdapterRegistry class:
-       - _adapters: Dict[str, Type[TicketAdapter]] class variable
-       - _default_adapter: Optional[str] class variable
-       - register(name, adapter_class) class method
-       - unregister(name) class method
-       - get(name) -> TicketAdapter class method
-       - get_default() -> TicketAdapter class method
-       - set_default(name) class method
-       - list_adapters() -> List[str] class method
-       - get_capabilities(name) -> PMCapabilities class method
-    2. Add @pm_adapter decorator for auto-registration
-    3. Implement lazy loading for adapter classes
-    4. Add configuration support for default adapter selection
-    5. Handle adapter not found errors gracefully
-
-    Deliverables:
-    - vibey/adapters/pm/registry.py
-
-    Dependencies:
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH2 (TicketAdapter ABC)
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH3 (PMCapabilities type)
-
-    Reference: vibey/adapters/registry.py (existing pattern)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create vibey/adapters/pm/registry.py with PMAdapterRegistry
+  description: "Create the registry pattern for discovering and managing PM tool adapters.\n\
+    Mirrors the existing AdapterRegistry in vibey/adapters/registry.py.\n\nImplementation\
+    \ steps:\n1. Create PMAdapterRegistry class:\n   - _adapters: Dict[str, Type[TicketAdapter]]\
+    \ class variable\n   - _default_adapter: Optional[str] class variable\n   - register(name,\
+    \ adapter_class) class method\n   - unregister(name) class method\n   - get(name)\
+    \ -> TicketAdapter class method\n   - get_default() -> TicketAdapter class method\n\
+    \   - set_default(name) class method\n   - list_adapters() -> List[str] class\
+    \ method\n   - get_capabilities(name) -> PMCapabilities class method\n2. Add @pm_adapter\
+    \ decorator for auto-registration\n3. Implement lazy loading for adapter classes\n\
+    4. Add configuration support for default adapter selection\n5. Handle adapter\
+    \ not found errors gracefully\n\nDeliverables:\n- vibey/adapters/pm/registry.py\n\
+    \nDependencies:\n- Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH2 (TicketAdapter ABC)\n\
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH3 (PMCapabilities type)\n\nReference: vibey/adapters/registry.py\
+    \ (existing pattern)\n"
   status: completed
-  created_at: '2025-12-19T23:03:36.420288+00:00'
-  started_at: '2025-12-21T00:40:00+00:00'
-  completed_at: '2025-12-21T00:50:00+00:00'
-  updated_at: '2025-12-19T23:03:36.420288+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420288+00:00'
+  started: '2025-12-21T00:40:00+00:00'
+  completed: '2025-12-21T00:50:00+00:00'
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/registry.py exists
-    status: met
-  - type: code
-    description: PMAdapterRegistry class with register/get/list methods
-    status: met
-  - type: code
-    description: Default adapter selection support
-    status: met
-  - type: code
-    description: "'@pm_adapter' decorator for auto-registration"
-    status: met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH2
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH3
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

@@ -3,7 +3,7 @@ sprint:
   name: 'Sprint 10: Validation and Sync Bugs'
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: production_gate_check
   blocked: false
   blocked_reason: null
   created: '2025-12-20T14:41:03.580061+00:00'
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 4
-    completion_percent: 80
+    completion_percent: 80.0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -32,10 +32,7 @@ sprint:
   deliverables: []
   description: Fix validation and sync bugs discovered during roadmap state audit
   goal: All validation errors are handled gracefully, sync process works correctly
-  success_criteria:
-  - No tasks silently skipped due to date validation
-  - Track status updates correctly when work begins
-  - Progress sync does not corrupt status fields
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

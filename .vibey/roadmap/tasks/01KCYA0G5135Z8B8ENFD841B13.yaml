@@ -1,180 +1,91 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B13
-  name: Implement runtime token tracking
-  description: |
-    Track actual token usage during task execution. Updates the `usage`
-    field within the `Tokens` objects on the task.
-
-    1. Token Tracking Interface:
-       vibey/services/token_tracker.py:
-
-       ```python
-       from vibey.roadmap.models.ticket import Tokens
-
-       class TokenTracker:
-           def __init__(self, task_id: str):
-               self.task_id = task_id
-               self._input_accumulated = 0
-               self._output_accumulated = 0
-
-           def record_usage(self, input_tokens: int, output_tokens: int):
-               '''
-               Record token usage from an API call.
-               Accumulates during execution.
-               '''
-               self._input_accumulated += input_tokens
-               self._output_accumulated += output_tokens
-
-           def get_remaining_budget(self) -> Tuple[Optional[int], Optional[int]]:
-               '''
-               Returns (input_remaining, output_remaining).
-               None if no budget set for that direction.
-               '''
-               task = self._load_task()
-               input_remaining = None
-               output_remaining = None
-
-               if task.input_tokens and task.input_tokens.budget:
-                   input_remaining = task.input_tokens.budget - self._input_accumulated
-
-               if task.output_tokens and task.output_tokens.budget:
-                   output_remaining = task.output_tokens.budget - self._output_accumulated
-
-               return (input_remaining, output_remaining)
-
-           def save(self):
-               '''
-               Persist accumulated usage to task YAML.
-               Updates task.input_tokens.usage and task.output_tokens.usage.
-               '''
-               task = self._load_task()
-
-               if task.input_tokens:
-                   task.input_tokens.usage = self._input_accumulated
-               else:
-                   task.input_tokens = Tokens(usage=self._input_accumulated)
-
-               if task.output_tokens:
-                   task.output_tokens.usage = self._output_accumulated
-               else:
-                   task.output_tokens = Tokens(usage=self._output_accumulated)
-
-               self._save_task(task)
-       ```
-
-    2. Integration Points:
-       - MCP tool calls
-       - CLI command execution
-       - Agent task runners
-       - Git commits (via post-commit hook)
-
-    3. Git Commit Integration:
-       Git commits trigger automatic token usage snapshot:
-
-       ```python
-       class TokenTracker:
-           # ... existing methods ...
-
-           def get_delta_since_last_commit(self) -> TokenDelta:
-               '''Get usage since last commit checkpoint.'''
-               return TokenDelta(
-                   input=self._input_accumulated - self._last_commit_input,
-                   output=self._output_accumulated - self._last_commit_output,
-               )
-
-           def mark_commit_checkpoint(self, commit_sha: str):
-               '''Mark current usage as checkpoint after commit.'''
-               self._last_commit_input = self._input_accumulated
-               self._last_commit_output = self._output_accumulated
-               self._commit_history.append(CommitUsage(
-                   sha=commit_sha,
-                   input_delta=self._input_accumulated - self._last_commit_input,
-                   output_delta=self._output_accumulated - self._last_commit_output,
-                   cumulative_input=self._input_accumulated,
-                   cumulative_output=self._output_accumulated,
-                   timestamp=datetime.now(UTC),
-               ))
-
-           def on_commit(self, commit_sha: str):
-               '''
-               Called by post-commit hook.
-               Records usage delta and updates ticket.
-               '''
-               delta = self.get_delta_since_last_commit()
-
-               # Update ticket usage
-               self.save()
-
-               # Record per-commit breakdown
-               self._record_commit_usage(commit_sha, delta)
-
-               # Mark checkpoint
-               self.mark_commit_checkpoint(commit_sha)
-       ```
-
-    4. Per-Commit Usage Log:
-       ```yaml
-       # .vibey/context/commits/<sha>/usage.yaml
-       commit: abc123
-       ticket_id: 01KCYA...
-       timestamp: 2025-12-22T10:30:00Z
-       tokens:
-         input:
-           delta: 5234
-           cumulative: 18340
-         output:
-           delta: 2100
-           cumulative: 8450
-       ```
-
-    5. Persistence:
-       - Update task.input_tokens.usage and task.output_tokens.usage
-       - Aggregated values computed at runtime via HierarchicalTicket
-       - Log usage history in activity log
-       - Per-commit usage breakdown in .vibey/context/commits/
-
-    Cross-reference: Implementation Mode Sprint 10 (TicketCommitLinker)
-    handles the git hook integration that calls TokenTracker.on_commit().
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0T
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement runtime token tracking
+  description: "Track actual token usage during task execution. Updates the `usage`\n\
+    field within the `Tokens` objects on the task.\n\n1. Token Tracking Interface:\n\
+    \   vibey/services/token_tracker.py:\n\n   ```python\n   from vibey.roadmap.models.ticket\
+    \ import Tokens\n\n   class TokenTracker:\n       def __init__(self, task_id:\
+    \ str):\n           self.task_id = task_id\n           self._input_accumulated\
+    \ = 0\n           self._output_accumulated = 0\n\n       def record_usage(self,\
+    \ input_tokens: int, output_tokens: int):\n           '''\n           Record token\
+    \ usage from an API call.\n           Accumulates during execution.\n        \
+    \   '''\n           self._input_accumulated += input_tokens\n           self._output_accumulated\
+    \ += output_tokens\n\n       def get_remaining_budget(self) -> Tuple[Optional[int],\
+    \ Optional[int]]:\n           '''\n           Returns (input_remaining, output_remaining).\n\
+    \           None if no budget set for that direction.\n           '''\n      \
+    \     task = self._load_task()\n           input_remaining = None\n          \
+    \ output_remaining = None\n\n           if task.input_tokens and task.input_tokens.budget:\n\
+    \               input_remaining = task.input_tokens.budget - self._input_accumulated\n\
+    \n           if task.output_tokens and task.output_tokens.budget:\n          \
+    \     output_remaining = task.output_tokens.budget - self._output_accumulated\n\
+    \n           return (input_remaining, output_remaining)\n\n       def save(self):\n\
+    \           '''\n           Persist accumulated usage to task YAML.\n        \
+    \   Updates task.input_tokens.usage and task.output_tokens.usage.\n          \
+    \ '''\n           task = self._load_task()\n\n           if task.input_tokens:\n\
+    \               task.input_tokens.usage = self._input_accumulated\n          \
+    \ else:\n               task.input_tokens = Tokens(usage=self._input_accumulated)\n\
+    \n           if task.output_tokens:\n               task.output_tokens.usage =\
+    \ self._output_accumulated\n           else:\n               task.output_tokens\
+    \ = Tokens(usage=self._output_accumulated)\n\n           self._save_task(task)\n\
+    \   ```\n\n2. Integration Points:\n   - MCP tool calls\n   - CLI command execution\n\
+    \   - Agent task runners\n   - Git commits (via post-commit hook)\n\n3. Git Commit\
+    \ Integration:\n   Git commits trigger automatic token usage snapshot:\n\n   ```python\n\
+    \   class TokenTracker:\n       # ... existing methods ...\n\n       def get_delta_since_last_commit(self)\
+    \ -> TokenDelta:\n           '''Get usage since last commit checkpoint.'''\n \
+    \          return TokenDelta(\n               input=self._input_accumulated -\
+    \ self._last_commit_input,\n               output=self._output_accumulated - self._last_commit_output,\n\
+    \           )\n\n       def mark_commit_checkpoint(self, commit_sha: str):\n \
+    \          '''Mark current usage as checkpoint after commit.'''\n           self._last_commit_input\
+    \ = self._input_accumulated\n           self._last_commit_output = self._output_accumulated\n\
+    \           self._commit_history.append(CommitUsage(\n               sha=commit_sha,\n\
+    \               input_delta=self._input_accumulated - self._last_commit_input,\n\
+    \               output_delta=self._output_accumulated - self._last_commit_output,\n\
+    \               cumulative_input=self._input_accumulated,\n               cumulative_output=self._output_accumulated,\n\
+    \               timestamp=datetime.now(UTC),\n           ))\n\n       def on_commit(self,\
+    \ commit_sha: str):\n           '''\n           Called by post-commit hook.\n\
+    \           Records usage delta and updates ticket.\n           '''\n        \
+    \   delta = self.get_delta_since_last_commit()\n\n           # Update ticket usage\n\
+    \           self.save()\n\n           # Record per-commit breakdown\n        \
+    \   self._record_commit_usage(commit_sha, delta)\n\n           # Mark checkpoint\n\
+    \           self.mark_commit_checkpoint(commit_sha)\n   ```\n\n4. Per-Commit Usage\
+    \ Log:\n   ```yaml\n   # .vibey/context/commits/<sha>/usage.yaml\n   commit: abc123\n\
+    \   ticket_id: 01KCYA...\n   timestamp: 2025-12-22T10:30:00Z\n   tokens:\n   \
+    \  input:\n       delta: 5234\n       cumulative: 18340\n     output:\n      \
+    \ delta: 2100\n       cumulative: 8450\n   ```\n\n5. Persistence:\n   - Update\
+    \ task.input_tokens.usage and task.output_tokens.usage\n   - Aggregated values\
+    \ computed at runtime via HierarchicalTicket\n   - Log usage history in activity\
+    \ log\n   - Per-commit usage breakdown in .vibey/context/commits/\n\nCross-reference:\
+    \ Implementation Mode Sprint 10 (TicketCommitLinker)\nhandles the git hook integration\
+    \ that calls TokenTracker.on_commit().\n"
   status: not_started
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T12:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/token_tracker.py exists
-    status: not_met
-  - type: code
-    description: Integration with MCP and CLI
-    status: not_met
-  - type: code
-    description: on_commit method for git hook integration
-    status: not_met
-  - type: code
-    description: Per-commit usage log written to .vibey/context/commits/
-    status: not_met
-  - type: code
-    description: Commit checkpoint tracking for delta calculation
-    status: not_met
-  depends_on:
-  - 01KCYA0G5135Z8B8ENFD841B12
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

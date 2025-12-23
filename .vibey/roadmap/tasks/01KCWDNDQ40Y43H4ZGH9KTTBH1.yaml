@@ -1,71 +1,45 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH1
-  name: Create vibey/core/ticket.py with generic Ticket model
-  description: |
-    Create the foundational Generic Ticket model that serves as the core abstraction
-    for all PM tool integrations. This model is tool-agnostic and uses generic terms.
-
-    Implementation steps:
-    1. Create vibey/core/ directory with __init__.py
-    2. Create HierarchyType enum: PROJECT, WORKSTREAM, ITERATION, WORK_ITEM
-    3. Create TicketStatus enum: NOT_STARTED, IN_PROGRESS, BLOCKED, COMPLETED, CANCELLED
-    4. Create Ticket Pydantic model with fields:
-       - Identity: id, external_id, source_adapter
-       - Classification: hierarchy_type, item_type
-       - Content: name, description
-       - Hierarchy: parent_id, children_ids
-       - Status: status, blocked, blocked_reason
-       - Timestamps: created_at, updated_at, started_at, completed_at
-       - Assignment: assignee, labels, priority
-       - Progress: children_total, children_completed, completion_percent
-       - Criteria: criteria list (from Unified Ticket Architecture)
-       - Metadata: metadata dict for adapter-specific data
-    5. Add docstrings explaining the generic nature and mapping concepts
-    6. Export all models from vibey/core/__init__.py
-
-    Deliverables:
-    - vibey/core/__init__.py
-    - vibey/core/ticket.py
-
-    Reference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 3.1
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create vibey/core/ticket.py with generic Ticket model
+  description: "Create the foundational Generic Ticket model that serves as the core\
+    \ abstraction\nfor all PM tool integrations. This model is tool-agnostic and uses\
+    \ generic terms.\n\nImplementation steps:\n1. Create vibey/core/ directory with\
+    \ __init__.py\n2. Create HierarchyType enum: PROJECT, WORKSTREAM, ITERATION, WORK_ITEM\n\
+    3. Create TicketStatus enum: NOT_STARTED, IN_PROGRESS, BLOCKED, COMPLETED, CANCELLED\n\
+    4. Create Ticket Pydantic model with fields:\n   - Identity: id, external_id,\
+    \ source_adapter\n   - Classification: hierarchy_type, item_type\n   - Content:\
+    \ name, description\n   - Hierarchy: parent_id, children_ids\n   - Status: status,\
+    \ blocked, blocked_reason\n   - Timestamps: created_at, updated_at, started_at,\
+    \ completed_at\n   - Assignment: assignee, labels, priority\n   - Progress: children_total,\
+    \ children_completed, completion_percent\n   - Criteria: criteria list (from Unified\
+    \ Ticket Architecture)\n   - Metadata: metadata dict for adapter-specific data\n\
+    5. Add docstrings explaining the generic nature and mapping concepts\n6. Export\
+    \ all models from vibey/core/__init__.py\n\nDeliverables:\n- vibey/core/__init__.py\n\
+    - vibey/core/ticket.py\n\nReference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 3.1\n"
   status: completed
-  created_at: '2025-12-19T23:03:36.420077+00:00'
-  started_at: '2025-12-21T00:15:00+00:00'
-  completed_at: '2025-12-21T00:25:00+00:00'
-  updated_at: '2025-12-19T23:03:36.420077+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-19T23:03:36.420077+00:00'
+  started: '2025-12-21T00:15:00+00:00'
+  completed: '2025-12-21T00:25:00+00:00'
+  assigned_agent: null
   priority: critical
-  criteria:
-  - type: artifact
-    description: vibey/core/ticket.py exists
-    status: met
-  - type: code
-    description: HierarchyType enum with PROJECT, WORKSTREAM, ITERATION, WORK_ITEM values
-    status: met
-  - type: code
-    description: TicketStatus enum with all required status values
-    status: met
-  - type: code
-    description: Ticket Pydantic model with all required fields
-    status: met
-  - type: code
-    description: Proper docstrings explaining generic nature
-    status: met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

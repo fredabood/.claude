@@ -1,77 +1,52 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B17
-  name: Add MCP tools for token metrics
-  description: |
-    Add MCP tools for AI assistants to query and manage token metrics.
-    Uses the Tokens/TokenEstimate models from Sprint 1.
-
-    1. Query Tools:
-       - get_task_tokens(task_id) -> {input_tokens: Tokens, output_tokens: Tokens, total_budget: int}
-       - get_sprint_token_summary(sprint_id) -> TokenSummary (aggregated)
-       - get_track_token_summary(track_id) -> TokenSummary (aggregated)
-       - get_remaining_budget(task_id) -> {input: int|null, output: int|null, total: int|null}
-
-    2. Update Tools:
-       - set_task_token_estimate(task_id, direction: 'input'|'output',
-           min: int, max: int, target: int)
-       - set_task_token_budget(task_id, input_budget: int, output_budget: int,
-           total_budget: int)
-       - record_token_usage(task_id, input_tokens: int, output_tokens: int)
-         # Adds to existing usage
-
-    3. Estimation Tools:
-       - estimate_task_tokens(task_id) -> {
-           input_estimate: TokenEstimate,
-           output_estimate: TokenEstimate,
-           confidence: float
-         }
-       - estimate_from_description(description, task_type, complexity) -> same
-
-    4. Report Tools:
-       - get_token_usage_report(track_id?, sprint_id?, date_range?) -> Report
-
-    Return types use the actual model structure:
-    ```python
-    class TokensResponse(TypedDict):
-        estimate: Optional[dict]  # {min, max, target}
-        budget: Optional[int]
-        usage: Optional[int]
-    ```
-
-    Files:
-    - vibey/mcp/tools/token_tools.py (new)
-    - vibey/mcp/server.py (register tools)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0V
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0V
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add MCP tools for token metrics
+  description: "Add MCP tools for AI assistants to query and manage token metrics.\n\
+    Uses the Tokens/TokenEstimate models from Sprint 1.\n\n1. Query Tools:\n   - get_task_tokens(task_id)\
+    \ -> {input_tokens: Tokens, output_tokens: Tokens, total_budget: int}\n   - get_sprint_token_summary(sprint_id)\
+    \ -> TokenSummary (aggregated)\n   - get_track_token_summary(track_id) -> TokenSummary\
+    \ (aggregated)\n   - get_remaining_budget(task_id) -> {input: int|null, output:\
+    \ int|null, total: int|null}\n\n2. Update Tools:\n   - set_task_token_estimate(task_id,\
+    \ direction: 'input'|'output',\n       min: int, max: int, target: int)\n   -\
+    \ set_task_token_budget(task_id, input_budget: int, output_budget: int,\n    \
+    \   total_budget: int)\n   - record_token_usage(task_id, input_tokens: int, output_tokens:\
+    \ int)\n     # Adds to existing usage\n\n3. Estimation Tools:\n   - estimate_task_tokens(task_id)\
+    \ -> {\n       input_estimate: TokenEstimate,\n       output_estimate: TokenEstimate,\n\
+    \       confidence: float\n     }\n   - estimate_from_description(description,\
+    \ task_type, complexity) -> same\n\n4. Report Tools:\n   - get_token_usage_report(track_id?,\
+    \ sprint_id?, date_range?) -> Report\n\nReturn types use the actual model structure:\n\
+    ```python\nclass TokensResponse(TypedDict):\n    estimate: Optional[dict]  # {min,\
+    \ max, target}\n    budget: Optional[int]\n    usage: Optional[int]\n```\n\nFiles:\n\
+    - vibey/mcp/tools/token_tools.py (new)\n- vibey/mcp/server.py (register tools)\n"
   status: not_started
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T12:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: medium
-  criteria:
-  - type: artifact
-    description: vibey/mcp/tools/token_tools.py exists
-    status: not_met
-  - type: code
-    description: All token MCP tools registered
-    status: not_met
-  depends_on:
-  - 01KCYA0G5135Z8B8ENFD841B16
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

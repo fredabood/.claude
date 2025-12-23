@@ -1,91 +1,52 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89ND
-  name: Implement token budget enforcement
-  description: |
-    Create token budget enforcement system:
-
-    ```python
-    class TokenBudget:
-        def __init__(self, config: ImplementConfig):
-            self.config = config
-            self.session_tokens_input: int = 0
-            self.session_tokens_output: int = 0
-
-        def check_budget(self, estimated_tokens: int) -> BudgetCheck:
-            '''
-            Check if budget allows task execution.
-
-            Returns:
-            - ALLOWED: Within budget
-            - WARNING: Near limit (>80%)
-            - EXCEEDED: Over budget
-            '''
-
-        def record_usage(self, result: ExecutionResult):
-            '''Record token usage from execution result.'''
-
-        def remaining_budget(self) -> int:
-            '''Calculate remaining token budget.'''
-
-        def usage_report(self) -> dict:
-            '''Generate budget usage report.'''
-    ```
-
-    Integration with ImplementationLoop:
-    ```python
-    async def run(self):
-        while not self.should_stop():
-            # Check budget before task
-            budget_check = self.budget.check_budget(
-                task.estimated_tokens or self.config.max_tokens_per_task
-            )
-            if budget_check == BudgetCheck.EXCEEDED:
-                self.state.status = LoopStatus.BUDGET_EXHAUSTED
-                break
-
-            # Execute task...
-            self.budget.record_usage(result)
-    ```
-
-    Files:
-    - vibey/services/implementation/budget.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89N0
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89N0
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement token budget enforcement
+  description: "Create token budget enforcement system:\n\n```python\nclass TokenBudget:\n\
+    \    def __init__(self, config: ImplementConfig):\n        self.config = config\n\
+    \        self.session_tokens_input: int = 0\n        self.session_tokens_output:\
+    \ int = 0\n\n    def check_budget(self, estimated_tokens: int) -> BudgetCheck:\n\
+    \        '''\n        Check if budget allows task execution.\n\n        Returns:\n\
+    \        - ALLOWED: Within budget\n        - WARNING: Near limit (>80%)\n    \
+    \    - EXCEEDED: Over budget\n        '''\n\n    def record_usage(self, result:\
+    \ ExecutionResult):\n        '''Record token usage from execution result.'''\n\
+    \n    def remaining_budget(self) -> int:\n        '''Calculate remaining token\
+    \ budget.'''\n\n    def usage_report(self) -> dict:\n        '''Generate budget\
+    \ usage report.'''\n```\n\nIntegration with ImplementationLoop:\n```python\nasync\
+    \ def run(self):\n    while not self.should_stop():\n        # Check budget before\
+    \ task\n        budget_check = self.budget.check_budget(\n            task.estimated_tokens\
+    \ or self.config.max_tokens_per_task\n        )\n        if budget_check == BudgetCheck.EXCEEDED:\n\
+    \            self.state.status = LoopStatus.BUDGET_EXHAUSTED\n            break\n\
+    \n        # Execute task...\n        self.budget.record_usage(result)\n```\n\n\
+    Files:\n- vibey/services/implementation/budget.py (new)\n"
   status: not_started
-  created_at: '2025-12-20T14:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T14:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/budget.py exists
-    status: not_met
-  - type: code
-    description: Loop stops when budget exhausted
-    status: not_met
-  - type: code
-    description: Token usage tracked per session
-    status: not_met
-  - type: test
-    description: Budget warnings at 80% threshold
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NC
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

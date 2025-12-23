@@ -1,82 +1,51 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737TA
-  name: Write integration tests with Jira sandbox
-  description: |
-    Create integration tests for JiraAdapter using a Jira Cloud sandbox
-    environment with mocked and live API testing.
-
-    Implementation steps:
-    1. Set up test infrastructure:
-       - Create tests/adapters/pm/jira/ directory
-       - Configure test Jira Cloud site (free tier)
-       - Store test credentials in environment variables
-    2. Create mock responses:
-       - tests/adapters/pm/jira/fixtures/
-       - Sample project, sprint, issue JSON responses
-       - Use responses library for HTTP mocking
-    3. Write unit tests with mocks:
-       - test_jira_client.py - API client tests
-       - test_jira_adapter.py - adapter method tests
-       - test_jira_mapping.py - field mapping tests
-    4. Write integration tests (live API):
-       - test_jira_integration.py
-       - Mark with @pytest.mark.integration
-       - Skip if no credentials available
-    5. Test scenarios:
-       - OAuth flow completion
-       - List projects
-       - Get issue by key
-       - Create and update issue
-       - Transition issue status
-       - Import project with sprints and issues
-    6. Add CI/CD configuration:
-       - Run mock tests on every PR
-       - Run integration tests nightly (with secrets)
-
-    Deliverables:
-    - tests/adapters/pm/jira/ test suite
-    - Mock fixtures
-    - CI/CD configuration
-
-    Dependencies:
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T9 (import operations)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
+  sprint_id: 01KCWDNDQ5MGHF8E9MEM2737T4
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write integration tests with Jira sandbox
+  description: "Create integration tests for JiraAdapter using a Jira Cloud sandbox\n\
+    environment with mocked and live API testing.\n\nImplementation steps:\n1. Set\
+    \ up test infrastructure:\n   - Create tests/adapters/pm/jira/ directory\n   -\
+    \ Configure test Jira Cloud site (free tier)\n   - Store test credentials in environment\
+    \ variables\n2. Create mock responses:\n   - tests/adapters/pm/jira/fixtures/\n\
+    \   - Sample project, sprint, issue JSON responses\n   - Use responses library\
+    \ for HTTP mocking\n3. Write unit tests with mocks:\n   - test_jira_client.py\
+    \ - API client tests\n   - test_jira_adapter.py - adapter method tests\n   - test_jira_mapping.py\
+    \ - field mapping tests\n4. Write integration tests (live API):\n   - test_jira_integration.py\n\
+    \   - Mark with @pytest.mark.integration\n   - Skip if no credentials available\n\
+    5. Test scenarios:\n   - OAuth flow completion\n   - List projects\n   - Get issue\
+    \ by key\n   - Create and update issue\n   - Transition issue status\n   - Import\
+    \ project with sprints and issues\n6. Add CI/CD configuration:\n   - Run mock\
+    \ tests on every PR\n   - Run integration tests nightly (with secrets)\n\nDeliverables:\n\
+    - tests/adapters/pm/jira/ test suite\n- Mock fixtures\n- CI/CD configuration\n\
+    \nDependencies:\n- Requires: 01KCWDNDQ5MGHF8E9MEM2737T9 (import operations)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421797+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421797+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421797+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: tests/adapters/pm/jira/ directory with tests
-    status: not_met
-  - type: artifact
-    description: Mock fixtures for offline testing
-    status: not_met
-  - type: test
-    description: Unit tests pass with mocks
-    status: not_met
-  - type: test
-    description: Integration tests pass with sandbox
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T9
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: testing
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

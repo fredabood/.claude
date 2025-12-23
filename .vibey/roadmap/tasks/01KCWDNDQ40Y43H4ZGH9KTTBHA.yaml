@@ -1,79 +1,52 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBHA
-  name: Implement map_from_generic for all entity types
-  description: |
-    Implement the map_from_generic method in VibeyAdapter to convert generic Ticket
-    objects back to Vibey models. This is the Generic→Vibey direction.
-
-    Implementation steps:
-    1. Implement map_from_generic(ticket: Ticket) -> Any dispatcher:
-       - Check ticket.hierarchy_type
-       - Route to appropriate private method
-    2. Implement _ticket_to_roadmap(ticket) -> Roadmap:
-       - Requires hierarchy_type == PROJECT
-       - Map back to Vibey Roadmap dataclass
-       - Handle missing optional fields with defaults
-    3. Implement _ticket_to_track(ticket) -> Track:
-       - Requires hierarchy_type == WORKSTREAM
-       - Map parent_id to roadmap_id
-       - Map priority, status
-    4. Implement _ticket_to_sprint(ticket) -> Sprint:
-       - Requires hierarchy_type == ITERATION
-       - Map parent_id to track_id
-       - Map blocked, blocked_reason, timestamps
-    5. Implement _ticket_to_task(ticket) -> Task:
-       - Requires hierarchy_type == WORK_ITEM
-       - Map parent_id to sprint_id
-       - Extract complexity, estimated_tokens from metadata
-    6. Implement _map_status_reverse(status: TicketStatus) -> str helper
-
-    Deliverables:
-    - Updated vibey/adapters/pm/vibey/adapter.py with reverse mapping
-
-    Dependencies:
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH9 (forward mapping)
-
-    Note: This enables creating Vibey entities from generic tickets (e.g., imported from Jira)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH7
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH7
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement map_from_generic for all entity types
+  description: "Implement the map_from_generic method in VibeyAdapter to convert generic\
+    \ Ticket\nobjects back to Vibey models. This is the Generic→Vibey direction.\n\
+    \nImplementation steps:\n1. Implement map_from_generic(ticket: Ticket) -> Any\
+    \ dispatcher:\n   - Check ticket.hierarchy_type\n   - Route to appropriate private\
+    \ method\n2. Implement _ticket_to_roadmap(ticket) -> Roadmap:\n   - Requires hierarchy_type\
+    \ == PROJECT\n   - Map back to Vibey Roadmap dataclass\n   - Handle missing optional\
+    \ fields with defaults\n3. Implement _ticket_to_track(ticket) -> Track:\n   -\
+    \ Requires hierarchy_type == WORKSTREAM\n   - Map parent_id to roadmap_id\n  \
+    \ - Map priority, status\n4. Implement _ticket_to_sprint(ticket) -> Sprint:\n\
+    \   - Requires hierarchy_type == ITERATION\n   - Map parent_id to track_id\n \
+    \  - Map blocked, blocked_reason, timestamps\n5. Implement _ticket_to_task(ticket)\
+    \ -> Task:\n   - Requires hierarchy_type == WORK_ITEM\n   - Map parent_id to sprint_id\n\
+    \   - Extract complexity, estimated_tokens from metadata\n6. Implement _map_status_reverse(status:\
+    \ TicketStatus) -> str helper\n\nDeliverables:\n- Updated vibey/adapters/pm/vibey/adapter.py\
+    \ with reverse mapping\n\nDependencies:\n- Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH9\
+    \ (forward mapping)\n\nNote: This enables creating Vibey entities from generic\
+    \ tickets (e.g., imported from Jira)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.420684+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.420684+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420684+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: map_from_generic method with hierarchy_type dispatch
-    status: not_met
-  - type: code
-    description: _ticket_to_roadmap creates valid Roadmap
-    status: not_met
-  - type: code
-    description: _ticket_to_track creates valid Track
-    status: not_met
-  - type: code
-    description: _ticket_to_sprint creates valid Sprint
-    status: not_met
-  - type: code
-    description: _ticket_to_task creates valid Task
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH9
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

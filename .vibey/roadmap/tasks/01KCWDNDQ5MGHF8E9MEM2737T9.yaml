@@ -1,79 +1,51 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T9
-  name: Implement import operations (project→track, sprint→sprint, issue→task)
-  description: |
-    Implement one-way import from Jira to Vibey, converting Jira entities to
-    generic Tickets that can be stored locally.
-
-    Implementation steps:
-    1. Implement sync() method in JiraAdapter for IMPORT direction:
-       - Fetch all projects user has access to
-       - For each project, fetch sprints and issues
-       - Convert to generic Tickets using map_to_generic
-    2. Implement import CLI command:
-       - vibey import jira --project KEY
-       - vibey import jira --board BOARD_ID
-       - vibey import jira --sprint SPRINT_ID
-    3. Handle hierarchy construction:
-       - Import Project as PROJECT ticket
-       - Import Epics as WORKSTREAM tickets
-       - Import Sprints as ITERATION tickets
-       - Import Issues as WORK_ITEM tickets
-    4. Preserve relationships:
-       - Issue → Sprint relationship (parent_id)
-       - Epic → Issue relationship
-       - Subtask relationships
-    5. Store external_id mapping:
-       - Map Jira issue keys to local ticket IDs
-       - Store in .vibey/sync/jira_mapping.json
-    6. Handle incremental imports:
-       - Track last import timestamp
-       - Only fetch updated issues on subsequent imports
-
-    Deliverables:
-    - Import functionality in JiraAdapter
-    - CLI import commands
-    - ID mapping storage
-
-    Dependencies:
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T7 (JiraAdapter)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
+  sprint_id: 01KCWDNDQ5MGHF8E9MEM2737T4
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement import operations (project→track, sprint→sprint, issue→task)
+  description: "Implement one-way import from Jira to Vibey, converting Jira entities\
+    \ to\ngeneric Tickets that can be stored locally.\n\nImplementation steps:\n1.\
+    \ Implement sync() method in JiraAdapter for IMPORT direction:\n   - Fetch all\
+    \ projects user has access to\n   - For each project, fetch sprints and issues\n\
+    \   - Convert to generic Tickets using map_to_generic\n2. Implement import CLI\
+    \ command:\n   - vibey import jira --project KEY\n   - vibey import jira --board\
+    \ BOARD_ID\n   - vibey import jira --sprint SPRINT_ID\n3. Handle hierarchy construction:\n\
+    \   - Import Project as PROJECT ticket\n   - Import Epics as WORKSTREAM tickets\n\
+    \   - Import Sprints as ITERATION tickets\n   - Import Issues as WORK_ITEM tickets\n\
+    4. Preserve relationships:\n   - Issue → Sprint relationship (parent_id)\n   -\
+    \ Epic → Issue relationship\n   - Subtask relationships\n5. Store external_id\
+    \ mapping:\n   - Map Jira issue keys to local ticket IDs\n   - Store in .vibey/sync/jira_mapping.json\n\
+    6. Handle incremental imports:\n   - Track last import timestamp\n   - Only fetch\
+    \ updated issues on subsequent imports\n\nDeliverables:\n- Import functionality\
+    \ in JiraAdapter\n- CLI import commands\n- ID mapping storage\n\nDependencies:\n\
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T7 (JiraAdapter)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421573+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421573+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421573+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: sync(IMPORT) fetches Jira data
-    status: not_met
-  - type: code
-    description: CLI import commands work
-    status: not_met
-  - type: code
-    description: Hierarchy preserved (project→sprint→issue)
-    status: not_met
-  - type: code
-    description: External ID mapping stored
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T7
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

@@ -1,101 +1,53 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NC
-  name: Implement configuration system for implementation mode
-  description: |
-    Create configuration system for implementation mode:
-
-    Configuration file: .vibey/config/implement.yaml
-
-    ```yaml
-    implement:
-      # Execution limits
-      defaults:
-        max_tasks_per_session: 10
-        max_tokens_per_session: 100000
-        max_tokens_per_task: 25000
-        timeout_per_task: 600  # seconds
-
-      # Retry behavior
-      retry:
-        max_retries: 2
-        retry_on:
-          - timeout
-          - rate_limit
-        skip_on:
-          - syntax_error
-          - import_error
-
-      # Task selection
-      selection:
-        priority_order: [critical, high, medium, low]
-        prefer_smaller_tasks: true
-        exclude_complexity: [very_complex]
-
-      # Agent configuration
-      agent:
-        model: claude-sonnet-4-20250514
-        dangerously_skip_permissions: true
-        print_output: true
-    ```
-
-    ```python
-    @dataclass
-    class ImplementConfig:
-        max_tasks_per_session: int = 10
-        max_tokens_per_session: int = 100000
-        max_tokens_per_task: int = 25000
-        timeout_per_task: int = 600
-        max_retries: int = 2
-        agent_model: str = "claude-sonnet-4-20250514"
-
-        @classmethod
-        def load(cls, config_path: Path) -> 'ImplementConfig':
-            '''Load config from YAML file.'''
-
-        def merge_cli_options(self, **kwargs) -> 'ImplementConfig':
-            '''Override with CLI options.'''
-    ```
-
-    Files:
-    - vibey/services/implementation/config.py (new)
-    - .vibey/config/implement.yaml (template)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89MZ
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89MZ
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement configuration system for implementation mode
+  description: "Create configuration system for implementation mode:\n\nConfiguration\
+    \ file: .vibey/config/implement.yaml\n\n```yaml\nimplement:\n  # Execution limits\n\
+    \  defaults:\n    max_tasks_per_session: 10\n    max_tokens_per_session: 100000\n\
+    \    max_tokens_per_task: 25000\n    timeout_per_task: 600  # seconds\n\n  # Retry\
+    \ behavior\n  retry:\n    max_retries: 2\n    retry_on:\n      - timeout\n   \
+    \   - rate_limit\n    skip_on:\n      - syntax_error\n      - import_error\n\n\
+    \  # Task selection\n  selection:\n    priority_order: [critical, high, medium,\
+    \ low]\n    prefer_smaller_tasks: true\n    exclude_complexity: [very_complex]\n\
+    \n  # Agent configuration\n  agent:\n    model: claude-sonnet-4-20250514\n   \
+    \ dangerously_skip_permissions: true\n    print_output: true\n```\n\n```python\n\
+    @dataclass\nclass ImplementConfig:\n    max_tasks_per_session: int = 10\n    max_tokens_per_session:\
+    \ int = 100000\n    max_tokens_per_task: int = 25000\n    timeout_per_task: int\
+    \ = 600\n    max_retries: int = 2\n    agent_model: str = \"claude-sonnet-4-20250514\"\
+    \n\n    @classmethod\n    def load(cls, config_path: Path) -> 'ImplementConfig':\n\
+    \        '''Load config from YAML file.'''\n\n    def merge_cli_options(self,\
+    \ **kwargs) -> 'ImplementConfig':\n        '''Override with CLI options.'''\n\
+    ```\n\nFiles:\n- vibey/services/implementation/config.py (new)\n- .vibey/config/implement.yaml\
+    \ (template)\n"
   status: not_started
-  created_at: '2025-12-20T14:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T14:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: medium
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/config.py exists
-    status: not_met
-  - type: artifact
-    description: .vibey/config/implement.yaml template exists
-    status: not_met
-  - type: code
-    description: Configuration loads from YAML
-    status: not_met
-  - type: code
-    description: CLI options override config file values
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NA
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: simple
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

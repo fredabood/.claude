@@ -22,77 +22,31 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCZF73PX9YNKWXKYVARY89P2
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Plan stage versioning
-  - Execution stage versioning
-  - Post-mortem stage versioning
-  - Unified version history across lifecycle
-  description: |
-    Implement strict content versioning across all 3 stages of ticket implementation:
-
-    Stage 1: PLAN
-    - Initial task plan creation
-    - Plan revisions during refinement
-    - Pre-execution plan snapshot
-
-    Stage 2: EXECUTION
-    - Execution state at start
-    - Intermediate execution snapshots
-    - Execution completion state
-
-    Stage 3: POST-MORTEM
-    - Initial post-mortem generation
-    - Post-mortem revisions
-    - Final archived version
-
-    Version tracking:
-    ```
-    .vibey/roadmap/versions/{ticket_id}/
-    ├── plan/
-    │   ├── v1_2025-12-20T10:00:00.yaml
-    │   ├── v2_2025-12-20T11:00:00.yaml
-    │   └── current -> v2_...
-    ├── execution/
-    │   ├── start_2025-12-20T12:00:00.yaml
-    │   ├── checkpoint_2025-12-20T12:30:00.yaml
-    │   └── complete_2025-12-20T13:00:00.yaml
-    └── post_mortem/
-        ├── v1_2025-12-20T13:30:00.yaml
-        └── current -> v1_...
-    ```
-
-    Each version includes:
-    - Content hash (SHA256)
-    - Timestamp
-    - Author (agent/user)
-    - Parent version reference
-    - Change summary
-    - Full content snapshot
-
-    Benefits:
-    - Complete audit trail
-    - Rollback capability
-    - Change diffing
-    - Compliance/governance
+  deliverables: []
+  description: "Implement strict content versioning across all 3 stages of ticket\
+    \ implementation:\n\nStage 1: PLAN\n- Initial task plan creation\n- Plan revisions\
+    \ during refinement\n- Pre-execution plan snapshot\n\nStage 2: EXECUTION\n- Execution\
+    \ state at start\n- Intermediate execution snapshots\n- Execution completion state\n\
+    \nStage 3: POST-MORTEM\n- Initial post-mortem generation\n- Post-mortem revisions\n\
+    - Final archived version\n\nVersion tracking:\n```\n.vibey/roadmap/versions/{ticket_id}/\n\
+    ├── plan/\n│   ├── v1_2025-12-20T10:00:00.yaml\n│   ├── v2_2025-12-20T11:00:00.yaml\n\
+    │   └── current -> v2_...\n├── execution/\n│   ├── start_2025-12-20T12:00:00.yaml\n\
+    │   ├── checkpoint_2025-12-20T12:30:00.yaml\n│   └── complete_2025-12-20T13:00:00.yaml\n\
+    └── post_mortem/\n    ├── v1_2025-12-20T13:30:00.yaml\n    └── current -> v1_...\n\
+    ```\n\nEach version includes:\n- Content hash (SHA256)\n- Timestamp\n- Author\
+    \ (agent/user)\n- Parent version reference\n- Change summary\n- Full content snapshot\n\
+    \nBenefits:\n- Complete audit trail\n- Rollback capability\n- Change diffing\n\
+    - Compliance/governance\n"
   goal: Maintain complete version history of all ticket content
-  success_criteria:
-  - Every plan change creates new version
-  - Execution states captured at key points
-  - Post-mortems versioned on update
-  - Versions can be compared/diffed
-  - Rollback to any version possible
-  risks:
-  - Storage growth from version history
+  success_criteria: []
+  risks: []
   notes: Strict versioning for all 3 implementation stages
   assigned_agents: []
   quality_gates: []

@@ -10,7 +10,7 @@ task:
     from submodules to parent, 3) Completion roll-up calculations, 4) Status change
     propagation (submodule completion triggers parent updates).'
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
@@ -19,17 +19,18 @@ task:
   phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - 01KCW0K1ZY2CEDMN5YY8JATEY5
-  - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  blocked_by: []
   depends_on:
-  - 01KCW0K1ZY2CEDMN5YY8JATEY5
-  - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

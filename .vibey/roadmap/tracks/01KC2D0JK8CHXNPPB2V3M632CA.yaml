@@ -10,12 +10,30 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 3
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    tasks_total: 17
+    tasks_completed: 17
+    completion_percent: 100.0
+  sprints:
+  - id: 01KC2D0JK8CHXNPPB2V3M632CB
+    name: Delete Legacy Interfaces & Consolidate
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC2D0JK9JKQXGQW6MQEB0JZ9
+    name: Unify CLI + MCP Integration
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JK9JKQXGQW6MQEB0JZF
+    name: Documentation & Testing
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +47,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-21T03:36:35.476439+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

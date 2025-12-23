@@ -1,153 +1,69 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89PA
-  name: Implement ExecutionVersioner for execution stage versioning
-  description: |
-    Create versioning system for the EXECUTION stage:
-
-    ```python
-    class ExecutionVersioner:
-        def __init__(self, versioner: ContentVersioner):
-            self.versioner = versioner
-
-        def version_execution_start(
-            self,
-            ticket: HierarchicalTicket,
-            context: TaskContext,
-            author: str,
-        ) -> ContentVersion:
-            '''
-            Capture state at execution start.
-
-            Records:
-            - Task state (planned -> in_progress)
-            - Initial context provided
-            - Criterion snapshot (from regression prevention)
-            - Git state (branch, commit)
-            - Timestamp
-            '''
-
-        def version_execution_checkpoint(
-            self,
-            ticket: HierarchicalTicket,
-            state: LoopState,
-            progress: float,
-            author: str,
-        ) -> ContentVersion:
-            '''
-            Capture intermediate execution checkpoint.
-
-            Called:
-            - At configured intervals
-            - Before risky operations
-            - On pause/resume
-            '''
-
-        def version_execution_complete(
-            self,
-            ticket: HierarchicalTicket,
-            result: ExecutionResult,
-            author: str,
-        ) -> ContentVersion:
-            '''
-            Capture state at execution completion.
-
-            Records:
-            - Final status (success/failure/blocked)
-            - All commits made
-            - Files modified
-            - Tokens consumed
-            - Duration
-            - Criterion states (post-execution)
-            '''
-
-        def version_execution_rollback(
-            self,
-            ticket: HierarchicalTicket,
-            rollback_to: str,
-            reason: str,
-            author: str,
-        ) -> ContentVersion:
-            '''Record rollback event in version history.'''
-
-        def get_execution_timeline(
-            self,
-            ticket_id: str,
-        ) -> List[ExecutionEvent]:
-            '''Get timeline of execution events from versions.'''
-    ```
-
-    Execution version content:
-    ```python
-    @dataclass
-    class ExecutionSnapshot:
-        ticket_id: str
-        event_type: str  # start, checkpoint, complete, rollback
-        timestamp: datetime
-
-        # State
-        status: str
-        progress_percent: float
-        current_step: Optional[str]
-
-        # Resources
-        tokens_input: int
-        tokens_output: int
-        duration_so_far: timedelta
-
-        # Git state
-        branch: str
-        commits: List[str]
-        files_modified: List[str]
-
-        # Criteria
-        criteria_snapshot: Dict[str, str]  # criterion_id -> status
-
-        def to_yaml(self) -> str:
-            '''Serialize to YAML for versioning.'''
-    ```
-
-    Files:
-    - vibey/services/implementation/versioning/execution.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89P7
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89P7
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement ExecutionVersioner for execution stage versioning
+  description: "Create versioning system for the EXECUTION stage:\n\n```python\nclass\
+    \ ExecutionVersioner:\n    def __init__(self, versioner: ContentVersioner):\n\
+    \        self.versioner = versioner\n\n    def version_execution_start(\n    \
+    \    self,\n        ticket: HierarchicalTicket,\n        context: TaskContext,\n\
+    \        author: str,\n    ) -> ContentVersion:\n        '''\n        Capture\
+    \ state at execution start.\n\n        Records:\n        - Task state (planned\
+    \ -> in_progress)\n        - Initial context provided\n        - Criterion snapshot\
+    \ (from regression prevention)\n        - Git state (branch, commit)\n       \
+    \ - Timestamp\n        '''\n\n    def version_execution_checkpoint(\n        self,\n\
+    \        ticket: HierarchicalTicket,\n        state: LoopState,\n        progress:\
+    \ float,\n        author: str,\n    ) -> ContentVersion:\n        '''\n      \
+    \  Capture intermediate execution checkpoint.\n\n        Called:\n        - At\
+    \ configured intervals\n        - Before risky operations\n        - On pause/resume\n\
+    \        '''\n\n    def version_execution_complete(\n        self,\n        ticket:\
+    \ HierarchicalTicket,\n        result: ExecutionResult,\n        author: str,\n\
+    \    ) -> ContentVersion:\n        '''\n        Capture state at execution completion.\n\
+    \n        Records:\n        - Final status (success/failure/blocked)\n       \
+    \ - All commits made\n        - Files modified\n        - Tokens consumed\n  \
+    \      - Duration\n        - Criterion states (post-execution)\n        '''\n\n\
+    \    def version_execution_rollback(\n        self,\n        ticket: HierarchicalTicket,\n\
+    \        rollback_to: str,\n        reason: str,\n        author: str,\n    )\
+    \ -> ContentVersion:\n        '''Record rollback event in version history.'''\n\
+    \n    def get_execution_timeline(\n        self,\n        ticket_id: str,\n  \
+    \  ) -> List[ExecutionEvent]:\n        '''Get timeline of execution events from\
+    \ versions.'''\n```\n\nExecution version content:\n```python\n@dataclass\nclass\
+    \ ExecutionSnapshot:\n    ticket_id: str\n    event_type: str  # start, checkpoint,\
+    \ complete, rollback\n    timestamp: datetime\n\n    # State\n    status: str\n\
+    \    progress_percent: float\n    current_step: Optional[str]\n\n    # Resources\n\
+    \    tokens_input: int\n    tokens_output: int\n    duration_so_far: timedelta\n\
+    \n    # Git state\n    branch: str\n    commits: List[str]\n    files_modified:\
+    \ List[str]\n\n    # Criteria\n    criteria_snapshot: Dict[str, str]  # criterion_id\
+    \ -> status\n\n    def to_yaml(self) -> str:\n        '''Serialize to YAML for\
+    \ versioning.'''\n```\n\nFiles:\n- vibey/services/implementation/versioning/execution.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T18:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T18:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T18:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/versioning/execution.py exists
-    status: not_met
-  - type: code
-    description: Execution start state captured
-    status: not_met
-  - type: code
-    description: Checkpoints captured during execution
-    status: not_met
-  - type: code
-    description: Completion state with all metadata captured
-    status: not_met
-  - type: code
-    description: Execution timeline reconstructable from versions
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89P8
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

@@ -22,46 +22,25 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MW
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - TaskContextBuilder for assembling task context
-  - TaskExecutor for running tasks via agent
-  - ExecutionResult for capturing outcomes
-  description: |
-    Build the task execution engine:
-
-    1. TaskContextBuilder: Assemble context for task execution
-       - Load task description and criteria
-       - Load relevant files (from task plan)
-       - Include parent ticket context (sprint goals, etc.)
-       - Build system prompt with task instructions
-
-    2. TaskExecutor: Execute task via agent subprocess
-       - Spawn Claude Code agent with task context
-       - Stream output for monitoring
-       - Capture result (success, failure, blocked)
-       - Record token usage
-
-    3. ExecutionResult: Capture execution outcome
-       - Success/failure/blocked status
-       - Files modified
-       - Commits created
-       - Tokens consumed
-       - Error messages if failed
+  deliverables: []
+  description: "Build the task execution engine:\n\n1. TaskContextBuilder: Assemble\
+    \ context for task execution\n   - Load task description and criteria\n   - Load\
+    \ relevant files (from task plan)\n   - Include parent ticket context (sprint\
+    \ goals, etc.)\n   - Build system prompt with task instructions\n\n2. TaskExecutor:\
+    \ Execute task via agent subprocess\n   - Spawn Claude Code agent with task context\n\
+    \   - Stream output for monitoring\n   - Capture result (success, failure, blocked)\n\
+    \   - Record token usage\n\n3. ExecutionResult: Capture execution outcome\n  \
+    \ - Success/failure/blocked status\n   - Files modified\n   - Commits created\n\
+    \   - Tokens consumed\n   - Error messages if failed\n"
   goal: Implement task execution via agent subprocess
-  success_criteria:
-  - Context builder includes all relevant task information
-  - Executor successfully spawns and monitors agent
-  - Results capture all execution metadata
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

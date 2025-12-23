@@ -1,32 +1,33 @@
 task:
   id: 01KCMJNWJYZFK331MSDEKJN7FJ
-  name: Document all context output formats
+  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Document all context output formats
   description: 'Document all supported context output formats in CONTEXT_FORMATS.md.
     Users may not know available formats. Source: CONTEXT_ENGINEERING_GAPS.md gap
     5'
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCMTY669JGT3WYPZB78ATWBT
   status: completed
-  created_at: '2025-12-16T21:57:20.115463+00:00'
-  started_at: null
-  completed_at: '2025-12-19T17:35:25.768378+00:00'
-  updated_at: '2025-12-19T17:35:25.768378+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-16T21:57:20.115463+00:00'
+  started: null
+  completed: '2025-12-19T17:35:25.768378+00:00'
+  assigned_agent: null
   priority: low
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: documentation
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: low
-  phase_label: null
+  complexity: simple
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

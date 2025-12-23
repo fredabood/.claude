@@ -1,137 +1,65 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89P4
-  name: Implement CommitFrequencyEnforcer for disciplined commits
-  description: |
-    Create system to enforce commit frequency during execution:
-
-    ```python
-    class CommitFrequencyEnforcer:
-        def __init__(self, config: ImplementConfig):
-            self.config = config
-            self.last_commit_at: Optional[datetime] = None
-            self.uncommitted_changes: List[Path] = []
-            self.commit_count: int = 0
-
-        def check_commit_needed(self) -> CommitCheck:
-            '''
-            Check if a commit is needed based on:
-            - Time since last commit
-            - Number of files changed
-            - Lines of code changed
-            - Logical completion points
-            '''
-
-        def get_uncommitted_changes(self) -> List[Path]:
-            '''Get list of files with uncommitted changes.'''
-
-        def should_commit_now(self) -> bool:
-            '''
-            Determine if commit needed now.
-
-            Triggers:
-            - Max time between commits exceeded
-            - Max files changed exceeded
-            - Logical breakpoint reached
-            - Approaching token limit
-            '''
-
-        def create_wip_commit(self) -> str:
-            '''
-            Create work-in-progress commit.
-
-            Message format:
-            wip({ticket_id}): Work in progress
-
-            Changes:
-            - file1.py
-            - file2.py
-
-            Progress: 60% complete
-            '''
-
-        def create_logical_commit(
-            self,
-            description: str,
-            files: Optional[List[Path]] = None,
-        ) -> str:
-            '''
-            Create commit at logical breakpoint.
-
-            Message format:
-            feat({ticket_id}): {description}
-            '''
-
-        def get_commit_stats(self) -> CommitStats:
-            '''Get statistics about commits this session.'''
-    ```
-
-    Frequency configuration:
-    ```yaml
-    implement:
-      git:
-        commit_frequency:
-          max_minutes_between: 15
-          max_files_changed: 10
-          max_lines_changed: 500
-          on_subtask_complete: true
-          wip_on_pause: true
-    ```
-
-    Integration with loop:
-    ```python
-    async def run(self):
-        while not self.should_stop():
-            # ... execute task ...
-
-            # Check commit frequency
-            if self.commit_enforcer.should_commit_now():
-                self.commit_enforcer.create_wip_commit()
-
-            # After task complete
-            self.commit_enforcer.create_logical_commit(
-                f"Complete: {task.name}"
-            )
-    ```
-
-    Files:
-    - vibey/services/implementation/git/commit_enforcer.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89P2
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89P2
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement CommitFrequencyEnforcer for disciplined commits
+  description: "Create system to enforce commit frequency during execution:\n\n```python\n\
+    class CommitFrequencyEnforcer:\n    def __init__(self, config: ImplementConfig):\n\
+    \        self.config = config\n        self.last_commit_at: Optional[datetime]\
+    \ = None\n        self.uncommitted_changes: List[Path] = []\n        self.commit_count:\
+    \ int = 0\n\n    def check_commit_needed(self) -> CommitCheck:\n        '''\n\
+    \        Check if a commit is needed based on:\n        - Time since last commit\n\
+    \        - Number of files changed\n        - Lines of code changed\n        -\
+    \ Logical completion points\n        '''\n\n    def get_uncommitted_changes(self)\
+    \ -> List[Path]:\n        '''Get list of files with uncommitted changes.'''\n\n\
+    \    def should_commit_now(self) -> bool:\n        '''\n        Determine if commit\
+    \ needed now.\n\n        Triggers:\n        - Max time between commits exceeded\n\
+    \        - Max files changed exceeded\n        - Logical breakpoint reached\n\
+    \        - Approaching token limit\n        '''\n\n    def create_wip_commit(self)\
+    \ -> str:\n        '''\n        Create work-in-progress commit.\n\n        Message\
+    \ format:\n        wip({ticket_id}): Work in progress\n\n        Changes:\n  \
+    \      - file1.py\n        - file2.py\n\n        Progress: 60% complete\n    \
+    \    '''\n\n    def create_logical_commit(\n        self,\n        description:\
+    \ str,\n        files: Optional[List[Path]] = None,\n    ) -> str:\n        '''\n\
+    \        Create commit at logical breakpoint.\n\n        Message format:\n   \
+    \     feat({ticket_id}): {description}\n        '''\n\n    def get_commit_stats(self)\
+    \ -> CommitStats:\n        '''Get statistics about commits this session.'''\n\
+    ```\n\nFrequency configuration:\n```yaml\nimplement:\n  git:\n    commit_frequency:\n\
+    \      max_minutes_between: 15\n      max_files_changed: 10\n      max_lines_changed:\
+    \ 500\n      on_subtask_complete: true\n      wip_on_pause: true\n```\n\nIntegration\
+    \ with loop:\n```python\nasync def run(self):\n    while not self.should_stop():\n\
+    \        # ... execute task ...\n\n        # Check commit frequency\n        if\
+    \ self.commit_enforcer.should_commit_now():\n            self.commit_enforcer.create_wip_commit()\n\
+    \n        # After task complete\n        self.commit_enforcer.create_logical_commit(\n\
+    \            f\"Complete: {task.name}\"\n        )\n```\n\nFiles:\n- vibey/services/implementation/git/commit_enforcer.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T17:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T17:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T17:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/git/commit_enforcer.py exists
-    status: not_met
-  - type: code
-    description: Commits created at configured frequency
-    status: not_met
-  - type: code
-    description: WIP commits for long-running tasks
-    status: not_met
-  - type: code
-    description: Logical commits at breakpoints
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89P3
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

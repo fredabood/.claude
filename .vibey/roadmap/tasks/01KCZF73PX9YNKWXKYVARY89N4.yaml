@@ -1,85 +1,53 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89N4
-  name: Implement TaskContextBuilder for assembling execution context
-  description: |
-    Create TaskContextBuilder class to assemble context for task execution:
-
-    ```python
-    class TaskContextBuilder:
-        def __init__(self, roadmap_root: Path):
-            self.root = roadmap_root
-
-        def build_context(self, task: HierarchicalTicket) -> TaskContext:
-            '''
-            Assemble complete context for task execution.
-
-            Context includes:
-            1. Task description and acceptance criteria
-            2. Parent context (sprint goals, track objectives)
-            3. Relevant files from task plan
-            4. Dependency outputs (what completed tasks produced)
-            5. System prompt with execution instructions
-            '''
-
-        def load_task_plan(self, task: HierarchicalTicket) -> Optional[str]:
-            '''Load task plan markdown if it exists.'''
-
-        def get_relevant_files(self, task: HierarchicalTicket) -> List[Path]:
-            '''Extract file paths mentioned in task/plan.'''
-
-        def build_system_prompt(self, task: HierarchicalTicket) -> str:
-            '''Generate system prompt for agent execution.'''
-    ```
-
-    TaskContext dataclass:
-    ```python
-    @dataclass
-    class TaskContext:
-        task: HierarchicalTicket
-        system_prompt: str
-        task_description: str
-        acceptance_criteria: List[str]
-        relevant_files: List[Path]
-        parent_context: Optional[str]  # Sprint/track goals
-        max_tokens: Optional[int]
-    ```
-
-    Files:
-    - vibey/services/implementation/context.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89MX
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89MX
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement TaskContextBuilder for assembling execution context
+  description: "Create TaskContextBuilder class to assemble context for task execution:\n\
+    \n```python\nclass TaskContextBuilder:\n    def __init__(self, roadmap_root: Path):\n\
+    \        self.root = roadmap_root\n\n    def build_context(self, task: HierarchicalTicket)\
+    \ -> TaskContext:\n        '''\n        Assemble complete context for task execution.\n\
+    \n        Context includes:\n        1. Task description and acceptance criteria\n\
+    \        2. Parent context (sprint goals, track objectives)\n        3. Relevant\
+    \ files from task plan\n        4. Dependency outputs (what completed tasks produced)\n\
+    \        5. System prompt with execution instructions\n        '''\n\n    def\
+    \ load_task_plan(self, task: HierarchicalTicket) -> Optional[str]:\n        '''Load\
+    \ task plan markdown if it exists.'''\n\n    def get_relevant_files(self, task:\
+    \ HierarchicalTicket) -> List[Path]:\n        '''Extract file paths mentioned\
+    \ in task/plan.'''\n\n    def build_system_prompt(self, task: HierarchicalTicket)\
+    \ -> str:\n        '''Generate system prompt for agent execution.'''\n```\n\n\
+    TaskContext dataclass:\n```python\n@dataclass\nclass TaskContext:\n    task: HierarchicalTicket\n\
+    \    system_prompt: str\n    task_description: str\n    acceptance_criteria: List[str]\n\
+    \    relevant_files: List[Path]\n    parent_context: Optional[str]  # Sprint/track\
+    \ goals\n    max_tokens: Optional[int]\n```\n\nFiles:\n- vibey/services/implementation/context.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T14:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T14:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/context.py exists
-    status: not_met
-  - type: code
-    description: Context includes task description and criteria
-    status: not_met
-  - type: code
-    description: Context includes parent ticket information
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89N3
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

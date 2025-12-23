@@ -5,13 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add CLI commands for submodule management
-  description: 'Add CLI commands for git submodule integration: 1) vibey submodule list
-    - show detected submodules, 2) vibey submodule status - aggregated progress,
-    3) vibey submodule push <requirement> - push requirement to submodules,
-    4) vibey submodule sync - sync all submodule roadmaps, 5) vibey submodule deps
-    - show cross-repo dependencies.'
+  description: 'Add CLI commands for git submodule integration: 1) vibey submodule
+    list - show detected submodules, 2) vibey submodule status - aggregated progress,
+    3) vibey submodule push <requirement> - push requirement to submodules, 4) vibey
+    submodule sync - sync all submodule roadmaps, 5) vibey submodule deps - show cross-repo
+    dependencies.'
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
@@ -25,10 +25,13 @@ task:
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - 01KCW0K1ZY2CEDMN5YY8JATEY9
+  blocked_by: []
   depends_on:
-  - 01KCW0K1ZY2CEDMN5YY8JATEY9
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

@@ -1,32 +1,33 @@
 task:
   id: 01KCMP38FG3MBX9VKMW2QWYJEM
-  name: Design cross-repo dependency tracking
+  sprint_id: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design cross-repo dependency tracking
   description: 'Design how dependencies work across repo boundaries. Questions: 1)
     Can a task in main depend on task in submodule? 2) How are cross-repo blockers
     tracked? 3) How does the criterion system span repos? Source: User feedback'
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
   status: completed
-  created_at: '2025-12-16T22:57:04.009877+00:00'
-  started_at: '2025-12-19T19:36:43.040274+00:00'
-  completed_at: '2025-12-19T20:15:00+00:00'
-  updated_at: '2025-12-19T19:36:43.040274+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-16T22:57:04.009877+00:00'
+  started: '2025-12-19T19:36:43.040274+00:00'
+  completed: '2025-12-19T20:15:00+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: high
-  phase_label: null
+  complexity: complex
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

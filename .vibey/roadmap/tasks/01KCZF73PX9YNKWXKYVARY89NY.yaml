@@ -1,131 +1,64 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NY
-  name: Implement LearningCapture for knowledge base building
-  description: |
-    Create system to capture and organize learnings:
-
-    ```python
-    class LearningCapture:
-        def __init__(self, context_root: Path):
-            self.context_root = context_root
-
-        def capture_task_learnings(
-            self,
-            task: HierarchicalTicket,
-            post_mortem: PostMortem,
-        ):
-            '''Extract and categorize learnings from post-mortem.'''
-
-        def update_sprint_retrospective(self, sprint_id: str):
-            '''
-            Update sprint-level retrospective with aggregated learnings.
-
-            Creates/updates:
-            .vibey/roadmap/context/sprints/{sprint}/SPRINT_RETROSPECTIVE.md
-            '''
-
-        def update_track_knowledge_base(self, track_id: str):
-            '''
-            Update track-level knowledge base.
-
-            Creates/updates:
-            .vibey/roadmap/context/tracks/{track}/KNOWLEDGE_BASE.md
-            '''
-
-        def find_similar_tasks(self, task: HierarchicalTicket) -> List[str]:
-            '''Find similar completed tasks for learning transfer.'''
-
-        def get_relevant_learnings(self, task: HierarchicalTicket) -> List[Learning]:
-            '''Get learnings relevant to upcoming task.'''
-    ```
-
-    Learning structure:
-    ```python
-    @dataclass
-    class Learning:
-        source_task_id: str
-        category: LearningCategory  # pattern, anti_pattern, discovery, tip
-        description: str
-        applicability: List[str]  # task types, file patterns, etc.
-        created_at: datetime
-
-    class LearningCategory(Enum):
-        PATTERN = "pattern"          # Good approaches to reuse
-        ANTI_PATTERN = "anti_pattern"  # Things to avoid
-        DISCOVERY = "discovery"      # New information found
-        TIP = "tip"                  # Helpful hints
-        BUG_PATTERN = "bug_pattern"  # Common bug types
-    ```
-
-    Sprint retrospective template:
-    ```markdown
-    # Sprint Retrospective: {sprint.name}
-
-    **Period:** {start_date} - {end_date}
-    **Tasks Completed:** {count}
-    **Total Tokens:** {tokens}
-
-    ## Key Learnings
-
-    ### Patterns (What Worked)
-    - {pattern}
-
-    ### Anti-Patterns (What to Avoid)
-    - {anti_pattern}
-
-    ### Discoveries
-    - {discovery}
-
-    ## Metrics
-    | Metric | Value |
-    |--------|-------|
-    | Tasks | {completed}/{total} |
-    | Token Efficiency | {avg_efficiency}% |
-    | Bugs Found | {bugs_found} |
-
-    ## Recommendations for Future Sprints
-    - {recommendation}
-    ```
-
-    Files:
-    - vibey/services/implementation/learning.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NQ
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NQ
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement LearningCapture for knowledge base building
+  description: "Create system to capture and organize learnings:\n\n```python\nclass\
+    \ LearningCapture:\n    def __init__(self, context_root: Path):\n        self.context_root\
+    \ = context_root\n\n    def capture_task_learnings(\n        self,\n        task:\
+    \ HierarchicalTicket,\n        post_mortem: PostMortem,\n    ):\n        '''Extract\
+    \ and categorize learnings from post-mortem.'''\n\n    def update_sprint_retrospective(self,\
+    \ sprint_id: str):\n        '''\n        Update sprint-level retrospective with\
+    \ aggregated learnings.\n\n        Creates/updates:\n        .vibey/roadmap/context/sprints/{sprint}/SPRINT_RETROSPECTIVE.md\n\
+    \        '''\n\n    def update_track_knowledge_base(self, track_id: str):\n  \
+    \      '''\n        Update track-level knowledge base.\n\n        Creates/updates:\n\
+    \        .vibey/roadmap/context/tracks/{track}/KNOWLEDGE_BASE.md\n        '''\n\
+    \n    def find_similar_tasks(self, task: HierarchicalTicket) -> List[str]:\n \
+    \       '''Find similar completed tasks for learning transfer.'''\n\n    def get_relevant_learnings(self,\
+    \ task: HierarchicalTicket) -> List[Learning]:\n        '''Get learnings relevant\
+    \ to upcoming task.'''\n```\n\nLearning structure:\n```python\n@dataclass\nclass\
+    \ Learning:\n    source_task_id: str\n    category: LearningCategory  # pattern,\
+    \ anti_pattern, discovery, tip\n    description: str\n    applicability: List[str]\
+    \  # task types, file patterns, etc.\n    created_at: datetime\n\nclass LearningCategory(Enum):\n\
+    \    PATTERN = \"pattern\"          # Good approaches to reuse\n    ANTI_PATTERN\
+    \ = \"anti_pattern\"  # Things to avoid\n    DISCOVERY = \"discovery\"      #\
+    \ New information found\n    TIP = \"tip\"                  # Helpful hints\n\
+    \    BUG_PATTERN = \"bug_pattern\"  # Common bug types\n```\n\nSprint retrospective\
+    \ template:\n```markdown\n# Sprint Retrospective: {sprint.name}\n\n**Period:**\
+    \ {start_date} - {end_date}\n**Tasks Completed:** {count}\n**Total Tokens:** {tokens}\n\
+    \n## Key Learnings\n\n### Patterns (What Worked)\n- {pattern}\n\n### Anti-Patterns\
+    \ (What to Avoid)\n- {anti_pattern}\n\n### Discoveries\n- {discovery}\n\n## Metrics\n\
+    | Metric | Value |\n|--------|-------|\n| Tasks | {completed}/{total} |\n| Token\
+    \ Efficiency | {avg_efficiency}% |\n| Bugs Found | {bugs_found} |\n\n## Recommendations\
+    \ for Future Sprints\n- {recommendation}\n```\n\nFiles:\n- vibey/services/implementation/learning.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T16:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T16:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T16:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: medium
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/learning.py exists
-    status: not_met
-  - type: code
-    description: Learnings captured from post-mortems
-    status: not_met
-  - type: code
-    description: Sprint retrospectives auto-generated
-    status: not_met
-  - type: code
-    description: Relevant learnings retrieved for new tasks
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NX
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

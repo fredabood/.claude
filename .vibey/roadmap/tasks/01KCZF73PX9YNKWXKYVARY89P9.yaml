@@ -1,153 +1,66 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89P9
-  name: Implement PlanVersioner for plan stage versioning
-  description: |
-    Create versioning system for the PLAN stage:
-
-    ```python
-    class PlanVersioner:
-        def __init__(self, versioner: ContentVersioner):
-            self.versioner = versioner
-
-        def version_plan_creation(
-            self,
-            ticket: HierarchicalTicket,
-            plan: str,
-            author: str,
-        ) -> ContentVersion:
-            '''
-            Create initial plan version.
-
-            Called when:
-            - Task plan first generated
-            - Plan created manually
-            '''
-
-        def version_plan_revision(
-            self,
-            ticket: HierarchicalTicket,
-            revised_plan: str,
-            author: str,
-            reason: str,
-        ) -> ContentVersion:
-            '''
-            Create version for plan revision.
-
-            Called when:
-            - Plan refined based on feedback
-            - Scope adjusted
-            - Approach changed
-            '''
-
-        def version_pre_execution_snapshot(
-            self,
-            ticket: HierarchicalTicket,
-            author: str,
-        ) -> ContentVersion:
-            '''
-            Create final plan snapshot before execution.
-
-            Captures:
-            - Approved plan
-            - All acceptance criteria
-            - Estimated resources
-            - Dependencies confirmed
-            '''
-
-        def get_plan_diff(
-            self,
-            ticket_id: str,
-            from_version: str,
-            to_version: str,
-        ) -> PlanDiff:
-            '''
-            Generate diff between two plan versions.
-
-            Shows:
-            - Added sections
-            - Removed sections
-            - Changed content
-            '''
-
-        def rollback_plan(
-            self,
-            ticket: HierarchicalTicket,
-            to_version: str,
-            author: str,
-        ) -> ContentVersion:
-            '''Rollback plan to previous version.'''
-    ```
-
-    Plan version metadata:
-    ```python
-    @dataclass
-    class PlanVersionMetadata:
-        plan_status: str  # draft, review, approved, executing
-        criteria_count: int
-        estimated_tokens: Optional[int]
-        files_planned: List[str]
-        reviewer: Optional[str]
-        approval_timestamp: Optional[datetime]
-    ```
-
-    Integration:
-    ```python
-    # In TaskPlanVerifier
-    async def generate_plan(self, task: HierarchicalTicket) -> str:
-        plan = await self._generate_plan_content(task)
-
-        # Version the plan creation
-        self.plan_versioner.version_plan_creation(
-            ticket=task,
-            plan=plan,
-            author="claude-code",
-        )
-
-        return plan
-    ```
-
-    Files:
-    - vibey/services/implementation/versioning/plan.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89P7
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89P7
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement PlanVersioner for plan stage versioning
+  description: "Create versioning system for the PLAN stage:\n\n```python\nclass PlanVersioner:\n\
+    \    def __init__(self, versioner: ContentVersioner):\n        self.versioner\
+    \ = versioner\n\n    def version_plan_creation(\n        self,\n        ticket:\
+    \ HierarchicalTicket,\n        plan: str,\n        author: str,\n    ) -> ContentVersion:\n\
+    \        '''\n        Create initial plan version.\n\n        Called when:\n \
+    \       - Task plan first generated\n        - Plan created manually\n       \
+    \ '''\n\n    def version_plan_revision(\n        self,\n        ticket: HierarchicalTicket,\n\
+    \        revised_plan: str,\n        author: str,\n        reason: str,\n    )\
+    \ -> ContentVersion:\n        '''\n        Create version for plan revision.\n\
+    \n        Called when:\n        - Plan refined based on feedback\n        - Scope\
+    \ adjusted\n        - Approach changed\n        '''\n\n    def version_pre_execution_snapshot(\n\
+    \        self,\n        ticket: HierarchicalTicket,\n        author: str,\n  \
+    \  ) -> ContentVersion:\n        '''\n        Create final plan snapshot before\
+    \ execution.\n\n        Captures:\n        - Approved plan\n        - All acceptance\
+    \ criteria\n        - Estimated resources\n        - Dependencies confirmed\n\
+    \        '''\n\n    def get_plan_diff(\n        self,\n        ticket_id: str,\n\
+    \        from_version: str,\n        to_version: str,\n    ) -> PlanDiff:\n  \
+    \      '''\n        Generate diff between two plan versions.\n\n        Shows:\n\
+    \        - Added sections\n        - Removed sections\n        - Changed content\n\
+    \        '''\n\n    def rollback_plan(\n        self,\n        ticket: HierarchicalTicket,\n\
+    \        to_version: str,\n        author: str,\n    ) -> ContentVersion:\n  \
+    \      '''Rollback plan to previous version.'''\n```\n\nPlan version metadata:\n\
+    ```python\n@dataclass\nclass PlanVersionMetadata:\n    plan_status: str  # draft,\
+    \ review, approved, executing\n    criteria_count: int\n    estimated_tokens:\
+    \ Optional[int]\n    files_planned: List[str]\n    reviewer: Optional[str]\n \
+    \   approval_timestamp: Optional[datetime]\n```\n\nIntegration:\n```python\n#\
+    \ In TaskPlanVerifier\nasync def generate_plan(self, task: HierarchicalTicket)\
+    \ -> str:\n    plan = await self._generate_plan_content(task)\n\n    # Version\
+    \ the plan creation\n    self.plan_versioner.version_plan_creation(\n        ticket=task,\n\
+    \        plan=plan,\n        author=\"claude-code\",\n    )\n\n    return plan\n\
+    ```\n\nFiles:\n- vibey/services/implementation/versioning/plan.py (new)\n"
   status: not_started
-  created_at: '2025-12-20T18:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T18:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T18:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/versioning/plan.py exists
-    status: not_met
-  - type: code
-    description: Initial plan creation versioned
-    status: not_met
-  - type: code
-    description: Plan revisions create new versions
-    status: not_met
-  - type: code
-    description: Pre-execution snapshot captured
-    status: not_met
-  - type: code
-    description: Plan diffs can be generated
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89P8
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

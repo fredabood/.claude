@@ -1,72 +1,49 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBHE
-  name: Create CLI wrapper using TicketService
-  description: |
-    Create a CLI service layer that wraps TicketService and provides CLI-specific
-    functionality like output formatting, error handling, and configuration.
-
-    Implementation steps:
-    1. Create vibey/cli/services/__init__.py
-    2. Create vibey/cli/services/roadmap_service.py with RoadmapCLIService:
-       - __init__() - instantiate TicketService with default adapter
-       - get_ticket_service() -> TicketService
-       - Wrapper methods that handle CLI concerns
-    3. Add CLI-specific functionality:
-       - format_ticket_for_display(ticket: Ticket) -> str
-       - format_ticket_list(tickets: List[Ticket]) -> str
-       - handle_not_found(ticket_id: str) - standard error message
-       - confirm_action(action: str, ticket: Ticket) -> bool
-    4. Add configuration integration:
-       - Load default adapter from .vibey/config
-       - Support --adapter flag override
-    5. Add progress indicator support for long operations
-    6. Integrate with existing Click context
-
-    Deliverables:
-    - vibey/cli/services/__init__.py
-    - vibey/cli/services/roadmap_service.py
-
-    Dependencies:
-    - Requires: Sprint 2 complete (VibeyAdapter)
-
-    Reference: vibey/cli/commands.py (existing CLI patterns)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create CLI wrapper using TicketService
+  description: "Create a CLI service layer that wraps TicketService and provides CLI-specific\n\
+    functionality like output formatting, error handling, and configuration.\n\nImplementation\
+    \ steps:\n1. Create vibey/cli/services/__init__.py\n2. Create vibey/cli/services/roadmap_service.py\
+    \ with RoadmapCLIService:\n   - __init__() - instantiate TicketService with default\
+    \ adapter\n   - get_ticket_service() -> TicketService\n   - Wrapper methods that\
+    \ handle CLI concerns\n3. Add CLI-specific functionality:\n   - format_ticket_for_display(ticket:\
+    \ Ticket) -> str\n   - format_ticket_list(tickets: List[Ticket]) -> str\n   -\
+    \ handle_not_found(ticket_id: str) - standard error message\n   - confirm_action(action:\
+    \ str, ticket: Ticket) -> bool\n4. Add configuration integration:\n   - Load default\
+    \ adapter from .vibey/config\n   - Support --adapter flag override\n5. Add progress\
+    \ indicator support for long operations\n6. Integrate with existing Click context\n\
+    \nDeliverables:\n- vibey/cli/services/__init__.py\n- vibey/cli/services/roadmap_service.py\n\
+    \nDependencies:\n- Requires: Sprint 2 complete (VibeyAdapter)\n\nReference: vibey/cli/commands.py\
+    \ (existing CLI patterns)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.420942+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.420942+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420942+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: critical
-  criteria:
-  - type: artifact
-    description: vibey/cli/services/roadmap_service.py exists
-    status: not_met
-  - type: code
-    description: RoadmapCLIService wraps TicketService
-    status: not_met
-  - type: code
-    description: Output formatting methods implemented
-    status: not_met
-  - type: code
-    description: Configuration integration for adapter selection
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBHC
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

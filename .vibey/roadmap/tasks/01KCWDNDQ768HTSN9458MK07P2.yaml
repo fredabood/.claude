@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P2
-  name: Write integration tests
+  sprint_id: 01KCWDNDQ768HTSN9458MK07NY
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write integration tests
   description: "Write tests for AsanaAdapter with mocked and live API testing.\n\n\
     Implementation steps:\n1. Create test infrastructure:\n   - tests/adapters/pm/asana/\
     \ directory\n   - Mock fixtures for Asana API\n2. Write unit tests:\n   - test_asana_client.py\n\
@@ -11,45 +15,32 @@ task:
     \   - Skip without credentials\n\nDeliverables:\n- tests/adapters/pm/asana/ test\
     \ suite\n- Mock fixtures\n\nDependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07P0\
     \ (AsanaAdapter)\n- Requires: 01KCWDNDQ768HTSN9458MK07P1 (field mapping)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ768HTSN9458MK07NY
   status: not_started
-  created_at: '2025-12-19T23:03:36.423497+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.423497+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.423497+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: tests/adapters/pm/asana/ exists
-    status: not_met
-  - type: test
-    description: Client tests pass
-    status: not_met
-  - type: test
-    description: Adapter tests pass
-    status: not_met
-  - type: test
-    description: Integration tests pass
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: testing
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ768HTSN9458MK07P0
-  - 01KCWDNDQ768HTSN9458MK07P1

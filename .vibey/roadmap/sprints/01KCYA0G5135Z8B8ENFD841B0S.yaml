@@ -22,31 +22,27 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCYA0G5135Z8B8ENFD841B0R
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Token estimation service
-  - Task-type-specific estimation algorithms
-  - Complexity-based estimation multipliers
-  description: |
-    Implement algorithms to estimate token usage based on:
+  deliverables: []
+  description: 'Implement algorithms to estimate token usage based on:
+
     - Task type (development, documentation, testing, research, etc.)
+
     - Complexity level (simple, medium, complex, very_complex)
+
     - Historical data from completed tasks
+
     - Context requirements (files to read, codebase size)
+
+    '
   goal: Implement intelligent token estimation algorithms
-  success_criteria:
-  - Estimation service returns min/max/target for any task
-  - Algorithms account for task type and complexity
-  - Estimates are within 50% of actual usage for similar tasks
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

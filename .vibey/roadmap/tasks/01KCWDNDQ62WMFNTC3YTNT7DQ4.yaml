@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQ4
-  name: Design and implement sync state tracking
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQ2
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design and implement sync state tracking
   description: "Design and implement sync state tracking to enable reliable\nbidirectional\
     \ synchronization.\n\nImplementation steps:\n1. Create sync state storage:\n \
     \  - .vibey/sync/jira/state.json\n   - Track last sync timestamp per entity\n\
@@ -14,44 +18,32 @@ task:
     \ sync status jira\n   - vibey sync diff jira\n\nDeliverables:\n- vibey/adapters/pm/sync/state.py\n\
     - Sync state storage schema\n- CLI status commands\n\nDependencies:\n- Requires:\
     \ 01KCWDNDQ62WMFNTC3YTNT7DQ3 (export working)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ2
   status: not_started
-  created_at: '2025-12-19T23:03:36.422095+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422095+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422095+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/sync/state.py exists
-    status: not_met
-  - type: code
-    description: SyncState model with version tracking
-    status: not_met
-  - type: code
-    description: Change detection for local and remote
-    status: not_met
-  - type: code
-    description: CLI sync status commands
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQ3

@@ -1,78 +1,51 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T7
-  name: Implement JiraAdapter class
-  description: |
-    Create the JiraAdapter that implements TicketAdapter for Jira Cloud,
-    using the Jira REST client and field mapping.
-
-    Implementation steps:
-    1. Create vibey/adapters/pm/jira/adapter.py:
-       - JiraAdapter extending TicketAdapter
-       - __init__(client: JiraClient)
-    2. Implement identity properties:
-       - adapter_name -> "jira"
-       - display_name -> "Jira Cloud"
-    3. Implement capability properties:
-       - supports_sprints -> True (with Jira Software)
-       - supports_bidirectional_sync -> True
-       - supports_webhooks -> True
-    4. Implement read operations:
-       - list_projects() -> convert JiraProjects to Tickets
-       - get_ticket(key) -> convert JiraIssue to Ticket
-       - list_children(key) -> issues in sprint/project
-       - search_tickets(jql) -> JQL query support
-    5. Implement write operations:
-       - create_ticket() -> create Jira issue
-       - update_ticket() -> update Jira issue
-       - update_status() -> transition issue
-       - delete_ticket() -> delete issue (if permitted)
-    6. Register with @pm_adapter decorator
-
-    Deliverables:
-    - vibey/adapters/pm/jira/__init__.py
-    - vibey/adapters/pm/jira/adapter.py
-
-    Dependencies:
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T6 (Jira REST client)
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T8 (field mapping)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
+  sprint_id: 01KCWDNDQ5MGHF8E9MEM2737T4
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement JiraAdapter class
+  description: "Create the JiraAdapter that implements TicketAdapter for Jira Cloud,\n\
+    using the Jira REST client and field mapping.\n\nImplementation steps:\n1. Create\
+    \ vibey/adapters/pm/jira/adapter.py:\n   - JiraAdapter extending TicketAdapter\n\
+    \   - __init__(client: JiraClient)\n2. Implement identity properties:\n   - adapter_name\
+    \ -> \"jira\"\n   - display_name -> \"Jira Cloud\"\n3. Implement capability properties:\n\
+    \   - supports_sprints -> True (with Jira Software)\n   - supports_bidirectional_sync\
+    \ -> True\n   - supports_webhooks -> True\n4. Implement read operations:\n   -\
+    \ list_projects() -> convert JiraProjects to Tickets\n   - get_ticket(key) ->\
+    \ convert JiraIssue to Ticket\n   - list_children(key) -> issues in sprint/project\n\
+    \   - search_tickets(jql) -> JQL query support\n5. Implement write operations:\n\
+    \   - create_ticket() -> create Jira issue\n   - update_ticket() -> update Jira\
+    \ issue\n   - update_status() -> transition issue\n   - delete_ticket() -> delete\
+    \ issue (if permitted)\n6. Register with @pm_adapter decorator\n\nDeliverables:\n\
+    - vibey/adapters/pm/jira/__init__.py\n- vibey/adapters/pm/jira/adapter.py\n\n\
+    Dependencies:\n- Requires: 01KCWDNDQ5MGHF8E9MEM2737T6 (Jira REST client)\n- Requires:\
+    \ 01KCWDNDQ5MGHF8E9MEM2737T8 (field mapping)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421449+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421449+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421449+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: critical
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/jira/adapter.py exists
-    status: not_met
-  - type: code
-    description: JiraAdapter implements all TicketAdapter methods
-    status: not_met
-  - type: code
-    description: Read operations work with Jira API
-    status: not_met
-  - type: code
-    description: Write operations work with Jira API
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T6
-  - 01KCWDNDQ5MGHF8E9MEM2737T8
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

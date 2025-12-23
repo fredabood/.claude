@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P7
-  name: Implement bidirectional docs sync
+  sprint_id: 01KCWDNDQ768HTSN9458MK07P3
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement bidirectional docs sync
   description: "Implement bidirectional documentation sync between Confluence\nand\
     \ local Vibey context files.\n\nImplementation steps:\n1. Design sync strategy\
     \ for docs:\n   - Map Confluence pages to .vibey/roadmap/context/ files\n   -\
@@ -14,45 +18,32 @@ task:
     \ sync functionality\n- CLI sync commands for docs\n- Sync automation hooks\n\n\
     Dependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07P5 (ConfluenceAdapter)\n- Requires:\
     \ 01KCWDNDQ768HTSN9458MK07P6 (Markdown converter)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ768HTSN9458MK07P3
   status: not_started
-  created_at: '2025-12-19T23:03:36.423874+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.423874+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.423874+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: Import Confluence pages as Markdown
-    status: not_met
-  - type: code
-    description: Export Markdown to Confluence
-    status: not_met
-  - type: code
-    description: Bidirectional sync with conflicts
-    status: not_met
-  - type: code
-    description: CLI commands for doc sync
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ768HTSN9458MK07P5
-  - 01KCWDNDQ768HTSN9458MK07P6

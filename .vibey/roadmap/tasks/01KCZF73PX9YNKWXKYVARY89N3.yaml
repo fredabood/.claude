@@ -1,79 +1,49 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89N3
-  name: Implement LoopState for tracking execution
-  description: |
-    Create LoopState class for tracking execution state:
-
-    ```python
-    @dataclass
-    class LoopState:
-        '''Mutable state for the execution loop.'''
-
-        # Session info
-        session_id: str = field(default_factory=lambda: str(ULID()))
-        started_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-        ended_at: Optional[datetime] = None
-
-        # Current execution
-        current_task: Optional[str] = None
-        status: LoopStatus = LoopStatus.RUNNING  # running, paused, stopped, completed
-
-        # Progress
-        tasks_attempted: int = 0
-        tasks_completed: int = 0
-        tasks_failed: int = 0
-        tasks_blocked: int = 0
-
-        # Resource usage
-        tokens_input: int = 0
-        tokens_output: int = 0
-
-        # History
-        task_results: List[TaskResult] = field(default_factory=list)
-
-        def save(self, path: Path):
-            '''Persist state to file for resume.'''
-
-        @classmethod
-        def load(cls, path: Path) -> 'LoopState':
-            '''Load state from file.'''
-    ```
-
-    State file: .vibey/implementation/state.yaml
-
-    Files:
-    - vibey/services/implementation/state.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89MW
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89MW
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement LoopState for tracking execution
+  description: "Create LoopState class for tracking execution state:\n\n```python\n\
+    @dataclass\nclass LoopState:\n    '''Mutable state for the execution loop.'''\n\
+    \n    # Session info\n    session_id: str = field(default_factory=lambda: str(ULID()))\n\
+    \    started_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))\n\
+    \    ended_at: Optional[datetime] = None\n\n    # Current execution\n    current_task:\
+    \ Optional[str] = None\n    status: LoopStatus = LoopStatus.RUNNING  # running,\
+    \ paused, stopped, completed\n\n    # Progress\n    tasks_attempted: int = 0\n\
+    \    tasks_completed: int = 0\n    tasks_failed: int = 0\n    tasks_blocked: int\
+    \ = 0\n\n    # Resource usage\n    tokens_input: int = 0\n    tokens_output: int\
+    \ = 0\n\n    # History\n    task_results: List[TaskResult] = field(default_factory=list)\n\
+    \n    def save(self, path: Path):\n        '''Persist state to file for resume.'''\n\
+    \n    @classmethod\n    def load(cls, path: Path) -> 'LoopState':\n        '''Load\
+    \ state from file.'''\n```\n\nState file: .vibey/implementation/state.yaml\n\n\
+    Files:\n- vibey/services/implementation/state.py (new)\n"
   status: not_started
-  created_at: '2025-12-20T14:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T14:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/state.py exists
-    status: not_met
-  - type: code
-    description: State can be saved and loaded
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89N2
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

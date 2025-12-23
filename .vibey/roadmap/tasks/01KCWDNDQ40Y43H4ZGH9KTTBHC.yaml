@@ -1,87 +1,53 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBHC
-  name: Implement write operations (create, update, delete)
-  description: |
-    Implement all TicketAdapter write operations in VibeyAdapter using existing
-    YAML dumper and ensuring database sync.
-
-    Implementation steps:
-    1. Implement create_ticket(ticket: Ticket) -> Ticket:
-       - Convert from generic using map_from_generic
-       - Generate ULID if no ID provided
-       - Write YAML file to appropriate directory
-       - Update SQLite database
-       - Return created ticket with ID
-    2. Implement update_ticket(ticket: Ticket) -> Ticket:
-       - Load existing entity
-       - Apply changes from ticket
-       - Write updated YAML
-       - Update SQLite database
-       - Return updated ticket
-    3. Implement update_status(ticket_id: str, status: TicketStatus) -> Ticket:
-       - Load entity by ID
-       - Update status field
-       - Update timestamps (started_at, completed_at as appropriate)
-       - Write YAML and update database
-       - Return updated ticket
-    4. Implement delete_ticket(ticket_id: str) -> bool:
-       - Verify entity exists
-       - Check for children (prevent delete if has children?)
-       - Remove YAML file
-       - Remove from SQLite database
-       - Return success
-    5. Use existing yaml_dumper functions
-    6. Ensure atomic operations (rollback on failure)
-
-    Deliverables:
-    - Updated vibey/adapters/pm/vibey/adapter.py with write operations
-
-    Dependencies:
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBHA (map_from_generic)
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBHB (read operations for validation)
-
-    Reference: vibey/roadmap/serialization/yaml_dumper.py
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH7
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH7
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement write operations (create, update, delete)
+  description: "Implement all TicketAdapter write operations in VibeyAdapter using\
+    \ existing\nYAML dumper and ensuring database sync.\n\nImplementation steps:\n\
+    1. Implement create_ticket(ticket: Ticket) -> Ticket:\n   - Convert from generic\
+    \ using map_from_generic\n   - Generate ULID if no ID provided\n   - Write YAML\
+    \ file to appropriate directory\n   - Update SQLite database\n   - Return created\
+    \ ticket with ID\n2. Implement update_ticket(ticket: Ticket) -> Ticket:\n   -\
+    \ Load existing entity\n   - Apply changes from ticket\n   - Write updated YAML\n\
+    \   - Update SQLite database\n   - Return updated ticket\n3. Implement update_status(ticket_id:\
+    \ str, status: TicketStatus) -> Ticket:\n   - Load entity by ID\n   - Update status\
+    \ field\n   - Update timestamps (started_at, completed_at as appropriate)\n  \
+    \ - Write YAML and update database\n   - Return updated ticket\n4. Implement delete_ticket(ticket_id:\
+    \ str) -> bool:\n   - Verify entity exists\n   - Check for children (prevent delete\
+    \ if has children?)\n   - Remove YAML file\n   - Remove from SQLite database\n\
+    \   - Return success\n5. Use existing yaml_dumper functions\n6. Ensure atomic\
+    \ operations (rollback on failure)\n\nDeliverables:\n- Updated vibey/adapters/pm/vibey/adapter.py\
+    \ with write operations\n\nDependencies:\n- Requires: 01KCWDNDQ40Y43H4ZGH9KTTBHA\
+    \ (map_from_generic)\n- Requires: 01KCWDNDQ40Y43H4ZGH9KTTBHB (read operations\
+    \ for validation)\n\nReference: vibey/roadmap/serialization/yaml_dumper.py\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.420810+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.420810+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420810+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: create_ticket generates ULID and writes YAML
-    status: not_met
-  - type: code
-    description: update_ticket modifies existing entity
-    status: not_met
-  - type: code
-    description: update_status handles timestamp updates
-    status: not_met
-  - type: code
-    description: delete_ticket removes YAML and database entry
-    status: not_met
-  - type: code
-    description: All operations maintain YAML/SQLite sync
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBHA
-  - 01KCWDNDQ40Y43H4ZGH9KTTBHB
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

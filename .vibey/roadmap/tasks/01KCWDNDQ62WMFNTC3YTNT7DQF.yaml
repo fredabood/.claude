@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQF
-  name: Create Trello REST API client
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQE
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create Trello REST API client
   description: "Create a typed Python client for Trello REST API.\n\nImplementation\
     \ steps:\n1. Create vibey/adapters/pm/trello/client.py:\n   - TrelloClient class\n\
     \   - API key + token authentication\n2. Implement board operations:\n   - get_boards()\
@@ -13,44 +17,32 @@ task:
     \ 1.0 for user consent\n\nDeliverables:\n- vibey/adapters/pm/trello/client.py\n\
     - vibey/adapters/pm/trello/models.py\n\nDependencies:\n- Requires: Sprint 6 complete\n\
     \nReference: https://developer.atlassian.com/cloud/trello/rest/"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQE
   status: not_started
-  created_at: '2025-12-19T23:03:36.422893+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422893+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422893+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/trello/client.py exists
-    status: not_met
-  - type: code
-    description: Board, list, card operations
-    status: not_met
-  - type: code
-    description: Pydantic models for Trello entities
-    status: not_met
-  - type: code
-    description: Authentication handling
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQD

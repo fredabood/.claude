@@ -1,72 +1,48 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH3
-  name: Create vibey/adapters/pm/types.py with SyncResult, PMCapabilities
-  description: |
-    Create supporting types for the PM adapter system including sync results,
-    capabilities declarations, and conflict resolution types.
-
-    Implementation steps:
-    1. Create SyncResult Pydantic model:
-       - success: bool
-       - direction: SyncDirection
-       - items_imported, items_exported, items_updated: int
-       - conflicts: List[Dict[str, Any]]
-       - errors: List[str]
-       - started_at, completed_at: datetime
-    2. Create PMCapabilities dataclass/model:
-       - supported_hierarchy_types: List[HierarchyType]
-       - supports_sprints: bool
-       - supports_bidirectional_sync: bool
-       - supports_webhooks: bool
-       - supports_attachments: bool
-       - supports_comments: bool
-       - max_description_length: Optional[int]
-    3. Create ConflictResolution enum: LOCAL_WINS, REMOTE_WINS, MANUAL, MERGE
-    4. Create SyncConflict model for conflict details
-    5. Export all types from vibey/adapters/pm/__init__.py
-
-    Deliverables:
-    - vibey/adapters/pm/types.py (updated __init__.py)
-
-    Dependencies:
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH1 (Generic Ticket model)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create vibey/adapters/pm/types.py with SyncResult, PMCapabilities
+  description: "Create supporting types for the PM adapter system including sync results,\n\
+    capabilities declarations, and conflict resolution types.\n\nImplementation steps:\n\
+    1. Create SyncResult Pydantic model:\n   - success: bool\n   - direction: SyncDirection\n\
+    \   - items_imported, items_exported, items_updated: int\n   - conflicts: List[Dict[str,\
+    \ Any]]\n   - errors: List[str]\n   - started_at, completed_at: datetime\n2. Create\
+    \ PMCapabilities dataclass/model:\n   - supported_hierarchy_types: List[HierarchyType]\n\
+    \   - supports_sprints: bool\n   - supports_bidirectional_sync: bool\n   - supports_webhooks:\
+    \ bool\n   - supports_attachments: bool\n   - supports_comments: bool\n   - max_description_length:\
+    \ Optional[int]\n3. Create ConflictResolution enum: LOCAL_WINS, REMOTE_WINS, MANUAL,\
+    \ MERGE\n4. Create SyncConflict model for conflict details\n5. Export all types\
+    \ from vibey/adapters/pm/__init__.py\n\nDeliverables:\n- vibey/adapters/pm/types.py\
+    \ (updated __init__.py)\n\nDependencies:\n- Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH1\
+    \ (Generic Ticket model)\n"
   status: completed
-  created_at: '2025-12-19T23:03:36.420224+00:00'
-  started_at: '2025-12-21T00:30:00+00:00'
-  completed_at: '2025-12-21T00:40:00+00:00'
-  updated_at: '2025-12-19T23:03:36.420224+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.420224+00:00'
+  started: '2025-12-21T00:30:00+00:00'
+  completed: '2025-12-21T00:40:00+00:00'
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/types.py exists
-    status: met
-  - type: code
-    description: SyncResult model with all required fields
-    status: met
-  - type: code
-    description: PMCapabilities model with capability flags
-    status: met
-  - type: code
-    description: ConflictResolution enum and SyncConflict model
-    status: met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBH1
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

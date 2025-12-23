@@ -1,79 +1,51 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T6
-  name: Create Jira REST API client
-  description: |
-    Create a typed Python client for Jira Cloud REST API v3 with automatic
-    authentication and error handling.
-
-    Implementation steps:
-    1. Create vibey/adapters/pm/atlassian/jira_client.py:
-       - JiraClient class with httpx async client
-       - __init__(auth: AtlassianOAuth, cloud_id: str)
-       - Automatic token refresh on 401
-    2. Implement project operations:
-       - get_projects() -> List[JiraProject]
-       - get_project(key: str) -> JiraProject
-    3. Implement sprint operations (Jira Software):
-       - get_boards() -> List[JiraBoard]
-       - get_sprints(board_id: int) -> List[JiraSprint]
-       - get_sprint(sprint_id: int) -> JiraSprint
-    4. Implement issue operations:
-       - get_issues(jql: str) -> List[JiraIssue]
-       - get_issue(key: str) -> JiraIssue
-       - create_issue(data: dict) -> JiraIssue
-       - update_issue(key: str, data: dict) -> JiraIssue
-       - transition_issue(key: str, transition_id: str)
-    5. Create Pydantic models for Jira entities:
-       - JiraProject, JiraBoard, JiraSprint, JiraIssue
-       - JiraStatus, JiraPriority, JiraIssueType
-    6. Add rate limiting and retry logic
-    7. Add pagination support for large result sets
-
-    Deliverables:
-    - vibey/adapters/pm/atlassian/jira_client.py
-    - vibey/adapters/pm/atlassian/jira_models.py
-
-    Dependencies:
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T5 (OAuth authentication)
-
-    Reference: https://developer.atlassian.com/cloud/jira/platform/rest/v3/
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
+  sprint_id: 01KCWDNDQ5MGHF8E9MEM2737T4
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create Jira REST API client
+  description: "Create a typed Python client for Jira Cloud REST API v3 with automatic\n\
+    authentication and error handling.\n\nImplementation steps:\n1. Create vibey/adapters/pm/atlassian/jira_client.py:\n\
+    \   - JiraClient class with httpx async client\n   - __init__(auth: AtlassianOAuth,\
+    \ cloud_id: str)\n   - Automatic token refresh on 401\n2. Implement project operations:\n\
+    \   - get_projects() -> List[JiraProject]\n   - get_project(key: str) -> JiraProject\n\
+    3. Implement sprint operations (Jira Software):\n   - get_boards() -> List[JiraBoard]\n\
+    \   - get_sprints(board_id: int) -> List[JiraSprint]\n   - get_sprint(sprint_id:\
+    \ int) -> JiraSprint\n4. Implement issue operations:\n   - get_issues(jql: str)\
+    \ -> List[JiraIssue]\n   - get_issue(key: str) -> JiraIssue\n   - create_issue(data:\
+    \ dict) -> JiraIssue\n   - update_issue(key: str, data: dict) -> JiraIssue\n \
+    \  - transition_issue(key: str, transition_id: str)\n5. Create Pydantic models\
+    \ for Jira entities:\n   - JiraProject, JiraBoard, JiraSprint, JiraIssue\n   -\
+    \ JiraStatus, JiraPriority, JiraIssueType\n6. Add rate limiting and retry logic\n\
+    7. Add pagination support for large result sets\n\nDeliverables:\n- vibey/adapters/pm/atlassian/jira_client.py\n\
+    - vibey/adapters/pm/atlassian/jira_models.py\n\nDependencies:\n- Requires: 01KCWDNDQ5MGHF8E9MEM2737T5\
+    \ (OAuth authentication)\n\nReference: https://developer.atlassian.com/cloud/jira/platform/rest/v3/\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421386+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421386+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421386+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/atlassian/jira_client.py exists
-    status: not_met
-  - type: code
-    description: Project, sprint, and issue operations implemented
-    status: not_met
-  - type: code
-    description: Pydantic models for all Jira entities
-    status: not_met
-  - type: code
-    description: Rate limiting and pagination
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T5
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

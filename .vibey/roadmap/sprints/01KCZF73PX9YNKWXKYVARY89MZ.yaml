@@ -22,54 +22,28 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MY
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - vibey implement command
-  - Configuration options
-  - Control commands (status, pause, resume, stop)
-  description: |
-    Add CLI commands for implementation mode:
-
-    1. Main Command:
-       vibey implement [OPTIONS]
-
-       Options:
-       --track <id>        Only tasks in this track
-       --sprint <id>       Only tasks in this sprint
-       --max-tasks <n>     Stop after N tasks
-       --max-tokens <n>    Stop after N tokens
-       --dry-run           Show what would run without executing
-       --background        Run as background process
-
-    2. Control Commands:
-       vibey implement status   Show current execution state
-       vibey implement pause    Pause execution after current task
-       vibey implement resume   Resume paused execution
-       vibey implement stop     Stop execution immediately
-
-    3. Configuration:
-       .vibey/config/implement.yaml:
-       ```yaml
-       defaults:
-         max_tasks_per_session: 10
-         max_tokens_per_session: 100000
-         retry_failed_tasks: false
-         approval_required: [critical, complex]
-       ```
+  deliverables: []
+  description: "Add CLI commands for implementation mode:\n\n1. Main Command:\n  \
+    \ vibey implement [OPTIONS]\n\n   Options:\n   --track <id>        Only tasks\
+    \ in this track\n   --sprint <id>       Only tasks in this sprint\n   --max-tasks\
+    \ <n>     Stop after N tasks\n   --max-tokens <n>    Stop after N tokens\n   --dry-run\
+    \           Show what would run without executing\n   --background        Run\
+    \ as background process\n\n2. Control Commands:\n   vibey implement status   Show\
+    \ current execution state\n   vibey implement pause    Pause execution after current\
+    \ task\n   vibey implement resume   Resume paused execution\n   vibey implement\
+    \ stop     Stop execution immediately\n\n3. Configuration:\n   .vibey/config/implement.yaml:\n\
+    \   ```yaml\n   defaults:\n     max_tasks_per_session: 10\n     max_tokens_per_session:\
+    \ 100000\n     retry_failed_tasks: false\n     approval_required: [critical, complex]\n\
+    \   ```\n"
   goal: Add CLI commands for controlling implementation mode
-  success_criteria:
-  - vibey implement starts execution loop
-  - Control commands work correctly
-  - Configuration is respected
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

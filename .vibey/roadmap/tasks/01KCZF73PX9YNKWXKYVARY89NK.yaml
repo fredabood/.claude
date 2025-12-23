@@ -1,124 +1,65 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NK
-  name: Implement RegressionDetector for post-task validation
-  description: |
-    Create system to detect regressions after task execution:
-
-    ```python
-    @dataclass
-    class Regression:
-        '''A criterion that changed from passing to failing.'''
-
-        criterion_ref: CriterionRef
-        before_state: CriterionState  # Was passing
-        after_state: CriterionState   # Now failing
-        likely_cause: Optional[str]   # Inferred from changed files
-        is_acknowledged: bool = False
-        acknowledgment: Optional[RegressionAcknowledgment] = None
-
-
-    @dataclass
-    class RegressionReport:
-        '''Summary of all regressions detected after task execution.'''
-
-        task_id: str
-        evaluated_at: datetime
-        total_criteria_checked: int
-        regressions: List[Regression]
-        new_failures: List[CriterionRef]  # Criteria that were already failing
-
-        @property
-        def has_unacknowledged_regressions(self) -> bool:
-            return any(not r.is_acknowledged for r in self.regressions)
-
-        @property
-        def blocking_regressions(self) -> List[Regression]:
-            return [r for r in self.regressions if not r.is_acknowledged]
-
-
-    class RegressionDetector:
-        def __init__(self, snapshot_manager: SnapshotManager):
-            self.snapshot_manager = snapshot_manager
-
-        def detect_regressions(
-            self,
-            before: CriterionSnapshot,
-            task: HierarchicalTicket,
-        ) -> RegressionReport:
-            '''
-            Compare before snapshot with current state.
-
-            For each criterion in snapshot:
-            1. Re-evaluate current state
-            2. Compare with snapshot state
-            3. If was passing and now failing -> regression
-            4. Infer likely cause from git diff
-            '''
-
-        def infer_cause(self, regression: Regression, changed_files: List[Path]) -> str:
-            '''Infer what change likely caused the regression.'''
-
-        def generate_report(self, report: RegressionReport) -> str:
-            '''Generate human-readable regression report.'''
-    ```
-
-    Report format:
-    ```
-    Regression Report for Task: 01KC...
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-    ⚠️  2 REGRESSIONS DETECTED
-
-    1. [BLOCKING] Task 01KC.../Criterion #2
-       Was: ✓ Test suite passes
-       Now: ✗ 3 tests failing
-       Likely cause: Changes to auth.py
-
-    2. [ACKNOWLEDGED] Task 01KC.../Criterion #1
-       Was: ✓ Legacy endpoint responds
-       Now: ✗ Endpoint removed
-       Reason: Intentional deprecation (PR #123)
-    ```
-
-    Files:
-    - vibey/services/implementation/regression.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NG
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NG
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement RegressionDetector for post-task validation
+  description: "Create system to detect regressions after task execution:\n\n```python\n\
+    @dataclass\nclass Regression:\n    '''A criterion that changed from passing to\
+    \ failing.'''\n\n    criterion_ref: CriterionRef\n    before_state: CriterionState\
+    \  # Was passing\n    after_state: CriterionState   # Now failing\n    likely_cause:\
+    \ Optional[str]   # Inferred from changed files\n    is_acknowledged: bool = False\n\
+    \    acknowledgment: Optional[RegressionAcknowledgment] = None\n\n\n@dataclass\n\
+    class RegressionReport:\n    '''Summary of all regressions detected after task\
+    \ execution.'''\n\n    task_id: str\n    evaluated_at: datetime\n    total_criteria_checked:\
+    \ int\n    regressions: List[Regression]\n    new_failures: List[CriterionRef]\
+    \  # Criteria that were already failing\n\n    @property\n    def has_unacknowledged_regressions(self)\
+    \ -> bool:\n        return any(not r.is_acknowledged for r in self.regressions)\n\
+    \n    @property\n    def blocking_regressions(self) -> List[Regression]:\n   \
+    \     return [r for r in self.regressions if not r.is_acknowledged]\n\n\nclass\
+    \ RegressionDetector:\n    def __init__(self, snapshot_manager: SnapshotManager):\n\
+    \        self.snapshot_manager = snapshot_manager\n\n    def detect_regressions(\n\
+    \        self,\n        before: CriterionSnapshot,\n        task: HierarchicalTicket,\n\
+    \    ) -> RegressionReport:\n        '''\n        Compare before snapshot with\
+    \ current state.\n\n        For each criterion in snapshot:\n        1. Re-evaluate\
+    \ current state\n        2. Compare with snapshot state\n        3. If was passing\
+    \ and now failing -> regression\n        4. Infer likely cause from git diff\n\
+    \        '''\n\n    def infer_cause(self, regression: Regression, changed_files:\
+    \ List[Path]) -> str:\n        '''Infer what change likely caused the regression.'''\n\
+    \n    def generate_report(self, report: RegressionReport) -> str:\n        '''Generate\
+    \ human-readable regression report.'''\n```\n\nReport format:\n```\nRegression\
+    \ Report for Task: 01KC...\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n⚠️  2\
+    \ REGRESSIONS DETECTED\n\n1. [BLOCKING] Task 01KC.../Criterion #2\n   Was: ✓ Test\
+    \ suite passes\n   Now: ✗ 3 tests failing\n   Likely cause: Changes to auth.py\n\
+    \n2. [ACKNOWLEDGED] Task 01KC.../Criterion #1\n   Was: ✓ Legacy endpoint responds\n\
+    \   Now: ✗ Endpoint removed\n   Reason: Intentional deprecation (PR #123)\n```\n\
+    \nFiles:\n- vibey/services/implementation/regression.py (new)\n"
   status: not_started
-  created_at: '2025-12-20T15:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T15:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/regression.py exists
-    status: not_met
-  - type: code
-    description: Detector identifies criteria that changed from passing to failing
-    status: not_met
-  - type: code
-    description: Report clearly shows blocking vs acknowledged regressions
-    status: not_met
-  - type: test
-    description: Cause inference works for file-based regressions
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NJ
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

@@ -1,72 +1,49 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T2
-  name: Refactor roadmap show/list commands
-  description: |
-    Refactor `vibey roadmap show` and related list commands to use TicketService
-    while maintaining identical output format.
-
-    Implementation steps:
-    1. Refactor roadmap show command:
-       - Use service.get_ticket(id) instead of direct YAML load
-       - Use service.list_children(id) for nested display
-       - Format output from generic Ticket fields
-       - Maintain detailed view format
-    2. Refactor list-type commands:
-       - list-tracks: service.get_workstreams(project_id)
-       - list-sprints: service.get_iterations(track_id)
-       - list-tasks: service.get_work_items(sprint_id)
-    3. Refactor search functionality:
-       - Use service.search() with filter parameters
-       - Map CLI flags to search parameters
-    4. Update output formatting:
-       - Use format_ticket_for_display from CLI service
-       - Handle hierarchy_type for appropriate labels
-    5. Add --adapter flag to all commands
-    6. Remove all direct model imports
-
-    Deliverables:
-    - Updated show/list commands in commands.py
-    - Tests for display output
-
-    Dependencies:
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T1 (start/complete refactored)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Refactor roadmap show/list commands
+  description: "Refactor `vibey roadmap show` and related list commands to use TicketService\n\
+    while maintaining identical output format.\n\nImplementation steps:\n1. Refactor\
+    \ roadmap show command:\n   - Use service.get_ticket(id) instead of direct YAML\
+    \ load\n   - Use service.list_children(id) for nested display\n   - Format output\
+    \ from generic Ticket fields\n   - Maintain detailed view format\n2. Refactor\
+    \ list-type commands:\n   - list-tracks: service.get_workstreams(project_id)\n\
+    \   - list-sprints: service.get_iterations(track_id)\n   - list-tasks: service.get_work_items(sprint_id)\n\
+    3. Refactor search functionality:\n   - Use service.search() with filter parameters\n\
+    \   - Map CLI flags to search parameters\n4. Update output formatting:\n   - Use\
+    \ format_ticket_for_display from CLI service\n   - Handle hierarchy_type for appropriate\
+    \ labels\n5. Add --adapter flag to all commands\n6. Remove all direct model imports\n\
+    \nDeliverables:\n- Updated show/list commands in commands.py\n- Tests for display\
+    \ output\n\nDependencies:\n- Requires: 01KCWDNDQ5MGHF8E9MEM2737T1 (start/complete\
+    \ refactored)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421132+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421132+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421132+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: roadmap show uses service.get_ticket()
-    status: not_met
-  - type: code
-    description: List commands use appropriate service methods
-    status: not_met
-  - type: code
-    description: Search uses service.search()
-    status: not_met
-  - type: test
-    description: Output format matches original
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T1
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

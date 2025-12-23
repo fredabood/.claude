@@ -1,50 +1,58 @@
 task:
   id: 01KD438MN86VRXS70K6BPZNB52
-  name: Sprint auto-progress should skip deferred tasks
-  description: |
-    Sprints with only deferred incomplete tasks should auto-progress to completed
+  sprint_id: 01KD43809NC3FPJJ179MAZRKCK
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Sprint auto-progress should skip deferred tasks
+  description: 'Sprints with only deferred incomplete tasks should auto-progress to
+    completed
+
     or production_ready status. Currently, a sprint remains in_progress even when
+
     all non-deferred tasks are complete.
 
+
     Example: Sprint 10 Validation and Sync Bugs has 4/5 tasks complete, but the
+
     5th task is deferred. The sprint status is in_progress but should be complete.
 
+
     Root cause: The auto-progress logic counts all incomplete tasks, not just
+
     non-deferred incomplete tasks.
 
+
     Solution: Update the sprint/track auto-progress logic to exclude deferred tasks
+
     from the incomplete count.
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KD43809NC3FPJJ179MAZRKCK
-  status: completed
-  created_at: '2025-12-22T21:00:00+00:00'
-  started_at: '2025-12-22T23:50:00+00:00'
-  completed_at: '2025-12-23T00:10:00+00:00'
-  updated_at: '2025-12-23T00:10:00+00:00'
-  assigned_agents:
-  - unassigned
+
+    '
+  status: not_started
+  blocked: true
+  created: '2025-12-22T21:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: medium
-  criteria:
-  - type: code
-    description: Auto-progress excludes deferred tasks from incomplete count
-    status: met
-  - type: test
-    description: Sprint with only deferred incomplete tasks auto-completes
-    status: met
-  depends_on:
-  - 01KD438MN86VRXS70K6BPZNB51
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: bug
+  phase_label: null
   estimated_tokens: 800
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

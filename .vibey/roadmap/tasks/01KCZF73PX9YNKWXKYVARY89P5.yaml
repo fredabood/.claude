@@ -1,199 +1,87 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89P5
-  name: Implement TicketCommitLinker for commit-ticket association
-  description: |
-    Create system to link all commits to tickets:
-
-    ```python
-    class TicketCommitLinker:
-        def __init__(self, repo_root: Path):
-            self.repo_root = repo_root
-
-        def create_linked_commit(
-            self,
-            ticket: HierarchicalTicket,
-            message: str,
-            files: Optional[List[Path]] = None,
-            commit_type: str = "feat",
-        ) -> str:
-            '''
-            Create commit with ticket metadata.
-
-            Commit message format:
-            {type}({ticket_id}): {message}
-
-            {detailed_description}
-
-            Task: {ticket_id}
-            Sprint: {sprint_id}
-            Track: {track_id}
-            Agent: claude-code
-            Session: {session_id}
-            '''
-
-        def validate_commit_message(self, message: str, ticket: HierarchicalTicket) -> bool:
-            '''Validate commit message follows required format.'''
-
-        def update_ticket_commits(self, ticket: HierarchicalTicket, commit_hash: str):
-            '''
-            Update ticket YAML with commit reference.
-
-            Adds to commits_local field:
-            - hash: abc123
-              message: "feat(01KC...): Add user auth"
-              timestamp: 2025-12-20T17:00:00Z
-            '''
-
-        def get_ticket_commits(self, ticket: HierarchicalTicket) -> List[CommitRef]:
-            '''Get all commits associated with ticket.'''
-
-        def generate_commit_summary(self, ticket: HierarchicalTicket) -> str:
-            '''Generate summary of all commits for ticket.'''
-
-        def get_commits_since(self, since: datetime) -> List[CommitRef]:
-            '''Get all implementation mode commits since datetime.'''
-
-        def on_post_commit(self, commit_hash: str, ticket: HierarchicalTicket):
-            '''
-            Post-commit hook handler. Triggers:
-            1. Token usage recording
-            2. Context dump
-            3. Ticket YAML update
-            '''
-            # 1. Record token usage
-            token_tracker = TokenTracker.get_active(ticket.id)
-            if token_tracker:
-                token_tracker.on_commit(commit_hash)
-
-            # 2. Dump context
-            self.context_dumper.dump_commit_context(
-                ticket_id=ticket.id,
-                commit_sha=commit_hash,
-                output_dir=Path(f".vibey/context/commits/{commit_hash}/"),
-            )
-
-            # 3. Update ticket
-            self.update_ticket_commits(ticket, commit_hash)
-    ```
-
-    Post-commit context dump:
-    ```python
-    class CommitContextDumper:
-        def dump_commit_context(
-            self,
-            ticket_id: str,
-            commit_sha: str,
-            output_dir: Path,
-        ):
-            '''
-            Dump full context state at commit time.
-
-            Creates:
-            .vibey/context/commits/<sha>/
-            ├── usage.yaml       # Token usage (from TokenTracker)
-            ├── context.yaml     # Current conversation/task context
-            ├── files.yaml       # Files modified in this commit
-            ├── decisions.yaml   # Key decisions made
-            └── state.yaml       # Task state snapshot
-            '''
-            output_dir.mkdir(parents=True, exist_ok=True)
-
-            # Context snapshot
-            self._dump_context(output_dir / "context.yaml", ticket_id)
-
-            # Files modified
-            self._dump_files(output_dir / "files.yaml", commit_sha)
-
-            # Decisions (if tracked)
-            self._dump_decisions(output_dir / "decisions.yaml", ticket_id)
-
-            # Task state
-            self._dump_state(output_dir / "state.yaml", ticket_id)
-    ```
-
-    Commit types:
-    ```python
-    class CommitType(Enum):
-        FEAT = "feat"       # New feature
-        FIX = "fix"         # Bug fix
-        WIP = "wip"         # Work in progress
-        REFACTOR = "refactor"
-        DOCS = "docs"
-        TEST = "test"
-        CHORE = "chore"
-    ```
-
-    Commit message templates:
-    ```yaml
-    implement:
-      git:
-        commit_format: |
-          {type}({ticket_id}): {message}
-
-          {body}
-
-          Task: {ticket_id}
-          Sprint: {sprint_id}
-          Track: {track_id}
-        require_ticket_reference: true
-        auto_update_ticket: true
-    ```
-
-    Files:
-    - vibey/services/implementation/git/commit_linker.py (new)
-    - vibey/services/implementation/git/context_dumper.py (new)
-
-    Cross-reference: Token Estimation Sprint 3 (TokenTracker.on_commit)
-    provides the token usage recording called by on_post_commit().
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89P2
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89P2
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement TicketCommitLinker for commit-ticket association
+  description: "Create system to link all commits to tickets:\n\n```python\nclass\
+    \ TicketCommitLinker:\n    def __init__(self, repo_root: Path):\n        self.repo_root\
+    \ = repo_root\n\n    def create_linked_commit(\n        self,\n        ticket:\
+    \ HierarchicalTicket,\n        message: str,\n        files: Optional[List[Path]]\
+    \ = None,\n        commit_type: str = \"feat\",\n    ) -> str:\n        '''\n\
+    \        Create commit with ticket metadata.\n\n        Commit message format:\n\
+    \        {type}({ticket_id}): {message}\n\n        {detailed_description}\n\n\
+    \        Task: {ticket_id}\n        Sprint: {sprint_id}\n        Track: {track_id}\n\
+    \        Agent: claude-code\n        Session: {session_id}\n        '''\n\n  \
+    \  def validate_commit_message(self, message: str, ticket: HierarchicalTicket)\
+    \ -> bool:\n        '''Validate commit message follows required format.'''\n\n\
+    \    def update_ticket_commits(self, ticket: HierarchicalTicket, commit_hash:\
+    \ str):\n        '''\n        Update ticket YAML with commit reference.\n\n  \
+    \      Adds to commits_local field:\n        - hash: abc123\n          message:\
+    \ \"feat(01KC...): Add user auth\"\n          timestamp: 2025-12-20T17:00:00Z\n\
+    \        '''\n\n    def get_ticket_commits(self, ticket: HierarchicalTicket) ->\
+    \ List[CommitRef]:\n        '''Get all commits associated with ticket.'''\n\n\
+    \    def generate_commit_summary(self, ticket: HierarchicalTicket) -> str:\n \
+    \       '''Generate summary of all commits for ticket.'''\n\n    def get_commits_since(self,\
+    \ since: datetime) -> List[CommitRef]:\n        '''Get all implementation mode\
+    \ commits since datetime.'''\n\n    def on_post_commit(self, commit_hash: str,\
+    \ ticket: HierarchicalTicket):\n        '''\n        Post-commit hook handler.\
+    \ Triggers:\n        1. Token usage recording\n        2. Context dump\n     \
+    \   3. Ticket YAML update\n        '''\n        # 1. Record token usage\n    \
+    \    token_tracker = TokenTracker.get_active(ticket.id)\n        if token_tracker:\n\
+    \            token_tracker.on_commit(commit_hash)\n\n        # 2. Dump context\n\
+    \        self.context_dumper.dump_commit_context(\n            ticket_id=ticket.id,\n\
+    \            commit_sha=commit_hash,\n            output_dir=Path(f\".vibey/context/commits/{commit_hash}/\"\
+    ),\n        )\n\n        # 3. Update ticket\n        self.update_ticket_commits(ticket,\
+    \ commit_hash)\n```\n\nPost-commit context dump:\n```python\nclass CommitContextDumper:\n\
+    \    def dump_commit_context(\n        self,\n        ticket_id: str,\n      \
+    \  commit_sha: str,\n        output_dir: Path,\n    ):\n        '''\n        Dump\
+    \ full context state at commit time.\n\n        Creates:\n        .vibey/context/commits/<sha>/\n\
+    \        ├── usage.yaml       # Token usage (from TokenTracker)\n        ├── context.yaml\
+    \     # Current conversation/task context\n        ├── files.yaml       # Files\
+    \ modified in this commit\n        ├── decisions.yaml   # Key decisions made\n\
+    \        └── state.yaml       # Task state snapshot\n        '''\n        output_dir.mkdir(parents=True,\
+    \ exist_ok=True)\n\n        # Context snapshot\n        self._dump_context(output_dir\
+    \ / \"context.yaml\", ticket_id)\n\n        # Files modified\n        self._dump_files(output_dir\
+    \ / \"files.yaml\", commit_sha)\n\n        # Decisions (if tracked)\n        self._dump_decisions(output_dir\
+    \ / \"decisions.yaml\", ticket_id)\n\n        # Task state\n        self._dump_state(output_dir\
+    \ / \"state.yaml\", ticket_id)\n```\n\nCommit types:\n```python\nclass CommitType(Enum):\n\
+    \    FEAT = \"feat\"       # New feature\n    FIX = \"fix\"         # Bug fix\n\
+    \    WIP = \"wip\"         # Work in progress\n    REFACTOR = \"refactor\"\n \
+    \   DOCS = \"docs\"\n    TEST = \"test\"\n    CHORE = \"chore\"\n```\n\nCommit\
+    \ message templates:\n```yaml\nimplement:\n  git:\n    commit_format: |\n    \
+    \  {type}({ticket_id}): {message}\n\n      {body}\n\n      Task: {ticket_id}\n\
+    \      Sprint: {sprint_id}\n      Track: {track_id}\n    require_ticket_reference:\
+    \ true\n    auto_update_ticket: true\n```\n\nFiles:\n- vibey/services/implementation/git/commit_linker.py\
+    \ (new)\n- vibey/services/implementation/git/context_dumper.py (new)\n\nCross-reference:\
+    \ Token Estimation Sprint 3 (TokenTracker.on_commit)\nprovides the token usage\
+    \ recording called by on_post_commit().\n"
   status: not_started
-  created_at: '2025-12-20T17:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T17:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T17:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/git/commit_linker.py exists
-    status: not_met
-  - type: artifact
-    description: vibey/services/implementation/git/context_dumper.py exists
-    status: not_met
-  - type: code
-    description: All commits include ticket metadata
-    status: not_met
-  - type: code
-    description: Ticket YAML updated with commit references
-    status: not_met
-  - type: code
-    description: Commit message format enforced
-    status: not_met
-  - type: code
-    description: on_post_commit triggers token usage recording
-    status: not_met
-  - type: code
-    description: on_post_commit triggers context dump
-    status: not_met
-  - type: artifact
-    description: Context dump creates usage.yaml, context.yaml, files.yaml, state.yaml
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89P3
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

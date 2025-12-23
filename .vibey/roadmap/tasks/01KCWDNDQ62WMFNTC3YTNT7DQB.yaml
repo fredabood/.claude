@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQB
-  name: Implement GitHub field mapping (issues, milestones, labels)
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQ8
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement GitHub field mapping (issues, milestones, labels)
   description: "Implement field mapping between GitHub entities and generic\nTicket\
     \ fields.\n\nImplementation steps:\n1. Create vibey/adapters/pm/github/mapping.py:\n\
     \   - GitHubFieldMapper class\n2. Implement status mapping:\n   - open → NOT_STARTED\
@@ -13,44 +17,32 @@ task:
     \   - Priority field → priority\n   - Iteration field → parent iteration\n\nDeliverables:\n\
     - vibey/adapters/pm/github/mapping.py\n- Label convention documentation\n\nDependencies:\n\
     - Requires: 01KCWDNDQ62WMFNTC3YTNT7DQ9 (GitHub client)"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
   status: not_started
-  created_at: '2025-12-19T23:03:36.422581+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422581+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422581+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/github/mapping.py exists
-    status: not_met
-  - type: code
-    description: Status mapping with label support
-    status: not_met
-  - type: code
-    description: Priority via labels
-    status: not_met
-  - type: code
-    description: Projects v2 field mapping
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQ9

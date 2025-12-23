@@ -22,64 +22,33 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCZF73PX9YNKWXKYVARY89N0
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Criterion dependency graph builder
-  - Pre-task criterion snapshot capture
-  - Post-task regression detection
-  - Intentional regression handling (deprecation/sunset)
-  - Integration with completion gate
-  description: |
-    Implement regression prevention to ensure task completion doesn't break
-    previously passing criteria:
-
-    1. Criterion Dependency Graph:
-       - Build graph of all criteria across tickets
-       - Track which criteria depend on which code/artifacts
-       - Identify transitive dependencies between tickets
-
-    2. Pre-Task Snapshot:
-       - Before starting a task, capture all passing criteria
-       - Store snapshot with task execution state
-       - Include criteria from current task and all dependents
-
-    3. Regression Detection:
-       - After task execution, re-evaluate all snapshotted criteria
-       - Compare before/after states
-       - Flag any criteria that changed from passing to failing
-
-    4. Intentional Regression Handling:
-       - Allow marking regressions as intentional
-       - Support deprecation annotations
-       - Support sunset/legacy criteria flags
-       - Require explicit acknowledgment for intentional regressions
-
-    5. Completion Gate Integration:
-       - Block task completion if unacknowledged regressions exist
-       - Provide clear error messages about which criteria regressed
-       - Option to force-complete with regression acknowledgment
-
-    Key principle: A task cannot be marked complete if it causes any
-    previously-passing criteria to fail, unless explicitly acknowledged.
+  deliverables: []
+  description: "Implement regression prevention to ensure task completion doesn't\
+    \ break\npreviously passing criteria:\n\n1. Criterion Dependency Graph:\n   -\
+    \ Build graph of all criteria across tickets\n   - Track which criteria depend\
+    \ on which code/artifacts\n   - Identify transitive dependencies between tickets\n\
+    \n2. Pre-Task Snapshot:\n   - Before starting a task, capture all passing criteria\n\
+    \   - Store snapshot with task execution state\n   - Include criteria from current\
+    \ task and all dependents\n\n3. Regression Detection:\n   - After task execution,\
+    \ re-evaluate all snapshotted criteria\n   - Compare before/after states\n   -\
+    \ Flag any criteria that changed from passing to failing\n\n4. Intentional Regression\
+    \ Handling:\n   - Allow marking regressions as intentional\n   - Support deprecation\
+    \ annotations\n   - Support sunset/legacy criteria flags\n   - Require explicit\
+    \ acknowledgment for intentional regressions\n\n5. Completion Gate Integration:\n\
+    \   - Block task completion if unacknowledged regressions exist\n   - Provide\
+    \ clear error messages about which criteria regressed\n   - Option to force-complete\
+    \ with regression acknowledgment\n\nKey principle: A task cannot be marked complete\
+    \ if it causes any\npreviously-passing criteria to fail, unless explicitly acknowledged.\n"
   goal: Prevent regressions during autonomous task execution
-  success_criteria:
-  - Criterion graph captures all dependencies
-  - Snapshots taken before each task execution
-  - Regressions detected and reported clearly
-  - Intentional regressions can be acknowledged
-  - Completion blocked on unacknowledged regressions
-  risks:
-  - Criterion evaluation may be slow for large graphs
-  - False positives from flaky criteria
+  success_criteria: []
+  risks: []
   notes: null
   assigned_agents: []
   quality_gates: []

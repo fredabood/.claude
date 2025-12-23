@@ -1,78 +1,50 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T5
-  name: Implement Atlassian OAuth 2.0 authentication
-  description: |
-    Implement OAuth 2.0 (3LO) authentication flow for Atlassian Cloud products
-    (Jira and Confluence).
-
-    Implementation steps:
-    1. Create vibey/adapters/pm/atlassian/ directory with __init__.py
-    2. Create vibey/adapters/pm/atlassian/auth.py:
-       - AtlassianOAuth class for OAuth 2.0 flow
-       - generate_authorization_url() for user consent
-       - exchange_code_for_tokens(code) for token exchange
-       - refresh_access_token() for token refresh
-       - get_accessible_resources() to list sites
-    3. Implement token storage:
-       - Store tokens in .vibey/config/atlassian_credentials.json
-       - Encrypt sensitive data at rest
-       - Handle token expiration and refresh
-    4. Create CLI commands for auth:
-       - vibey auth atlassian login
-       - vibey auth atlassian logout
-       - vibey auth atlassian status
-    5. Handle scopes:
-       - read:jira-work, write:jira-work
-       - read:sprint:jira-software, write:sprint:jira-software
-       - read:me, offline_access
-    6. Add error handling for common OAuth failures
-
-    Deliverables:
-    - vibey/adapters/pm/atlassian/__init__.py
-    - vibey/adapters/pm/atlassian/auth.py
-    - CLI auth commands
-
-    Dependencies:
-    - Requires: Sprint 3 complete (CLI using TicketService)
-
-    Reference: https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
+  sprint_id: 01KCWDNDQ5MGHF8E9MEM2737T4
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Atlassian OAuth 2.0 authentication
+  description: "Implement OAuth 2.0 (3LO) authentication flow for Atlassian Cloud\
+    \ products\n(Jira and Confluence).\n\nImplementation steps:\n1. Create vibey/adapters/pm/atlassian/\
+    \ directory with __init__.py\n2. Create vibey/adapters/pm/atlassian/auth.py:\n\
+    \   - AtlassianOAuth class for OAuth 2.0 flow\n   - generate_authorization_url()\
+    \ for user consent\n   - exchange_code_for_tokens(code) for token exchange\n \
+    \  - refresh_access_token() for token refresh\n   - get_accessible_resources()\
+    \ to list sites\n3. Implement token storage:\n   - Store tokens in .vibey/config/atlassian_credentials.json\n\
+    \   - Encrypt sensitive data at rest\n   - Handle token expiration and refresh\n\
+    4. Create CLI commands for auth:\n   - vibey auth atlassian login\n   - vibey\
+    \ auth atlassian logout\n   - vibey auth atlassian status\n5. Handle scopes:\n\
+    \   - read:jira-work, write:jira-work\n   - read:sprint:jira-software, write:sprint:jira-software\n\
+    \   - read:me, offline_access\n6. Add error handling for common OAuth failures\n\
+    \nDeliverables:\n- vibey/adapters/pm/atlassian/__init__.py\n- vibey/adapters/pm/atlassian/auth.py\n\
+    - CLI auth commands\n\nDependencies:\n- Requires: Sprint 3 complete (CLI using\
+    \ TicketService)\n\nReference: https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421318+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421318+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421318+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: critical
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/atlassian/auth.py exists
-    status: not_met
-  - type: code
-    description: OAuth 2.0 3LO flow implemented
-    status: not_met
-  - type: code
-    description: Token storage with encryption
-    status: not_met
-  - type: code
-    description: CLI auth commands (login, logout, status)
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T3
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

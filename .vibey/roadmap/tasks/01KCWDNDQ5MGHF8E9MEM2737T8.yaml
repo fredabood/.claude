@@ -1,81 +1,51 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T8
-  name: Implement Jira field mapping (issue types, statuses, priorities)
-  description: |
-    Create configurable mapping between Jira fields and generic Ticket fields,
-    handling the semantic differences between systems.
-
-    Implementation steps:
-    1. Create vibey/adapters/pm/jira/mapping.py:
-       - JiraFieldMapper class
-       - Configurable mapping tables
-    2. Implement hierarchy type mapping:
-       - Epic → WORKSTREAM
-       - Sprint → ITERATION
-       - Story/Task/Bug/etc. → WORK_ITEM
-       - Project → PROJECT
-    3. Implement status mapping:
-       - "To Do", "Open", "Backlog" → NOT_STARTED
-       - "In Progress", "In Review" → IN_PROGRESS
-       - "Done", "Closed", "Resolved" → COMPLETED
-       - "Blocked" → BLOCKED
-       - Handle custom statuses via configuration
-    4. Implement priority mapping:
-       - Highest/Blocker → critical
-       - High → high
-       - Medium → medium
-       - Low/Lowest → low
-    5. Implement issue type mapping:
-       - Bug → task_type: bug
-       - Story → task_type: development
-       - Task → task_type: development
-       - Epic → handled at hierarchy level
-    6. Make mapping configurable per project
-    7. Support custom field mapping
-
-    Deliverables:
-    - vibey/adapters/pm/jira/mapping.py
-    - Default mapping configuration
-
-    Dependencies:
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T6 (Jira client for fetching metadata)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
+  sprint_id: 01KCWDNDQ5MGHF8E9MEM2737T4
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Jira field mapping (issue types, statuses, priorities)
+  description: "Create configurable mapping between Jira fields and generic Ticket\
+    \ fields,\nhandling the semantic differences between systems.\n\nImplementation\
+    \ steps:\n1. Create vibey/adapters/pm/jira/mapping.py:\n   - JiraFieldMapper class\n\
+    \   - Configurable mapping tables\n2. Implement hierarchy type mapping:\n   -\
+    \ Epic → WORKSTREAM\n   - Sprint → ITERATION\n   - Story/Task/Bug/etc. → WORK_ITEM\n\
+    \   - Project → PROJECT\n3. Implement status mapping:\n   - \"To Do\", \"Open\"\
+    , \"Backlog\" → NOT_STARTED\n   - \"In Progress\", \"In Review\" → IN_PROGRESS\n\
+    \   - \"Done\", \"Closed\", \"Resolved\" → COMPLETED\n   - \"Blocked\" → BLOCKED\n\
+    \   - Handle custom statuses via configuration\n4. Implement priority mapping:\n\
+    \   - Highest/Blocker → critical\n   - High → high\n   - Medium → medium\n   -\
+    \ Low/Lowest → low\n5. Implement issue type mapping:\n   - Bug → task_type: bug\n\
+    \   - Story → task_type: development\n   - Task → task_type: development\n   -\
+    \ Epic → handled at hierarchy level\n6. Make mapping configurable per project\n\
+    7. Support custom field mapping\n\nDeliverables:\n- vibey/adapters/pm/jira/mapping.py\n\
+    - Default mapping configuration\n\nDependencies:\n- Requires: 01KCWDNDQ5MGHF8E9MEM2737T6\
+    \ (Jira client for fetching metadata)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421510+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421510+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421510+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/jira/mapping.py exists
-    status: not_met
-  - type: code
-    description: Hierarchy type mapping (Epic→WORKSTREAM, etc.)
-    status: not_met
-  - type: code
-    description: Status mapping with custom status support
-    status: not_met
-  - type: code
-    description: Priority and issue type mapping
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T6
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

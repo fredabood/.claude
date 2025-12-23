@@ -1,34 +1,35 @@
 task:
   id: 01KCMMK1MSFBZAM880C9K3BWPB
-  name: Define context directory structure with subdirectories
+  sprint_id: 01KCMTY4ACHZQ53CH90J7ZSAAV
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Define context directory structure with subdirectories
   description: 'Keep existing context/ directory, add three subdirectories: 1) context/plans/
     for pre-work planning artifacts (YAML + markdown), 2) context/runtime/ for active
     session state, 3) context/post-mortems/ for completion summaries. Implement hybrid
     YAML + markdown approach where YAML stores structured metadata and references
     longer markdown artifacts. Source: Sprint 0 Design Decisions'
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCMTY4ACHZQ53CH90J7ZSAAV
   status: completed
-  created_at: '2025-12-16T22:30:44.178942+00:00'
-  started_at: null
-  completed_at: '2025-12-19T17:35:21.724679+00:00'
-  updated_at: '2025-12-19T17:35:21.724679+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-16T22:30:44.178942+00:00'
+  started: null
+  completed: '2025-12-19T17:35:21.724679+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

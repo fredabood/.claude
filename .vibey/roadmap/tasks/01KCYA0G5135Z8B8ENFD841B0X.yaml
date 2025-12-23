@@ -1,114 +1,62 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B0X
-  name: Add token aggregation to HierarchicalTicket (Layer 2)
-  description: |
-    Add computed properties to HierarchicalTicket that aggregate token
-    data from child tickets, following the same pattern as `commits_aggregated`.
-
-    New computed properties:
-    ```python
-    @computed_field
-    @property
-    def input_tokens_aggregated(self) -> Tokens:
-        '''Aggregate input token data from all descendants.'''
-        if not self.is_parent:
-            return self.input_tokens or Tokens()
-
-        # Aggregate estimates from children
-        estimate = TokenEstimate(min=0, max=0, target=0)
-        total_usage = 0
-
-        for child in self.children_tickets:
-            child_tokens = child.input_tokens_aggregated
-            if child_tokens.estimate:
-                estimate.min += child_tokens.estimate.min or 0
-                estimate.max += child_tokens.estimate.max or 0
-                estimate.target += child_tokens.estimate.target or 0
-            if child_tokens.usage:
-                total_usage += child_tokens.usage
-
-        return Tokens(
-            estimate=estimate,
-            # Budget comes from THIS ticket (not aggregated)
-            budget=self.input_tokens.budget if self.input_tokens else None,
-            # Usage is sum of children
-            usage=total_usage if total_usage > 0 else None,
-        )
-
-    @computed_field
-    @property
-    def output_tokens_aggregated(self) -> Tokens:
-        '''Aggregate output token data from all descendants.'''
-        # Same pattern as input_tokens_aggregated
-
-    @computed_field
-    @property
-    def total_tokens_aggregated(self) -> dict:
-        '''Combined token summary.'''
-        input_agg = self.input_tokens_aggregated
-        output_agg = self.output_tokens_aggregated
-        return {
-            'estimate_total': (
-                (input_agg.estimate.target or 0) +
-                (output_agg.estimate.target or 0)
-            ),
-            'usage_total': (
-                (input_agg.usage or 0) +
-                (output_agg.usage or 0)
-            ),
-            'budget': self.total_token_budget,
-            'within_budget': self._check_budget(),
-        }
-    ```
-
-    Files to modify:
-    - vibey/roadmap/models/ticket/hierarchical.py
-
-    Design notes:
-    - Estimates and usage aggregate UP from children
-    - Budgets are set at each level (not aggregated)
-    - Parent budget covers all descendant usage
-    - Enables sprint-level and track-level budget constraints
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0R
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0R
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add token aggregation to HierarchicalTicket (Layer 2)
+  description: "Add computed properties to HierarchicalTicket that aggregate token\n\
+    data from child tickets, following the same pattern as `commits_aggregated`.\n\
+    \nNew computed properties:\n```python\n@computed_field\n@property\ndef input_tokens_aggregated(self)\
+    \ -> Tokens:\n    '''Aggregate input token data from all descendants.'''\n   \
+    \ if not self.is_parent:\n        return self.input_tokens or Tokens()\n\n   \
+    \ # Aggregate estimates from children\n    estimate = TokenEstimate(min=0, max=0,\
+    \ target=0)\n    total_usage = 0\n\n    for child in self.children_tickets:\n\
+    \        child_tokens = child.input_tokens_aggregated\n        if child_tokens.estimate:\n\
+    \            estimate.min += child_tokens.estimate.min or 0\n            estimate.max\
+    \ += child_tokens.estimate.max or 0\n            estimate.target += child_tokens.estimate.target\
+    \ or 0\n        if child_tokens.usage:\n            total_usage += child_tokens.usage\n\
+    \n    return Tokens(\n        estimate=estimate,\n        # Budget comes from\
+    \ THIS ticket (not aggregated)\n        budget=self.input_tokens.budget if self.input_tokens\
+    \ else None,\n        # Usage is sum of children\n        usage=total_usage if\
+    \ total_usage > 0 else None,\n    )\n\n@computed_field\n@property\ndef output_tokens_aggregated(self)\
+    \ -> Tokens:\n    '''Aggregate output token data from all descendants.'''\n  \
+    \  # Same pattern as input_tokens_aggregated\n\n@computed_field\n@property\ndef\
+    \ total_tokens_aggregated(self) -> dict:\n    '''Combined token summary.'''\n\
+    \    input_agg = self.input_tokens_aggregated\n    output_agg = self.output_tokens_aggregated\n\
+    \    return {\n        'estimate_total': (\n            (input_agg.estimate.target\
+    \ or 0) +\n            (output_agg.estimate.target or 0)\n        ),\n       \
+    \ 'usage_total': (\n            (input_agg.usage or 0) +\n            (output_agg.usage\
+    \ or 0)\n        ),\n        'budget': self.total_token_budget,\n        'within_budget':\
+    \ self._check_budget(),\n    }\n```\n\nFiles to modify:\n- vibey/roadmap/models/ticket/hierarchical.py\n\
+    \nDesign notes:\n- Estimates and usage aggregate UP from children\n- Budgets are\
+    \ set at each level (not aggregated)\n- Parent budget covers all descendant usage\n\
+    - Enables sprint-level and track-level budget constraints\n"
   status: not_started
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-22T12:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: HierarchicalTicket has input_tokens_aggregated property
-    status: not_met
-  - type: code
-    description: HierarchicalTicket has output_tokens_aggregated property
-    status: not_met
-  - type: code
-    description: HierarchicalTicket has total_tokens_aggregated property
-    status: not_met
-  - type: test
-    description: Parent tickets correctly aggregate child estimates and usage
-    status: not_met
-  - type: test
-    description: Budget checked against aggregated usage
-    status: not_met
-  depends_on:
-  - 01KCYA0G5135Z8B8ENFD841B0W
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

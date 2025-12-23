@@ -1,71 +1,49 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T0
-  name: Refactor roadmap status command
-  description: |
-    Refactor the `vibey roadmap status` command to use TicketService instead of
-    direct model access while maintaining identical output and behavior.
-
-    Implementation steps:
-    1. Identify current implementation in vibey/cli/commands.py
-    2. Replace direct YAML/SQLite access with TicketService calls:
-       - list_projects() to get roadmap
-       - list_children() to get tracks
-       - get_workstreams/get_iterations for nested data
-    3. Update status calculation to use generic Ticket fields:
-       - children_total, children_completed
-       - completion_percent
-    4. Maintain existing output format (progress bars, colors, etc.)
-    5. Add --adapter flag to select PM tool (default: vibey)
-    6. Test that output matches exactly with original
-    7. Remove direct model imports from this command
-
-    Deliverables:
-    - Updated vibey/cli/commands.py roadmap_status function
-    - Tests verifying identical output
-
-    Dependencies:
-    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBHE (CLI wrapper)
-
-    Backwards Compatibility:
-    - Output format must remain identical
-    - All existing flags must work
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Refactor roadmap status command
+  description: "Refactor the `vibey roadmap status` command to use TicketService instead\
+    \ of\ndirect model access while maintaining identical output and behavior.\n\n\
+    Implementation steps:\n1. Identify current implementation in vibey/cli/commands.py\n\
+    2. Replace direct YAML/SQLite access with TicketService calls:\n   - list_projects()\
+    \ to get roadmap\n   - list_children() to get tracks\n   - get_workstreams/get_iterations\
+    \ for nested data\n3. Update status calculation to use generic Ticket fields:\n\
+    \   - children_total, children_completed\n   - completion_percent\n4. Maintain\
+    \ existing output format (progress bars, colors, etc.)\n5. Add --adapter flag\
+    \ to select PM tool (default: vibey)\n6. Test that output matches exactly with\
+    \ original\n7. Remove direct model imports from this command\n\nDeliverables:\n\
+    - Updated vibey/cli/commands.py roadmap_status function\n- Tests verifying identical\
+    \ output\n\nDependencies:\n- Requires: 01KCWDNDQ40Y43H4ZGH9KTTBHE (CLI wrapper)\n\
+    \nBackwards Compatibility:\n- Output format must remain identical\n- All existing\
+    \ flags must work\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421011+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421011+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421011+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: roadmap status uses TicketService
-    status: not_met
-  - type: code
-    description: No direct model imports in command
-    status: not_met
-  - type: test
-    description: Output matches original implementation
-    status: not_met
-  - type: code
-    description: --adapter flag supported
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ40Y43H4ZGH9KTTBHE
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

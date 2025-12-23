@@ -1,92 +1,51 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89N6
-  name: Implement ExecutionResult for capturing outcomes
-  description: |
-    Create ExecutionResult dataclass to capture task execution outcomes:
-
-    ```python
-    class ExecutionStatus(Enum):
-        SUCCESS = "success"
-        FAILURE = "failure"
-        BLOCKED = "blocked"
-        TIMEOUT = "timeout"
-        CANCELLED = "cancelled"
-
-    @dataclass
-    class ExecutionResult:
-        '''Result of executing a single task.'''
-
-        task_id: str
-        status: ExecutionStatus
-        started_at: datetime
-        completed_at: datetime
-
-        # Token usage
-        tokens_input: int = 0
-        tokens_output: int = 0
-
-        # Artifacts
-        files_modified: List[Path] = field(default_factory=list)
-        files_created: List[Path] = field(default_factory=list)
-        commits: List[str] = field(default_factory=list)
-
-        # Output
-        stdout: str = ""
-        stderr: str = ""
-        error_message: Optional[str] = None
-
-        # Metadata
-        agent_model: str = "claude-sonnet-4-20250514"
-        exit_code: int = 0
-
-        @property
-        def duration(self) -> timedelta:
-            return self.completed_at - self.started_at
-
-        @property
-        def succeeded(self) -> bool:
-            return self.status == ExecutionStatus.SUCCESS
-
-        def to_dict(self) -> dict:
-            '''Serialize for logging/storage.'''
-    ```
-
-    Files:
-    - vibey/services/implementation/result.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89MX
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89MX
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement ExecutionResult for capturing outcomes
+  description: "Create ExecutionResult dataclass to capture task execution outcomes:\n\
+    \n```python\nclass ExecutionStatus(Enum):\n    SUCCESS = \"success\"\n    FAILURE\
+    \ = \"failure\"\n    BLOCKED = \"blocked\"\n    TIMEOUT = \"timeout\"\n    CANCELLED\
+    \ = \"cancelled\"\n\n@dataclass\nclass ExecutionResult:\n    '''Result of executing\
+    \ a single task.'''\n\n    task_id: str\n    status: ExecutionStatus\n    started_at:\
+    \ datetime\n    completed_at: datetime\n\n    # Token usage\n    tokens_input:\
+    \ int = 0\n    tokens_output: int = 0\n\n    # Artifacts\n    files_modified:\
+    \ List[Path] = field(default_factory=list)\n    files_created: List[Path] = field(default_factory=list)\n\
+    \    commits: List[str] = field(default_factory=list)\n\n    # Output\n    stdout:\
+    \ str = \"\"\n    stderr: str = \"\"\n    error_message: Optional[str] = None\n\
+    \n    # Metadata\n    agent_model: str = \"claude-sonnet-4-20250514\"\n    exit_code:\
+    \ int = 0\n\n    @property\n    def duration(self) -> timedelta:\n        return\
+    \ self.completed_at - self.started_at\n\n    @property\n    def succeeded(self)\
+    \ -> bool:\n        return self.status == ExecutionStatus.SUCCESS\n\n    def to_dict(self)\
+    \ -> dict:\n        '''Serialize for logging/storage.'''\n```\n\nFiles:\n- vibey/services/implementation/result.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T14:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T14:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/result.py exists
-    status: not_met
-  - type: code
-    description: ExecutionResult captures all execution metadata
-    status: not_met
-  - type: code
-    description: Result can be serialized to dict for logging
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89N4
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: simple
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

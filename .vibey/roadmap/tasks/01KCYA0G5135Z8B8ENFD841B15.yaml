@@ -1,122 +1,61 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B15
-  name: Add CLI token commands
-  description: |
-    Add new CLI commands for viewing and managing token metrics.
-    Displays data from the Tokens model (estimate/budget/usage/enforcement).
-
-    1. View Task Tokens:
-       vibey roadmap tokens <task-id>
-
-       Output:
-       Token Data for Task: <name>
-       ─────────────────────────────────
-       Input Tokens:
-         Estimate:
-           Min:      5,000
-           Target:  10,000
-           Max:     20,000
-         Budget:    25,000
-         Usage:      8,234 (82% of target, 33% of budget)
-         Enforcement: warn → soft_stop@90% → hard_stop@100% [grace: 10%]
-
-       Output Tokens:
-         Estimate:
-           Min:      2,000
-           Target:   5,000
-           Max:     10,000
-         Budget:    12,000
-         Usage:      4,521 (90% of target, 38% of budget)
-         Enforcement: hard_stop [no grace] ⚠️ STRICTER
-
-       Total Token Budget: 35,000
-       Total Enforcement: soft_stop (from project defaults)
-
-    2. View Sprint/Track Tokens (aggregated):
-       vibey roadmap tokens --sprint <id>
-       vibey roadmap tokens --track <id>
-       # Uses *_tokens_aggregated computed properties from HierarchicalTicket
-
-    3. Set Token Data:
-       vibey roadmap update task <id> \
-         --input-estimate-target 10000 \
-         --input-estimate-min 5000 \
-         --input-estimate-max 20000 \
-         --input-budget 25000 \
-         --output-estimate-target 5000 \
-         --output-budget 12000 \
-         --total-token-budget 35000
-
-    4. Set Enforcement (per direction):
-       vibey roadmap update task <id> \
-         --input-enforcement-mode hard_stop \
-         --input-enforcement-grace 0.1 \
-         --output-enforcement-mode warn
-
-       # Or set from YAML file for complex escalation:
-       vibey roadmap update task <id> \
-         --input-enforcement-file ./enforcement.yaml
-
-    5. View Enforcement Settings:
-       vibey roadmap tokens <task-id> --show-enforcement
-
-       Shows full enforcement details including:
-       - Resolution source (ticket/project/default)
-       - Escalation steps
-       - Current effective mode based on usage
-
-    6. Manual Estimation:
-       vibey roadmap estimate <task-id>
-       # Uses TokenEstimator to set estimate.min/max/target
-       # Does not set budgets or enforcement (those are manual)
-
-       vibey roadmap estimate <sprint-id>
-       # Estimate all tasks in sprint
-
-       vibey roadmap estimate <track-id>
-       # Estimate all tasks in track
-
-    Note: For automatic estimation triggers (on creation, on start, on
-    calibration update), see the auto-estimation configuration task.
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0V
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0V
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add CLI token commands
+  description: "Add new CLI commands for viewing and managing token metrics.\nDisplays\
+    \ data from the Tokens model (estimate/budget/usage/enforcement).\n\n1. View Task\
+    \ Tokens:\n   vibey roadmap tokens <task-id>\n\n   Output:\n   Token Data for\
+    \ Task: <name>\n   ─────────────────────────────────\n   Input Tokens:\n     Estimate:\n\
+    \       Min:      5,000\n       Target:  10,000\n       Max:     20,000\n    \
+    \ Budget:    25,000\n     Usage:      8,234 (82% of target, 33% of budget)\n \
+    \    Enforcement: warn → soft_stop@90% → hard_stop@100% [grace: 10%]\n\n   Output\
+    \ Tokens:\n     Estimate:\n       Min:      2,000\n       Target:   5,000\n  \
+    \     Max:     10,000\n     Budget:    12,000\n     Usage:      4,521 (90% of\
+    \ target, 38% of budget)\n     Enforcement: hard_stop [no grace] ⚠️ STRICTER\n\
+    \n   Total Token Budget: 35,000\n   Total Enforcement: soft_stop (from project\
+    \ defaults)\n\n2. View Sprint/Track Tokens (aggregated):\n   vibey roadmap tokens\
+    \ --sprint <id>\n   vibey roadmap tokens --track <id>\n   # Uses *_tokens_aggregated\
+    \ computed properties from HierarchicalTicket\n\n3. Set Token Data:\n   vibey\
+    \ roadmap update task <id> \\\n     --input-estimate-target 10000 \\\n     --input-estimate-min\
+    \ 5000 \\\n     --input-estimate-max 20000 \\\n     --input-budget 25000 \\\n\
+    \     --output-estimate-target 5000 \\\n     --output-budget 12000 \\\n     --total-token-budget\
+    \ 35000\n\n4. Set Enforcement (per direction):\n   vibey roadmap update task <id>\
+    \ \\\n     --input-enforcement-mode hard_stop \\\n     --input-enforcement-grace\
+    \ 0.1 \\\n     --output-enforcement-mode warn\n\n   # Or set from YAML file for\
+    \ complex escalation:\n   vibey roadmap update task <id> \\\n     --input-enforcement-file\
+    \ ./enforcement.yaml\n\n5. View Enforcement Settings:\n   vibey roadmap tokens\
+    \ <task-id> --show-enforcement\n\n   Shows full enforcement details including:\n\
+    \   - Resolution source (ticket/project/default)\n   - Escalation steps\n   -\
+    \ Current effective mode based on usage\n\n6. Manual Estimation:\n   vibey roadmap\
+    \ estimate <task-id>\n   # Uses TokenEstimator to set estimate.min/max/target\n\
+    \   # Does not set budgets or enforcement (those are manual)\n\n   vibey roadmap\
+    \ estimate <sprint-id>\n   # Estimate all tasks in sprint\n\n   vibey roadmap\
+    \ estimate <track-id>\n   # Estimate all tasks in track\n\nNote: For automatic\
+    \ estimation triggers (on creation, on start, on\ncalibration update), see the\
+    \ auto-estimation configuration task.\n"
   status: not_started
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T12:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: vibey roadmap tokens command shows estimate/budget/usage
-    status: not_met
-  - type: code
-    description: vibey roadmap tokens --show-enforcement displays full settings
-    status: not_met
-  - type: code
-    description: CLI can set per-direction enforcement mode and grace
-    status: not_met
-  - type: code
-    description: CLI displays enforcement resolution source
-    status: not_met
-  - type: code
-    description: vibey roadmap estimate command implemented
-    status: not_met
-  depends_on: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

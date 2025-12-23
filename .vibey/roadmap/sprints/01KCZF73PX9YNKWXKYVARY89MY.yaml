@@ -22,45 +22,24 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MX
-    blocker_type: sprint
-    status: not_started
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Real-time progress display
-  - Structured logging for execution
-  - Error recovery and retry logic
-  description: |
-    Add progress monitoring and error handling:
-
-    1. Progress Display:
-       - Show current task being executed
-       - Display overall progress (X/Y tasks)
-       - Token usage summary
-       - Estimated time remaining
-
-    2. Logging:
-       - Log each task start/complete/fail
-       - Record to activity log (JSONL)
-       - Include execution metadata
-       - Support log levels (debug, info, warn, error)
-
-    3. Error Recovery:
-       - Catch and log execution errors
-       - Mark task as blocked with error reason
-       - Option to retry failed tasks
-       - Continue to next task on failure
+  deliverables: []
+  description: "Add progress monitoring and error handling:\n\n1. Progress Display:\n\
+    \   - Show current task being executed\n   - Display overall progress (X/Y tasks)\n\
+    \   - Token usage summary\n   - Estimated time remaining\n\n2. Logging:\n   -\
+    \ Log each task start/complete/fail\n   - Record to activity log (JSONL)\n   -\
+    \ Include execution metadata\n   - Support log levels (debug, info, warn, error)\n\
+    \n3. Error Recovery:\n   - Catch and log execution errors\n   - Mark task as blocked\
+    \ with error reason\n   - Option to retry failed tasks\n   - Continue to next\
+    \ task on failure\n"
   goal: Implement progress monitoring and error recovery
-  success_criteria:
-  - Progress visible during execution
-  - All events logged to activity log
-  - Errors handled gracefully without crashing loop
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []

@@ -6,12 +6,12 @@ task:
   task_type: testing
   title: Integration tests and documentation
   description: 'Complete submodule integration with tests and docs: 1) Integration
-    tests with mock submodule repos, 2) Test push-down and pull-up in isolation,
-    3) Test cross-repo dependency resolution, 4) Update CLI_REFERENCE.md with
-    submodule commands, 5) Update MCP_REFERENCE.md with submodule tools,
-    6) Add submodule user guide to docs/guides/.'
+    tests with mock submodule repos, 2) Test push-down and pull-up in isolation, 3)
+    Test cross-repo dependency resolution, 4) Update CLI_REFERENCE.md with submodule
+    commands, 5) Update MCP_REFERENCE.md with submodule tools, 6) Add submodule user
+    guide to docs/guides/.'
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
@@ -25,12 +25,13 @@ task:
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - 01KCW0K1ZY2CEDMN5YY8JATEYA
-  - 01KCW0K1ZY2CEDMN5YY8JATEYB
+  blocked_by: []
   depends_on:
-  - 01KCW0K1ZY2CEDMN5YY8JATEYA
-  - 01KCW0K1ZY2CEDMN5YY8JATEYB
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

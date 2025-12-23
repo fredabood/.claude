@@ -1,75 +1,51 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NA
-  name: Implement vibey implement CLI command
-  description: |
-    Add main implementation mode CLI command:
-
-    ```python
-    @cli.command()
-    @click.option('--track', help='Only tasks in this track')
-    @click.option('--sprint', help='Only tasks in this sprint')
-    @click.option('--max-tasks', type=int, help='Stop after N tasks')
-    @click.option('--max-tokens', type=int, help='Stop after N tokens')
-    @click.option('--dry-run', is_flag=True, help='Show what would run')
-    @click.option('--background', is_flag=True, help='Run as background process')
-    def implement(track, sprint, max_tasks, max_tokens, dry_run, background):
-        '''
-        Run implementation mode to execute planned tasks.
-
-        Starts execution loop that:
-        1. Finds next planned+unblocked task
-        2. Executes task via Claude Code agent
-        3. Updates task status based on result
-        4. Continues until no more tasks or limit reached
-
-        Examples:
-            vibey implement                    # Run all planned tasks
-            vibey implement --track 01KC...    # Only tasks in track
-            vibey implement --max-tasks 5      # Stop after 5 tasks
-            vibey implement --dry-run          # Preview without executing
-        '''
-    ```
-
-    Files:
-    - vibey/cli/implement.py (new)
-    - Update vibey/cli/main.py to register command
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89MZ
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89MZ
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement vibey implement CLI command
+  description: "Add main implementation mode CLI command:\n\n```python\n@cli.command()\n\
+    @click.option('--track', help='Only tasks in this track')\n@click.option('--sprint',\
+    \ help='Only tasks in this sprint')\n@click.option('--max-tasks', type=int, help='Stop\
+    \ after N tasks')\n@click.option('--max-tokens', type=int, help='Stop after N\
+    \ tokens')\n@click.option('--dry-run', is_flag=True, help='Show what would run')\n\
+    @click.option('--background', is_flag=True, help='Run as background process')\n\
+    def implement(track, sprint, max_tasks, max_tokens, dry_run, background):\n  \
+    \  '''\n    Run implementation mode to execute planned tasks.\n\n    Starts execution\
+    \ loop that:\n    1. Finds next planned+unblocked task\n    2. Executes task via\
+    \ Claude Code agent\n    3. Updates task status based on result\n    4. Continues\
+    \ until no more tasks or limit reached\n\n    Examples:\n        vibey implement\
+    \                    # Run all planned tasks\n        vibey implement --track\
+    \ 01KC...    # Only tasks in track\n        vibey implement --max-tasks 5    \
+    \  # Stop after 5 tasks\n        vibey implement --dry-run          # Preview\
+    \ without executing\n    '''\n```\n\nFiles:\n- vibey/cli/implement.py (new)\n\
+    - Update vibey/cli/main.py to register command\n"
   status: not_started
-  created_at: '2025-12-20T14:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T14:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/cli/implement.py exists
-    status: not_met
-  - type: code
-    description: vibey implement command starts execution loop
-    status: not_met
-  - type: code
-    description: All CLI options work correctly
-    status: not_met
-  - type: test
-    description: Dry-run shows tasks without executing
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89N9
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

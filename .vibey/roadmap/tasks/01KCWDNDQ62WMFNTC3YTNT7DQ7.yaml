@@ -1,6 +1,10 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQ7
-  name: Add Jira webhook support for real-time sync
+  sprint_id: 01KCWDNDQ62WMFNTC3YTNT7DQ2
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add Jira webhook support for real-time sync
   description: "Add Jira webhook support for real-time sync notifications\ninstead\
     \ of polling.\n\nImplementation steps:\n1. Create webhook endpoint:\n   - vibey/adapters/pm/jira/webhook.py\n\
     \   - POST /webhook/jira endpoint\n   - Verify webhook signature\n2. Implement\
@@ -14,44 +18,32 @@ task:
     - Webhook handler endpoint\n- Webhook registration\n- CLI webhook commands\n\n\
     Dependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQ6 (conflict resolution)\n\n\
     Note: Optional enhancement - manual sync still works without webhooks"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ2
   status: not_started
-  created_at: '2025-12-19T23:03:36.422316+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.422316+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.422316+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: medium
-  criteria:
-  - type: artifact
-    description: vibey/adapters/pm/jira/webhook.py exists
-    status: not_met
-  - type: code
-    description: Webhook handlers for Jira events
-    status: not_met
-  - type: code
-    description: Webhook registration with Jira
-    status: not_met
-  - type: code
-    description: CLI webhook commands
-    status: not_met
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  depends_on:
-  - 01KCWDNDQ62WMFNTC3YTNT7DQ6

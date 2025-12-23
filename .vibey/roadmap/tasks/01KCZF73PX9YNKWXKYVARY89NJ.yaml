@@ -1,107 +1,59 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NJ
-  name: Implement CriterionSnapshot for pre-task state capture
-  description: |
-    Create system to capture criterion states before task execution:
-
-    ```python
-    @dataclass
-    class CriterionSnapshot:
-        '''
-        Snapshot of criterion states at a point in time.
-
-        Captured before each task execution to enable
-        regression detection after completion.
-        '''
-
-        task_id: str
-        captured_at: datetime
-        criteria_states: Dict[str, CriterionState]
-
-        @dataclass
-        class CriterionState:
-            ticket_id: str
-            criterion_index: int
-            criterion_type: str
-            description: str
-            status: str  # met, not_met, blocked
-            last_evaluated: Optional[datetime]
-            evidence: Optional[str]  # Why it passed/failed
-
-
-    class SnapshotManager:
-        def __init__(self, graph: CriterionDependencyGraph):
-            self.graph = graph
-
-        def capture_snapshot(self, task: HierarchicalTicket) -> CriterionSnapshot:
-            '''
-            Capture snapshot before task execution.
-
-            Includes:
-            1. All criteria for the current task
-            2. All criteria for tasks that depend on this task
-            3. All criteria that reference files this task may modify
-            '''
-
-        def evaluate_criterion(self, ref: CriterionRef) -> CriterionState:
-            '''
-            Evaluate current state of a criterion.
-
-            Criterion types:
-            - artifact: Check if file/directory exists
-            - code: Run code analysis or grep check
-            - test: Run specific test(s)
-            - manual: Check for manual approval flag
-            '''
-
-        def save_snapshot(self, snapshot: CriterionSnapshot, path: Path):
-            '''Persist snapshot to YAML for comparison.'''
-
-        def load_snapshot(self, path: Path) -> CriterionSnapshot:
-            '''Load snapshot from YAML.'''
-    ```
-
-    Snapshot file: .vibey/implementation/snapshots/{task_id}.yaml
-
-    Files:
-    - vibey/services/implementation/snapshot.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NG
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NG
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement CriterionSnapshot for pre-task state capture
+  description: "Create system to capture criterion states before task execution:\n\
+    \n```python\n@dataclass\nclass CriterionSnapshot:\n    '''\n    Snapshot of criterion\
+    \ states at a point in time.\n\n    Captured before each task execution to enable\n\
+    \    regression detection after completion.\n    '''\n\n    task_id: str\n   \
+    \ captured_at: datetime\n    criteria_states: Dict[str, CriterionState]\n\n  \
+    \  @dataclass\n    class CriterionState:\n        ticket_id: str\n        criterion_index:\
+    \ int\n        criterion_type: str\n        description: str\n        status:\
+    \ str  # met, not_met, blocked\n        last_evaluated: Optional[datetime]\n \
+    \       evidence: Optional[str]  # Why it passed/failed\n\n\nclass SnapshotManager:\n\
+    \    def __init__(self, graph: CriterionDependencyGraph):\n        self.graph\
+    \ = graph\n\n    def capture_snapshot(self, task: HierarchicalTicket) -> CriterionSnapshot:\n\
+    \        '''\n        Capture snapshot before task execution.\n\n        Includes:\n\
+    \        1. All criteria for the current task\n        2. All criteria for tasks\
+    \ that depend on this task\n        3. All criteria that reference files this\
+    \ task may modify\n        '''\n\n    def evaluate_criterion(self, ref: CriterionRef)\
+    \ -> CriterionState:\n        '''\n        Evaluate current state of a criterion.\n\
+    \n        Criterion types:\n        - artifact: Check if file/directory exists\n\
+    \        - code: Run code analysis or grep check\n        - test: Run specific\
+    \ test(s)\n        - manual: Check for manual approval flag\n        '''\n\n \
+    \   def save_snapshot(self, snapshot: CriterionSnapshot, path: Path):\n      \
+    \  '''Persist snapshot to YAML for comparison.'''\n\n    def load_snapshot(self,\
+    \ path: Path) -> CriterionSnapshot:\n        '''Load snapshot from YAML.'''\n\
+    ```\n\nSnapshot file: .vibey/implementation/snapshots/{task_id}.yaml\n\nFiles:\n\
+    - vibey/services/implementation/snapshot.py (new)\n"
   status: not_started
-  created_at: '2025-12-20T15:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T15:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/snapshot.py exists
-    status: not_met
-  - type: code
-    description: Snapshot captures all relevant criteria states
-    status: not_met
-  - type: code
-    description: Criterion evaluation works for all types
-    status: not_met
-  - type: test
-    description: Snapshots can be saved and loaded
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NH
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

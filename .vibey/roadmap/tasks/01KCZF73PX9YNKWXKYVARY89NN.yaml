@@ -1,143 +1,71 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NN
-  name: Integrate regression prevention with ImplementationLoop
-  description: |
-    Wire regression prevention into the main execution loop:
-
-    ```python
-    class ImplementationLoop:
-        def __init__(
-            self,
-            selector: TaskSelector,
-            executor: TaskExecutor,
-            config: ImplementConfig,
-            regression_detector: RegressionDetector,  # NEW
-        ):
-            self.regression_detector = regression_detector
-            self.snapshot_manager = regression_detector.snapshot_manager
-
-        async def run(self) -> LoopResult:
-            while not self.should_stop():
-                task = self.selector.get_next_task()
-                if task is None:
-                    break
-
-                # NEW: Capture pre-execution snapshot
-                snapshot = self.snapshot_manager.capture_snapshot(task)
-
-                # Execute task
-                self.state.current_task = task
-                result = await self.executor.execute(task)
-
-                # NEW: Check for regressions before completing
-                if result.succeeded:
-                    regression_report = self.regression_detector.detect_regressions(
-                        before=snapshot,
-                        task=task,
-                    )
-
-                    if regression_report.has_unacknowledged_regressions:
-                        result = self.handle_regressions(task, regression_report)
-
-                self.handle_result(task, result)
-
-            return self.state.to_result()
-
-        def handle_regressions(
-            self,
-            task: HierarchicalTicket,
-            report: RegressionReport,
-        ) -> ExecutionResult:
-            '''
-            Handle detected regressions.
-
-            Options based on config:
-            1. Block completion (default)
-            2. Prompt for acknowledgment (interactive mode)
-            3. Auto-acknowledge with reason (if configured)
-            4. Rollback changes (if checkpoint enabled)
-            '''
-
-        def should_block_on_regression(self, report: RegressionReport) -> bool:
-            '''
-            Determine if regressions should block completion.
-
-            Check config for:
-            - regression_policy: block | warn | ignore
-            - allow_acknowledged: true | false
-            - auto_rollback: true | false
-            '''
-    ```
-
-    Configuration:
-    ```yaml
-    implement:
-      regression:
-        enabled: true
-        policy: block  # block, warn, ignore
-        auto_rollback_on_regression: false
-        require_acknowledgment: true
-        allowed_regression_reasons:
-          - deprecation
-          - sunset
-          - breaking_change
-    ```
-
-    CLI integration:
-    ```bash
-    # View regression report
-    vibey implement regressions
-
-    # Acknowledge a regression
-    vibey implement acknowledge <criterion-ref> --reason deprecation --justification "..."
-
-    # Force complete with regressions (requires --force)
-    vibey implement complete --force --acknowledge-regressions
-    ```
-
-    Files:
-    - vibey/services/implementation/loop.py (update)
-    - vibey/cli/implement.py (update)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NG
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NG
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Integrate regression prevention with ImplementationLoop
+  description: "Wire regression prevention into the main execution loop:\n\n```python\n\
+    class ImplementationLoop:\n    def __init__(\n        self,\n        selector:\
+    \ TaskSelector,\n        executor: TaskExecutor,\n        config: ImplementConfig,\n\
+    \        regression_detector: RegressionDetector,  # NEW\n    ):\n        self.regression_detector\
+    \ = regression_detector\n        self.snapshot_manager = regression_detector.snapshot_manager\n\
+    \n    async def run(self) -> LoopResult:\n        while not self.should_stop():\n\
+    \            task = self.selector.get_next_task()\n            if task is None:\n\
+    \                break\n\n            # NEW: Capture pre-execution snapshot\n\
+    \            snapshot = self.snapshot_manager.capture_snapshot(task)\n\n     \
+    \       # Execute task\n            self.state.current_task = task\n         \
+    \   result = await self.executor.execute(task)\n\n            # NEW: Check for\
+    \ regressions before completing\n            if result.succeeded:\n          \
+    \      regression_report = self.regression_detector.detect_regressions(\n    \
+    \                before=snapshot,\n                    task=task,\n          \
+    \      )\n\n                if regression_report.has_unacknowledged_regressions:\n\
+    \                    result = self.handle_regressions(task, regression_report)\n\
+    \n            self.handle_result(task, result)\n\n        return self.state.to_result()\n\
+    \n    def handle_regressions(\n        self,\n        task: HierarchicalTicket,\n\
+    \        report: RegressionReport,\n    ) -> ExecutionResult:\n        '''\n \
+    \       Handle detected regressions.\n\n        Options based on config:\n   \
+    \     1. Block completion (default)\n        2. Prompt for acknowledgment (interactive\
+    \ mode)\n        3. Auto-acknowledge with reason (if configured)\n        4. Rollback\
+    \ changes (if checkpoint enabled)\n        '''\n\n    def should_block_on_regression(self,\
+    \ report: RegressionReport) -> bool:\n        '''\n        Determine if regressions\
+    \ should block completion.\n\n        Check config for:\n        - regression_policy:\
+    \ block | warn | ignore\n        - allow_acknowledged: true | false\n        -\
+    \ auto_rollback: true | false\n        '''\n```\n\nConfiguration:\n```yaml\nimplement:\n\
+    \  regression:\n    enabled: true\n    policy: block  # block, warn, ignore\n\
+    \    auto_rollback_on_regression: false\n    require_acknowledgment: true\n  \
+    \  allowed_regression_reasons:\n      - deprecation\n      - sunset\n      - breaking_change\n\
+    ```\n\nCLI integration:\n```bash\n# View regression report\nvibey implement regressions\n\
+    \n# Acknowledge a regression\nvibey implement acknowledge <criterion-ref> --reason\
+    \ deprecation --justification \"...\"\n\n# Force complete with regressions (requires\
+    \ --force)\nvibey implement complete --force --acknowledge-regressions\n```\n\n\
+    Files:\n- vibey/services/implementation/loop.py (update)\n- vibey/cli/implement.py\
+    \ (update)\n"
   status: not_started
-  created_at: '2025-12-20T15:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T15:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: Snapshot captured before each task execution
-    status: not_met
-  - type: code
-    description: Regressions detected after task completion
-    status: not_met
-  - type: code
-    description: Unacknowledged regressions block task completion
-    status: not_met
-  - type: code
-    description: CLI commands for regression management work
-    status: not_met
-  - type: test
-    description: End-to-end test for regression detection flow
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NM
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

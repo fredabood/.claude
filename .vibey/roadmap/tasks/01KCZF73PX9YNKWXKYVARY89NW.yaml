@@ -1,115 +1,60 @@
 task:
   id: 01KCZF73PX9YNKWXKYVARY89NW
-  name: Implement ContextCompactor for token management
-  description: |
-    Create system to compact context between tasks:
-
-    ```python
-    class ContextCompactor:
-        def __init__(self, config: ImplementConfig):
-            self.config = config
-            self.max_context_tokens = config.max_context_tokens or 50000
-
-        def compact(self, state: LoopState, result: ExecutionResult) -> CompactedContext:
-            '''
-            Compact context after task completion.
-
-            Preserves:
-            - Essential session state
-            - Summary of completed work
-            - Critical errors/blockers
-            - Next task context
-
-            Removes:
-            - Verbose execution logs
-            - Transient file contents
-            - Intermediate reasoning
-            '''
-
-        def summarize_task(self, task: HierarchicalTicket, result: ExecutionResult) -> str:
-            '''
-            Generate concise summary of completed task.
-
-            Format:
-            Task: {name}
-            Status: {success/failure}
-            Changes: {files modified}
-            Commits: {commit hashes}
-            Notes: {key observations}
-            '''
-
-        def estimate_tokens(self, context: str) -> int:
-            '''Estimate token count for context string.'''
-
-        def should_compact(self, current_tokens: int) -> bool:
-            '''Determine if compaction needed based on token usage.'''
-
-        def build_continuation_context(self, state: LoopState) -> str:
-            '''
-            Build minimal context for next task.
-
-            Includes:
-            - Session summary
-            - Completed tasks list
-            - Current roadmap state
-            - Active bugs/blockers
-            '''
-    ```
-
-    Compaction strategy:
-    ```
-    Before Compaction:
-    ├── Full conversation history
-    ├── All file contents read
-    ├── Detailed execution logs
-    └── ~80,000 tokens
-
-    After Compaction:
-    ├── Session summary (500 tokens)
-    ├── Completed task summaries (1000 tokens)
-    ├── Current state snapshot (500 tokens)
-    └── ~2,000 tokens
-    ```
-
-    Files:
-    - vibey/services/implementation/compactor.py (new)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCZF73PX9YNKWXKYVARY89NQ
+  sprint_id: 01KCZF73PX9YNKWXKYVARY89NQ
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement ContextCompactor for token management
+  description: "Create system to compact context between tasks:\n\n```python\nclass\
+    \ ContextCompactor:\n    def __init__(self, config: ImplementConfig):\n      \
+    \  self.config = config\n        self.max_context_tokens = config.max_context_tokens\
+    \ or 50000\n\n    def compact(self, state: LoopState, result: ExecutionResult)\
+    \ -> CompactedContext:\n        '''\n        Compact context after task completion.\n\
+    \n        Preserves:\n        - Essential session state\n        - Summary of\
+    \ completed work\n        - Critical errors/blockers\n        - Next task context\n\
+    \n        Removes:\n        - Verbose execution logs\n        - Transient file\
+    \ contents\n        - Intermediate reasoning\n        '''\n\n    def summarize_task(self,\
+    \ task: HierarchicalTicket, result: ExecutionResult) -> str:\n        '''\n  \
+    \      Generate concise summary of completed task.\n\n        Format:\n      \
+    \  Task: {name}\n        Status: {success/failure}\n        Changes: {files modified}\n\
+    \        Commits: {commit hashes}\n        Notes: {key observations}\n       \
+    \ '''\n\n    def estimate_tokens(self, context: str) -> int:\n        '''Estimate\
+    \ token count for context string.'''\n\n    def should_compact(self, current_tokens:\
+    \ int) -> bool:\n        '''Determine if compaction needed based on token usage.'''\n\
+    \n    def build_continuation_context(self, state: LoopState) -> str:\n       \
+    \ '''\n        Build minimal context for next task.\n\n        Includes:\n   \
+    \     - Session summary\n        - Completed tasks list\n        - Current roadmap\
+    \ state\n        - Active bugs/blockers\n        '''\n```\n\nCompaction strategy:\n\
+    ```\nBefore Compaction:\n├── Full conversation history\n├── All file contents\
+    \ read\n├── Detailed execution logs\n└── ~80,000 tokens\n\nAfter Compaction:\n\
+    ├── Session summary (500 tokens)\n├── Completed task summaries (1000 tokens)\n\
+    ├── Current state snapshot (500 tokens)\n└── ~2,000 tokens\n```\n\nFiles:\n- vibey/services/implementation/compactor.py\
+    \ (new)\n"
   status: not_started
-  created_at: '2025-12-20T16:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T16:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-20T16:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/implementation/compactor.py exists
-    status: not_met
-  - type: code
-    description: Compaction reduces token usage significantly
-    status: not_met
-  - type: code
-    description: Essential state preserved after compaction
-    status: not_met
-  - type: test
-    description: Continuation context sufficient for next task
-    status: not_met
-  depends_on:
-  - 01KCZF73PX9YNKWXKYVARY89NV
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

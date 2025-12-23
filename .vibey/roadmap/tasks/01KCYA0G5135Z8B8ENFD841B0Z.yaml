@@ -1,94 +1,55 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B0Z
-  name: Create token estimation service
-  description: |
-    Create a new service for estimating token usage. This service generates
-    `TokenEstimate` objects that get wrapped in `Tokens` on the Ticket.
-
-    vibey/services/token_estimator.py:
-
-    ```python
-    from vibey.roadmap.models.ticket import TokenEstimate, Tokens
-
-    class EstimationResult:
-        '''Result of token estimation for a task.'''
-        input_estimate: TokenEstimate  # min/max/target for input
-        output_estimate: TokenEstimate  # min/max/target for output
-        confidence: float  # 0.0-1.0 based on available data
-
-    class TokenEstimator:
-        def estimate_task(self, task: Task) -> EstimationResult:
-            '''
-            Estimate tokens for a task based on type and complexity.
-
-            Returns EstimationResult with separate input/output estimates.
-            These get assigned to task.input_tokens.estimate and
-            task.output_tokens.estimate.
-            '''
-
-        def estimate_from_description(
-            self,
-            description: str,
-            task_type: str,
-            complexity: str
-        ) -> EstimationResult:
-            '''Estimate tokens from task description.'''
-
-        def apply_estimates(self, task: Task, result: EstimationResult):
-            '''
-            Apply estimation result to task.
-
-            Creates Tokens objects with estimates if they don't exist,
-            or updates existing estimate fields.
-            '''
-            if task.input_tokens is None:
-                task.input_tokens = Tokens(estimate=result.input_estimate)
-            else:
-                task.input_tokens.estimate = result.input_estimate
-
-            if task.output_tokens is None:
-                task.output_tokens = Tokens(estimate=result.output_estimate)
-            else:
-                task.output_tokens.estimate = result.output_estimate
-    ```
-
-    Base estimation factors:
-    - Description length → context tokens needed
-    - Task type → typical input/output ratios
-    - Complexity → multipliers for each level
-
-    The service generates estimates that integrate with the Tokens model
-    from Sprint 1, keeping estimate/budget/usage cleanly separated.
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0S
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0S
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create token estimation service
+  description: "Create a new service for estimating token usage. This service generates\n\
+    `TokenEstimate` objects that get wrapped in `Tokens` on the Ticket.\n\nvibey/services/token_estimator.py:\n\
+    \n```python\nfrom vibey.roadmap.models.ticket import TokenEstimate, Tokens\n\n\
+    class EstimationResult:\n    '''Result of token estimation for a task.'''\n  \
+    \  input_estimate: TokenEstimate  # min/max/target for input\n    output_estimate:\
+    \ TokenEstimate  # min/max/target for output\n    confidence: float  # 0.0-1.0\
+    \ based on available data\n\nclass TokenEstimator:\n    def estimate_task(self,\
+    \ task: Task) -> EstimationResult:\n        '''\n        Estimate tokens for a\
+    \ task based on type and complexity.\n\n        Returns EstimationResult with\
+    \ separate input/output estimates.\n        These get assigned to task.input_tokens.estimate\
+    \ and\n        task.output_tokens.estimate.\n        '''\n\n    def estimate_from_description(\n\
+    \        self,\n        description: str,\n        task_type: str,\n        complexity:\
+    \ str\n    ) -> EstimationResult:\n        '''Estimate tokens from task description.'''\n\
+    \n    def apply_estimates(self, task: Task, result: EstimationResult):\n     \
+    \   '''\n        Apply estimation result to task.\n\n        Creates Tokens objects\
+    \ with estimates if they don't exist,\n        or updates existing estimate fields.\n\
+    \        '''\n        if task.input_tokens is None:\n            task.input_tokens\
+    \ = Tokens(estimate=result.input_estimate)\n        else:\n            task.input_tokens.estimate\
+    \ = result.input_estimate\n\n        if task.output_tokens is None:\n        \
+    \    task.output_tokens = Tokens(estimate=result.output_estimate)\n        else:\n\
+    \            task.output_tokens.estimate = result.output_estimate\n```\n\nBase\
+    \ estimation factors:\n- Description length → context tokens needed\n- Task type\
+    \ → typical input/output ratios\n- Complexity → multipliers for each level\n\n\
+    The service generates estimates that integrate with the Tokens model\nfrom Sprint\
+    \ 1, keeping estimate/budget/usage cleanly separated.\n"
   status: not_started
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-20T12:00:00+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: artifact
-    description: vibey/services/token_estimator.py exists
-    status: not_met
-  - type: test
-    description: Unit tests for TokenEstimator
-    status: not_met
-  depends_on: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

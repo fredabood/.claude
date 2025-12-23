@@ -1,73 +1,49 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T1
-  name: Refactor roadmap start/complete commands
-  description: |
-    Refactor `vibey roadmap start` and `vibey roadmap complete` commands to use
-    TicketService while maintaining identical behavior.
-
-    Implementation steps:
-    1. Refactor roadmap start command:
-       - Replace direct status update with service.start(ticket_id)
-       - TicketService handles timestamp updates automatically
-       - Maintain validation (can't start completed task)
-    2. Refactor roadmap complete command:
-       - Replace direct status update with service.complete(ticket_id)
-       - Service handles completed_at timestamp
-       - Maintain parent status propagation logic
-    3. Update both commands:
-       - Use get_ticket to validate ID exists
-       - Use generic Ticket for display
-       - Add --adapter flag support
-    4. Handle edge cases:
-       - Starting already-in-progress task
-       - Completing not-started task
-       - Completing blocked task
-    5. Remove direct model imports
-    6. Test status transitions work correctly
-
-    Deliverables:
-    - Updated roadmap_start and roadmap_complete in commands.py
-    - Tests for status transitions
-
-    Dependencies:
-    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T0 (status command refactored)
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  sprint_id: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Refactor roadmap start/complete commands
+  description: "Refactor `vibey roadmap start` and `vibey roadmap complete` commands\
+    \ to use\nTicketService while maintaining identical behavior.\n\nImplementation\
+    \ steps:\n1. Refactor roadmap start command:\n   - Replace direct status update\
+    \ with service.start(ticket_id)\n   - TicketService handles timestamp updates\
+    \ automatically\n   - Maintain validation (can't start completed task)\n2. Refactor\
+    \ roadmap complete command:\n   - Replace direct status update with service.complete(ticket_id)\n\
+    \   - Service handles completed_at timestamp\n   - Maintain parent status propagation\
+    \ logic\n3. Update both commands:\n   - Use get_ticket to validate ID exists\n\
+    \   - Use generic Ticket for display\n   - Add --adapter flag support\n4. Handle\
+    \ edge cases:\n   - Starting already-in-progress task\n   - Completing not-started\
+    \ task\n   - Completing blocked task\n5. Remove direct model imports\n6. Test\
+    \ status transitions work correctly\n\nDeliverables:\n- Updated roadmap_start\
+    \ and roadmap_complete in commands.py\n- Tests for status transitions\n\nDependencies:\n\
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T0 (status command refactored)\n"
   status: not_started
-  created_at: '2025-12-19T23:03:36.421071+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-19T23:03:36.421071+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: true
+  created: '2025-12-19T23:03:36.421071+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
   priority: high
-  criteria:
-  - type: code
-    description: roadmap start uses service.start()
-    status: not_met
-  - type: code
-    description: roadmap complete uses service.complete()
-    status: not_met
-  - type: code
-    description: Timestamp updates work correctly
-    status: not_met
-  - type: test
-    description: Status transitions validated
-    status: not_met
-  depends_on:
-  - 01KCWDNDQ5MGHF8E9MEM2737T0
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

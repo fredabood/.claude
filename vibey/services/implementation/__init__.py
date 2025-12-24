@@ -31,6 +31,14 @@ Core Components:
 - Checkpoint: Record of a git checkpoint
 - ApprovalGate: Human approval gates for high-risk tasks
 - ApprovalResult: Enum for approval decisions (APPROVED, SKIPPED, QUIT, TIMEOUT)
+- IntentionalRegressionHandler: Manage acknowledged regressions for deprecation/sunset
+- RegressionAcknowledgment: Record of an acknowledged intentional regression
+- RegressionReason: Enum for regression reasons (DEPRECATION, SUNSET, BREAKING_CHANGE, etc.)
+- SnapshotManager: Capture and manage pre-task criterion state snapshots
+- CriterionSnapshot: Collection of criterion states for a task
+- CriterionState: State of a single criterion at snapshot time
+- CriterionStatus: Enum for criterion evaluation status (MET, NOT_MET, SKIPPED, ERROR)
+- CriterionType: Enum for criterion target type classification
 
 Usage:
     from vibey.services.implementation import (
@@ -149,6 +157,33 @@ from vibey.services.implementation.approval import (
     ApprovalGate,
     ApprovalResult,
 )
+from vibey.services.implementation.acknowledgment import (
+    IntentionalRegressionHandler,
+    RegressionAcknowledgment,
+    RegressionReason,
+    DEFAULT_ACKNOWLEDGMENT_EXPIRY_DAYS,
+    DEFAULT_STORAGE_PATH as DEFAULT_ACKNOWLEDGMENT_STORAGE_PATH,
+)
+from vibey.services.implementation.snapshot import (
+    CriterionSnapshot,
+    CriterionState,
+    CriterionStatus,
+    CriterionType,
+    SnapshotManager,
+)
+from vibey.services.implementation.dependency_graph import (
+    CriterionDependencyGraph,
+    CriterionRef,
+)
+from vibey.services.implementation.regression import (
+    Regression,
+    RegressionConfig,
+    RegressionCriterionState,
+    RegressionDetector,
+    RegressionPolicy,
+    RegressionReport,
+    RegressionSnapshot,
+)
 
 __all__ = [
     # Main loop
@@ -205,4 +240,27 @@ __all__ = [
     # Approval gates
     "ApprovalGate",
     "ApprovalResult",
+    # Intentional regression handling
+    "IntentionalRegressionHandler",
+    "RegressionAcknowledgment",
+    "RegressionReason",
+    "DEFAULT_ACKNOWLEDGMENT_EXPIRY_DAYS",
+    "DEFAULT_ACKNOWLEDGMENT_STORAGE_PATH",
+    # Criterion snapshots
+    "CriterionSnapshot",
+    "CriterionState",
+    "CriterionStatus",
+    "CriterionType",
+    "SnapshotManager",
+    # Dependency graph
+    "CriterionDependencyGraph",
+    "CriterionRef",
+    # Regression detection
+    "Regression",
+    "RegressionConfig",
+    "RegressionCriterionState",
+    "RegressionDetector",
+    "RegressionPolicy",
+    "RegressionReport",
+    "RegressionSnapshot",
 ]

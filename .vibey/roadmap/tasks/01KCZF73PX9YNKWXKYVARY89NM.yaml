@@ -40,11 +40,11 @@ task:
     \ RFC-123\n        Related ticket (optional): 01KC...\n        '''\n```\n\nStorage:\
     \ .vibey/implementation/acknowledgments.yaml\n\nFiles:\n- vibey/services/implementation/acknowledgment.py\
     \ (new)\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-20T15:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-24T18:05:00+00:00'
+  completed: '2025-12-24T18:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -56,12 +56,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

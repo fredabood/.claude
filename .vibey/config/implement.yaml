@@ -98,3 +98,31 @@ implement:
     # Maximum conversation turns per task
     # Prevents infinite loops in agent execution
     max_turns: 50
+
+  # ==========================================================================
+  # REGRESSION PREVENTION
+  # ==========================================================================
+  # Configuration for detecting and handling regressions during task execution.
+  # Regressions occur when a task causes previously-passing criteria to fail.
+
+  regression:
+    # Enable regression detection
+    # When enabled, captures criterion state before task execution and
+    # compares after execution to detect regressions
+    enabled: true
+
+    # Policy for handling detected regressions
+    # - block: Stop execution, require acknowledgment or fix
+    # - warn: Log warning but continue execution
+    # - ignore: Ignore regressions entirely
+    policy: block
+
+    # Automatically rollback changes when regression detected
+    # When true, git changes from the task will be reverted
+    # WARNING: Use with caution - may lose work
+    auto_rollback_on_regression: false
+
+    # Require explicit acknowledgment before proceeding
+    # When true, blocking regressions must be acknowledged via CLI
+    # Use: vibey implement acknowledge <task-id>
+    require_acknowledgment: true

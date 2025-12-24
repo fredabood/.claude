@@ -51,6 +51,12 @@ from typing import Any, Dict, List, Optional, Protocol, runtime_checkable
 from vibey.roadmap.models.ticket.hierarchical import HierarchicalTicket
 from vibey.services.implementation.selector import TaskSelector
 from vibey.services.implementation.state import LoopState, LoopStatus, TaskResult
+from vibey.services.implementation.regression import (
+    RegressionConfig,
+    RegressionDetector,
+    RegressionReport,
+    RegressionSnapshot,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -257,6 +263,7 @@ class ImplementationLoop:
         executor: TaskExecutor,
         config: ImplementConfig,
         state: Optional[LoopState] = None,
+        regression_detector: Optional[RegressionDetector] = None,
     ):
         """
         Initialize the implementation loop.
@@ -266,10 +273,12 @@ class ImplementationLoop:
             executor: TaskExecutor for running individual tasks
             config: ImplementConfig with execution parameters
             state: Optional existing LoopState (for resume), creates new if None
+            regression_detector: Optional RegressionDetector for post-task validation
         """
         self.selector = selector
         self.executor = executor
         self.config = config
+        self.regression_detector = regression_detector
 
         # Load or create state
         if state is not None:
@@ -288,6 +297,10 @@ class ImplementationLoop:
 
         # Current task tracking for cancellation
         self._current_task_future: Optional[asyncio.Task] = None
+
+        # Regression tracking
+        self._current_snapshot: Optional[RegressionSnapshot] = None
+        self._last_regression_report: Optional[RegressionReport] = None
 
     # =========================================================================
     # MAIN EXECUTION LOOP
@@ -354,10 +367,32 @@ class ImplementationLoop:
                     stop_reason = reason
                     break
 
+                # Capture regression snapshot before task
+                if self.regression_detector is not None:
+                    self._current_snapshot = self.regression_detector.capture_snapshot(task)
+                    logger.debug(f"Captured pre-task snapshot for {task.id}")
+
                 # Execute the task
                 logger.info(f"Executing task: {task.id} - {task.name}")
                 result = await self._execute_task(task)
                 self._handle_result(task, result)
+
+                # Detect regressions after task
+                if self.regression_detector is not None and self._current_snapshot is not None:
+                    regression_report = await self._check_regressions(task)
+                    if regression_report and regression_report.has_unacknowledged_regressions:
+                        action = await self._handle_regressions(task, regression_report)
+                        if action == "rollback":
+                            logger.info(f"Rolling back task {task.id} due to regressions")
+                            # Mark result as failed due to regression
+                            result = ExecutionResult(
+                                success=False,
+                                error_message="Task rolled back due to regressions",
+                            )
+                        elif action == "blocked":
+                            logger.warning(f"Task {task.id} blocked due to regressions")
+                            stop_reason = "regression_blocked"
+                            break
 
                 # Auto-save after each task
                 if self.config.auto_save:
@@ -515,6 +550,100 @@ class ImplementationLoop:
                 tokens_output=result.tokens_output,
             )
             logger.warning(f"Task {task.id} failed: {result.error_message}")
+
+    # =========================================================================
+    # REGRESSION HANDLING
+    # =========================================================================
+
+    async def _check_regressions(
+        self, task: HierarchicalTicket
+    ) -> Optional[RegressionReport]:
+        """
+        Check for regressions after task execution.
+
+        Args:
+            task: The task that was executed
+
+        Returns:
+            RegressionReport if regressions detected, None otherwise
+        """
+        if self.regression_detector is None or self._current_snapshot is None:
+            return None
+
+        try:
+            report = self.regression_detector.detect_regressions(
+                self._current_snapshot, task
+            )
+            self._last_regression_report = report
+
+            if report.has_unacknowledged_regressions:
+                logger.warning(
+                    f"Detected {report.blocking_count} regression(s) for task {task.id}"
+                )
+                # Save the report
+                self.regression_detector.save_report(report)
+
+            return report
+
+        except Exception as e:
+            logger.exception(f"Failed to check regressions for task {task.id}: {e}")
+            return None
+
+    async def _handle_regressions(
+        self,
+        task: HierarchicalTicket,
+        report: RegressionReport,
+    ) -> str:
+        """
+        Handle detected regressions based on configuration.
+
+        Args:
+            task: The task that caused regressions
+            report: RegressionReport with detected regressions
+
+        Returns:
+            Action taken: "acknowledged", "blocked", "rollback", or "continue"
+        """
+        if self.regression_detector is None:
+            return "continue"
+
+        # Check if should rollback
+        if self.regression_detector.should_rollback(report):
+            logger.info(
+                f"Auto-rollback triggered for task {task.id} "
+                f"({report.blocking_count} regressions)"
+            )
+            return "rollback"
+
+        # Check if should block
+        if self.regression_detector.should_block(report):
+            logger.warning(
+                f"Execution blocked for task {task.id} "
+                f"({report.blocking_count} unacknowledged regressions)"
+            )
+            return "blocked"
+
+        # Log warning but continue
+        logger.info(
+            f"Regressions detected for task {task.id} but continuing "
+            f"(policy: {self.regression_detector.config.policy.value})"
+        )
+        return "continue"
+
+    def should_block_on_regression(self) -> bool:
+        """
+        Check if execution should be blocked due to regressions.
+
+        Returns:
+            True if there are unacknowledged regressions with block policy
+        """
+        if self.regression_detector is None:
+            return False
+
+        if self._last_regression_report is None:
+            return False
+
+        return self.regression_detector.should_block(self._last_regression_report)
 
     # =========================================================================
     # SIGNAL HANDLING

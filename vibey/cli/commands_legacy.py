@@ -704,6 +704,15 @@ def create_task_cmd(sprint_id: str, title: str, description: str,
         except Exception:
             pass  # V2 logging is optional
 
+        # Trigger auto-estimation if enabled
+        try:
+            from vibey.services.auto_estimation import on_task_created
+            result = on_task_created(task=task, root_dir=root_dir)
+            if result:
+                print(f"  Token estimate: input={result.input_estimate.target}, output={result.output_estimate.target}")
+        except Exception:
+            pass  # Auto-estimation is optional
+
         print(f"✅ Created task: {title}")
         print(f"   ID: {ulid}")
         print(f"   Slug: {task_slug}")

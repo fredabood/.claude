@@ -264,6 +264,13 @@ try:
 except ImportError:
     POST_MORTEM_AVAILABLE = False
 
+# Import auto-estimation hooks for token estimation triggers
+try:
+    from vibey.services.auto_estimation import on_task_status_change as auto_estimation_on_status_change
+    AUTO_ESTIMATION_AVAILABLE = True
+except ImportError:
+    AUTO_ESTIMATION_AVAILABLE = False
+
 
 # ============================================================================
 # Centralized Status Transitions (Sprint 5 - Task 003)
@@ -776,6 +783,17 @@ def start_task(
         f"Task '{task.title}' started",
         {"task_id": task_id, "sprint_id": sprint_id or "unknown"}
     )
+
+    # Trigger auto-estimation warning if enabled
+    if AUTO_ESTIMATION_AVAILABLE:
+        warned = auto_estimation_on_status_change(
+            task=task,
+            old_status=old_status,
+            new_status="in_progress",
+            root_dir=root_dir,
+        )
+        if warned:
+            print(f"  Run 'vibey roadmap estimate {task_id}' to set token estimates")
 
     return 0
 

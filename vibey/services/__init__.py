@@ -52,6 +52,16 @@ from vibey.services.budget_checker import (
     can_start,
     should_stop_execution,
 )
+from vibey.services.auto_estimation import (
+    AutoEstimationTrigger,
+    AutoEstimationConfig,
+    load_auto_estimation_config,
+    save_auto_estimation_config,
+    on_task_created,
+    on_task_status_change,
+    on_calibration_updated,
+    estimate_task_tokens,
+)
 
 __all__ = [
     "TicketService",
@@ -74,4 +84,13 @@ __all__ = [
     "check_budget",
     "can_start",
     "should_stop_execution",
+    # Auto-estimation
+    "AutoEstimationTrigger",
+    "AutoEstimationConfig",
+    "load_auto_estimation_config",
+    "save_auto_estimation_config",
+    "on_task_created",
+    "on_task_status_change",
+    "on_calibration_updated",
+    "estimate_task_tokens",
 ]

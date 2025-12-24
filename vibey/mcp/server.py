@@ -24,6 +24,7 @@ from .tools.sprint_tools import get_sprint_tools, handle_sprint_tool
 from .tools.query_tools import get_query_tools, handle_query_tool
 from .tools.content_tools import get_content_tools, handle_content_tool
 from .tools.context_tools import get_context_tools, handle_context_tool
+from .tools.token_tools import get_token_tools, handle_token_tool
 from .utils.errors import VibeyMCPError
 from .discovery import ToolDiscovery
 
@@ -166,6 +167,9 @@ class VibeyMCPServer:
         # Context management tools (Triangle Model - Context System V2)
         tools.extend(get_context_tools())
 
+        # Token metrics tools (Sprint 4: CLI & Reporting)
+        tools.extend(get_token_tools())
+
         # Dynamic agent and workflow tools (from frontmatter discovery)
         try:
             discovered_tools = self.tool_discovery.get_all_tools()
@@ -240,6 +244,21 @@ class VibeyMCPServer:
                 "vibey_log_runtime_file",
             ]:
                 return await handle_context_tool(tool_name, arguments, self.framework_root)
+
+            # Route to token metrics tools (Sprint 4: CLI & Reporting)
+            if tool_name in [
+                "vibey_get_task_tokens",
+                "vibey_get_sprint_token_summary",
+                "vibey_get_track_token_summary",
+                "vibey_get_remaining_budget",
+                "vibey_set_task_token_estimate",
+                "vibey_set_task_token_budget",
+                "vibey_record_token_usage",
+                "vibey_estimate_task_tokens",
+                "vibey_estimate_from_description",
+                "vibey_get_token_usage_report",
+            ]:
+                return await handle_token_tool(tool_name, arguments, self.adapter)
 
             # Route to dynamic agent/workflow tools
             if tool_name.startswith("vibey_"):

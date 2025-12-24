@@ -2592,6 +2592,204 @@ def config_platform_list(ctx):
     sys.exit(0)
 
 
+# ----------------------------------------------------------------------------
+# Token Estimation Configuration Commands
+# ----------------------------------------------------------------------------
+
+@config.group('estimation')
+@click.pass_context
+def config_estimation(ctx):
+    """
+    Manage automatic token estimation settings.
+
+    Configure when and how token estimation is automatically triggered
+    for tasks. Available trigger modes:
+    - disabled: No automatic estimation (manual only)
+    - on_creation: Auto-estimate when task is created
+    - on_start_warn: Warn when starting a task without an estimate
+    - on_calibration_update: Re-estimate when calibration changes
+
+    Examples:
+
+      vibey config estimation show            # Show current settings
+      vibey config estimation set trigger on_creation
+      vibey config estimation set warn_on_start_missing true
+    """
+    pass
+
+
+@config_estimation.command('show')
+@click.option('--json', 'output_json', is_flag=True, help='Output as JSON')
+@click.pass_context
+def config_estimation_show(ctx, output_json: bool):
+    """Show current auto-estimation configuration.
+
+    Examples:
+      vibey config estimation show           # Human-readable output
+      vibey config estimation show --json    # JSON output for scripting
+    """
+    from pathlib import Path
+    import json as json_module
+    from vibey.services.auto_estimation import load_auto_estimation_config
+
+    root_dir = Path.cwd()
+    config = load_auto_estimation_config(root_dir)
+
+    if output_json:
+        print(json_module.dumps(config.to_dict(), indent=2))
+    else:
+        console.print("\n[bold]Auto-Estimation Configuration[/bold]\n")
+        console.print(f"  Trigger Mode:        {config.trigger.value}")
+        console.print(f"  Require Task Type:   {config.require_task_type}")
+        console.print(f"  Require Complexity:  {config.require_complexity}")
+        console.print(f"  Warn on Start:       {config.warn_on_start_missing}")
+        console.print(f"  Re-estimate Threshold: {config.re_estimate_threshold * 100:.0f}%")
+        if config.exclude_task_types:
+            console.print(f"  Excluded Types:      {', '.join(config.exclude_task_types)}")
+        else:
+            console.print("  Excluded Types:      (none)")
+        console.print("")
+
+    sys.exit(0)
+
+
+@config_estimation.command('set')
+@click.argument('key')
+@click.argument('value')
+@click.pass_context
+def config_estimation_set(ctx, key: str, value: str):
+    """Set an auto-estimation configuration value.
+
+    Available keys:
+      trigger - Mode: disabled, on_creation, on_start_warn, on_calibration_update
+      require_task_type - Require task type for estimation (true/false)
+      require_complexity - Require complexity for estimation (true/false)
+      warn_on_start_missing - Warn on start without estimate (true/false)
+      re_estimate_threshold - Re-estimate threshold as decimal (e.g., 0.2 for 20%)
+
+    Examples:
+      vibey config estimation set trigger on_creation
+      vibey config estimation set warn_on_start_missing false
+      vibey config estimation set re_estimate_threshold 0.3
+    """
+    from pathlib import Path
+    from vibey.services.auto_estimation import (
+        load_auto_estimation_config,
+        save_auto_estimation_config,
+        AutoEstimationTrigger,
+    )
+
+    root_dir = Path.cwd()
+    config = load_auto_estimation_config(root_dir)
+
+    # Normalize key
+    key_lower = key.lower().replace('-', '_')
+
+    try:
+        if key_lower == 'trigger':
+            try:
+                config.trigger = AutoEstimationTrigger(value.lower())
+            except ValueError:
+                valid_values = [t.value for t in AutoEstimationTrigger]
+                console.print(f"[red]Error:[/red] Invalid trigger value '{value}'")
+                console.print(f"Valid values: {', '.join(valid_values)}")
+                sys.exit(1)
+        elif key_lower == 'require_task_type':
+            config.require_task_type = value.lower() in ('true', 'yes', '1')
+        elif key_lower == 'require_complexity':
+            config.require_complexity = value.lower() in ('true', 'yes', '1')
+        elif key_lower == 'warn_on_start_missing':
+            config.warn_on_start_missing = value.lower() in ('true', 'yes', '1')
+        elif key_lower == 're_estimate_threshold':
+            try:
+                threshold = float(value)
+                if not 0 <= threshold <= 1:
+                    console.print("[red]Error:[/red] Threshold must be between 0 and 1")
+                    sys.exit(1)
+                config.re_estimate_threshold = threshold
+            except ValueError:
+                console.print(f"[red]Error:[/red] Invalid number '{value}'")
+                sys.exit(1)
+        else:
+            console.print(f"[red]Error:[/red] Unknown key '{key}'")
+            console.print("Valid keys: trigger, require_task_type, require_complexity, "
+                         "warn_on_start_missing, re_estimate_threshold")
+            sys.exit(1)
+
+        # Save updated config
+        save_auto_estimation_config(config, root_dir)
+        console.print(f"[green]Updated[/green] {key} = {value}")
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+@config_estimation.command('add-exclusion')
+@click.argument('task_type')
+@click.pass_context
+def config_estimation_add_exclusion(ctx, task_type: str):
+    """Add a task type to the exclusion list.
+
+    Excluded task types will never be automatically estimated.
+
+    Examples:
+      vibey config estimation add-exclusion documentation
+      vibey config estimation add-exclusion research
+    """
+    from pathlib import Path
+    from vibey.services.auto_estimation import (
+        load_auto_estimation_config,
+        save_auto_estimation_config,
+    )
+
+    root_dir = Path.cwd()
+    config = load_auto_estimation_config(root_dir)
+
+    task_type_lower = task_type.lower()
+    if task_type_lower not in [t.lower() for t in config.exclude_task_types]:
+        config.exclude_task_types.append(task_type_lower)
+        save_auto_estimation_config(config, root_dir)
+        console.print(f"[green]Added[/green] '{task_type}' to exclusion list")
+    else:
+        console.print(f"'{task_type}' is already in the exclusion list")
+
+    sys.exit(0)
+
+
+@config_estimation.command('remove-exclusion')
+@click.argument('task_type')
+@click.pass_context
+def config_estimation_remove_exclusion(ctx, task_type: str):
+    """Remove a task type from the exclusion list.
+
+    Examples:
+      vibey config estimation remove-exclusion documentation
+    """
+    from pathlib import Path
+    from vibey.services.auto_estimation import (
+        load_auto_estimation_config,
+        save_auto_estimation_config,
+    )
+
+    root_dir = Path.cwd()
+    config = load_auto_estimation_config(root_dir)
+
+    task_type_lower = task_type.lower()
+    original_length = len(config.exclude_task_types)
+    config.exclude_task_types = [t for t in config.exclude_task_types if t.lower() != task_type_lower]
+
+    if len(config.exclude_task_types) < original_length:
+        save_auto_estimation_config(config, root_dir)
+        console.print(f"[green]Removed[/green] '{task_type}' from exclusion list")
+    else:
+        console.print(f"'{task_type}' was not in the exclusion list")
+
+    sys.exit(0)
+
+
 # ============================================================================
 # Validate Command Group
 # ============================================================================

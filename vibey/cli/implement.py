@@ -1,0 +1,938 @@
+"""
+CLI Commands for Implementation Mode.
+
+This module provides CLI commands for running and controlling autonomous task
+execution through the Implementation Mode loop.
+
+Commands:
+- vibey implement: Run the implementation loop (main command)
+- vibey implement status: Show current implementation mode status
+- vibey implement pause: Pause execution after current task completes
+- vibey implement resume: Resume paused execution
+- vibey implement stop: Stop execution immediately
+
+State File: .vibey/implementation/state.yaml
+PID File: .vibey/implementation/pid
+Control File: .vibey/implementation/control
+
+Design Reference:
+- Implementation Mode Track
+- Task NA: Implement vibey implement CLI command
+- Task NB: Implement control commands
+"""
+
+import asyncio
+import os
+import signal
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Optional
+
+import click
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+from rich.text import Text
+
+from vibey.services.implementation.display import ProgressDisplay
+from vibey.services.implementation.state import LoopState, LoopStatus
+
+# =============================================================================
+# CONSTANTS
+# =============================================================================
+
+# Default paths for implementation mode files
+IMPLEMENTATION_DIR = Path(".vibey/implementation")
+STATE_FILE = IMPLEMENTATION_DIR / "state.yaml"
+PID_FILE = IMPLEMENTATION_DIR / "pid"
+CONTROL_FILE = IMPLEMENTATION_DIR / "control"
+
+# Control signals
+CONTROL_PAUSE = "PAUSE"
+CONTROL_RESUME = "RESUME"
+CONTROL_STOP = "STOP"
+
+# Console for rich output
+console = Console()
+
+
+# =============================================================================
+# HELPER FUNCTIONS
+# =============================================================================
+
+
+def get_implementation_dir() -> Path:
+    """Get the implementation directory path (creates if needed)."""
+    impl_dir = Path.cwd() / IMPLEMENTATION_DIR
+    impl_dir.mkdir(parents=True, exist_ok=True)
+    return impl_dir
+
+
+def get_state_path() -> Path:
+    """Get the state file path."""
+    return Path.cwd() / STATE_FILE
+
+
+def get_pid_path() -> Path:
+    """Get the PID file path."""
+    return Path.cwd() / PID_FILE
+
+
+def get_control_path() -> Path:
+    """Get the control file path."""
+    return Path.cwd() / CONTROL_FILE
+
+
+def read_pid() -> Optional[int]:
+    """
+    Read the PID of the running implementation loop.
+
+    Returns:
+        The PID if a valid PID file exists, None otherwise.
+    """
+    pid_path = get_pid_path()
+    if not pid_path.exists():
+        return None
+
+    try:
+        with open(pid_path, "r") as f:
+            pid_str = f.read().strip()
+            return int(pid_str) if pid_str else None
+    except (ValueError, IOError):
+        return None
+
+
+def write_pid(pid: int) -> None:
+    """
+    Write the PID to the PID file.
+
+    Args:
+        pid: The process ID to write.
+    """
+    pid_path = get_pid_path()
+    get_implementation_dir()  # Ensure directory exists
+    with open(pid_path, "w") as f:
+        f.write(str(pid))
+
+
+def remove_pid() -> None:
+    """Remove the PID file."""
+    pid_path = get_pid_path()
+    if pid_path.exists():
+        pid_path.unlink()
+
+
+def is_process_running(pid: int) -> bool:
+    """
+    Check if a process with the given PID is running.
+
+    Args:
+        pid: The process ID to check.
+
+    Returns:
+        True if the process is running, False otherwise.
+    """
+    try:
+        # Sending signal 0 checks if process exists without affecting it
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
+def write_control(signal_type: str) -> None:
+    """
+    Write a control signal to the control file.
+
+    Args:
+        signal_type: One of CONTROL_PAUSE, CONTROL_RESUME, CONTROL_STOP
+    """
+    control_path = get_control_path()
+    get_implementation_dir()  # Ensure directory exists
+    with open(control_path, "w") as f:
+        f.write(signal_type)
+
+
+def read_control() -> Optional[str]:
+    """
+    Read the current control signal.
+
+    Returns:
+        The control signal if file exists, None otherwise.
+    """
+    control_path = get_control_path()
+    if not control_path.exists():
+        return None
+
+    try:
+        with open(control_path, "r") as f:
+            return f.read().strip()
+    except IOError:
+        return None
+
+
+def clear_control() -> None:
+    """Remove the control file."""
+    control_path = get_control_path()
+    if control_path.exists():
+        control_path.unlink()
+
+
+def load_state() -> Optional[LoopState]:
+    """
+    Load the implementation loop state from the state file.
+
+    Returns:
+        LoopState if file exists and is valid, None otherwise.
+    """
+    state_path = get_state_path()
+    if not state_path.exists():
+        return None
+
+    try:
+        return LoopState.load(state_path)
+    except Exception:
+        return None
+
+
+def save_state(state: LoopState) -> None:
+    """
+    Save the implementation loop state to the state file.
+
+    Args:
+        state: The LoopState to save.
+    """
+    state_path = get_state_path()
+    get_implementation_dir()  # Ensure directory exists
+    state.save(state_path)
+
+
+# =============================================================================
+# CLICK COMMAND GROUP
+# =============================================================================
+
+
+@click.group(invoke_without_command=True)
+@click.option('--track', help='Only tasks in this track (ULID)')
+@click.option('--sprint', help='Only tasks in this sprint (ULID)')
+@click.option('--max-tasks', type=int, help='Stop after N tasks')
+@click.option('--max-tokens', type=int, help='Stop after N tokens')
+@click.option('--dry-run', is_flag=True, help='Show what would run without executing')
+@click.option('--background', is_flag=True, help='Run as background process')
+@click.pass_context
+def implement(ctx, track, sprint, max_tasks, max_tokens, dry_run, background):
+    """
+    Run implementation mode to execute planned tasks.
+
+    Starts an execution loop that:
+    1. Finds the next planned and unblocked task
+    2. Executes the task via Claude Code agent
+    3. Updates task status based on result
+    4. Continues until no more tasks or limit reached
+
+    Examples:
+
+      vibey implement                    # Run all planned tasks
+      vibey implement --track 01KC...    # Only tasks in track
+      vibey implement --max-tasks 5      # Stop after 5 tasks
+      vibey implement --dry-run          # Preview without executing
+      vibey implement --background       # Run in background
+
+    Control commands:
+
+      vibey implement status             # Show current status
+      vibey implement pause              # Pause after current task
+      vibey implement resume             # Resume paused execution
+      vibey implement stop               # Stop immediately
+    """
+    ctx.ensure_object(dict)
+
+    # If a subcommand is being invoked, let it handle things
+    if ctx.invoked_subcommand is not None:
+        return
+
+    # Run the main implementation loop
+    exit_code = run_implementation_cmd(
+        track=track,
+        sprint=sprint,
+        max_tasks=max_tasks,
+        max_tokens=max_tokens,
+        dry_run=dry_run,
+        background=background,
+    )
+    sys.exit(exit_code)
+
+
+# =============================================================================
+# MAIN IMPLEMENTATION COMMAND
+# =============================================================================
+
+
+def run_implementation_cmd(
+    track: Optional[str] = None,
+    sprint: Optional[str] = None,
+    max_tasks: Optional[int] = None,
+    max_tokens: Optional[int] = None,
+    dry_run: bool = False,
+    background: bool = False,
+) -> int:
+    """
+    Run implementation mode to execute planned tasks.
+
+    Args:
+        track: Only tasks in this track (ULID)
+        sprint: Only tasks in this sprint (ULID)
+        max_tasks: Stop after N tasks
+        max_tokens: Stop after N tokens
+        dry_run: Show what would run without executing
+        background: Run as background process
+
+    Returns:
+        Exit code (0 = success, 1 = error)
+    """
+    from vibey.services.implementation import (
+        ClaudeTaskExecutor,
+        ImplementConfig,
+        ImplementationLoop,
+        ProgressDisplay,
+        TaskSelector,
+    )
+
+    # Determine roadmap root
+    project_root = Path.cwd()
+    roadmap_root = project_root / ".vibey" / "roadmap"
+
+    if not roadmap_root.exists():
+        console.print(
+            "[red]Error:[/red] Roadmap not found at .vibey/roadmap/\n"
+            "Run 'vibey roadmap init' to initialize a roadmap."
+        )
+        return 1
+
+    # Check database exists (in roadmap dir or parent .vibey dir)
+    db_path = roadmap_root / "roadmap.db"
+    alt_db_path = project_root / ".vibey" / "roadmap.db"
+    if not db_path.exists() and not alt_db_path.exists():
+        console.print(
+            "[red]Error:[/red] Roadmap database not found.\n"
+            "Run 'vibey roadmap db rebuild' to create the database."
+        )
+        return 1
+
+    # Handle background mode
+    if background:
+        return _run_background(track, sprint, max_tasks, max_tokens)
+
+    # Handle dry-run mode
+    if dry_run:
+        return _run_dry_run(roadmap_root, track, sprint, max_tasks)
+
+    # Create configuration
+    state_path = get_state_path()
+    config = ImplementConfig(
+        max_tasks=max_tasks,
+        max_tokens=max_tokens,
+        state_path=state_path,
+        track_id=track,
+        sprint_id=sprint,
+        auto_save=True,
+    )
+
+    # Create state (or load existing)
+    state = LoopState.load_or_create(state_path)
+
+    # Create progress display
+    display = ProgressDisplay(state, console=console)
+
+    # Show startup banner
+    _show_startup_banner(track, sprint, max_tasks, max_tokens)
+
+    # Write PID for status tracking
+    write_pid(os.getpid())
+
+    try:
+        # Create components
+        selector = TaskSelector(roadmap_root)
+        executor = ClaudeTaskExecutor(
+            config=config,
+            roadmap_root=roadmap_root,
+            working_directory=project_root,
+        )
+
+        # Create and run loop
+        loop = ImplementationLoop(
+            selector=selector,
+            executor=executor,
+            config=config,
+            state=state,
+        )
+
+        # Run the async loop
+        result = asyncio.run(loop.run())
+
+        # Show final summary
+        display.show_summary(state)
+        display.show_task_results_table(limit=10)
+
+        # Return exit code based on result
+        if result.tasks_failed > 0:
+            console.print(
+                f"\n[yellow]Warning:[/yellow] {result.tasks_failed} task(s) failed"
+            )
+            return 1
+
+        if result.stop_reason == "error":
+            console.print(f"\n[red]Error:[/red] Loop stopped due to error")
+            return 1
+
+        console.print(
+            f"\n[green]Success:[/green] Completed {result.tasks_completed} task(s)"
+        )
+        return 0
+
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        console.print(
+            "\n[dim]Hint: Make sure the Claude Code CLI is installed and in your PATH[/dim]"
+        )
+        return 1
+
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Interrupted by user[/yellow]")
+        return 130
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        return 1
+
+    finally:
+        # Clean up PID file
+        remove_pid()
+
+
+def _show_startup_banner(
+    track: Optional[str],
+    sprint: Optional[str],
+    max_tasks: Optional[int],
+    max_tokens: Optional[int],
+) -> None:
+    """Display startup banner with configuration."""
+    lines = ["[bold cyan]Implementation Mode[/bold cyan]"]
+
+    # Add filters
+    filters = []
+    if track:
+        filters.append(f"Track: {track[:12]}...")
+    if sprint:
+        filters.append(f"Sprint: {sprint[:12]}...")
+    if filters:
+        lines.append(f"Filters: {', '.join(filters)}")
+
+    # Add limits
+    limits = []
+    if max_tasks:
+        limits.append(f"Max Tasks: {max_tasks}")
+    if max_tokens:
+        limits.append(f"Max Tokens: {max_tokens:,}")
+    if limits:
+        lines.append(f"Limits: {', '.join(limits)}")
+
+    content = "\n".join(lines)
+    panel = Panel(content, border_style="blue", padding=(0, 1))
+    console.print(panel)
+    console.print()
+
+
+def _run_dry_run(
+    roadmap_root: Path,
+    track: Optional[str],
+    sprint: Optional[str],
+    max_tasks: Optional[int],
+) -> int:
+    """
+    Run in dry-run mode - show what would be executed.
+
+    Args:
+        roadmap_root: Path to roadmap directory
+        track: Track filter
+        sprint: Sprint filter
+        max_tasks: Maximum tasks to show
+
+    Returns:
+        Exit code
+    """
+    from vibey.services.implementation import TaskSelector
+
+    console.print(
+        Panel(
+            "[bold cyan]Implementation Mode - Dry Run[/bold cyan]\n"
+            "[dim]Showing tasks that would be executed[/dim]",
+            border_style="yellow",
+        )
+    )
+    console.print()
+
+    try:
+        selector = TaskSelector(roadmap_root)
+
+        # Get executable tasks
+        limit = max_tasks or 20
+        tasks = selector.get_all_executable(
+            track_id=track,
+            sprint_id=sprint,
+            limit=limit,
+        )
+
+        if not tasks:
+            console.print("[yellow]No executable tasks found.[/yellow]")
+            console.print()
+            console.print("[dim]Possible reasons:[/dim]")
+            console.print("  - All tasks are completed")
+            console.print("  - Tasks have incomplete dependencies")
+            console.print("  - Tasks are not yet planned (missing context files)")
+            console.print("  - Track/sprint filters don't match any tasks")
+            return 0
+
+        # Display tasks table
+        table = Table(
+            title=f"Executable Tasks ({len(tasks)} found)",
+            show_header=True,
+            header_style="bold",
+        )
+        table.add_column("#", style="dim", width=3)
+        table.add_column("Task ID", style="cyan", max_width=28)
+        table.add_column("Name", style="green")
+        table.add_column("Status", style="dim")
+
+        for i, task in enumerate(tasks, 1):
+            task_id = task.id
+            if len(task_id) > 26:
+                task_id = task_id[:23] + "..."
+
+            table.add_row(
+                str(i),
+                task_id,
+                task.name or "[unnamed]",
+                task.status.value if hasattr(task, "status") else "not_started",
+            )
+
+        console.print(table)
+
+        # Summary
+        console.print()
+        remaining = selector.count_remaining(track_id=track, sprint_id=sprint)
+        console.print(f"[dim]Total executable tasks: {remaining}[/dim]")
+
+        if max_tasks and len(tasks) >= max_tasks:
+            console.print(f"[dim](showing first {max_tasks} due to --max-tasks)[/dim]")
+
+        console.print()
+        console.print("[dim]Run without --dry-run to execute these tasks[/dim]")
+
+        return 0
+
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        return 1
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        return 1
+
+
+def _run_background(
+    track: Optional[str],
+    sprint: Optional[str],
+    max_tasks: Optional[int],
+    max_tokens: Optional[int],
+) -> int:
+    """
+    Run implementation mode as a background process.
+
+    Args:
+        track: Track filter
+        sprint: Sprint filter
+        max_tasks: Maximum tasks
+        max_tokens: Maximum tokens
+
+    Returns:
+        Exit code (0 if process started successfully)
+    """
+    # Build command
+    cmd = [sys.executable, "-m", "vibey", "implement"]
+
+    if track:
+        cmd.extend(["--track", track])
+    if sprint:
+        cmd.extend(["--sprint", sprint])
+    if max_tasks:
+        cmd.extend(["--max-tasks", str(max_tasks)])
+    if max_tokens:
+        cmd.extend(["--max-tokens", str(max_tokens)])
+
+    # Log file for background output
+    log_dir = Path.cwd() / ".vibey" / "implementation" / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = log_dir / f"implement_{timestamp}.log"
+
+    console.print(
+        Panel(
+            "[bold cyan]Implementation Mode - Background[/bold cyan]\n"
+            f"Log file: {log_file}",
+            border_style="blue",
+        )
+    )
+
+    try:
+        # Open log file
+        with open(log_file, "w") as log:
+            # Start detached process
+            if sys.platform == "win32":
+                # Windows: use DETACHED_PROCESS flag
+                process = subprocess.Popen(
+                    cmd,
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                    creationflags=subprocess.DETACHED_PROCESS
+                    | subprocess.CREATE_NEW_PROCESS_GROUP,
+                )
+            else:
+                # Unix: use nohup-like behavior with start_new_session
+                process = subprocess.Popen(
+                    cmd,
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                    start_new_session=True,
+                    preexec_fn=os.setpgrp if hasattr(os, "setpgrp") else None,
+                )
+
+        console.print(f"\n[green]Started background process (PID: {process.pid})[/green]")
+        console.print()
+        console.print("[dim]Monitor progress with:[/dim]")
+        console.print(f"  tail -f {log_file}")
+        console.print()
+        console.print("[dim]Check status with:[/dim]")
+        console.print("  vibey implement status")
+
+        # Save PID for status tracking
+        write_pid(process.pid)
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error starting background process:[/red] {e}")
+        return 1
+
+
+# =============================================================================
+# STATUS COMMAND
+# =============================================================================
+
+
+@implement.command("status")
+@click.pass_context
+def implement_status(ctx):
+    """
+    Show current implementation mode status.
+
+    Displays:
+    - Session ID and start time
+    - Current task being executed
+    - Progress (X/Y tasks completed)
+    - Token usage
+    - Status (running/paused/stopped/completed)
+
+    Examples:
+      vibey implement status
+    """
+    state = load_state()
+
+    if state is None:
+        console.print(
+            Panel(
+                "[dim]No active implementation session found.[/dim]\n\n"
+                "Start a new session with: [bold]vibey implement start[/bold]",
+                title="Implementation Mode Status",
+                border_style="dim",
+            )
+        )
+        sys.exit(0)
+
+    # Check if the process is actually running
+    pid = read_pid()
+    process_running = pid is not None and is_process_running(pid)
+
+    # Create display and show status
+    display = ProgressDisplay(state, console=console)
+    display.show_status()
+
+    # Add process status information
+    console.print()
+    if process_running:
+        console.print(f"[green]Process running[/green] (PID: {pid})")
+    else:
+        if state.status == LoopStatus.RUNNING:
+            console.print(
+                "[yellow]Warning:[/yellow] State shows running but no process found.\n"
+                "The process may have crashed. Use [bold]vibey implement resume[/bold] to continue."
+            )
+        elif state.status == LoopStatus.PAUSED:
+            console.print("[yellow]Session is paused.[/yellow] Use [bold]vibey implement resume[/bold] to continue.")
+        elif state.status == LoopStatus.STOPPED:
+            console.print("[red]Session was stopped.[/red]")
+        elif state.status == LoopStatus.COMPLETED:
+            console.print("[green]Session completed successfully.[/green]")
+
+    # Show task results if any
+    if state.task_results:
+        display.show_task_results_table(limit=5)
+
+    sys.exit(0)
+
+
+# =============================================================================
+# PAUSE COMMAND
+# =============================================================================
+
+
+@implement.command("pause")
+@click.pass_context
+def implement_pause(ctx):
+    """
+    Pause execution after current task completes.
+
+    Sets the status to PAUSED. The loop will stop after the current task
+    finishes and can be resumed later with 'vibey implement resume'.
+
+    The pause signal is written to a control file that the main loop checks
+    periodically.
+
+    Examples:
+      vibey implement pause
+    """
+    state = load_state()
+    pid = read_pid()
+
+    if state is None:
+        console.print("[yellow]No active implementation session found.[/yellow]")
+        sys.exit(1)
+
+    if state.status == LoopStatus.PAUSED:
+        console.print("[yellow]Session is already paused.[/yellow]")
+        sys.exit(0)
+
+    if state.status in (LoopStatus.STOPPED, LoopStatus.COMPLETED):
+        console.print(f"[yellow]Session is already {state.status.value}. Cannot pause.[/yellow]")
+        sys.exit(1)
+
+    # Check if process is running
+    process_running = pid is not None and is_process_running(pid)
+
+    if process_running:
+        # Write pause signal to control file
+        write_control(CONTROL_PAUSE)
+        console.print(
+            "[cyan]Pause signal sent.[/cyan]\n"
+            "Execution will pause after the current task completes."
+        )
+    else:
+        # Process not running, update state directly
+        state.pause()
+        save_state(state)
+        console.print(
+            "[cyan]Session marked as paused.[/cyan]\n"
+            "Use [bold]vibey implement resume[/bold] to continue."
+        )
+
+    sys.exit(0)
+
+
+# =============================================================================
+# RESUME COMMAND
+# =============================================================================
+
+
+@implement.command("resume")
+@click.pass_context
+def implement_resume(ctx):
+    """
+    Resume paused execution.
+
+    Loads the state from the state file and continues execution from where
+    it left off. This command will start the implementation loop.
+
+    Note: This command does not start a new process. Use 'vibey implement start'
+    to start a new implementation session.
+
+    Examples:
+      vibey implement resume
+    """
+    state = load_state()
+    pid = read_pid()
+
+    if state is None:
+        console.print(
+            "[yellow]No implementation session found to resume.[/yellow]\n"
+            "Start a new session with: [bold]vibey implement start[/bold]"
+        )
+        sys.exit(1)
+
+    # Check if already running
+    if pid is not None and is_process_running(pid):
+        console.print(
+            f"[yellow]Implementation loop is already running (PID: {pid}).[/yellow]\n"
+            "Use [bold]vibey implement status[/bold] to check progress."
+        )
+        sys.exit(1)
+
+    if state.status == LoopStatus.COMPLETED:
+        console.print(
+            "[yellow]Session has completed.[/yellow]\n"
+            "Start a new session with: [bold]vibey implement start[/bold]"
+        )
+        sys.exit(1)
+
+    if state.status == LoopStatus.STOPPED:
+        # Allow resuming stopped sessions
+        console.print(
+            "[cyan]Resuming stopped session...[/cyan]\n"
+            f"Session ID: {state.session_id}"
+        )
+    elif state.status == LoopStatus.PAUSED:
+        console.print(
+            "[cyan]Resuming paused session...[/cyan]\n"
+            f"Session ID: {state.session_id}"
+        )
+    elif state.status == LoopStatus.RUNNING:
+        # Session shows running but no process - likely crashed
+        console.print(
+            "[cyan]Resuming session (process not found)...[/cyan]\n"
+            f"Session ID: {state.session_id}"
+        )
+
+    # Clear any stale control signals
+    clear_control()
+
+    # Update state to running
+    state.status = LoopStatus.RUNNING
+    save_state(state)
+
+    # Write resume signal (in case main loop is checking)
+    write_control(CONTROL_RESUME)
+
+    console.print(
+        "\n[green]Session ready to resume.[/green]\n\n"
+        "To start the implementation loop, run:\n"
+        "  [bold]vibey implement start --resume[/bold]\n\n"
+        "Or restart your AI assistant in implementation mode."
+    )
+
+    sys.exit(0)
+
+
+# =============================================================================
+# STOP COMMAND
+# =============================================================================
+
+
+@implement.command("stop")
+@click.option(
+    "--force",
+    "-f",
+    is_flag=True,
+    help="Force stop without waiting for current task",
+)
+@click.pass_context
+def implement_stop(ctx, force: bool):
+    """
+    Stop execution immediately.
+
+    Sends SIGINT to the running agent subprocess. The current task will be
+    marked as blocked, and state is saved for potential resume.
+
+    Use --force to send SIGKILL instead of SIGINT.
+
+    Examples:
+      vibey implement stop           # Graceful stop (SIGINT)
+      vibey implement stop --force   # Force stop (SIGKILL)
+    """
+    state = load_state()
+    pid = read_pid()
+
+    if state is None and pid is None:
+        console.print("[yellow]No active implementation session found.[/yellow]")
+        sys.exit(1)
+
+    # Check if process is running
+    process_running = pid is not None and is_process_running(pid)
+
+    if process_running:
+        try:
+            # Send appropriate signal
+            if force:
+                console.print(f"[red]Sending SIGKILL to process {pid}...[/red]")
+                os.kill(pid, signal.SIGKILL)
+            else:
+                console.print(f"[yellow]Sending SIGINT to process {pid}...[/yellow]")
+                os.kill(pid, signal.SIGINT)
+
+            # Write stop signal to control file
+            write_control(CONTROL_STOP)
+
+            console.print(
+                "[cyan]Stop signal sent.[/cyan]\n"
+                "The process should terminate shortly."
+            )
+
+            # Clean up PID file after a forced kill
+            if force:
+                remove_pid()
+
+        except OSError as e:
+            console.print(f"[red]Failed to send signal: {e}[/red]")
+            sys.exit(1)
+    else:
+        console.print("[dim]No running process found.[/dim]")
+
+    # Update state if available
+    if state is not None:
+        # Mark current task as blocked if there is one
+        if state.current_task:
+            console.print(f"[yellow]Current task {state.current_task} marked as blocked.[/yellow]")
+            state.skip_blocked_task(state.current_task)
+            state.current_task = None
+
+        state.stop()
+        save_state(state)
+        console.print(
+            "\n[cyan]Session stopped.[/cyan]\n"
+            f"Session ID: {state.session_id}\n"
+            f"Tasks completed: {state.tasks_completed}\n"
+            f"Tasks failed: {state.tasks_failed}\n"
+            f"Tasks blocked: {state.tasks_blocked}"
+        )
+
+    # Clean up
+    clear_control()
+    if not process_running:
+        remove_pid()
+
+    sys.exit(0)
+
+
+# =============================================================================
+# EXPORTS
+# =============================================================================
+
+__all__ = [
+    "implement",
+    "run_implementation_cmd",
+    "implement_status",
+    "implement_pause",
+    "implement_resume",
+    "implement_stop",
+]

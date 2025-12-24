@@ -81,6 +81,14 @@ Usage:
     )
 """
 
+from vibey.services.implementation.config import (
+    ImplementConfig,
+    RetryConfig,
+    SelectionConfig,
+    AgentConfig,
+    load_implement_config,
+    get_default_config_path,
+)
 from vibey.services.implementation.context import (
     TaskContext,
     TaskContextBuilder,
@@ -89,7 +97,6 @@ from vibey.services.implementation.executor import (
     ClaudeTaskExecutor,
 )
 from vibey.services.implementation.loop import (
-    ImplementConfig,
     ImplementationLoop,
     LoopResult,
     TaskExecutor,
@@ -123,6 +130,11 @@ __all__ = [
     "run_implementation_loop",
     # Configuration
     "ImplementConfig",
+    "RetryConfig",
+    "SelectionConfig",
+    "AgentConfig",
+    "load_implement_config",
+    "get_default_config_path",
     # Executor protocol and implementations
     "TaskExecutor",
     "ClaudeTaskExecutor",

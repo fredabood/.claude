@@ -59,36 +59,8 @@ logger = logging.getLogger(__name__)
 # CONFIGURATION
 # =============================================================================
 
-
-@dataclass
-class ImplementConfig:
-    """
-    Configuration for the implementation loop.
-
-    This is a placeholder that will be expanded in Sprint 4 to include
-    full configuration options such as:
-    - Platform-specific settings
-    - Token budget management
-    - Retry policies
-    - Logging configuration
-
-    Attributes:
-        max_tasks: Maximum number of tasks to execute in this session (None = unlimited)
-        max_tokens: Maximum total tokens (input + output) to consume (None = unlimited)
-        state_path: Path for persisting loop state (for resume capability)
-        track_id: Optional track ULID to filter tasks by
-        sprint_id: Optional sprint ULID to filter tasks by
-        auto_save: Whether to automatically save state after each task
-        save_interval: How often to save state (in seconds) during long tasks
-    """
-
-    max_tasks: Optional[int] = None
-    max_tokens: Optional[int] = None
-    state_path: Optional[Path] = None
-    track_id: Optional[str] = None
-    sprint_id: Optional[str] = None
-    auto_save: bool = True
-    save_interval: int = 60  # seconds
+# Import ImplementConfig from the dedicated config module
+from vibey.services.implementation.config import ImplementConfig
 
 
 # =============================================================================

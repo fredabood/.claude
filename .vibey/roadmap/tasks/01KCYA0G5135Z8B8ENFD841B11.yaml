@@ -24,11 +24,11 @@ task:
     \ (add calibration)\n- .vibey/config/token_calibration.yaml (new)\n\nNote: Estimates\
     \ are preserved on completed tasks specifically to enable\nthis retroactive accuracy\
     \ analysis.\n"
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-20T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-23T23:31:14.018486+00:00'
+  completed: '2025-12-23T23:37:12.076826+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -40,12 +40,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: task
-    blocker_id: 01KCYA0G5135Z8B8ENFD841B10
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

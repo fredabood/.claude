@@ -12,15 +12,15 @@ track:
   progress:
     sprints_total: 3
     sprints_completed: 0
-    tasks_total: 45
-    tasks_completed: 45
+    tasks_total: 44
+    tasks_completed: 44
     completion_percent: 100.0
   sprints:
   - id: 01KC2D0JK325ABWVR9FQD5ZNQX
     name: Unified CLI Tool
     status: production_ready
     estimated_duration: null
-    tasks_count: 12
+    tasks_count: 11
     started: null
   - id: 01KC2D0JK49XGJV84YRRHEASKD
     name: Config Migration System

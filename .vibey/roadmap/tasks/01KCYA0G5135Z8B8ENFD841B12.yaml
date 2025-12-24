@@ -59,11 +59,11 @@ task:
     \ budget ({budget})\" (only if enabled)\n\nFiles:\n- vibey/roadmap/models/ticket/ticket.py\
     \ (always-on validation)\n- vibey/services/budget_validator.py (optional hierarchical\
     \ validation)\n- vibey/operations/roadmap/update.py (CLI validation integration)\n"
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-20T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-24T00:07:58.937027+00:00'
+  completed: '2025-12-24T00:09:41.071343+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

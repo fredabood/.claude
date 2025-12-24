@@ -1,6 +1,10 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B13
-  name: Implement runtime token tracking
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0T
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement runtime token tracking
   description: "Track actual token usage during task execution. Updates the `usage`\n\
     field within the `Tokens` objects on the task.\n\n1. Token Tracking Interface:\n\
     \   vibey/services/token_tracker.py:\n\n   ```python\n   from vibey.roadmap.models.ticket\
@@ -57,28 +61,26 @@ task:
     \ log\n   - Per-commit usage breakdown in .vibey/context/commits/\n\nCross-reference:\
     \ Implementation Mode Sprint 10 (TicketCommitLinker)\nhandles the git hook integration\
     \ that calls TokenTracker.on_commit().\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
   status: completed
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: '2025-12-24T00:14:24.084412+00:00'
-  completed_at: '2025-12-24T00:17:01.023204+00:00'
-  updated_at: '2025-12-24T00:17:01.023365+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2025-12-20T12:00:00+00:00'
+  started: '2025-12-24T00:14:24.084412+00:00'
+  completed: '2025-12-24T00:17:01.023204+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: high
-  phase_label: null
+  complexity: complex
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

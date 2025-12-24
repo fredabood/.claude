@@ -1,6 +1,10 @@
 task:
   id: 01KD3W94DXHNB5VAF9B5WK8QFJ
-  name: Add auto-estimation trigger configuration
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0V
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add auto-estimation trigger configuration
   description: "Implement configurable automatic token estimation triggers with three\
     \ modes\nthat users can select based on their workflow preferences.\n\n1. Configuration\
     \ Model:\n   ```python\n   class AutoEstimationTrigger(str, Enum):\n       DISABLED\
@@ -68,28 +72,26 @@ task:
     \nFiles:\n- vibey/services/auto_estimation.py (new)\n- .vibey/config/token_estimation.yaml\
     \ (config schema)\n- vibey/operations/roadmap/create.py (hook integration)\n-\
     \ vibey/operations/roadmap/update.py (hook integration)\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0V
   status: completed
-  created_at: '2025-12-22T12:00:00+00:00'
-  started_at: '2025-12-24T00:55:12.462820+00:00'
-  completed_at: '2025-12-24T01:03:55.078811+00:00'
-  updated_at: '2025-12-24T01:03:55.078970+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2025-12-22T12:00:00+00:00'
+  started: '2025-12-24T00:55:12.462820+00:00'
+  completed: '2025-12-24T01:03:55.078811+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

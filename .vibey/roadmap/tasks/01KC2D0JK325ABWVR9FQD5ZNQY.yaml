@@ -1,31 +1,29 @@
 task:
   id: 01KC2D0JK325ABWVR9FQD5ZNQY
-  sprint_id: 01KC2D0JK325ABWVR9FQD5ZNQX
-  track_id: 01KC2D0JK325ABWVR9FQD5ZNQW
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Create Python package structure
+  name: Create Python package structure
   description: ''
-  status: completed
-  blocked: false
-  created: '2025-12-11T21:21:43.484640+00:00'
-  started: null
-  completed: '2025-12-11T21:21:43.484643+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KC2D0JK325ABWVR9FQD5ZNQX
+  status: in_progress
+  created_at: '2025-12-11T21:21:43.484640+00:00'
+  started_at: '2025-12-24T00:51:06.700650+00:00'
+  completed_at: '2025-12-11T21:21:43.484643+00:00'
+  updated_at: '2025-12-24T00:51:06.700654+00:00'
+  assigned_agents: []
   priority: medium
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

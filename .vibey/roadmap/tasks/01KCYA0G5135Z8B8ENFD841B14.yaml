@@ -1,6 +1,10 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B14
-  name: Add warning and hard-stop thresholds
+  sprint_id: 01KCYA0G5135Z8B8ENFD841B0T
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add warning and hard-stop thresholds
   description: "Implement the full budget enforcement system with per-direction settings,\n\
     grace periods, and automatic escalation.\n\n1. Enforcement Modes:\n   - warn:\
     \ Log warnings but continue execution\n   - soft_stop: Warn and prompt for confirmation\
@@ -110,28 +114,26 @@ task:
     \  - Environment variable: VIBEY_IGNORE_TOKEN_BUDGET=1\n   - Only works if enforcement.allow_override=true\n\
     \nFiles:\n- vibey/services/budget_checker.py (new)\n- vibey/services/token_tracker.py\
     \ (integrate with checker)\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
   status: completed
-  created_at: '2025-12-20T12:00:00+00:00'
-  started_at: '2025-12-24T00:19:48.934526+00:00'
-  completed_at: '2025-12-24T00:24:10.820779+00:00'
-  updated_at: '2025-12-24T00:24:10.820955+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2025-12-20T12:00:00+00:00'
+  started: '2025-12-24T00:19:48.934526+00:00'
+  completed: '2025-12-24T00:24:10.820779+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

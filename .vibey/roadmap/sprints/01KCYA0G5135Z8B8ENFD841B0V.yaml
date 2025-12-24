@@ -3,11 +3,11 @@ sprint:
   name: 'Sprint 4: CLI & Reporting'
   track_id: 01KCYA0G5135Z8B8ENFD841B0Q
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   blocked_reason: null
   created: '2025-12-20T12:00:00+00:00'
-  started: null
+  started: '2025-12-23T00:00:00+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []

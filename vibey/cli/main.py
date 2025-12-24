@@ -461,6 +461,56 @@ def roadmap_summarize(ctx, item_type: str, item_id: str):
     sys.exit(exit_code)
 
 
+@roadmap.command('tokens')
+@click.argument('item_id', required=False)
+@click.option('--track', 'track_id', help='View token summary for a track')
+@click.option('--sprint', 'sprint_id', help='View token summary for a sprint')
+@click.option('--show-enforcement', is_flag=True, help='Show detailed enforcement settings')
+@click.pass_context
+def roadmap_tokens(ctx, item_id: Optional[str], track_id: Optional[str],
+                   sprint_id: Optional[str], show_enforcement: bool):
+    """View token metrics for a task, sprint, or track
+
+    Displays token estimates, budgets, usage, and enforcement settings
+    from the Tokens model (estimate/budget/usage/enforcement).
+
+    Examples:
+      vibey roadmap tokens 01KC2D0JK7READW9KAK1HBX4B8   # View task tokens
+      vibey roadmap tokens --sprint 01KC2D0JKVT80AFQ6C1 # View sprint token summary
+      vibey roadmap tokens --track 01KCYA0G5135Z8B8ENFD # View track token summary
+      vibey roadmap tokens <task-id> --show-enforcement # Show enforcement details
+    """
+    from vibey.cli.commands import roadmap_tokens_cmd
+
+    exit_code = roadmap_tokens_cmd(
+        item_id=item_id,
+        track_id=track_id,
+        sprint_id=sprint_id,
+        show_enforcement=show_enforcement,
+    )
+    sys.exit(exit_code)
+
+
+@roadmap.command('estimate')
+@click.argument('item_id')
+@click.pass_context
+def roadmap_estimate(ctx, item_id: str):
+    """Run token estimation for a task, sprint, or track
+
+    Uses the TokenEstimator to set estimate.min/max/target values.
+    Does not set budgets or enforcement (those are manual).
+
+    Examples:
+      vibey roadmap estimate 01KC2D0JK7READW9KAK1HBX4B8  # Estimate single task
+      vibey roadmap estimate 01KC2D0JKVT80AFQ6C1PA8CKJD  # Estimate all tasks in sprint
+      vibey roadmap estimate 01KCYA0G5135Z8B8ENFD841B0Q  # Estimate all tasks in track
+    """
+    from vibey.cli.commands import roadmap_estimate_cmd
+
+    exit_code = roadmap_estimate_cmd(item_id)
+    sys.exit(exit_code)
+
+
 @roadmap.command('add-commit')
 @click.argument('task_id')
 @click.argument('commit_sha', required=False)

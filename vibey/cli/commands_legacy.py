@@ -761,7 +761,7 @@ def _add_task_to_sprint(fs, sprint_ulid: str, task_ulid: str, task_title: str, t
 
 def _detect_ulid_type(item_id: str, root_dir: Path) -> str | None:
     """
-    Detect item type from ULID by checking .id files.
+    Detect item type from ULID by checking .id files and YAML files.
 
     Returns: "track", "sprint", "task", or None if not found
     """
@@ -775,6 +775,13 @@ def _detect_ulid_type(item_id: str, root_dir: Path) -> str | None:
             # Check if ULID appears as a value (slug=ULID format)
             if f"={item_id}" in content or f"={item_id}\n" in content:
                 return item_type
+
+    # If not found in .id files, check if YAML file exists directly
+    # This handles newer entities created with ULIDs that have no slug mapping
+    for item_type, subdir in [("task", "tasks"), ("sprint", "sprints"), ("track", "tracks")]:
+        yaml_file = roadmap_root / subdir / f"{item_id}.yaml"
+        if yaml_file.exists():
+            return item_type
 
     return None
 
@@ -1469,6 +1476,282 @@ def roadmap_summarize_cmd(item_type: str, item_id: str) -> int:
         return summarize_task(sprint_id=sprint_id, task_id=item_id, root_dir=root_dir)
     else:
         return summarize_sprint(sprint_id=item_id, root_dir=root_dir)
+
+
+# ============================================================================
+# Token Commands
+# ============================================================================
+
+def roadmap_tokens_cmd(
+    item_id: Optional[str] = None,
+    track_id: Optional[str] = None,
+    sprint_id: Optional[str] = None,
+    show_enforcement: bool = False,
+) -> int:
+    """
+    View token metrics for a task, sprint, or track.
+
+    Displays token estimates, budgets, usage, and enforcement settings.
+    """
+    from vibey.roadmap.serialization.yaml_loader import (
+        load_task,
+        load_sprint,
+        load_track,
+    )
+
+    root_dir = Path.cwd()
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    def format_number(n: Optional[int]) -> str:
+        """Format a number with commas or return '-' if None."""
+        if n is None:
+            return "-"
+        return f"{n:,}"
+
+    def format_percentage(numerator: Optional[int], denominator: Optional[int]) -> str:
+        """Format a percentage or return '-' if not calculable."""
+        if numerator is None or denominator is None or denominator == 0:
+            return "-"
+        pct = (numerator / denominator) * 100
+        return f"{pct:.0f}%"
+
+    def format_tokens_section(tokens, direction: str) -> list:
+        """Format a Tokens object into output lines."""
+        lines = []
+        lines.append(f"   {direction} Tokens:")
+
+        if tokens is None:
+            lines.append("     (not configured)")
+            return lines
+
+        # Estimate section
+        if tokens.estimate:
+            lines.append("     Estimate:")
+            if tokens.estimate.min is not None:
+                lines.append(f"       Min:      {format_number(tokens.estimate.min)}")
+            if tokens.estimate.target is not None:
+                lines.append(f"       Target:   {format_number(tokens.estimate.target)}")
+            if tokens.estimate.max is not None:
+                lines.append(f"       Max:      {format_number(tokens.estimate.max)}")
+        else:
+            lines.append("     Estimate: (not set)")
+
+        # Budget
+        lines.append(f"     Budget:     {format_number(tokens.budget)}")
+
+        # Usage with percentages
+        usage_str = format_number(tokens.usage)
+        if tokens.usage is not None:
+            parts = []
+            if tokens.estimate and tokens.estimate.target:
+                parts.append(f"{format_percentage(tokens.usage, tokens.estimate.target)} of target")
+            if tokens.budget:
+                parts.append(f"{format_percentage(tokens.usage, tokens.budget)} of budget")
+            if parts:
+                usage_str += f" ({', '.join(parts)})"
+        lines.append(f"     Usage:      {usage_str}")
+
+        # Enforcement
+        if tokens.enforcement:
+            enf = tokens.enforcement
+            enf_str = enf.mode
+            if enf.grace_percent and enf.grace_percent > 0:
+                enf_str += f" [grace: {enf.grace_percent * 100:.0f}%]"
+            if enf.escalation:
+                steps = " -> ".join([f"{s.mode}@{s.at * 100:.0f}%" for s in enf.escalation])
+                enf_str = f"{enf.mode} -> {steps}"
+            lines.append(f"     Enforcement: {enf_str}")
+        else:
+            lines.append("     Enforcement: (default)")
+
+        return lines
+
+    try:
+        if item_id:
+            # Determine item type using the existing detection logic
+            item_type = _detect_ulid_type(item_id, root_dir)
+
+            if item_type == "task":
+                task_path = roadmap_root / "tasks" / f"{item_id}.yaml"
+                if not task_path.exists():
+                    print(f"Error: Task not found: {item_id}")
+                    return 1
+
+                task = load_task(task_path)
+                output = []
+                output.append("=" * 70)
+                output.append(f"Token Data for Task: {task.title}")
+                output.append(f"ID: {task.id}")
+                output.append("=" * 70)
+
+                output.extend(format_tokens_section(
+                    getattr(task, 'input_tokens', None),
+                    "Input"
+                ))
+                output.append("")
+                output.extend(format_tokens_section(
+                    getattr(task, 'output_tokens', None),
+                    "Output"
+                ))
+
+                # Total token budget (if different from sum of input/output)
+                if hasattr(task, 'total_token_budget') and task.total_token_budget is not None:
+                    output.append("")
+                    output.append(f"   Total Token Budget: {format_number(task.total_token_budget)}")
+
+                print("\n".join(output))
+                return 0
+
+            elif item_type == "sprint":
+                sprint_path = roadmap_root / "sprints" / f"{item_id}.yaml"
+                if not sprint_path.exists():
+                    print(f"Error: Sprint not found: {item_id}")
+                    return 1
+
+                sprint = load_sprint(sprint_path)
+                output = []
+                output.append("=" * 70)
+                output.append(f"Token Data for Sprint: {sprint.name}")
+                output.append(f"ID: {sprint.id}")
+                output.append("=" * 70)
+
+                output.extend(format_tokens_section(
+                    getattr(sprint, 'input_tokens', None),
+                    "Input"
+                ))
+                output.append("")
+                output.extend(format_tokens_section(
+                    getattr(sprint, 'output_tokens', None),
+                    "Output"
+                ))
+
+                print("\n".join(output))
+                return 0
+
+            elif item_type == "track":
+                track_path = roadmap_root / "tracks" / f"{item_id}.yaml"
+                if not track_path.exists():
+                    print(f"Error: Track not found: {item_id}")
+                    return 1
+
+                track = load_track(track_path)
+                output = []
+                output.append("=" * 70)
+                output.append(f"Token Data for Track: {track.name}")
+                output.append(f"ID: {track.id}")
+                output.append("=" * 70)
+
+                output.extend(format_tokens_section(
+                    getattr(track, 'input_tokens', None),
+                    "Input"
+                ))
+                output.append("")
+                output.extend(format_tokens_section(
+                    getattr(track, 'output_tokens', None),
+                    "Output"
+                ))
+
+                print("\n".join(output))
+                return 0
+            else:
+                print(f"Error: Could not determine type for ID: {item_id}")
+                return 1
+
+        elif track_id:
+            # Aggregate view for track
+            track_path = roadmap_root / "tracks" / f"{track_id}.yaml"
+            if not track_path.exists():
+                print(f"Error: Track not found: {track_id}")
+                return 1
+
+            track = load_track(track_path)
+            output = []
+            output.append("=" * 70)
+            output.append(f"Token Summary for Track: {track.name}")
+            output.append(f"ID: {track.id}")
+            output.append("=" * 70)
+
+            output.extend(format_tokens_section(
+                getattr(track, 'input_tokens', None),
+                "Input"
+            ))
+            output.append("")
+            output.extend(format_tokens_section(
+                getattr(track, 'output_tokens', None),
+                "Output"
+            ))
+
+            print("\n".join(output))
+            return 0
+
+        elif sprint_id:
+            # Aggregate view for sprint
+            sprint_path = roadmap_root / "sprints" / f"{sprint_id}.yaml"
+            if not sprint_path.exists():
+                print(f"Error: Sprint not found: {sprint_id}")
+                return 1
+
+            sprint = load_sprint(sprint_path)
+            output = []
+            output.append("=" * 70)
+            output.append(f"Token Summary for Sprint: {sprint.name}")
+            output.append(f"ID: {sprint.id}")
+            output.append("=" * 70)
+
+            output.extend(format_tokens_section(
+                getattr(sprint, 'input_tokens', None),
+                "Input"
+            ))
+            output.append("")
+            output.extend(format_tokens_section(
+                getattr(sprint, 'output_tokens', None),
+                "Output"
+            ))
+
+            print("\n".join(output))
+            return 0
+
+        else:
+            print("Error: Please provide an item ID or use --track or --sprint")
+            return 1
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return 1
+
+
+def roadmap_estimate_cmd(item_id: str) -> int:
+    """
+    Run token estimation for a task, sprint, or track.
+
+    Uses the TokenEstimator to set estimate.min/max/target values.
+    Does not set budgets or enforcement (those are manual).
+    """
+    root_dir = Path.cwd()
+
+    # For now, print a placeholder since TokenEstimator is not yet implemented
+    item_type = _detect_ulid_type(item_id, root_dir)
+
+    if item_type == "task":
+        print(f"Estimating tokens for task: {item_id}")
+        print("(TokenEstimator not yet implemented - this is a placeholder)")
+        print("\nTo manually set estimates, use:")
+        print(f"  vibey roadmap update task {item_id} \\")
+        print("    --input-estimate-target 10000 \\")
+        print("    --input-estimate-min 5000 \\")
+        print("    --input-estimate-max 20000")
+        return 0
+    elif item_type == "sprint":
+        print(f"Estimating tokens for all tasks in sprint: {item_id}")
+        print("(TokenEstimator not yet implemented - this is a placeholder)")
+        return 0
+    elif item_type == "track":
+        print(f"Estimating tokens for all tasks in track: {item_id}")
+        print("(TokenEstimator not yet implemented - this is a placeholder)")
+        return 0
+    else:
+        print(f"Error: Could not determine type for ID: {item_id}")
+        return 1
 
 
 def roadmap_list_cmd() -> int:

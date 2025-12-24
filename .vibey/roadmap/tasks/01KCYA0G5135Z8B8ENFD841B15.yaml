@@ -36,11 +36,11 @@ task:
     \ estimate <track-id>\n   # Estimate all tasks in track\n\nNote: For automatic\
     \ estimation triggers (on creation, on start, on\ncalibration update), see the\
     \ auto-estimation configuration task.\n"
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-20T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-23T00:00:00+00:00'
+  completed: '2025-12-23T23:59:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

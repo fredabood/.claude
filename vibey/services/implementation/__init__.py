@@ -9,12 +9,15 @@ Core Components:
 - ImplementationLoop: Main execution loop for autonomous task processing
 - TaskSelector: Find the next executable task based on status, dependencies, and priority
 - TaskExecutor: Protocol for task execution implementations
+- TaskContextBuilder: Assemble execution context for task implementation
+- TaskContext: Complete execution context dataclass
 - LoopState: Mutable state tracking for execution sessions
 - LoopStatus: Enum for execution status (RUNNING, PAUSED, STOPPED, COMPLETED)
 - TaskResult: Individual task execution result tracking
 - LoopResult: Summary result from an execution loop session
 - ImplementConfig: Configuration for the implementation loop
-- ExecutionResult: Result from executing a single task
+- ExecutionResult: Detailed result from executing a single task
+- ExecutionStatus: Enum for task execution status (SUCCESS, FAILURE, BLOCKED, etc.)
 
 Usage:
     from vibey.services.implementation import (
@@ -23,10 +26,12 @@ Usage:
         ImplementConfig,
         TaskExecutor,
         ExecutionResult,
+        ExecutionStatus,
         LoopState,
         LoopStatus,
     )
     from pathlib import Path
+    from datetime import datetime, timezone
 
     # Configure the loop
     config = ImplementConfig(
@@ -42,7 +47,14 @@ Usage:
     class MyExecutor:
         async def execute(self, task) -> ExecutionResult:
             # Execute the task...
-            return ExecutionResult(success=True, tokens_input=1000, tokens_output=500)
+            return ExecutionResult(
+                task_id=task.id,
+                status=ExecutionStatus.SUCCESS,
+                started_at=datetime.now(timezone.utc),
+                completed_at=datetime.now(timezone.utc),
+                tokens_input=1000,
+                tokens_output=500,
+            )
 
     executor = MyExecutor()
 
@@ -62,13 +74,23 @@ Usage:
     )
 """
 
+from vibey.services.implementation.context import (
+    TaskContext,
+    TaskContextBuilder,
+)
+from vibey.services.implementation.executor import (
+    ClaudeTaskExecutor,
+)
 from vibey.services.implementation.loop import (
-    ExecutionResult,
     ImplementConfig,
     ImplementationLoop,
     LoopResult,
     TaskExecutor,
     run_implementation_loop,
+)
+from vibey.services.implementation.result import (
+    ExecutionResult,
+    ExecutionStatus,
 )
 from vibey.services.implementation.selector import TaskSelector
 from vibey.services.implementation.state import (
@@ -83,10 +105,16 @@ __all__ = [
     "run_implementation_loop",
     # Configuration
     "ImplementConfig",
-    # Executor protocol
+    # Executor protocol and implementations
     "TaskExecutor",
+    "ClaudeTaskExecutor",
+    # Context building
+    "TaskContext",
+    "TaskContextBuilder",
+    # Execution results
     "ExecutionResult",
-    # Results
+    "ExecutionStatus",
+    # Loop results
     "LoopResult",
     # Task selection
     "TaskSelector",

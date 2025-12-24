@@ -1,0 +1,35 @@
+task:
+  id: 01KD6XHBETCEADT66HFQQ6CWNW
+  sprint_id: 01KD43809NC3FPJJ179MAZRKCK
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'Fix add-artifact command: no such column: id'
+  description: 'When running ''vibey roadmap task add-artifact <task-id> <path>'',
+    the command fails with ''Failed to add artifact: no such column: id''. The artifact
+    is created but fails to associate with the task. This blocks the pre-commit hook
+    artifact association requirement.'
+  status: not_started
+  blocked: false
+  created: '2025-12-24T00:53:25.822769+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-24T00:53:25.822769+00:00'
+    token_efficiency: null
+    duration_hours: null

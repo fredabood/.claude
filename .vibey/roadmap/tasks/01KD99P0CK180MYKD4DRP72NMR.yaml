@@ -1,0 +1,58 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMR
+  sprint_id: 01KD61XJ5Z1XMJM3AGTGWHPJQX
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement multi-metric optimization for variant selection
+  description: |
+    Create multi-metric optimization for choosing winning variants:
+
+    1. **WeightedMetricOptimizer**:
+       - Configure weights for each metric
+       - Example: success_rate: 0.5, tokens_total: -0.2, duration: -0.3
+       - Negative weights for metrics to minimize
+
+    2. **Scoring function**:
+       - Normalize each metric to 0-1 range
+       - Apply weights and sum
+       - Return composite score per variant
+
+    3. **Pareto optimization** (optional):
+       - Identify Pareto-optimal variants
+       - No variant dominates another on all metrics
+       - Useful for multi-objective tradeoffs
+
+    4. **Integration with ExperimentAnalyzer**:
+       - recommend_winner() uses optimizer
+       - Configurable optimization strategy
+
+    File: vibey/services/implementation/experiment/optimizer.py (new)
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 4.2
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NMQ
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

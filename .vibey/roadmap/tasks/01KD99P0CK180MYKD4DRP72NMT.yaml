@@ -1,0 +1,63 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMT
+  sprint_id: 01KD61XJ5Z1XMJM3AGTGWHPJQX
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write end-to-end experiment tests
+  description: |
+    Create comprehensive tests for the A/B testing system:
+
+    1. **Unit tests**:
+       - test_experiment_config.py - Dataclass validation
+       - test_experiment_registry.py - CRUD operations
+       - test_variant_assigner.py - Assignment strategies
+       - test_metrics_collector.py - Recording and retrieval
+       - test_experiment_analyzer.py - Statistical tests
+
+    2. **Integration tests**:
+       - test_model_experiment.py - Full model A/B flow
+       - test_prompt_experiment.py - Full prompt A/B flow
+       - test_loop_integration.py - ImplementationLoop with experiments
+
+    3. **End-to-end scenarios**:
+       - Create experiment -> Activate -> Execute tasks -> Analyze results
+       - Multi-variant experiment (A/B/C)
+       - Experiment with filters (track, complexity)
+
+    4. **Fixtures**:
+       - Sample experiments for testing
+       - Mock ExecutionResults
+       - Test prompt templates
+
+    Files:
+    - tests/services/implementation/experiment/ (new directory)
+    - tests/integration/test_experiment_e2e.py (new)
+
+    Reference: Complete test coverage for A/B testing
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NMS
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

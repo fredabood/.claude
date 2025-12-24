@@ -1,0 +1,59 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMA
+  sprint_id: 01KD620GZH9ZNQDZHYAV14BS8P
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement model metrics collection
+  description: |
+    Implement basic metrics collection for model experiments:
+
+    1. **Model-specific metrics**:
+       - tokens_input, tokens_output, tokens_total
+       - success (boolean as 0/1)
+       - duration_seconds
+       - commits_count
+       - retries_count
+
+    2. **Create BasicMetricsCollector**:
+       - record_execution(experiment, variant, task_id, result)
+       - Extract standard metrics from ExecutionResult
+       - Store in JSONL format per experiment
+
+    3. **Integration point**:
+       - Call from ImplementationLoop._handle_result()
+       - Only collect if experiment is active
+
+    4. **Storage format**:
+       - .vibey/experiments/metrics/{experiment_id}.jsonl
+       - One JSON line per metric observation
+
+    File: vibey/services/implementation/experiment/metrics.py (new, basic version)
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 4.1
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NM9
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,60 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NM7
+  sprint_id: 01KD620GZH9ZNQDZHYAV14BS8P
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Define MODEL variant type behavior
+  description: |
+    Implement MODEL variant type semantics:
+
+    1. **ModelVariant behavior**:
+       - Variant config must include `model` key (e.g., "claude-sonnet-4-20250514")
+       - Optional `max_turns` override
+       - Optional `timeout` override
+
+    2. **Validation**:
+       - Model name must be non-empty string
+       - Warn if model name doesn't match known patterns
+
+    3. **Model constants** (from research):
+       Current hardcoded locations:
+       - config.py:166 - AgentConfig default
+       - config.py:365 - YAML parsing fallback
+       - result.py:145 - ExecutionResult default
+       - result.py:307-308 - Deserialization fallback
+       - templates/implement.yaml:89 - Template default
+
+    4. **Create model constants file**:
+       - DEFAULT_MODEL = "claude-sonnet-4-20250514"
+       - KNOWN_MODELS list for validation
+
+    File: vibey/services/implementation/experiment/model_variant.py (new)
+
+    Reference: AGENT_MANAGEMENT_RESEARCH.md Section 5.1
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: sprint
+      blocker_id: 01KD61F3J5VZDD8K1DH94WFKR9
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

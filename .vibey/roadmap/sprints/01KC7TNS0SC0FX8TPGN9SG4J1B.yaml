@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 10
     tasks_completed: 8
-    completion_percent: 80.0
+    completion_percent: 80
   development_gates: []
   blocks: []
   blocked_by: []

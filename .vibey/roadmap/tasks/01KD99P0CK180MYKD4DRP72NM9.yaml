@@ -1,0 +1,58 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NM9
+  sprint_id: 01KD620GZH9ZNQDZHYAV14BS8P
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add experiment fields to ExecutionResult
+  description: |
+    Extend ExecutionResult to track experiment metadata:
+
+    1. **New fields in ExecutionResult** (result.py:76-327):
+       - experiment_id: Optional[str] = None
+       - variant_id: Optional[str] = None
+       - variant_type: Optional[str] = None
+       - model_used: Optional[str] = None (actual model, may differ from config)
+
+    2. **Update ExecutionResult.to_dict()**:
+       - Include experiment fields in serialization
+       - Preserve for post-mortem analysis
+
+    3. **Update ExecutionResult.from_dict()**:
+       - Parse experiment fields from stored results
+
+    4. **Update LoopState**:
+       - Track experiments used in session
+       - Aggregate by variant for quick stats
+
+    Files to modify:
+    - vibey/services/implementation/result.py
+    - vibey/services/implementation/state.py
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.4
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NM7
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

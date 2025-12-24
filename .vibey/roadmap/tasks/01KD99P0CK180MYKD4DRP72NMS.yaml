@@ -1,0 +1,64 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMS
+  sprint_id: 01KD61XJ5Z1XMJM3AGTGWHPJQX
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create comprehensive A/B testing documentation
+  description: |
+    Create documentation for the A/B testing system:
+
+    1. **docs/guides/AB_TESTING_GUIDE.md**:
+       - Overview of experiment types (model, prompt, template, strategy)
+       - Step-by-step: Creating your first experiment
+       - Best practices for experiment design
+       - Statistical significance and sample size
+       - Interpreting results
+
+    2. **docs/guides/EXPERIMENT_DESIGN.md**:
+       - Formulating hypotheses
+       - Choosing metrics
+       - Setting sample sizes
+       - Avoiding common pitfalls
+       - Multi-arm bandit vs A/B
+
+    3. **docs/reference/EXPERIMENT_CLI.md**:
+       - All experiment CLI commands
+       - Examples and use cases
+
+    4. **Inline documentation**:
+       - Update docstrings in all experiment modules
+       - Add usage examples
+
+    Files:
+    - docs/guides/AB_TESTING_GUIDE.md (new)
+    - docs/guides/EXPERIMENT_DESIGN.md (new)
+    - docs/reference/EXPERIMENT_CLI.md (new)
+
+    Reference: Full A/B testing system documentation
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NMR
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

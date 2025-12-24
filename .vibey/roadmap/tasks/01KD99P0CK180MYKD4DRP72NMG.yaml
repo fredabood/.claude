@@ -1,0 +1,60 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMG
+  sprint_id: 01KD61SFTK19VKWVWSX2A6RVRG
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create prompt template MCP tools
+  description: |
+    Register MCP tools for prompt template management:
+
+    1. **vibey_list_prompt_templates** tool:
+       - Input: None
+       - Output: List of available templates with names/versions
+
+    2. **vibey_get_prompt_template** tool:
+       - Input: template_id
+       - Output: Full template content with variables
+
+    3. **vibey_preview_prompt** tool:
+       - Input: task_id, template_id (optional)
+       - Output: Rendered prompt for the task
+       - Useful for debugging template issues
+
+    4. **vibey_create_prompt_template** tool:
+       - Input: id, name, system_prompt, task_prompt, variables
+       - Output: Created template confirmation
+
+    5. **Register in MCP server**:
+       - Add to vibey/mcp/tools/prompt.py
+       - Register in vibey/mcp/server.py
+
+    File: vibey/mcp/tools/prompt.py (new)
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 5.2
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NMF
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

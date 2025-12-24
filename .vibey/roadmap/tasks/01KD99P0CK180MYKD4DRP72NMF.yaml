@@ -1,0 +1,59 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMF
+  sprint_id: 01KD61SFTK19VKWVWSX2A6RVRG
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Define PROMPT variant type and context builder integration
+  description: |
+    Implement PROMPT variant type for A/B testing prompts:
+
+    1. **PromptVariant behavior**:
+       - Variant config must include `template_id` key
+       - Points to a PromptTemplate in the registry
+       - Optional variable overrides in config
+
+    2. **Modify TaskContextBuilder**:
+       - Accept optional variant parameter
+       - If PROMPT variant, use specified template_id
+       - Fallback to default template
+
+    3. **Integration with VariantAssigner**:
+       - PROMPT variants assigned same as MODEL variants
+       - Template selected based on assigned variant
+
+    4. **Validation**:
+       - Verify template_id exists in registry
+       - Warn if template variables don't match task context
+
+    Files to modify:
+    - vibey/services/implementation/context.py
+    - vibey/services/implementation/experiment/prompt_template.py
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.1
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NME
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

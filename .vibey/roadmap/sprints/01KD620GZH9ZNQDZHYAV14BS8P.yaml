@@ -1,7 +1,7 @@
 sprint:
   id: 01KD620GZH9ZNQDZHYAV14BS8P
-  name: 'Sprint 2: Context Management System Integration'
-  track_id: agent-workflow-review
+  name: 'Sprint 2: Model Experiments'
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
@@ -30,9 +30,33 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Analyze context loading, caching, pruning, and handoff between agents.
-    Review context file linking and hierarchy.
-  goal: Review context flow and preservation during agent handoffs
+  description: 'Enable A/B testing of different LLM models for task execution:
+
+
+    1. Define MODEL variant type behavior
+
+    2. Modify AgentSpawner._build_command() for variant-aware model selection
+
+    3. Add experiment_id and variant_id fields to ExecutionResult
+
+    4. Implement model metrics collection (tokens, success, duration)
+
+    5. Create model comparison functions and MCP tools
+
+
+    Key files to modify:
+
+    - vibey/services/implementation/spawner.py:498-499
+
+    - vibey/services/implementation/executor.py:279-290
+
+    - vibey/services/implementation/result.py
+
+
+    Reference: .vibey/roadmap/context/tracks/agent-workflow-review/AGENT_MANAGEMENT_RESEARCH.md
+
+    '
+  goal: Enable variant-aware model selection for A/B testing different LLMs
   success_criteria: []
   risks: []
   notes: null

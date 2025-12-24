@@ -1,7 +1,7 @@
 sprint:
   id: 01KD61V2H333T9GZ4M2NY85K3P
-  name: 'Sprint 4: Implementation Mode Integration'
-  track_id: agent-workflow-review
+  name: 'Sprint 4: Metrics & Analysis'
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
@@ -30,9 +30,33 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Analyze implementation mode's agent spawning, task execution, progress
-    tracking, and completion handling.
-  goal: Review autonomous execution and agent orchestration
+  description: 'Build metrics collection and statistical analysis for experiments:
+
+
+    1. Implement MetricsCollector with JSONL storage
+
+    2. Implement record_from_result() for automatic metrics extraction
+
+    3. Create VariantMetricsSummary and ExperimentReport dataclasses
+
+    4. Add metrics collection to ImplementationLoop._handle_result()
+
+    5. Implement statistical comparison functions (t-test, z-test, confidence intervals)
+
+    6. Create CLI commands: vibey experiment results, vibey experiment analyze
+
+    7. Register analysis MCP tools
+
+
+    Core metrics to track:
+
+    - success_rate, tokens_input/output/total, duration_seconds, commits_count
+
+
+    Reference: .vibey/roadmap/context/tracks/agent-workflow-review/AB_TESTING_RECOMMENDATIONS.md
+
+    '
+  goal: Enable metrics collection and statistical analysis for experiment evaluation
   success_criteria: []
   risks: []
   notes: null

@@ -1,0 +1,56 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NM3
+  sprint_id: 01KD61F3J5VZDD8K1DH94WFKR9
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create ExperimentRegistry with YAML persistence
+  description: |
+    Implement the ExperimentRegistry for managing A/B experiments:
+
+    1. **ExperimentRegistry** class:
+       - __init__(storage_path: Path) - Initialize with directory for YAML files
+       - _load_experiments() - Load all experiments from storage on init
+       - _load_experiment_file(path) - Parse single experiment YAML
+       - _save_experiment(experiment) - Persist experiment to YAML
+
+    2. **CRUD Operations**:
+       - create_experiment(name, variants, description, metrics, target_sample_size, filters) -> Experiment
+       - get_experiment(experiment_id) -> Optional[Experiment]
+       - list_experiments(status=None) -> List[Experiment]
+       - get_active_experiments() -> List[Experiment]
+
+    3. **Lifecycle Operations**:
+       - activate_experiment(experiment_id) -> bool
+       - pause_experiment(experiment_id) -> bool
+       - complete_experiment(experiment_id) -> bool
+
+    File: vibey/services/implementation/experiment/registry.py
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.2
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NM2
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

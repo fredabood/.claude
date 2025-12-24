@@ -1,0 +1,61 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMH
+  sprint_id: 01KD61V2H333T9GZ4M2NY85K3P
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement full MetricsCollector with JSONL storage
+  description: |
+    Extend the basic MetricsCollector to full implementation:
+
+    1. **ExperimentMetric** dataclass:
+       - experiment_id, variant_id, task_id
+       - metric_name, value (float)
+       - timestamp, metadata dict
+       - to_dict() for serialization
+
+    2. **MetricsCollector** class:
+       - __init__(storage_path: Path)
+       - record(experiment, variant, task_id, metrics dict, metadata)
+       - record_from_result(experiment, variant, task_id, ExecutionResult)
+       - get_metrics(experiment_id) -> List[ExperimentMetric]
+
+    3. **Metrics extraction from ExecutionResult**:
+       - success (0/1), tokens_input, tokens_output, tokens_total
+       - duration_seconds, commits_count, retries_count
+       - error_rate, model_used
+
+    4. **Storage format**:
+       - JSONL for efficient append-only writes
+       - One file per experiment
+       - Rotation/cleanup for old experiments
+
+    File: vibey/services/implementation/experiment/metrics.py (extend)
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.4
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: sprint
+      blocker_id: 01KD61SFTK19VKWVWSX2A6RVRG
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

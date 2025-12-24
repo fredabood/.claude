@@ -1,7 +1,7 @@
 sprint:
   id: 01KD61XJ5Z1XMJM3AGTGWHPJQX
-  name: 'Sprint 5: Cohesive Architecture Design'
-  track_id: agent-workflow-review
+  name: 'Sprint 5: Advanced Experiments & Integration'
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
@@ -14,13 +14,13 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 0
+    development_tasks_total: 5
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
+    tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
   development_gates: []
@@ -30,9 +30,24 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Synthesize findings into cohesive architecture. Define agent roles,
-    workflow patterns, handoff protocols, and integration points.
-  goal: Design unified agent orchestration strategy
+  description: |
+    Add advanced experiment types and complete the A/B testing system:
+
+    1. Define TEMPLATE variant type for ticket template experiments
+    2. Define STRATEGY variant type for execution strategy experiments
+    3. Implement multi-metric optimization for variant selection
+    4. (Stretch) Implement adaptive strategy selector
+    5. Create comprehensive documentation and experiment design guide
+    6. Write end-to-end experiment scenario tests
+
+    This sprint completes the A/B testing framework enabling:
+    - Model comparison (Sonnet vs Opus)
+    - Prompt effectiveness testing
+    - Ticket template optimization
+    - Execution strategy comparison
+
+    Reference: .vibey/roadmap/context/tracks/agent-workflow-review/AB_TESTING_RECOMMENDATIONS.md
+  goal: Complete the A/B testing system with advanced experiment types and documentation
   success_criteria: []
   risks: []
   notes: null

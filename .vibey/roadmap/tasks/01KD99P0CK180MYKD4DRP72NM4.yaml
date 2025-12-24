@@ -1,0 +1,54 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NM4
+  sprint_id: 01KD61F3J5VZDD8K1DH94WFKR9
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement VariantAssigner with multiple strategies
+  description: |
+    Implement the VariantAssigner for assigning tasks to experiment variants:
+
+    1. **VariantAssigner** class:
+       - __init__(experiment, strategy="deterministic", seed=None)
+       - Precompute cumulative weights for weighted selection
+       - assign(task: HierarchicalTicket) -> Variant
+
+    2. **Assignment Strategies**:
+       - _assign_deterministic(task) - Hash-based (SHA256 of experiment_id:task_id)
+         Ensures same task always gets same variant in same experiment
+       - _assign_random() - Pure random with weights
+       - _assign_round_robin() - Sequential assignment
+
+    3. **Properties**:
+       - Normalized cumulative weights for O(n) selection
+       - Support for custom random seed for reproducibility
+
+    File: vibey/services/implementation/experiment/assigner.py
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.3
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NM2
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

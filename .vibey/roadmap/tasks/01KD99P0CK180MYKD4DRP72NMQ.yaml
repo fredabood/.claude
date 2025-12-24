@@ -1,0 +1,61 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMQ
+  sprint_id: 01KD61XJ5Z1XMJM3AGTGWHPJQX
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Define STRATEGY variant type for execution strategies
+  description: |
+    Implement STRATEGY variant type for A/B testing execution approaches:
+
+    1. **ExecutionStrategyVariant behavior**:
+       - Variant config includes strategy parameters
+       - strategy_type: sequential, parallel, wave, adaptive
+       - max_concurrent: int (for parallel)
+       - wave_size: int (for wave)
+
+    2. **StrategySelector**:
+       - Given variant, return appropriate execution strategy
+       - Strategies: SequentialStrategy, ParallelStrategy, WaveStrategy
+
+    3. **Integration with ImplementationLoop**:
+       - If STRATEGY variant active, use specified strategy
+       - Strategy affects task ordering and parallelism
+
+    4. **Strategy metrics**:
+       - total_duration (end-to-end time)
+       - parallelism_factor (tasks/time)
+       - throughput (tasks/hour)
+       - resource_efficiency
+
+    Files:
+    - vibey/services/implementation/experiment/strategy_variant.py (new)
+    - vibey/services/implementation/strategies.py (new)
+
+    Reference: AGENT_MANAGEMENT_RESEARCH.md Section 5.4
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NMP
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

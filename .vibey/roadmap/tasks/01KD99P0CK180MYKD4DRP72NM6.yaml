@@ -1,0 +1,57 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NM6
+  sprint_id: 01KD61F3J5VZDD8K1DH94WFKR9
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create experiment CLI command group
+  description: |
+    Create the `vibey experiment` CLI command group:
+
+    1. **Command Group**: `vibey experiment`
+
+    2. **Commands**:
+       - `vibey experiment create` - Create new experiment
+         Options: --name, --type (model/prompt/template/strategy),
+                  --variants (JSON), --target-sample-size
+       - `vibey experiment list` - List experiments
+         Options: --status (draft/active/paused/completed)
+       - `vibey experiment show <id>` - Show experiment details
+       - `vibey experiment activate <id>` - Activate experiment
+       - `vibey experiment pause <id>` - Pause experiment
+       - `vibey experiment complete <id>` - Complete experiment
+
+    3. **Output Formatting**:
+       - Rich table output for list
+       - Detailed YAML output for show
+       - Status indicators with colors
+
+    File: vibey/cli/command_modules/experiment.py (new)
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 6.1
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NM5
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

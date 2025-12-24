@@ -1,0 +1,58 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NM8
+  sprint_id: 01KD620GZH9ZNQDZHYAV14BS8P
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Modify AgentSpawner for variant-aware model selection
+  description: |
+    Modify AgentSpawner._build_command() to support experiment variants:
+
+    1. **Update _build_command()** (spawner.py:477-508):
+       - Accept optional `variant: Variant` parameter
+       - If variant is MODEL type, use variant.config["model"]
+       - Fallback to config.agent.model if no variant
+
+    2. **Update spawn_agent()**:
+       - Accept experiment_context with assigned variant
+       - Pass variant to _build_command()
+
+    3. **Integration with ExperimentRegistry**:
+       - If experiment is active, get assigned variant before spawning
+       - Log variant assignment for debugging
+
+    4. **Backward compatibility**:
+       - If no experiment active, use existing behavior
+       - If variant has no model config, use default
+
+    Files to modify:
+    - vibey/services/implementation/spawner.py:477-508 (model injection)
+    - vibey/services/implementation/spawner.py:380-420 (spawn_agent)
+
+    Reference: AGENT_MANAGEMENT_RESEARCH.md Section 3.3
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NM7
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

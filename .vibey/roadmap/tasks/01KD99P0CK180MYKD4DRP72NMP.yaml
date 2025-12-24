@@ -1,0 +1,60 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMP
+  sprint_id: 01KD61XJ5Z1XMJM3AGTGWHPJQX
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Define TEMPLATE variant type for ticket templates
+  description: |
+    Implement TEMPLATE variant type for A/B testing ticket configurations:
+
+    1. **TicketTemplateVariant behavior**:
+       - Variant config includes ticket field overrides
+       - Can override: priority, complexity, estimated_tokens
+       - Can add/modify acceptance criteria templates
+
+    2. **TicketTemplateRegistry**:
+       - Load ticket templates from .vibey/config/ticket_templates/
+       - Template includes field defaults and criteria generators
+       - get_template(template_id) -> TicketTemplate
+
+    3. **Integration with task creation**:
+       - When TEMPLATE variant active, apply template to new tasks
+       - Preserve original values, override with template
+
+    4. **Example templates**:
+       - detailed.yaml - More criteria, longer descriptions
+       - minimal.yaml - Fewer criteria, concise
+       - test_focused.yaml - Testing emphasis
+
+    Files:
+    - vibey/services/implementation/experiment/ticket_template.py (new)
+    - .vibey/config/ticket_templates/default.yaml (new)
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 7
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: sprint
+      blocker_id: 01KD61V2H333T9GZ4M2NY85K3P
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

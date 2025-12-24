@@ -1,0 +1,58 @@
+task:
+  id: 01KD99P0CK180MYKD4DRP72NMK
+  sprint_id: 01KD61V2H333T9GZ4M2NY85K3P
+  track_id: 01KD617KB2XD77QC428SZ2Q5RW
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add metrics collection to ImplementationLoop
+  description: |
+    Integrate metrics collection into the main execution loop:
+
+    1. **Modify ImplementationLoop.__init__()**:
+       - Accept optional MetricsCollector
+       - Accept optional active Experiment
+       - Initialize VariantAssigner if experiment active
+
+    2. **Modify ImplementationLoop.run()**:
+       - Before task execution, assign variant
+       - Store variant assignment in task context
+
+    3. **Modify ImplementationLoop._handle_result()**:
+       - After task completion, record metrics
+       - Include experiment_id and variant_id in result
+       - Call metrics_collector.record_from_result()
+
+    4. **Experiment lifecycle integration**:
+       - Check if experiment target_sample_size reached
+       - Auto-complete experiment when target met (optional)
+
+    Files to modify:
+    - vibey/services/implementation/loop.py:232-797
+
+    Reference: AB_TESTING_RECOMMENDATIONS.md Section 6.1
+  status: not_started
+  blocked: false
+  created: '2025-12-24T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: moderate
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_type: task
+      blocker_id: 01KD99P0CK180MYKD4DRP72NMH
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

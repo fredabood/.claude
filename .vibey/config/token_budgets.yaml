@@ -1,0 +1,93 @@
+# Token Budget Enforcement Configuration
+# Project-level defaults for token budget enforcement
+#
+# This file defines the default enforcement settings for token budgets.
+# Individual tasks can override these settings via their tokens.enforcement field.
+#
+# Enforcement Modes:
+#   - warn: Log warnings but continue execution
+#   - soft_stop: Warn and prompt for confirmation to continue
+#   - hard_stop: Terminate execution when budget exceeded
+#
+# Override Mechanism:
+#   - CLI flag: --ignore-token-budget
+#   - Environment variable: VIBEY_IGNORE_TOKEN_BUDGET=1
+#   - Only works if allow_override=true
+
+enforcement:
+  # Base enforcement mode (before escalation)
+  mode: warn
+
+  # Warning thresholds as ratios of budget (0.8 = 80%)
+  # Generates BudgetWarning at each threshold
+  thresholds:
+    - 0.8   # 80% - First warning
+    - 0.9   # 90% - Second warning
+    - 1.0   # 100% - At budget limit
+
+  # Allow CLI/env override of enforcement
+  allow_override: true
+
+  # Grace period as ratio (0.1 = 10% over budget allowed before hard stop)
+  grace_percent: 0.0
+
+  # Automatic mode escalation at usage thresholds
+  # These override the base mode when the threshold is reached
+  escalation:
+    - at: 0.9
+      mode: soft_stop
+    - at: 1.0
+      mode: hard_stop
+
+  # Hierarchical enforcement flags (all optional, disabled by default)
+  # These control budget validation and enforcement across the ticket hierarchy
+
+  # Validation-time constraint: sum(children budgets) <= parent budget
+  require_children_sum_valid: false
+
+  # Runtime ancestor checks: verify parent budgets during execution
+  check_ancestors_during_execution: false
+
+  # Pre-start blocking: prevent new child tasks when parent exceeded
+  block_new_children_when_exceeded: false
+
+# Preset configurations for common use cases
+# Use these as reference or copy to individual task enforcement settings
+#
+# presets:
+#   strict:
+#     # Maximum protection - validates upfront and enforces at runtime
+#     mode: warn
+#     thresholds: [0.8, 0.9, 1.0]
+#     allow_override: false
+#     grace_percent: 0.0
+#     escalation:
+#       - at: 0.9
+#         mode: soft_stop
+#       - at: 1.0
+#         mode: hard_stop
+#     require_children_sum_valid: true
+#     check_ancestors_during_execution: true
+#     block_new_children_when_exceeded: true
+#
+#   flexible:
+#     # Pooled budgets - allows overcommitting children
+#     mode: warn
+#     thresholds: [0.8, 0.9, 1.0]
+#     allow_override: true
+#     grace_percent: 0.1
+#     escalation: null
+#     require_children_sum_valid: false
+#     check_ancestors_during_execution: false
+#     block_new_children_when_exceeded: true
+#
+#   permissive:
+#     # Tracking only - no blocking, just metrics
+#     mode: warn
+#     thresholds: [0.8, 0.9, 1.0]
+#     allow_override: true
+#     grace_percent: 1.0
+#     escalation: null
+#     require_children_sum_valid: false
+#     check_ancestors_during_execution: false
+#     block_new_children_when_exceeded: false

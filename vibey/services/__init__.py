@@ -43,6 +43,15 @@ from vibey.services.token_tracker import (
     track_usage,
     get_task_usage,
 )
+from vibey.services.budget_checker import (
+    BudgetChecker,
+    BudgetWarning,
+    CanStartResult,
+    ExecutionCheckResult,
+    check_budget,
+    can_start,
+    should_stop_execution,
+)
 
 __all__ = [
     "TicketService",
@@ -58,4 +67,11 @@ __all__ = [
     "CommitUsage",
     "track_usage",
     "get_task_usage",
+    "BudgetChecker",
+    "BudgetWarning",
+    "CanStartResult",
+    "ExecutionCheckResult",
+    "check_budget",
+    "can_start",
+    "should_stop_execution",
 ]

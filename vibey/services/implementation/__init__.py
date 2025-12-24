@@ -49,6 +49,12 @@ Core Components:
 - BugLogger: Automatic bug ticket creation from detected errors
 - BugReport: Complete bug report with context and stack trace
 - BugSeverity: Enum for bug severity (LOW, MEDIUM, HIGH, CRITICAL)
+- ContextCompactor: Token management through context compaction
+- CompactedContext: Compacted context dataclass with session summary, task summaries, state snapshot
+- TaskSummary: Concise summary of a completed task
+- LearningCapture: Knowledge base building from task learnings
+- Learning: Structured learning record with category and applicability
+- LearningCategory: Enum for learning types (PATTERN, ANTI_PATTERN, DISCOVERY, TIP, BUG_PATTERN)
 
 Usage:
     from vibey.services.implementation import (
@@ -216,6 +222,22 @@ from vibey.services.implementation.bug_logger import (
     BugSeverity,
     DEFAULT_BUG_TITLE_PREFIX,
 )
+from vibey.services.implementation.compactor import (
+    CompactedContext,
+    ContextCompactor,
+    TaskSummary,
+    DEFAULT_MAX_CONTEXT_TOKENS,
+    TARGET_COMPACTED_TOKENS,
+)
+from vibey.services.implementation.post_mortem import (
+    PostMortem,
+    PostMortemGenerator,
+)
+from vibey.services.implementation.learning import (
+    Learning,
+    LearningCapture,
+    LearningCategory,
+)
 
 __all__ = [
     # Main loop
@@ -314,4 +336,17 @@ __all__ = [
     "BugReport",
     "BugSeverity",
     "DEFAULT_BUG_TITLE_PREFIX",
+    # Context compaction
+    "CompactedContext",
+    "ContextCompactor",
+    "TaskSummary",
+    "DEFAULT_MAX_CONTEXT_TOKENS",
+    "TARGET_COMPACTED_TOKENS",
+    # Post-mortem generation
+    "PostMortem",
+    "PostMortemGenerator",
+    # Learning capture
+    "Learning",
+    "LearningCapture",
+    "LearningCategory",
 ]

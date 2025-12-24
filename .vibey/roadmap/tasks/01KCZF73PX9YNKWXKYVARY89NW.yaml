@@ -30,11 +30,11 @@ task:
     ├── Session summary (500 tokens)\n├── Completed task summaries (1000 tokens)\n\
     ├── Current state snapshot (500 tokens)\n└── ~2,000 tokens\n```\n\nFiles:\n- vibey/services/implementation/compactor.py\
     \ (new)\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-20T16:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-24T19:05:00+00:00'
+  completed: '2025-12-24T19:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -46,12 +46,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

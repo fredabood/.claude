@@ -69,6 +69,10 @@ Core Components:
 - Resolution: Resolution of a file conflict
 - IndependentTaskIdentifier: Identify tasks that can execute in parallel
 - ParallelExecutionGroup: Group of tasks with file coverage for parallel execution
+- TicketBranchManager: Manage git branches tied to tickets
+- BranchStatus: Status of a ticket branch
+- MergeResult: Result of a branch merge operation
+- MergeStrategy: Enum for merge strategies (SQUASH, MERGE, REBASE)
 
 Usage:
     from vibey.services.implementation import (
@@ -272,6 +276,17 @@ from vibey.services.implementation.parallel import (
     IndependentTaskIdentifier,
     ParallelGroup as ParallelExecutionGroup,
 )
+from vibey.services.implementation.git import (
+    BranchError,
+    BranchConflictError,
+    BranchNotFoundError,
+    BranchStatus,
+    DEFAULT_BRANCH_PREFIX,
+    MergeResult,
+    MergeStrategy,
+    TicketBranchManager,
+    NotAGitRepositoryError as BranchNotAGitRepositoryError,
+)
 
 __all__ = [
     # Main loop
@@ -400,4 +415,14 @@ __all__ = [
     # Independent task identification (parallel grouping)
     "IndependentTaskIdentifier",
     "ParallelExecutionGroup",
+    # Git branch management
+    "BranchError",
+    "BranchConflictError",
+    "BranchNotFoundError",
+    "BranchNotAGitRepositoryError",
+    "BranchStatus",
+    "DEFAULT_BRANCH_PREFIX",
+    "MergeResult",
+    "MergeStrategy",
+    "TicketBranchManager",
 ]

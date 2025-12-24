@@ -18,6 +18,13 @@ Core Components:
 - ImplementConfig: Configuration for the implementation loop
 - ExecutionResult: Detailed result from executing a single task
 - ExecutionStatus: Enum for task execution status (SUCCESS, FAILURE, BLOCKED, etc.)
+- ExecutionLogger: Structured JSONL logging for execution events
+- ExecutionEventType: Event type constants for logging
+- ProgressDisplay: Rich terminal output for real-time progress tracking
+- ErrorRecovery: Error classification and retry logic
+- RecoveryAction: Enum for recovery actions (RETRY, SKIP, STOP, WAIT)
+- ErrorSeverity: Enum for error classification (TRANSIENT, PERMANENT)
+- BlockedTask: Record of a task blocked due to errors
 
 Usage:
     from vibey.services.implementation import (
@@ -93,10 +100,21 @@ from vibey.services.implementation.result import (
     ExecutionStatus,
 )
 from vibey.services.implementation.selector import TaskSelector
+from vibey.services.implementation.logging import (
+    ExecutionLogger,
+    ExecutionEventType,
+)
 from vibey.services.implementation.state import (
     LoopState,
     LoopStatus,
     TaskResult,
+)
+from vibey.services.implementation.display import ProgressDisplay
+from vibey.services.implementation.recovery import (
+    BlockedTask,
+    ErrorRecovery,
+    ErrorSeverity,
+    RecoveryAction,
 )
 
 __all__ = [
@@ -122,4 +140,14 @@ __all__ = [
     "LoopState",
     "LoopStatus",
     "TaskResult",
+    # Logging
+    "ExecutionLogger",
+    "ExecutionEventType",
+    # Display
+    "ProgressDisplay",
+    # Error recovery
+    "ErrorRecovery",
+    "RecoveryAction",
+    "ErrorSeverity",
+    "BlockedTask",
 ]

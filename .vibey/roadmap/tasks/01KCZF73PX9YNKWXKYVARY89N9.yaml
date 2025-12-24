@@ -24,11 +24,11 @@ task:
     \ = \"skip\"        # Skip and continue\n    STOP = \"stop\"        # Stop loop\n\
     \    WAIT = \"wait\"        # Wait and retry (rate limit)\n```\n\nFiles:\n- vibey/services/implementation/recovery.py\
     \ (new)\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-20T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-24T15:55:00+00:00'
+  completed: '2025-12-24T16:05:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -40,12 +40,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

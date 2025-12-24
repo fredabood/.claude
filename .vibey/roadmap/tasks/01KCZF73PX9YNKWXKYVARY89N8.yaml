@@ -21,11 +21,11 @@ task:
     ```json\n{\"event\": \"task_complete\", \"task_id\": \"01KC...\", \"status\":\
     \ \"success\", \"tokens_input\": 1234, ...}\n```\n\nIntegration with existing\
     \ activity log system.\n\nFiles:\n- vibey/services/implementation/logging.py (new)\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-20T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-24T15:55:00+00:00'
+  completed: '2025-12-24T16:05:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -37,12 +37,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

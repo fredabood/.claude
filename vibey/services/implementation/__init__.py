@@ -25,6 +25,12 @@ Core Components:
 - RecoveryAction: Enum for recovery actions (RETRY, SKIP, STOP, WAIT)
 - ErrorSeverity: Enum for error classification (TRANSIENT, PERMANENT)
 - BlockedTask: Record of a task blocked due to errors
+- TokenBudget: Token budget tracking and enforcement
+- BudgetCheck: Enum for budget check results (ALLOWED, WARNING, EXCEEDED)
+- CheckpointManager: Git checkpoint creation and rollback support
+- Checkpoint: Record of a git checkpoint
+- ApprovalGate: Human approval gates for high-risk tasks
+- ApprovalResult: Enum for approval decisions (APPROVED, SKIPPED, QUIT, TIMEOUT)
 
 Usage:
     from vibey.services.implementation import (
@@ -123,6 +129,26 @@ from vibey.services.implementation.recovery import (
     ErrorSeverity,
     RecoveryAction,
 )
+from vibey.services.implementation.budget import (
+    BudgetCheck,
+    TokenBudget,
+)
+from vibey.services.implementation.checkpoint import (
+    Checkpoint,
+    CheckpointError,
+    CheckpointManager,
+    CheckpointNotFoundError,
+    GitOperationError,
+    NotAGitRepositoryError,
+    create_task_checkpoint,
+    rollback_task_checkpoint,
+    CHECKPOINT_TAG_PREFIX,
+    DEFAULT_KEEP_CHECKPOINTS,
+)
+from vibey.services.implementation.approval import (
+    ApprovalGate,
+    ApprovalResult,
+)
 
 __all__ = [
     # Main loop
@@ -162,4 +188,21 @@ __all__ = [
     "RecoveryAction",
     "ErrorSeverity",
     "BlockedTask",
+    # Budget enforcement
+    "BudgetCheck",
+    "TokenBudget",
+    # Checkpoint management
+    "Checkpoint",
+    "CheckpointError",
+    "CheckpointManager",
+    "CheckpointNotFoundError",
+    "GitOperationError",
+    "NotAGitRepositoryError",
+    "create_task_checkpoint",
+    "rollback_task_checkpoint",
+    "CHECKPOINT_TAG_PREFIX",
+    "DEFAULT_KEEP_CHECKPOINTS",
+    # Approval gates
+    "ApprovalGate",
+    "ApprovalResult",
 ]

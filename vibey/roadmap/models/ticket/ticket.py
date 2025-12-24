@@ -598,6 +598,29 @@ class Ticket(Completable):
             object.__setattr__(self, "completed_at", fallback_time)
         return self
 
+    @model_validator(mode="after")
+    def validate_total_token_budget(self) -> "Ticket":
+        """
+        Validate total_token_budget >= sum of input + output budgets.
+
+        This is an always-on validation that ensures the total budget
+        is sufficient to cover the individual direction budgets.
+
+        Error format: "total_token_budget ({total}) must be >= sum of
+                       input ({input}) + output ({output}) budgets"
+        """
+        if self.total_token_budget is not None:
+            input_budget = self.input_tokens.budget if self.input_tokens else 0
+            output_budget = self.output_tokens.budget if self.output_tokens else 0
+            direction_sum = (input_budget or 0) + (output_budget or 0)
+
+            if direction_sum > 0 and self.total_token_budget < direction_sum:
+                raise ValueError(
+                    f"total_token_budget ({self.total_token_budget:,}) must be >= "
+                    f"sum of input ({input_budget or 0:,}) + output ({output_budget or 0:,}) budgets"
+                )
+        return self
+
     # =========================================================================
     # HIERARCHY PROPERTIES (computed)
     # =========================================================================

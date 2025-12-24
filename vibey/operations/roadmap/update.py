@@ -65,6 +65,12 @@ from vibey.operations.roadmap.query import (
     load_track_ticket,
 )
 
+# Import budget validation service for optional hierarchical budget checks
+from vibey.services.budget_validator import (
+    BudgetValidator,
+    BudgetValidationError,
+)
+
 # Note: Ticket save functions are now in transitions.py module
 # The yaml_dumper functions are imported there for centralized use
 
@@ -108,6 +114,38 @@ def _mark_db_dirty(root_dir: Path) -> None:
         conn.commit()
     except Exception:
         pass  # Silently ignore DB errors for dirty flag
+
+
+def validate_hierarchical_budgets(
+    root_dir: Path,
+    parent_id: str,
+    parent_type: str = "sprint"
+) -> List[BudgetValidationError]:
+    """
+    Validate hierarchical budget constraints for a parent ticket.
+
+    Only validates if the parent has TokenEnforcement.require_children_sum_valid=True
+    for any direction (input, output, or total).
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        parent_id: ID of the parent ticket (sprint or track)
+        parent_type: Type of parent ("sprint" or "track")
+
+    Returns:
+        List of BudgetValidationError for any violations, empty if all valid
+    """
+    try:
+        if parent_type == "sprint":
+            parent_ticket = load_sprint_ticket(root_dir, parent_id)
+        else:
+            parent_ticket = load_track_ticket(root_dir, parent_id)
+
+        validator = BudgetValidator()
+        return validator.validate_all_directions(parent_ticket)
+    except Exception:
+        # If we can't load the parent ticket, skip validation
+        return []
 
 
 def _sync_task_to_db(task: Task, root_dir: Path) -> None:

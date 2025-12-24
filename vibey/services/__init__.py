@@ -31,6 +31,11 @@ from vibey.services.token_estimator import (
     EstimationResult,
     estimate_tokens,
 )
+from vibey.services.budget_validator import (
+    BudgetValidator,
+    BudgetValidationError,
+    validate_budget_hierarchy,
+)
 
 __all__ = [
     "TicketService",
@@ -38,4 +43,7 @@ __all__ = [
     "TokenEstimator",
     "EstimationResult",
     "estimate_tokens",
+    "BudgetValidator",
+    "BudgetValidationError",
+    "validate_budget_hierarchy",
 ]

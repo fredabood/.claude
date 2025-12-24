@@ -121,6 +121,12 @@ from vibey.cli.commands.migrate import (
     migrate_docs_cmd,
 )
 
+# Token commands
+from vibey.cli.commands.tokens import (
+    tokens_report_cmd,
+    tokens_budget_cmd,
+)
+
 __all__ = [
     # Checkpoint
     'checkpoint_create_cmd',
@@ -194,4 +200,7 @@ __all__ = [
     'extract_embedded_cmd',
     'migrate_format_cmd',
     'migrate_docs_cmd',
+    # Tokens
+    'tokens_report_cmd',
+    'tokens_budget_cmd',
 ]

@@ -461,24 +461,47 @@ def roadmap_summarize(ctx, item_type: str, item_id: str):
     sys.exit(exit_code)
 
 
-@roadmap.command('tokens')
+# ============================================================================
+# Tokens Subcommand Group
+# ============================================================================
+
+@roadmap.group('tokens')
+@click.pass_context
+def roadmap_tokens(ctx):
+    """
+    Token metrics and usage reporting.
+
+    View token estimates, budgets, usage, enforcement settings,
+    and generate comprehensive usage reports.
+
+    Examples:
+
+      vibey roadmap tokens show 01KC2D0JK7READW9KAK1HBX4B8  # View task tokens
+      vibey roadmap tokens report                           # Generate usage report
+      vibey roadmap tokens budget                           # Budget utilization
+      vibey roadmap tokens report --format json             # Export as JSON
+    """
+    pass
+
+
+@roadmap_tokens.command('show')
 @click.argument('item_id', required=False)
 @click.option('--track', 'track_id', help='View token summary for a track')
 @click.option('--sprint', 'sprint_id', help='View token summary for a sprint')
 @click.option('--show-enforcement', is_flag=True, help='Show detailed enforcement settings')
 @click.pass_context
-def roadmap_tokens(ctx, item_id: Optional[str], track_id: Optional[str],
-                   sprint_id: Optional[str], show_enforcement: bool):
+def tokens_show(ctx, item_id: Optional[str], track_id: Optional[str],
+                sprint_id: Optional[str], show_enforcement: bool):
     """View token metrics for a task, sprint, or track
 
     Displays token estimates, budgets, usage, and enforcement settings
     from the Tokens model (estimate/budget/usage/enforcement).
 
     Examples:
-      vibey roadmap tokens 01KC2D0JK7READW9KAK1HBX4B8   # View task tokens
-      vibey roadmap tokens --sprint 01KC2D0JKVT80AFQ6C1 # View sprint token summary
-      vibey roadmap tokens --track 01KCYA0G5135Z8B8ENFD # View track token summary
-      vibey roadmap tokens <task-id> --show-enforcement # Show enforcement details
+      vibey roadmap tokens show 01KC2D0JK7READW9KAK1HBX4B8   # View task tokens
+      vibey roadmap tokens show --sprint 01KC2D0JKVT80AFQ6C1 # View sprint token summary
+      vibey roadmap tokens show --track 01KCYA0G5135Z8B8ENFD # View track token summary
+      vibey roadmap tokens show <task-id> --show-enforcement # Show enforcement details
     """
     from vibey.cli.commands import roadmap_tokens_cmd
 
@@ -487,6 +510,59 @@ def roadmap_tokens(ctx, item_id: Optional[str], track_id: Optional[str],
         track_id=track_id,
         sprint_id=sprint_id,
         show_enforcement=show_enforcement,
+    )
+    sys.exit(exit_code)
+
+
+@roadmap_tokens.command('report')
+@click.option('--format', 'output_format', type=click.Choice(['text', 'csv', 'json']),
+              default='text', help='Output format')
+@click.option('--track', 'track_id', help='Filter to specific track')
+@click.option('--include-empty', is_flag=True, help='Include tracks with no tasks')
+@click.pass_context
+def tokens_report(ctx, output_format: str, track_id: Optional[str], include_empty: bool):
+    """Generate token usage report.
+
+    Shows token usage aggregated by track and by task type, with
+    estimates and actual usage compared.
+
+    Examples:
+      vibey roadmap tokens report                     # Summary report
+      vibey roadmap tokens report --format json       # Export as JSON
+      vibey roadmap tokens report --format csv        # Export as CSV
+      vibey roadmap tokens report --track <ULID>      # Filter to track
+    """
+    from vibey.cli.commands import tokens_report_cmd
+
+    exit_code = tokens_report_cmd(
+        output_format=output_format,
+        track_id=track_id,
+        include_empty=include_empty,
+    )
+    sys.exit(exit_code)
+
+
+@roadmap_tokens.command('budget')
+@click.option('--format', 'output_format', type=click.Choice(['text', 'csv', 'json']),
+              default='text', help='Output format')
+@click.option('--all', 'show_all', is_flag=True, help='Show all items including those without budgets')
+@click.pass_context
+def tokens_budget(ctx, output_format: str, show_all: bool):
+    """Show budget utilization report.
+
+    Displays items with configured budgets and their utilization status.
+    Highlights items approaching or exceeding their budgets.
+
+    Examples:
+      vibey roadmap tokens budget                     # Budget overview
+      vibey roadmap tokens budget --format json       # Export as JSON
+      vibey roadmap tokens budget --format csv        # Export as CSV
+    """
+    from vibey.cli.commands import tokens_budget_cmd
+
+    exit_code = tokens_budget_cmd(
+        output_format=output_format,
+        show_all=show_all,
     )
     sys.exit(exit_code)
 

@@ -126,3 +126,55 @@ implement:
     # When true, blocking regressions must be acknowledged via CLI
     # Use: vibey implement acknowledge <task-id>
     require_acknowledgment: true
+
+  # ==========================================================================
+  # BUG LOGGING
+  # ==========================================================================
+  # Configuration for automatic bug ticket creation during task execution.
+  # When errors are detected, bug tickets are created as children of a
+  # designated parent ticket.
+
+  bug_logging:
+    # Enable automatic bug detection and ticket creation
+    enabled: true
+
+    # Parent ticket ID for all bug tickets
+    # All created bug tickets will have parent_ref set to this ID
+    # Set to null to disable bug ticket creation
+    parent_ticket_id: null
+
+    # Minimum severity level to create tickets for
+    # Bugs below this severity will be logged but not create tickets
+    # Options: low, medium, high, critical
+    min_severity_for_ticket: medium
+
+    # Automatically detect errors in CLI output
+    # When true, scans command output for error patterns
+    auto_detect_cli_errors: true
+
+    # Include stack traces in bug descriptions
+    include_stack_traces: true
+
+    # Maximum bugs to create per session
+    # Prevents runaway bug creation in case of repeated failures
+    max_bugs_per_session: 20
+
+    # Severity mapping for detected errors
+    # Maps error types to severity levels
+    severity_mapping:
+      # Python exceptions
+      SyntaxError: high
+      ImportError: high
+      ModuleNotFoundError: high
+      RuntimeError: high
+      PermissionError: high
+      FileNotFoundError: high
+      TypeError: medium
+      ValueError: medium
+      KeyError: medium
+      AttributeError: medium
+      OSError: medium
+      # CLI errors
+      fatal: critical
+      error: high
+      warning: low

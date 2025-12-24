@@ -36,11 +36,11 @@ task:
     \  # Designated bug logging ticket\n    auto_detect: true\n    severity_threshold:\
     \ medium  # Only log medium+ severity\n```\n\nFiles:\n- vibey/services/implementation/bug_logger.py\
     \ (new)\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-20T16:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-24T18:35:00+00:00'
+  completed: '2025-12-24T19:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -52,12 +52,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

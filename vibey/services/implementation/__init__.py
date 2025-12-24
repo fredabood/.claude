@@ -39,6 +39,16 @@ Core Components:
 - CriterionState: State of a single criterion at snapshot time
 - CriterionStatus: Enum for criterion evaluation status (MET, NOT_MET, SKIPPED, ERROR)
 - CriterionType: Enum for criterion target type classification
+- TaskPlanVerifier: Validate and generate task implementation plans
+- PlanValidationResult: Result of plan validation with missing/present sections
+- PlanTemplate: Template for generating standardized task plans
+- RoadmapStateVerifier: Verify YAML/SQLite synchronization state
+- SyncStatus: Status of YAML/DB synchronization with severity
+- Discrepancy: Record of a single sync discrepancy
+- FixResult: Result of auto-fix operation
+- BugLogger: Automatic bug ticket creation from detected errors
+- BugReport: Complete bug report with context and stack trace
+- BugSeverity: Enum for bug severity (LOW, MEDIUM, HIGH, CRITICAL)
 
 Usage:
     from vibey.services.implementation import (
@@ -184,6 +194,28 @@ from vibey.services.implementation.regression import (
     RegressionReport,
     RegressionSnapshot,
 )
+from vibey.services.implementation.plan_verifier import (
+    TaskPlanVerifier,
+    PlanValidationResult,
+    PlanTemplate,
+    REQUIRED_PLAN_SECTIONS,
+)
+from vibey.services.implementation.state_verifier import (
+    RoadmapStateVerifier,
+    SyncStatus,
+    Discrepancy,
+    FixResult,
+    IssueType,
+    Severity,
+    DEFAULT_ROADMAP_ROOT,
+    DEFAULT_DB_PATH,
+)
+from vibey.services.implementation.bug_logger import (
+    BugLogger,
+    BugReport,
+    BugSeverity,
+    DEFAULT_BUG_TITLE_PREFIX,
+)
 
 __all__ = [
     # Main loop
@@ -263,4 +295,23 @@ __all__ = [
     "RegressionPolicy",
     "RegressionReport",
     "RegressionSnapshot",
+    # Plan verification
+    "TaskPlanVerifier",
+    "PlanValidationResult",
+    "PlanTemplate",
+    "REQUIRED_PLAN_SECTIONS",
+    # State verification (YAML/SQLite sync)
+    "RoadmapStateVerifier",
+    "SyncStatus",
+    "Discrepancy",
+    "FixResult",
+    "IssueType",
+    "Severity",
+    "DEFAULT_ROADMAP_ROOT",
+    "DEFAULT_DB_PATH",
+    # Bug logging
+    "BugLogger",
+    "BugReport",
+    "BugSeverity",
+    "DEFAULT_BUG_TITLE_PREFIX",
 ]

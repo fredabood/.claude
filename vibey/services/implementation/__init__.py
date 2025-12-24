@@ -73,6 +73,9 @@ Core Components:
 - BranchStatus: Status of a ticket branch
 - MergeResult: Result of a branch merge operation
 - MergeStrategy: Enum for merge strategies (SQUASH, MERGE, REBASE)
+- ContentVersioner: Core versioning infrastructure for content (plan, execution, post-mortem)
+- ContentVersion: Immutable version of content at a point in time
+- VersionStage: Enum for implementation lifecycle stages (PLAN, EXECUTION, POST_MORTEM)
 
 Usage:
     from vibey.services.implementation import (
@@ -287,6 +290,11 @@ from vibey.services.implementation.git import (
     TicketBranchManager,
     NotAGitRepositoryError as BranchNotAGitRepositoryError,
 )
+from vibey.services.implementation.versioning import (
+    ContentVersion,
+    ContentVersioner,
+    VersionStage,
+)
 
 __all__ = [
     # Main loop
@@ -425,4 +433,8 @@ __all__ = [
     "MergeResult",
     "MergeStrategy",
     "TicketBranchManager",
+    # Content versioning
+    "ContentVersion",
+    "ContentVersioner",
+    "VersionStage",
 ]

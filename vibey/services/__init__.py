@@ -36,6 +36,13 @@ from vibey.services.budget_validator import (
     BudgetValidationError,
     validate_budget_hierarchy,
 )
+from vibey.services.token_tracker import (
+    TokenTracker,
+    TokenDelta,
+    CommitUsage,
+    track_usage,
+    get_task_usage,
+)
 
 __all__ = [
     "TicketService",
@@ -46,4 +53,9 @@ __all__ = [
     "BudgetValidator",
     "BudgetValidationError",
     "validate_budget_hierarchy",
+    "TokenTracker",
+    "TokenDelta",
+    "CommitUsage",
+    "track_usage",
+    "get_task_usage",
 ]

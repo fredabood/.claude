@@ -2,44 +2,23 @@ track:
   id: 01KCYA0G5135Z8B8ENFD841B0Q
   name: Robust Token Estimation System
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-12-20T12:00:00+00:00'
   started: '2025-12-23T18:42:16+00:00'
-  completed: '2025-12-23T22:56:36.207777+00:00'
+  completed: null
   estimated_duration: null
   progress:
     sprints_total: 4
-    sprints_completed: 0
-    tasks_total: 13
-    tasks_completed: 4
-    completion_percent: 31.0
+    sprints_completed: 2
+    tasks_total: 12
+    tasks_completed: 8
+    completion_percent: 66
   sprints:
-  - id: 01KCYA0G5135Z8B8ENFD841B0R
-    name: 'Sprint 1: Data Model Updates'
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-12-23T18:42:16+00:00'
-  - id: 01KCYA0G5135Z8B8ENFD841B0S
-    name: 'Sprint 2: Estimation Algorithms'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-12-23T19:00:00+00:00'
-  - id: 01KCYA0G5135Z8B8ENFD841B0T
-    name: 'Sprint 3: Budget Enforcement'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 3
-    started: null
-  - id: 01KCYA0G5135Z8B8ENFD841B0V
-    name: 'Sprint 4: CLI & Reporting'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 4
-    started: null
+  - 01KCYA0G5135Z8B8ENFD841B0R
+  - 01KCYA0G5135Z8B8ENFD841B0S
+  - 01KCYA0G5135Z8B8ENFD841B0T
   dependencies: []
   blocks: []
   blocked_by: []
@@ -53,7 +32,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-24T00:08:20.426305+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

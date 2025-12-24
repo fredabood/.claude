@@ -32,11 +32,11 @@ task:
     \  # All files this group touches\n\n    def has_conflict_with(self, other: 'ParallelGroup')\
     \ -> bool:\n        '''Check if this group conflicts with another.'''\n```\n\n\
     Files:\n- vibey/services/implementation/parallel.py (new)\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-20T16:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-24T19:35:00+00:00'
+  completed: '2025-12-24T19:45:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -48,12 +48,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

@@ -55,6 +55,20 @@ Core Components:
 - LearningCapture: Knowledge base building from task learnings
 - Learning: Structured learning record with category and applicability
 - LearningCategory: Enum for learning types (PATTERN, ANTI_PATTERN, DISCOVERY, TIP, BUG_PATTERN)
+- AgentSpawner: Spawn and manage parallel agent processes
+- AgentProcess: Represents a running agent process
+- AgentStatus: Enum for agent status (PENDING, RUNNING, COMPLETED, FAILED, etc.)
+- ParallelGroup: Group of tasks that can be executed in parallel
+- SpawnerTaskContext: Context provided to each spawned agent
+- SpawnerExecutionResult: Simplified result from spawner operations
+- ResultAggregator: Aggregate results and resolve conflicts from parallel agents
+- AggregatedResult: Aggregated result from parallel execution
+- ConflictType: Enum for file conflict types (CONTENT, BOTH_CREATED, etc.)
+- ConflictStrategy: Enum for conflict resolution strategies (MERGE, PROMPT, etc.)
+- FileConflict: Represents a file conflict between agents
+- Resolution: Resolution of a file conflict
+- IndependentTaskIdentifier: Identify tasks that can execute in parallel
+- ParallelExecutionGroup: Group of tasks with file coverage for parallel execution
 
 Usage:
     from vibey.services.implementation import (
@@ -238,6 +252,26 @@ from vibey.services.implementation.learning import (
     LearningCapture,
     LearningCategory,
 )
+from vibey.services.implementation.spawner import (
+    AgentSpawner,
+    AgentProcess,
+    AgentStatus,
+    ParallelGroup,
+    TaskContext as SpawnerTaskContext,
+    ExecutionResult as SpawnerExecutionResult,
+)
+from vibey.services.implementation.aggregator import (
+    AggregatedResult,
+    ConflictStrategy,
+    ConflictType,
+    FileConflict,
+    Resolution,
+    ResultAggregator,
+)
+from vibey.services.implementation.parallel import (
+    IndependentTaskIdentifier,
+    ParallelGroup as ParallelExecutionGroup,
+)
 
 __all__ = [
     # Main loop
@@ -349,4 +383,21 @@ __all__ = [
     "Learning",
     "LearningCapture",
     "LearningCategory",
+    # Agent spawning (parallel execution)
+    "AgentSpawner",
+    "AgentProcess",
+    "AgentStatus",
+    "ParallelGroup",
+    "SpawnerTaskContext",
+    "SpawnerExecutionResult",
+    # Result aggregation (parallel execution)
+    "AggregatedResult",
+    "ConflictStrategy",
+    "ConflictType",
+    "FileConflict",
+    "Resolution",
+    "ResultAggregator",
+    # Independent task identification (parallel grouping)
+    "IndependentTaskIdentifier",
+    "ParallelExecutionGroup",
 ]

@@ -10,36 +10,12 @@ track:
   completed: '2025-12-24T01:08:09.233002+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 4
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 13
-    tasks_completed: 13
-    completion_percent: 100.0
-  sprints:
-  - id: 01KCYA0G5135Z8B8ENFD841B0R
-    name: 'Sprint 1: Data Model Updates'
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-12-23T18:42:16+00:00'
-  - id: 01KCYA0G5135Z8B8ENFD841B0S
-    name: 'Sprint 2: Estimation Algorithms'
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-12-23T19:00:00+00:00'
-  - id: 01KCYA0G5135Z8B8ENFD841B0T
-    name: 'Sprint 3: Budget Enforcement'
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-12-23T19:45:00+00:00'
-  - id: 01KCYA0G5135Z8B8ENFD841B0V
-    name: 'Sprint 4: CLI & Reporting'
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-12-23T00:00:00+00:00'
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -53,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-25T14:32:06.012348+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

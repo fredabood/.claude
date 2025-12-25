@@ -6,33 +6,33 @@ task:
   task_type: development
   title: 'Bug: roadmap show treats ULID as track ID instead of auto-detecting entity
     type'
-  description: 'When running ''vibey roadmap show <ULID>'' where the ULID is a task
-    ID, the CLI
+  description: |
+    **Problem:** `vibey roadmap show <ULID>` fails when given a task/sprint ULID,
+    defaulting to "track" lookup instead of detecting the correct entity type.
 
-    incorrectly tries to find it as a track first and fails with ''Track not found''
-
-    error instead of checking tasks, sprints, etc.
-
-
-    Steps to reproduce:
-
-    1. Get a task ULID (e.g., 01KCYA0G5135Z8B8ENFD841B10)
-
+    **Reproduction:**
+    1. Get a task ULID: 01KCYA0G5135Z8B8ENFD841B10
     2. Run: vibey roadmap show 01KCYA0G5135Z8B8ENFD841B10
+    3. Error: "Track '01KCYA0G5135Z8B8ENFD841B10' not found"
 
-    3. Error: "Track ''01KCYA0G5135Z8B8ENFD841B10'' not found"
+    **Root Cause:** In `vibey/cli/commands_legacy.py:814-822`, when `_detect_ulid_type()`
+    returns None, the code defaults to "track" instead of checking the database or
+    returning an error.
 
+    **Implementation Plan:**
+    1. Remove track fallback at line 819
+    2. Add database lookup as fallback (check tasks, sprints, tracks tables)
+    3. Create `detect_entity_type()` helper in `vibey/roadmap/database/queries.py`
+    4. Return proper error if entity not found anywhere
 
-    Expected behavior:
+    **Files to Modify:**
+    - vibey/cli/commands_legacy.py:814-822
+    - vibey/roadmap/database/queries.py (add helper)
 
-    The show command should auto-detect the entity type based on the ULID or
-
-    check all entity types (track, sprint, task) before failing.
-
-
-    Discovered during: Task 01KCYA0G5135Z8B8ENFD841B10 execution
-
-    '
+    **Verification:**
+    - `vibey roadmap show <task-ulid>` shows task details
+    - `vibey roadmap show <sprint-ulid>` shows sprint details
+    - `vibey roadmap show <invalid-ulid>` shows "Entity not found" error
   status: not_started
   blocked: false
   created: '2025-12-23T12:00:00+00:00'

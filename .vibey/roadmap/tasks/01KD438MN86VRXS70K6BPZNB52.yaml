@@ -5,29 +5,37 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Sprint auto-progress should skip deferred tasks
-  description: 'Sprints with only deferred incomplete tasks should auto-progress to
-    completed
+  description: |
+    **Problem:** Sprints with only deferred incomplete tasks remain in_progress
+    instead of auto-progressing to completed.
 
-    or production_ready status. Currently, a sprint remains in_progress even when
+    **Reproduction:**
+    1. Find sprint where all incomplete tasks are marked `deferred: true`
+    2. Run: vibey roadmap auto-progress --check
+    3. Expected: Sprint ready to progress. Actual: Remains in_progress
 
-    all non-deferred tasks are complete.
+    **Root Cause Analysis:**
+    Code in `vibey/operations/roadmap/update.py:1658-1683` already excludes deferred:
+    ```python
+    def is_deferred(t):
+        return getattr(t, 'deferred', False)
+    dev_tasks = [t for t in tasks if ... and not is_deferred(t)]
+    ```
+    This was implemented 2025-12-23. May already be fixed - needs verification.
 
+    **Implementation Plan:**
+    1. Verify fix is working with known deferred sprint
+    2. If broken, check MockTask.deferred assignment at line 1645
+    3. Verify deferred field loads correctly from YAML and DB
 
-    Example: Sprint 10 Validation and Sync Bugs has 4/5 tasks complete, but the
+    **Files to Check:**
+    - vibey/operations/roadmap/update.py:1645 (MockTask.deferred)
+    - vibey/roadmap/serialization/yaml_loader.py
+    - vibey/roadmap/serialization/sql_loader.py
 
-    5th task is deferred. The sprint status is in_progress but should be complete.
-
-
-    Root cause: The auto-progress logic counts all incomplete tasks, not just
-
-    non-deferred incomplete tasks.
-
-
-    Solution: Update the sprint/track auto-progress logic to exclude deferred tasks
-
-    from the incomplete count.
-
-    '
+    **Verification:**
+    - `vibey roadmap auto-progress --check` shows deferred sprints as completable
+    - `sqlite3 .vibey/roadmap.db "SELECT id, deferred FROM tasks WHERE deferred=1"`
   status: not_started
   blocked: true
   created: '2025-12-22T21:00:00+00:00'

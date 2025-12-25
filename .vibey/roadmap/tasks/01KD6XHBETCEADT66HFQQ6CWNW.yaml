@@ -5,10 +5,39 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: 'Fix add-artifact command: no such column: id'
-  description: 'When running ''vibey roadmap task add-artifact <task-id> <path>'',
-    the command fails with ''Failed to add artifact: no such column: id''. The artifact
-    is created but fails to associate with the task. This blocks the pre-commit hook
-    artifact association requirement.'
+  description: |
+    **Problem:** `vibey roadmap task add-artifact` fails with "no such column: id"
+    error. Artifact creates but fails to associate with task.
+
+    **Reproduction:**
+    1. Run: `vibey roadmap task add-artifact 01KC2D0JK7READW9KAK1HBX4B8 vibey/cli/main.py`
+    2. Error: "Failed to add artifact: no such column: id"
+
+    **Root Cause:** Schema mismatch in `vibey/cli/commands/relationship.py:279-282`:
+    ```python
+    existing = conn.execute("""
+        SELECT id FROM ticket_artifact_associations  # <-- 'id' doesn't exist!
+        WHERE ticket_id = ? AND artifact_id = ?
+    """, ...).fetchone()
+    ```
+
+    The actual table uses composite primary key `(ticket_id, artifact_id)`, no `id` column:
+    ```sql
+    PRIMARY KEY (ticket_id, artifact_id)  -- No 'id' column!
+    ```
+
+    **Implementation Plan:**
+    1. Change `SELECT id` to `SELECT 1` at line 279
+    2. Remove or fix `_ensure_tables_exist()` (lines 43-93) which creates
+       incompatible schema with `id INTEGER PRIMARY KEY AUTOINCREMENT`
+
+    **Files to Modify:**
+    - vibey/cli/commands/relationship.py:279 (SELECT id → SELECT 1)
+    - vibey/cli/commands/relationship.py:43-93 (remove/fix _ensure_tables_exist)
+
+    **Verification:**
+    - `vibey roadmap task add-artifact <task-id> <path>` succeeds
+    - `sqlite3 .vibey/roadmap.db "SELECT * FROM ticket_artifact_associations"` shows entry
   status: not_started
   blocked: false
   created: '2025-12-24T00:53:25.822769+00:00'

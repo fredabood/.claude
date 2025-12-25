@@ -140,6 +140,7 @@ class TaskType(str, Enum):
     REVIEW = "review"
     INFRASTRUCTURE = "infrastructure"
     GATE = "gate"  # Quality gate task
+    BUG = "bug"  # Bug fix task
 
 
 class Complexity(str, Enum):

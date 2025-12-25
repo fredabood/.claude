@@ -30,11 +30,11 @@ task:
 
     **Verification:**
     - Create task with `task_type: bug`, rebuild DB, verify no validation errors
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-23T23:59:14.548803+00:00'
-  started: null
-  completed: null
+  started: '2025-12-25T13:50:00+00:00'
+  completed: '2025-12-25T13:50:00+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

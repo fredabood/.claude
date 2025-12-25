@@ -83,6 +83,7 @@ class TaskType(str, Enum):
     GATE = "gate"
     COMPLETION_GATE = "completion_gate"
     PRODUCTION_GATE = "production_gate"
+    BUG = "bug"
 
 
 class GateStatus(str, Enum):

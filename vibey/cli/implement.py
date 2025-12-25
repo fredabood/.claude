@@ -925,6 +925,203 @@ def implement_stop(ctx, force: bool):
 
 
 # =============================================================================
+# REGRESSIONS COMMAND
+# =============================================================================
+
+
+@implement.command("regressions")
+@click.option(
+    "--task",
+    "-t",
+    "task_id",
+    help="Show regressions for a specific task (ULID)",
+)
+@click.option(
+    "--limit",
+    "-n",
+    type=int,
+    default=10,
+    help="Maximum number of reports to show",
+)
+@click.pass_context
+def implement_regressions(ctx, task_id: Optional[str], limit: int):
+    """
+    View regression reports from implementation mode.
+
+    Shows detected regressions from task execution, including:
+    - Blocking regressions (unacknowledged)
+    - Acknowledged regressions
+    - New failures
+
+    Examples:
+      vibey implement regressions                     # Show recent reports
+      vibey implement regressions --task 01KC...      # Show specific task
+      vibey implement regressions --limit 5           # Limit to 5 reports
+    """
+    from vibey.services.implementation import RegressionDetector, RegressionConfig
+
+    # Create detector
+    project_root = Path.cwd()
+    reports_dir = project_root / ".vibey" / "implementation" / "regressions"
+
+    detector = RegressionDetector(
+        config=RegressionConfig(),
+        reports_dir=reports_dir,
+    )
+
+    if task_id:
+        # Show specific task report
+        report = detector.load_report(task_id)
+        if not report:
+            console.print(f"[yellow]No regression report found for task {task_id}[/yellow]")
+            sys.exit(1)
+
+        console.print(detector.generate_report(report))
+    else:
+        # Show recent reports
+        reports = detector.list_reports(limit=limit)
+
+        if not reports:
+            console.print("[dim]No regression reports found.[/dim]")
+            console.print(
+                "\nRegression reports are created when implementation mode detects "
+                "that a task caused previously-passing criteria to fail."
+            )
+            sys.exit(0)
+
+        # Summary table
+        table = Table(
+            title=f"Regression Reports ({len(reports)} found)",
+            show_header=True,
+            header_style="bold",
+        )
+        table.add_column("Task ID", style="cyan", max_width=28)
+        table.add_column("Date", style="dim")
+        table.add_column("Regressions", style="red")
+        table.add_column("Blocking", style="yellow")
+        table.add_column("Status")
+
+        for report in reports:
+            task_display = report.task_id
+            if len(task_display) > 26:
+                task_display = task_display[:23] + "..."
+
+            date_str = report.evaluated_at.strftime("%Y-%m-%d %H:%M")
+
+            status = "[green]OK[/green]"
+            if report.has_unacknowledged_regressions:
+                status = "[red]BLOCKED[/red]"
+            elif report.regression_count > 0:
+                status = "[yellow]ACKNOWLEDGED[/yellow]"
+
+            table.add_row(
+                task_display,
+                date_str,
+                str(report.regression_count),
+                str(report.blocking_count),
+                status,
+            )
+
+        console.print(table)
+        console.print()
+        console.print(
+            "[dim]Use --task <ULID> to see detailed report for a specific task[/dim]"
+        )
+
+    sys.exit(0)
+
+
+# =============================================================================
+# ACKNOWLEDGE COMMAND
+# =============================================================================
+
+
+@implement.command("acknowledge")
+@click.argument("task_id")
+@click.option(
+    "--criterion",
+    "-c",
+    "criterion_ref",
+    help="Acknowledge a specific criterion (default: all)",
+)
+@click.option(
+    "--reason",
+    "-r",
+    default="Acknowledged by user",
+    help="Reason for acknowledgment",
+)
+@click.pass_context
+def implement_acknowledge(
+    ctx,
+    task_id: str,
+    criterion_ref: Optional[str],
+    reason: str,
+):
+    """
+    Acknowledge regression(s) for a task.
+
+    Acknowledging a regression marks it as acceptable and allows
+    task execution to proceed without blocking.
+
+    Arguments:
+      TASK_ID: The task ULID with regressions to acknowledge
+
+    Examples:
+      vibey implement acknowledge 01KC...                        # Acknowledge all
+      vibey implement acknowledge 01KC... --criterion test-xyz   # Acknowledge one
+      vibey implement acknowledge 01KC... -r "Expected change"   # With reason
+    """
+    from vibey.services.implementation import RegressionDetector, RegressionConfig
+
+    # Create detector
+    project_root = Path.cwd()
+    reports_dir = project_root / ".vibey" / "implementation" / "regressions"
+
+    detector = RegressionDetector(
+        config=RegressionConfig(),
+        reports_dir=reports_dir,
+    )
+
+    # Load report
+    report = detector.load_report(task_id)
+    if not report:
+        console.print(f"[red]Error:[/red] No regression report found for task {task_id}")
+        sys.exit(1)
+
+    if not report.has_unacknowledged_regressions:
+        console.print(f"[yellow]No unacknowledged regressions for task {task_id}[/yellow]")
+        sys.exit(0)
+
+    # Acknowledge
+    if detector.acknowledge_regression(task_id, criterion_ref, reason):
+        if criterion_ref:
+            console.print(
+                f"[green]Acknowledged regression:[/green] {criterion_ref}\n"
+                f"Reason: {reason}"
+            )
+        else:
+            console.print(
+                f"[green]Acknowledged all regressions for task {task_id}[/green]\n"
+                f"Reason: {reason}"
+            )
+
+        # Show updated status
+        updated_report = detector.load_report(task_id)
+        if updated_report:
+            if updated_report.has_unacknowledged_regressions:
+                console.print(
+                    f"\n[yellow]Remaining unacknowledged: {updated_report.blocking_count}[/yellow]"
+                )
+            else:
+                console.print("\n[green]All regressions acknowledged. Task may proceed.[/green]")
+    else:
+        console.print("[red]Error:[/red] Failed to acknowledge regression")
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+# =============================================================================
 # EXPORTS
 # =============================================================================
 
@@ -935,4 +1132,6 @@ __all__ = [
     "implement_pause",
     "implement_resume",
     "implement_stop",
+    "implement_regressions",
+    "implement_acknowledge",
 ]

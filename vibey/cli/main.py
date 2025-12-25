@@ -3175,6 +3175,14 @@ cli.add_command(git_group, name='git')
 
 
 # ============================================================================
+# Implement Command Group (Implementation Mode)
+# ============================================================================
+
+from vibey.cli.implement import implement
+cli.add_command(implement, name='implement')
+
+
+# ============================================================================
 # Content Command Group
 # ============================================================================
 

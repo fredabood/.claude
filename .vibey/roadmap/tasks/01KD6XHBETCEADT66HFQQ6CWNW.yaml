@@ -38,11 +38,11 @@ task:
     **Verification:**
     - `vibey roadmap task add-artifact <task-id> <path>` succeeds
     - `sqlite3 .vibey/roadmap.db "SELECT * FROM ticket_artifact_associations"` shows entry
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-24T00:53:25.822769+00:00'
-  started: null
-  completed: null
+  started: '2025-12-25T13:40:00+00:00'
+  completed: '2025-12-25T13:40:00+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

@@ -43,9 +43,9 @@ def _get_connection(db_path: Path) -> sqlite3.Connection:
 def _ensure_tables_exist(conn: sqlite3.Connection) -> None:
     """Ensure the Context System V2 tables exist."""
     # Create ticket_artifact_associations if not exists
+    # Uses composite primary key (ticket_id, artifact_id) - no id column
     conn.execute("""
         CREATE TABLE IF NOT EXISTS ticket_artifact_associations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
             ticket_id TEXT NOT NULL,
             artifact_id TEXT NOT NULL,
             association_source TEXT NOT NULL CHECK (association_source IN (
@@ -53,7 +53,7 @@ def _ensure_tables_exist(conn: sqlite3.Connection) -> None:
             )),
             added_at TEXT NOT NULL,
             added_by TEXT,
-            UNIQUE(ticket_id, artifact_id, association_source)
+            PRIMARY KEY (ticket_id, artifact_id)
         )
     """)
 
@@ -277,7 +277,7 @@ def task_add_artifact_cmd(
 
         # Check if association already exists
         existing = conn.execute("""
-            SELECT id FROM ticket_artifact_associations
+            SELECT 1 FROM ticket_artifact_associations
             WHERE ticket_id = ? AND artifact_id = ?
         """, (task_id, artifact_id)).fetchone()
 

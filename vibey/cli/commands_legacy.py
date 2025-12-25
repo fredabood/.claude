@@ -792,6 +792,22 @@ def _detect_ulid_type(item_id: str, root_dir: Path) -> str | None:
         if yaml_file.exists():
             return item_type
 
+    # If not found in YAML files, check database as final fallback
+    db_path = root_dir / ".vibey" / "roadmap.db"
+    if db_path.exists():
+        import sqlite3
+        try:
+            conn = sqlite3.connect(db_path)
+            # Check each table for the ID
+            for item_type, table in [("task", "tasks"), ("sprint", "sprints"), ("track", "tracks")]:
+                cursor = conn.execute(f"SELECT 1 FROM {table} WHERE id = ?", (item_id,))
+                if cursor.fetchone():
+                    conn.close()
+                    return item_type
+            conn.close()
+        except Exception:
+            pass  # Database lookup failed, return None
+
     return None
 
 
@@ -815,10 +831,13 @@ def roadmap_show_cmd(item_id: str) -> int:
         if item_type is None and len(item_id) == 26 and item_id.isalnum():
             item_type = _detect_ulid_type(item_id, root_dir)
             if item_type is None:
-                # Default to track for ULIDs not found in .id files
-                item_type = "track"
+                # Entity not found anywhere
+                print(format_error(f"Entity not found: {item_id}"))
+                print("   The ID was not found in YAML files or the database.")
+                print("   Check that the ID is correct or run 'vibey roadmap db rebuild'.")
+                return 1
         elif item_type is None:
-            # Default fallback
+            # Non-ULID format that doesn't match known patterns - default to track
             item_type = "track"
 
         # Query based on detected type

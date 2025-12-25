@@ -36,11 +36,11 @@ task:
     **Verification:**
     - `vibey roadmap auto-progress --check` shows deferred sprints as completable
     - `sqlite3 .vibey/roadmap.db "SELECT id, deferred FROM tasks WHERE deferred=1"`
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-22T21:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-25T14:00:00+00:00'
+  completed: '2025-12-25T14:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -52,15 +52,11 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []
+  deferred: true
   metadata:
     last_updated: null
     token_efficiency: null

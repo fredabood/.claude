@@ -5,25 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Design ExperimentConfig dataclass with Variant and VariantType
-  description: |
-    Create the core experiment configuration dataclasses:
-
-    1. **VariantType** enum: model, prompt, template, strategy, config
-    2. **Variant** dataclass:
-       - id, name, type, weight (0.0-1.0), config dict, is_control flag
-       - Validation for weight range
-    3. **ExperimentStatus** enum: draft, active, paused, completed, cancelled
-    4. **Experiment** dataclass:
-       - id (ULID), name, description, status
-       - variants list, metrics list, started_at, ended_at
-       - target_sample_size, filters dict
-       - Properties: is_active, control_variant, get_variant_by_id()
-    5. **ExperimentConfig** dataclass:
-       - enabled, experiment_id, auto_assign, storage_path, metrics_retention_days
-
-    File: vibey/services/implementation/experiment/config.py
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.1
+  description: "Create the core experiment configuration dataclasses:\n\n1. **VariantType**\
+    \ enum: model, prompt, template, strategy, config\n2. **Variant** dataclass:\n\
+    \   - id, name, type, weight (0.0-1.0), config dict, is_control flag\n   - Validation\
+    \ for weight range\n3. **ExperimentStatus** enum: draft, active, paused, completed,\
+    \ cancelled\n4. **Experiment** dataclass:\n   - id (ULID), name, description,\
+    \ status\n   - variants list, metrics list, started_at, ended_at\n   - target_sample_size,\
+    \ filters dict\n   - Properties: is_active, control_variant, get_variant_by_id()\n\
+    5. **ExperimentConfig** dataclass:\n   - enabled, experiment_id, auto_assign,\
+    \ storage_path, metrics_retention_days\n\nFile: vibey/services/implementation/experiment/config.py\n\
+    \nReference: AB_TESTING_RECOMMENDATIONS.md Section 2.1\n"
   status: not_started
   blocked: false
   created: '2025-12-24T12:00:00+00:00'

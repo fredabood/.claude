@@ -10,12 +10,42 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 5
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    tasks_total: 23
+    tasks_completed: 23
+    completion_percent: 100.0
+  sprints:
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQ0
+    name: Low-Risk Cleanup & Preparation
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQ6
+    name: Move Unique Code & Update Imports
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQD
+    name: Content Audit
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQJ
+    name: Content Remediation
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQQ
+    name: .vibey Directory Cleanup
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 4
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +59,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-24T23:17:21.576253+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

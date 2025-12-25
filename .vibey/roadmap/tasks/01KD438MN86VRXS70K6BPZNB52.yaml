@@ -5,37 +5,21 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Sprint auto-progress should skip deferred tasks
-  description: |
-    **Problem:** Sprints with only deferred incomplete tasks remain in_progress
-    instead of auto-progressing to completed.
-
-    **Reproduction:**
-    1. Find sprint where all incomplete tasks are marked `deferred: true`
-    2. Run: vibey roadmap auto-progress --check
-    3. Expected: Sprint ready to progress. Actual: Remains in_progress
-
-    **Root Cause Analysis:**
-    Code in `vibey/operations/roadmap/update.py:1658-1683` already excludes deferred:
-    ```python
-    def is_deferred(t):
-        return getattr(t, 'deferred', False)
-    dev_tasks = [t for t in tasks if ... and not is_deferred(t)]
-    ```
-    This was implemented 2025-12-23. May already be fixed - needs verification.
-
-    **Implementation Plan:**
-    1. Verify fix is working with known deferred sprint
-    2. If broken, check MockTask.deferred assignment at line 1645
-    3. Verify deferred field loads correctly from YAML and DB
-
-    **Files to Check:**
-    - vibey/operations/roadmap/update.py:1645 (MockTask.deferred)
-    - vibey/roadmap/serialization/yaml_loader.py
-    - vibey/roadmap/serialization/sql_loader.py
-
-    **Verification:**
-    - `vibey roadmap auto-progress --check` shows deferred sprints as completable
-    - `sqlite3 .vibey/roadmap.db "SELECT id, deferred FROM tasks WHERE deferred=1"`
+  description: "**Problem:** Sprints with only deferred incomplete tasks remain in_progress\n\
+    instead of auto-progressing to completed.\n\n**Reproduction:**\n1. Find sprint\
+    \ where all incomplete tasks are marked `deferred: true`\n2. Run: vibey roadmap\
+    \ auto-progress --check\n3. Expected: Sprint ready to progress. Actual: Remains\
+    \ in_progress\n\n**Root Cause Analysis:**\nCode in `vibey/operations/roadmap/update.py:1658-1683`\
+    \ already excludes deferred:\n```python\ndef is_deferred(t):\n    return getattr(t,\
+    \ 'deferred', False)\ndev_tasks = [t for t in tasks if ... and not is_deferred(t)]\n\
+    ```\nThis was implemented 2025-12-23. May already be fixed - needs verification.\n\
+    \n**Implementation Plan:**\n1. Verify fix is working with known deferred sprint\n\
+    2. If broken, check MockTask.deferred assignment at line 1645\n3. Verify deferred\
+    \ field loads correctly from YAML and DB\n\n**Files to Check:**\n- vibey/operations/roadmap/update.py:1645\
+    \ (MockTask.deferred)\n- vibey/roadmap/serialization/yaml_loader.py\n- vibey/roadmap/serialization/sql_loader.py\n\
+    \n**Verification:**\n- `vibey roadmap auto-progress --check` shows deferred sprints\
+    \ as completable\n- `sqlite3 .vibey/roadmap.db \"SELECT id, deferred FROM tasks\
+    \ WHERE deferred=1\"`\n"
   status: completed
   blocked: false
   created: '2025-12-22T21:00:00+00:00'
@@ -56,7 +40,6 @@ task:
   depended_on_by: []
   deliverables: []
   commits: []
-  deferred: true
   metadata:
     last_updated: null
     token_efficiency: null

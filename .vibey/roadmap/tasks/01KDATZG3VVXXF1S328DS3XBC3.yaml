@@ -1,0 +1,62 @@
+task:
+  id: 01KDATZG3VVXXF1S328DS3XBC3
+  sprint_id: 01KDATZAG0PQ8HVFD2SGBC6ESE
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'CLI: vibey roadmap commands timeout but Python direct calls work'
+  description: |
+    **Problem:** CLI commands like `vibey roadmap show` and `vibey roadmap status`
+    timeout after 60 seconds, but running the same logic directly via Python works fine.
+
+    **Reproduction:**
+    1. Run: `timeout 60 vibey roadmap show 01KC39XSXJ39N12HWJ93F77KQ9`
+    2. Result: Command hangs and times out
+    3. Run directly: `.venv/bin/python3 -c "from vibey.roadmap.database.session import get_session; ..."`
+    4. Result: Works immediately
+
+    **Root Cause Analysis:**
+    The CLI entry point may have blocking I/O or event loop issues. Possible causes:
+    1. Rich console initialization blocking
+    2. Database connection pooling issue
+    3. Signal handler interference
+    4. TTY detection causing blocking read
+
+    **Implementation Plan:**
+    1. Add timing instrumentation to `vibey/cli/main.py` entry point
+    2. Check for blocking operations in console initialization
+    3. Test with `--no-color` or similar flags
+    4. Compare stdin/stdout handling between CLI and direct Python
+
+    **Files to Investigate:**
+    - vibey/cli/main.py (entry point)
+    - vibey/cli/formatters.py (Rich console setup)
+    - vibey/cli/commands_legacy.py (command implementations)
+
+    **Verification:**
+    - `vibey roadmap status` completes within 5 seconds
+    - `vibey roadmap show <ULID>` completes within 5 seconds
+  status: not_started
+  blocked: false
+  created: '2025-12-25T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

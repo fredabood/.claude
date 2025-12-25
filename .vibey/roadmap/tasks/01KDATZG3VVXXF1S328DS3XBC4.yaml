@@ -1,0 +1,63 @@
+task:
+  id: 01KDATZG3VVXXF1S328DS3XBC4
+  sprint_id: 01KDATZAG0PQ8HVFD2SGBC6ESE
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'CLI: vibey roadmap update command does not exist'
+  description: |
+    **Problem:** Documentation and user expectations reference a `vibey roadmap update`
+    command to modify track/sprint/task fields, but the command doesn't exist.
+
+    **Reproduction:**
+    1. Run: `vibey roadmap update track 01KC39XSXJ39N12HWJ93F77KQ9 --status in_progress`
+    2. Error: "Error: No such command 'update'"
+
+    **Root Cause:**
+    The `update` subcommand was never implemented in the CLI. The roadmap command
+    group in `vibey/cli/main.py` or `vibey/cli/commands_legacy.py` lacks an
+    `update` command.
+
+    **Implementation Plan:**
+    1. Add `update` command group to roadmap CLI
+    2. Implement `update track <id> --field value` pattern
+    3. Implement `update sprint <id> --field value` pattern
+    4. Implement `update task <id> --field value` pattern
+    5. Support common fields: status, priority, blocked, title, description
+    6. Add validation for status transitions
+    7. Update both YAML and database
+
+    **Files to Modify:**
+    - vibey/cli/commands_legacy.py (add update commands)
+    - vibey/cli/main.py (register update command group if needed)
+    - vibey/operations/roadmap/update.py (use existing update logic)
+
+    **Verification:**
+    - `vibey roadmap update track <id> --status in_progress` works
+    - `vibey roadmap update sprint <id> --status completed` works
+    - `vibey roadmap update task <id> --status completed` works
+    - YAML files and database are both updated
+  status: not_started
+  blocked: false
+  created: '2025-12-25T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

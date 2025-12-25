@@ -36,11 +36,13 @@ dependencies = [
     "pydantic>=2.0.0",
     "jsonschema>=4.0.0",
     "python-ulid>=3.0.0",
+    "sqlalchemy>=2.0.0",
 ]
 
 [project.optional-dependencies]
 db = [
-    "sqlalchemy>=2.0.0",
+    # SQLAlchemy is now a required dependency
+    # This extra is kept for backward compatibility
 ]
 dev = [
     "pytest>=7.0.0",
@@ -51,7 +53,7 @@ dev = [
     "mypy>=1.0.0",
 ]
 all = [
-    "sqlalchemy>=2.0.0",
+    # All dependencies are now required by default
 ]
 
 [project.urls]

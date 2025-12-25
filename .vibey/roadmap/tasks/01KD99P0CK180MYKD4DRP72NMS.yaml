@@ -46,7 +46,7 @@ task:
   phase_label: null
   estimated_tokens: 3000
   actual_tokens: null
-  complexity: moderate
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []

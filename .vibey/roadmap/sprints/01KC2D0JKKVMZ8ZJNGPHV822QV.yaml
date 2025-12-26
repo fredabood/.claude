@@ -3,7 +3,7 @@ sprint:
   name: 'Audit: directory-consolidation'
   track_id: 01KC2D0JKG48M2973YX4EGG3PS
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   blocked_reason: null
   created: '2025-11-23T20:35:52.725661+00:00'
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 1
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []

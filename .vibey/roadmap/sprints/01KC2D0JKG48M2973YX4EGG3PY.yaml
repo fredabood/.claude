@@ -3,7 +3,7 @@ sprint:
   name: 'Audit: directory-migration'
   track_id: 01KC2D0JKG48M2973YX4EGG3PS
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   blocked_reason: null
   created: '2025-11-23T20:35:52.725661+00:00'

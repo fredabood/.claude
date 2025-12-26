@@ -1,4 +1,4 @@
-# Task 05: Add completion detection for parent tickets
+# Task 05: Add completion detection using HierarchicalTicket
 
 **Task ID**: `01KDC7N5Z4HSMXG430A6WA831Y`
 **Sprint**: Sprint 12: Explicit Scope Requirements
@@ -7,215 +7,258 @@
 
 ## Description
 
-Implement logic to detect when all children of a `--ticket` ULID are complete. Auto-mark parent as complete when all children pass. Stop loop when target ticket reaches completed status.
+Implement completion detection using HierarchicalTicket's built-in methods: `can_transition_to()`, `progress_for_transition()`, and `auto_progress()`. Stop the loop when the scope ticket can be marked complete.
 
-## Current Behavior
+## Architecture Context
 
-The implementation loop runs until:
-- No more executable tasks
-- max_tasks limit reached
-- max_tokens limit reached
-- User interrupt
+**Critical**: HierarchicalTicket already has all the completion logic built in.
 
-## Target Behavior
+The Unified Ticket Architecture provides:
+- `can_transition_to(TicketStatus.COMPLETED)` → Checks all criteria
+- `progress_for_transition(TicketStatus.COMPLETED)` → Returns Progress(total, completed)
+- `auto_progress(context)` → Automatically transitions when criteria met
+- Criteria include `CompletableTarget` for child completion tracking
 
-When `--ticket <ULID>` is used:
-1. After each task, check if target ticket can be completed
-2. For tracks: all sprints complete → track complete
-3. For sprints: all tasks complete → sprint complete
-4. For tasks: task complete → stop immediately
-5. Stop loop when target ticket is marked complete
+**DO NOT** create separate track/sprint/task completion methods. The HierarchicalTicket abstraction handles this through criteria.
+
+```
+HierarchicalTicket.can_transition_to(COMPLETED)
+    │
+    ├── Checks all criteria in all_criteria
+    ├── CompletableTarget criteria check child status
+    ├── Excludes deferred children automatically
+    └── Returns (can_complete: bool, blocking_reasons: List[str])
+```
+
+## Current Behavior (Wrong Approach)
+
+The original plan had type-specific methods:
+```python
+class TicketCompletionChecker:
+    def _check_track_complete(self, track_id: str)   # WRONG
+    def _check_sprint_complete(self, sprint_id: str) # WRONG
+    def _check_task_complete(self, task_id: str)     # WRONG
+```
+
+## Target Behavior (Correct Approach)
+
+Use HierarchicalTicket's built-in methods:
+```python
+# Check if scope ticket can complete
+can_complete, reasons = scope_ticket.can_transition_to(TicketStatus.COMPLETED)
+
+# Get progress toward completion
+progress = scope_ticket.progress_for_transition(TicketStatus.COMPLETED)
+
+# Auto-progress the ticket (and log transitions)
+transitions = scope_ticket.auto_progress(context)
+```
 
 ## Implementation Steps
 
-### Step 1: Add TicketCompletionChecker class (new file or in loop.py)
+### Step 1: Create ScopeCompletionChecker using HierarchicalTicket methods
 
 ```python
 # vibey/services/implementation/completion.py
 
-from pathlib import Path
-from typing import Optional, Tuple
-import sqlite3
+from typing import Tuple, Optional, List
+from vibey.roadmap.models.ticket.hierarchical import HierarchicalTicket
+from vibey.roadmap.models.ticket.enums import TicketStatus
+from vibey.roadmap.models.ticket.support import RefreshContext
 
-from vibey.roadmap.database.connection import get_connection
 
-
-class TicketCompletionChecker:
+class ScopeCompletionChecker:
     """
-    Check and update completion status of hierarchical tickets.
+    Check and update completion status using HierarchicalTicket methods.
+
+    Uses the unified ticket architecture's built-in completion logic:
+    - can_transition_to() for checking if completion is possible
+    - progress_for_transition() for progress tracking
+    - auto_progress() for automatic status transitions
+
+    NO type-specific logic (track/sprint/task) - all handled by criteria.
     """
 
-    def __init__(self, roadmap_root: Path):
-        self.roadmap_root = roadmap_root
-        self.db_path = roadmap_root / "roadmap.db"
-
-    def check_and_complete(
-        self,
-        target_ticket: str,
-        target_type: str,
-    ) -> Tuple[bool, Optional[str]]:
+    def __init__(self, ticket_service: "TicketService"):
         """
-        Check if target ticket can be completed.
+        Initialize with TicketService for persisting updates.
 
         Args:
-            target_ticket: ULID of target ticket
-            target_type: 'track', 'sprint', or 'task'
+            ticket_service: Service for updating ticket status
+        """
+        self.ticket_service = ticket_service
+
+    def check_scope_completion(
+        self,
+        scope_ticket: HierarchicalTicket,
+    ) -> Tuple[bool, Optional[str]]:
+        """
+        Check if scope ticket can be completed.
+
+        Uses HierarchicalTicket.can_transition_to() which:
+        - Checks all criteria (including child completion via CompletableTarget)
+        - Excludes deferred children automatically
+        - Handles all hierarchy levels uniformly
+
+        Args:
+            scope_ticket: The ticket defining execution scope
 
         Returns:
             Tuple of (is_complete, message)
         """
-        if target_type == "task":
-            return self._check_task_complete(target_ticket)
-        elif target_type == "sprint":
-            return self._check_sprint_complete(target_ticket)
-        elif target_type == "track":
-            return self._check_track_complete(target_ticket)
-
-        return False, None
-
-    def _check_task_complete(self, task_id: str) -> Tuple[bool, Optional[str]]:
-        """Check if a task is complete."""
-        conn = get_connection(db_path=self.db_path)
-        cursor = conn.execute(
-            "SELECT status FROM tasks WHERE id = ?", [task_id]
+        can_complete, blocking_reasons = scope_ticket.can_transition_to(
+            TicketStatus.COMPLETED
         )
-        row = cursor.fetchone()
 
-        if row and row["status"] == "completed":
-            return True, f"Task {task_id} completed"
+        if can_complete:
+            return True, f"Ticket {scope_ticket.id} ready to complete"
 
-        return False, None
+        # Get progress for informative message
+        progress = scope_ticket.progress_for_transition(TicketStatus.COMPLETED)
+        remaining = progress.total - progress.completed
 
-    def _check_sprint_complete(self, sprint_id: str) -> Tuple[bool, Optional[str]]:
+        return False, f"{remaining} criteria remaining for completion"
+
+    def try_complete_scope(
+        self,
+        scope_ticket: HierarchicalTicket,
+        context: RefreshContext,
+    ) -> Tuple[bool, List[str]]:
         """
-        Check if a sprint can be completed (all tasks done).
+        Attempt to complete the scope ticket using auto_progress.
 
-        If all tasks are complete, mark the sprint as complete.
+        Uses HierarchicalTicket.auto_progress() which:
+        - Refreshes automatic criteria
+        - Transitions status when all criteria met
+        - Logs transitions to the activity log
+
+        Args:
+            scope_ticket: The ticket to complete
+            context: RefreshContext with activity log
+
+        Returns:
+            Tuple of (completed, transitions)
         """
-        conn = get_connection(db_path=self.db_path)
+        # Refresh ticket state from service
+        refreshed = self.ticket_service.get_ticket(scope_ticket.id)
 
-        # Count incomplete tasks
-        cursor = conn.execute(
-            """
-            SELECT COUNT(*) as incomplete
-            FROM tasks
-            WHERE sprint_id = ? AND status != 'completed'
-            """,
-            [sprint_id],
+        # Use auto_progress to attempt transitions
+        transitions = refreshed.auto_progress(context)
+
+        # Check if we reached COMPLETED or beyond
+        is_completed = refreshed.status in (
+            TicketStatus.COMPLETED,
+            TicketStatus.PRODUCTION_READY,
+            TicketStatus.DEPLOYED,
         )
-        row = cursor.fetchone()
 
-        if row["incomplete"] == 0:
-            # All tasks complete - mark sprint complete
-            self._mark_sprint_complete(sprint_id)
-            return True, f"Sprint {sprint_id} completed (all tasks done)"
+        if is_completed:
+            # Persist the updated status
+            self.ticket_service.update(refreshed)
 
-        return False, f"{row['incomplete']} tasks remaining"
+        return is_completed, transitions
 
-    def _check_track_complete(self, track_id: str) -> Tuple[bool, Optional[str]]:
+    def get_completion_progress(
+        self,
+        scope_ticket: HierarchicalTicket,
+    ) -> dict:
         """
-        Check if a track can be completed (all sprints done).
+        Get detailed progress toward scope completion.
 
-        If all sprints are complete, mark the track as complete.
+        Returns:
+            Dict with progress details
         """
-        conn = get_connection(db_path=self.db_path)
+        progress = scope_ticket.progress_for_transition(TicketStatus.COMPLETED)
 
-        # Count incomplete sprints
-        cursor = conn.execute(
-            """
-            SELECT COUNT(*) as incomplete
-            FROM sprints
-            WHERE track_id = ? AND status NOT IN ('completed', 'production_ready')
-            """,
-            [track_id],
-        )
-        row = cursor.fetchone()
-
-        if row["incomplete"] == 0:
-            # All sprints complete - mark track complete
-            self._mark_track_complete(track_id)
-            return True, f"Track {track_id} completed (all sprints done)"
-
-        return False, f"{row['incomplete']} sprints remaining"
-
-    def _mark_sprint_complete(self, sprint_id: str) -> None:
-        """Mark a sprint as complete in YAML and DB."""
-        from vibey.operations.roadmap.status_manager import StatusManager
-
-        status_manager = StatusManager(self.roadmap_root.parent)
-        status_manager.complete_sprint(sprint_id)
-
-    def _mark_track_complete(self, track_id: str) -> None:
-        """Mark a track as complete in YAML and DB."""
-        from vibey.operations.roadmap.status_manager import StatusManager
-
-        status_manager = StatusManager(self.roadmap_root.parent)
-        status_manager.complete_track(track_id)
+        return {
+            "total_criteria": progress.total,
+            "completed_criteria": progress.completed,
+            "remaining": progress.total - progress.completed,
+            "percentage": (
+                (progress.completed / progress.total * 100)
+                if progress.total > 0 else 100
+            ),
+            "can_complete": progress.completed >= progress.total,
+        }
 ```
 
-### Step 2: Integrate into ImplementationLoop (loop.py)
+### Step 2: Integrate into ImplementationLoop
 
 ```python
 # In ImplementationLoop class
 
 async def run(self) -> LoopResult:
     """Run the implementation loop."""
-    # ... existing setup ...
+    # Create completion checker
+    completion_checker = ScopeCompletionChecker(self.ticket_service)
 
-    # Create completion checker if targeting specific ticket
-    completion_checker = None
-    if self.config.target_ticket:
-        completion_checker = TicketCompletionChecker(self.roadmap_root)
+    # Create refresh context for activity logging
+    context = RefreshContext(activity_log=[])
 
     while True:
-        # ... existing task execution ...
+        # Execute next work item...
+        work_item = self.selector.get_next_task(scope=self.config.scope_ticket)
 
-        # Check target ticket completion
-        if completion_checker and self.config.target_ticket:
-            is_complete, message = completion_checker.check_and_complete(
-                self.config.target_ticket,
-                self.config.target_ticket_type,
+        if work_item is None:
+            self.state.stop_reason = "no_more_tasks"
+            break
+
+        # Execute the work item...
+        await self._execute_work_item(work_item)
+
+        # Check scope completion using HierarchicalTicket methods
+        if self.config.scope_ticket:
+            is_complete, transitions = completion_checker.try_complete_scope(
+                self.config.scope_ticket,
+                context,
             )
 
             if is_complete:
-                logger.info(message)
-                self.state.stop_reason = "target_complete"
+                logger.info(f"Scope completed: {transitions}")
+                self.state.stop_reason = "scope_complete"
                 break
 
-        # ... continue loop ...
+        # Check limits...
 ```
 
-### Step 3: Add stop_reason to LoopState/LoopResult
+### Step 3: Update LoopResult with scope_complete reason
 
 ```python
 # In state.py or result.py
 
-class LoopResult:
-    # ... existing fields ...
-    stop_reason: str  # Add: "target_complete" as valid value
+class StopReason(str, Enum):
+    """Reasons the implementation loop stopped."""
+
+    NO_MORE_TASKS = "no_more_tasks"
+    SCOPE_COMPLETE = "scope_complete"  # Scope ticket reached COMPLETED
+    MAX_TASKS = "max_tasks"
+    MAX_TOKENS = "max_tokens"
+    USER_INTERRUPT = "user_interrupt"
+    ERROR = "error"
 ```
 
 ## Files to Modify
 
 | File | Changes |
 |------|---------|
-| `vibey/services/implementation/completion.py` | NEW: TicketCompletionChecker class |
+| `vibey/services/implementation/completion.py` | New ScopeCompletionChecker using HierarchicalTicket methods |
 | `vibey/services/implementation/loop.py` | Integrate completion checking |
-| `vibey/services/implementation/__init__.py` | Export new class |
+| `vibey/services/implementation/state.py` | Add SCOPE_COMPLETE stop reason |
 
 ## Test Cases
 
-1. `--ticket <task>` → Stops after that task completes
-2. `--ticket <sprint>` → Continues until all tasks done, marks sprint complete
-3. `--ticket <track>` → Continues until all sprints done, marks track complete
-4. Sprint with 1 task remaining → Completes sprint after task
-5. Already complete ticket → Stops immediately
+1. Scope with all criteria met → auto_progress transitions to COMPLETED
+2. Scope with incomplete children → can_transition_to returns False
+3. Single work item scope → Completes when that work item completes
+4. Deferred children excluded → Parent can complete with deferred incomplete
+5. Progress tracking → Accurate criteria counts
 
 ## Acceptance Criteria
 
-- [ ] TicketCompletionChecker class implemented
-- [ ] Task completion detection works
-- [ ] Sprint auto-completion when all tasks done
-- [ ] Track auto-completion when all sprints done
-- [ ] Loop stops with "target_complete" reason
-- [ ] YAML files updated when parent is completed
+- [ ] Uses `can_transition_to()` for completion checking (not type-specific methods)
+- [ ] Uses `progress_for_transition()` for progress tracking
+- [ ] Uses `auto_progress()` for automatic status transitions
+- [ ] NO separate track/sprint/task completion methods
+- [ ] Deferred children handled automatically (via HierarchicalTicket)
+- [ ] Loop stops with "scope_complete" reason when scope ticket completes
+- [ ] Transitions logged via RefreshContext activity_log

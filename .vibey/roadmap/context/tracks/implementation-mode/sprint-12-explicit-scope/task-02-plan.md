@@ -7,7 +7,11 @@
 
 ## Description
 
-Implement `--all-tickets` flag that explicitly enables full-roadmap execution. This flag replaces the current default behavior. Add confirmation prompt: 'This will execute all planned tasks across the entire roadmap. Continue? [y/N]'
+Implement `--all-tickets` flag that explicitly enables full-roadmap execution. This flag replaces the current default behavior. Add confirmation prompt with ticket count.
+
+## Architecture Context
+
+This task uses TicketService to get the count of executable tickets for the confirmation message. The CLI interacts through the service layer, not directly with the database.
 
 ## Current Behavior
 
@@ -16,19 +20,20 @@ Running `vibey implement` without filters executes ALL planned tasks without war
 ## Target Behavior
 
 1. `--all-tickets` flag required for full roadmap execution
-2. When `--all-tickets` is provided, show confirmation prompt
+2. When `--all-tickets` is provided, show confirmation prompt with count
 3. User must type 'y' or 'yes' to proceed
 4. `--yes` or `-y` flag can skip confirmation (for scripting)
+5. `--dry-run` skips confirmation (safe operation)
 
 ## Implementation Steps
 
-### Step 1: Add `--all-tickets` and `--yes` options (implement.py:217-224)
+### Step 1: Add `--all-tickets` and `--yes` options
 
 ```python
 @click.group(invoke_without_command=True)
-@click.option('--all-tickets', is_flag=True, help='Execute all planned tasks (requires confirmation)')
+@click.option('--all-tickets', is_flag=True, help='Execute all planned tickets (requires confirmation)')
 @click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompts')
-@click.option('--ticket', help='Execute specific ticket by ULID (track/sprint/task)')
+@click.option('--ticket', help='Execute specific ticket by ULID')
 @click.option('--track', help='[DEPRECATED] Use --ticket instead')
 @click.option('--sprint', help='[DEPRECATED] Use --ticket instead')
 @click.option('--max-tasks', type=int, help='Stop after N tasks')
@@ -39,7 +44,7 @@ Running `vibey implement` without filters executes ALL planned tasks without war
 def implement(ctx, all_tickets, yes, ticket, track, sprint, max_tasks, max_tokens, dry_run, background):
 ```
 
-### Step 2: Add confirmation logic in `implement()` function
+### Step 2: Add confirmation logic
 
 ```python
 def implement(ctx, all_tickets, yes, ticket, track, sprint, max_tasks, max_tokens, dry_run, background):
@@ -48,7 +53,7 @@ def implement(ctx, all_tickets, yes, ticket, track, sprint, max_tasks, max_token
     if ctx.invoked_subcommand is not None:
         return
 
-    # Check for explicit scope
+    # Check for explicit scope (from Task 01)
     has_scope = all_tickets or ticket or track or sprint
 
     if not has_scope:
@@ -62,44 +67,40 @@ def implement(ctx, all_tickets, yes, ticket, track, sprint, max_tasks, max_token
             sys.exit(0)
 
     # Continue with execution...
-    exit_code = run_implementation_cmd(
-        track=track,
-        sprint=sprint,
-        ticket=ticket,
-        all_tickets=all_tickets,
-        max_tasks=max_tasks,
-        max_tokens=max_tokens,
-        dry_run=dry_run,
-        background=background,
-    )
-    sys.exit(exit_code)
 ```
 
-### Step 3: Add confirmation helper function (after line 210)
+### Step 3: Add confirmation helper using TicketService
 
 ```python
 def _confirm_full_execution() -> bool:
     """
     Prompt user to confirm full roadmap execution.
 
+    Uses TicketService to get ticket count (Layer 3 interaction).
+
     Returns:
         True if user confirms, False otherwise.
     """
-    from vibey.services.implementation import TaskSelector
-
-    project_root = Path.cwd()
-    roadmap_root = project_root / ".vibey" / "roadmap"
+    from vibey.services.ticket_service import TicketService, TicketServiceError
+    from vibey.roadmap.models.ticket.enums import TicketStatus
 
     try:
-        selector = TaskSelector(roadmap_root)
-        task_count = selector.count_remaining()
-    except Exception:
-        task_count = "unknown number of"
+        service = TicketService()
+        # Search for executable work items (ultimate children that are not_started)
+        work_items = service.search(
+            status=TicketStatus.NOT_STARTED,
+            limit=1000,
+        )
+        # Filter to ultimate children (work items without children)
+        executable = [t for t in work_items if not t.children]
+        ticket_count = len(executable)
+    except TicketServiceError:
+        ticket_count = "unknown number of"
 
     console.print(
         Panel(
             f"[bold yellow]WARNING: Full Roadmap Execution[/bold yellow]\n\n"
-            f"This will execute [bold]{task_count}[/bold] planned tasks.\n\n"
+            f"This will execute [bold]{ticket_count}[/bold] planned tickets.\n\n"
             f"[dim]This may take a long time and consume significant tokens.[/dim]",
             border_style="yellow",
         )
@@ -114,14 +115,12 @@ def _confirm_full_execution() -> bool:
     return response.lower() == 'y'
 ```
 
-### Step 4: Update `run_implementation_cmd()` signature (line 273)
+### Step 4: Update `run_implementation_cmd()` signature
 
 ```python
 def run_implementation_cmd(
-    track: Optional[str] = None,
-    sprint: Optional[str] = None,
-    ticket: Optional[str] = None,       # NEW
-    all_tickets: bool = False,           # NEW
+    scope_ticket: Optional[HierarchicalTicket] = None,  # Unified scope
+    all_tickets: bool = False,
     max_tasks: Optional[int] = None,
     max_tokens: Optional[int] = None,
     dry_run: bool = False,
@@ -137,9 +136,9 @@ def run_implementation_cmd(
 
 ## Test Cases
 
-1. `vibey implement --all-tickets` → Shows confirmation, waits for input
+1. `vibey implement --all-tickets` → Shows confirmation with ticket count
 2. `vibey implement --all-tickets --yes` → Skips confirmation, executes
-3. `vibey implement --all-tickets --dry-run` → Skips confirmation (dry-run is safe)
+3. `vibey implement --all-tickets --dry-run` → Skips confirmation (safe)
 4. Confirm 'n' → Aborts with message "Aborted."
 5. Confirm 'y' → Proceeds with execution
 
@@ -147,7 +146,7 @@ def run_implementation_cmd(
 
 - [ ] `--all-tickets` flag available
 - [ ] `--yes` flag skips confirmation
-- [ ] Confirmation shows task count
+- [ ] Confirmation shows ticket count via TicketService
 - [ ] 'n' response aborts cleanly
 - [ ] 'y' response proceeds with execution
 - [ ] `--dry-run` skips confirmation (safe operation)

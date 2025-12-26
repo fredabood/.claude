@@ -7,7 +7,11 @@
 
 ## Description
 
-Mark `--track` and `--sprint` as deprecated with warning messages. Map them internally to `--ticket` for backward compatibility. Update help text to recommend `--ticket` instead.
+Mark `--track` and `--sprint` as deprecated with warning messages. They internally resolve to the same TicketService lookup as `--ticket`. Update help text to recommend `--ticket` instead.
+
+## Architecture Context
+
+Both `--track` and `--sprint` will use the same `TicketService.get_ticket(ulid)` call as `--ticket`. The unified architecture means there's no difference in how these ULIDs are handled - TicketService loads any ticket regardless of type.
 
 ## Current Behavior
 
@@ -30,11 +34,11 @@ vibey implement --sprint 01KC...
 
 ## Implementation Steps
 
-### Step 1: Update option help text (implement.py:218-219)
+### Step 1: Update option help text
 
 ```python
-@click.option('--track', help='[DEPRECATED] Use --ticket <track-ulid> instead')
-@click.option('--sprint', help='[DEPRECATED] Use --ticket <sprint-ulid> instead')
+@click.option('--track', help='[DEPRECATED] Use --ticket instead')
+@click.option('--sprint', help='[DEPRECATED] Use --ticket instead')
 ```
 
 ### Step 2: Add deprecation warnings in implement() function
@@ -59,22 +63,26 @@ def implement(ctx, all_tickets, yes, ticket, track, sprint, max_tasks, max_token
             f"Use [bold]--ticket {sprint}[/bold] instead.\n"
         )
 
-    # Map deprecated options to --ticket
-    effective_ticket = ticket
-    if not effective_ticket:
-        if track:
-            effective_ticket = track
-        elif sprint:
-            effective_ticket = sprint
+    # Resolve to scope_ticket (same code path for all three options)
+    scope_ticket: Optional[HierarchicalTicket] = None
+    ulid_to_resolve = ticket or track or sprint  # --ticket takes precedence
 
-    # Check for explicit scope (using effective_ticket)
-    has_scope = all_tickets or effective_ticket
+    if ulid_to_resolve:
+        try:
+            service = TicketService()
+            scope_ticket = service.get_ticket(ulid_to_resolve)
+        except TicketNotFoundError:
+            console.print(f"[red]Error:[/red] Ticket not found: {ulid_to_resolve}")
+            sys.exit(1)
+
+    # Check for explicit scope
+    has_scope = all_tickets or scope_ticket is not None
 
     if not has_scope:
         _show_scope_required_help()
         sys.exit(0)
 
-    # Continue with resolved ticket...
+    # Continue with execution...
 ```
 
 ### Step 3: Update docstring to mention deprecation
@@ -82,44 +90,33 @@ def implement(ctx, all_tickets, yes, ticket, track, sprint, max_tasks, max_token
 ```python
 def implement(ctx, all_tickets, yes, ticket, track, sprint, ...):
     """
-    Run implementation mode to execute planned tasks.
+    Run implementation mode to execute planned tickets.
 
     REQUIRES explicit scope specification to prevent accidental execution.
 
-    Examples:
+    \b
+    SCOPE OPTIONS (one required):
+      --all-tickets         Execute entire roadmap (with confirmation)
+      --ticket ULID         Execute specific ticket and its descendants
 
+    \b
+    EXAMPLES:
       vibey implement --ticket 01KC...     # Execute specific ticket
       vibey implement --all-tickets        # Execute all (with confirmation)
       vibey implement --dry-run            # Preview what would run
 
-    Deprecated options (still work but will be removed):
-
+    \b
+    DEPRECATED OPTIONS (still work, will be removed):
       --track <ULID>   → Use --ticket <ULID> instead
       --sprint <ULID>  → Use --ticket <ULID> instead
     """
-```
-
-### Step 4: Update run_implementation_cmd() to not need track/sprint
-
-Since track/sprint are mapped to ticket before calling, we can simplify:
-
-```python
-# Old signature
-def run_implementation_cmd(
-    track: Optional[str] = None,
-    sprint: Optional[str] = None,
-    ...
-)
-
-# Keep for now but mark as deprecated internally
-# Will be removed in future version
 ```
 
 ## Files to Modify
 
 | File | Changes |
 |------|---------|
-| `vibey/cli/implement.py` | Update help text, add warnings, map to --ticket |
+| `vibey/cli/implement.py` | Update help text, add warnings, unified ULID resolution |
 
 ## Test Cases
 
@@ -136,4 +133,5 @@ def run_implementation_cmd(
 - [ ] Deprecation warning printed when using --sprint
 - [ ] Warning suggests using --ticket with same ULID
 - [ ] Deprecated options still work (backward compatible)
-- [ ] --ticket takes precedence if both provided
+- [ ] All three options use same TicketService.get_ticket() code path
+- [ ] --ticket takes precedence if multiple provided

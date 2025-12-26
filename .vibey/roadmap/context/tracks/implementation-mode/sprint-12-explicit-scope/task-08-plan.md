@@ -7,24 +7,17 @@
 
 ## Description
 
-Write tests for: (1) bare command shows help, (2) --all-tickets enables full execution, (3) --ticket filters correctly by hierarchy, (4) completion detection works for parent tickets, (5) deprecated options still work with warnings.
+Write tests for the unified ticket architecture integration: (1) bare command shows help, (2) --all-tickets enables full execution, (3) --ticket uses TicketService, (4) completion detection uses HierarchicalTicket methods, (5) deprecated options still work with warnings.
 
-## Current State
+## Architecture Context
 
-- No tests exist for the `vibey implement` command
-- No tests for TaskSelector hierarchy filtering
-- No tests for TicketCompletionChecker
+Tests should verify that:
+- CLI uses TicketService for ticket resolution (not filesystem)
+- TaskSelector uses HierarchicalTicket scope (not track_id/sprint_id)
+- Completion detection uses can_transition_to/auto_progress (not type-specific methods)
+- No type-specific logic leaks into CLI layer
 
-## Target State
-
-- Comprehensive test coverage for explicit scope requirements
-- Unit tests for helper functions
-- Integration tests for CLI behavior
-- Tests for backward compatibility
-
-## Implementation Steps
-
-### Step 1: Create test file structure
+## Test Structure
 
 ```
 tests/
@@ -32,19 +25,21 @@ tests/
 │   └── test_implement.py            # CLI behavior tests
 └── services/
     └── implementation/
-        ├── test_selector.py          # TaskSelector tests
-        └── test_completion.py        # TicketCompletionChecker tests
+        ├── test_selector.py          # TaskSelector with HierarchicalTicket
+        ├── test_completion.py        # ScopeCompletionChecker tests
+        └── conftest.py               # Shared fixtures
 ```
 
-### Step 2: Create CLI tests (tests/cli/test_implement.py)
+## Implementation Steps
+
+### Step 1: CLI tests (tests/cli/test_implement.py)
 
 ```python
-"""Tests for vibey implement CLI command."""
+"""Tests for vibey implement CLI command with unified architecture."""
 
 import pytest
 from click.testing import CliRunner
 from unittest.mock import patch, MagicMock
-from pathlib import Path
 
 from vibey.cli.implement import implement
 
@@ -71,27 +66,12 @@ class TestImplementBareCommand:
 class TestAllTicketsFlag:
     """Tests for --all-tickets flag."""
 
-    def test_all_tickets_shows_confirmation(self, cli_runner):
+    def test_all_tickets_shows_confirmation(self, cli_runner, mock_ticket_service):
         """--all-tickets prompts for confirmation."""
         result = cli_runner.invoke(implement, ['--all-tickets'], input='n\n')
 
-        assert "WARNING: Full Roadmap Execution" in result.output
-        assert "Continue with full roadmap execution?" in result.output
-        assert result.exit_code == 0  # Aborted cleanly
-
-    def test_all_tickets_confirm_no_aborts(self, cli_runner):
-        """Confirming 'n' aborts execution."""
-        result = cli_runner.invoke(implement, ['--all-tickets'], input='n\n')
-
-        assert "Aborted" in result.output
-
-    def test_all_tickets_confirm_yes_executes(self, cli_runner, mock_run_implementation):
-        """Confirming 'y' proceeds with execution."""
-        mock_run_implementation.return_value = 0
-
-        result = cli_runner.invoke(implement, ['--all-tickets'], input='y\n')
-
-        mock_run_implementation.assert_called_once()
+        assert "WARNING" in result.output
+        assert result.exit_code == 0
 
     def test_all_tickets_with_yes_skips_confirmation(self, cli_runner, mock_run_implementation):
         """--yes flag skips confirmation prompt."""
@@ -99,431 +79,300 @@ class TestAllTicketsFlag:
 
         result = cli_runner.invoke(implement, ['--all-tickets', '--yes'])
 
-        assert "Continue with full roadmap execution?" not in result.output
-        mock_run_implementation.assert_called_once()
-
-    def test_all_tickets_dry_run_skips_confirmation(self, cli_runner, mock_run_implementation):
-        """--dry-run skips confirmation (safe operation)."""
-        mock_run_implementation.return_value = 0
-
-        result = cli_runner.invoke(implement, ['--all-tickets', '--dry-run'])
-
-        assert "Continue with full roadmap execution?" not in result.output
         mock_run_implementation.assert_called_once()
 
 
 class TestTicketOption:
-    """Tests for --ticket ULID option."""
+    """Tests for --ticket ULID option using TicketService."""
 
-    def test_ticket_with_track_ulid(self, cli_runner, mock_run_implementation, tmp_roadmap):
-        """--ticket with track ULID filters to track."""
-        track_id = "01KC2D0JK9JKQXGQW6MQEB0JZP"
-        (tmp_roadmap / "tracks" / f"{track_id}.yaml").write_text("id: " + track_id)
-
+    def test_ticket_uses_ticket_service(self, cli_runner, mock_ticket_service, mock_run_implementation):
+        """--ticket resolves via TicketService.get_ticket()."""
+        ticket_ulid = "01KC2D0JK9JKQXGQW6MQEB0JZP"
+        mock_ticket = MagicMock()
+        mock_ticket_service.return_value.get_ticket.return_value = mock_ticket
         mock_run_implementation.return_value = 0
-        result = cli_runner.invoke(implement, ['--ticket', track_id])
 
-        mock_run_implementation.assert_called_once()
+        result = cli_runner.invoke(implement, ['--ticket', ticket_ulid])
+
+        # Verify TicketService was used
+        mock_ticket_service.return_value.get_ticket.assert_called_once_with(ticket_ulid)
+
+        # Verify scope_ticket was passed (not track_id/sprint_id)
         call_kwargs = mock_run_implementation.call_args.kwargs
-        assert call_kwargs['target_ticket'] == track_id
-        assert call_kwargs['target_ticket_type'] == 'track'
+        assert 'scope_ticket' in call_kwargs
+        assert call_kwargs['scope_ticket'] == mock_ticket
 
-    def test_ticket_with_sprint_ulid(self, cli_runner, mock_run_implementation, tmp_roadmap):
-        """--ticket with sprint ULID filters to sprint."""
-        sprint_id = "01KC2D0JKVT80AFQ6C1PA8CKJD"
-        (tmp_roadmap / "sprints" / f"{sprint_id}.yaml").write_text("id: " + sprint_id)
+    def test_ticket_not_found_shows_error(self, cli_runner, mock_ticket_service):
+        """--ticket with invalid ULID shows error via TicketNotFoundError."""
+        from vibey.services.ticket_service import TicketNotFoundError
 
-        mock_run_implementation.return_value = 0
-        result = cli_runner.invoke(implement, ['--ticket', sprint_id])
+        mock_ticket_service.return_value.get_ticket.side_effect = TicketNotFoundError("INVALID")
 
-        mock_run_implementation.assert_called_once()
-        call_kwargs = mock_run_implementation.call_args.kwargs
-        assert call_kwargs['target_ticket'] == sprint_id
-        assert call_kwargs['target_ticket_type'] == 'sprint'
-
-    def test_ticket_with_task_ulid(self, cli_runner, mock_run_implementation, tmp_roadmap):
-        """--ticket with task ULID targets single task."""
-        task_id = "01KC2D0JK7READW9KAK1HBX4B8"
-        (tmp_roadmap / "tasks" / f"{task_id}.yaml").write_text("id: " + task_id)
-
-        mock_run_implementation.return_value = 0
-        result = cli_runner.invoke(implement, ['--ticket', task_id])
-
-        mock_run_implementation.assert_called_once()
-        call_kwargs = mock_run_implementation.call_args.kwargs
-        assert call_kwargs['target_ticket'] == task_id
-        assert call_kwargs['target_ticket_type'] == 'task'
-
-    def test_ticket_with_invalid_ulid(self, cli_runner):
-        """--ticket with invalid ULID shows error."""
-        result = cli_runner.invoke(implement, ['--ticket', 'INVALID_ULID'])
+        result = cli_runner.invoke(implement, ['--ticket', 'INVALID'])
 
         assert result.exit_code == 1
         assert "Ticket not found" in result.output
+
+    def test_no_type_detection_in_cli(self, cli_runner, mock_ticket_service, mock_run_implementation):
+        """CLI does not detect ticket type - uses HierarchicalTicket properties."""
+        ticket_ulid = "01KC2D0JK9JKQXGQW6MQEB0JZP"
+        mock_ticket = MagicMock()
+        mock_ticket_service.return_value.get_ticket.return_value = mock_ticket
+        mock_run_implementation.return_value = 0
+
+        result = cli_runner.invoke(implement, ['--ticket', ticket_ulid])
+
+        # Verify no type-specific parameters passed
+        call_kwargs = mock_run_implementation.call_args.kwargs
+        assert 'track_id' not in call_kwargs or call_kwargs.get('track_id') is None
+        assert 'sprint_id' not in call_kwargs or call_kwargs.get('sprint_id') is None
+        assert 'target_ticket_type' not in call_kwargs
 
 
 class TestDeprecatedOptions:
     """Tests for deprecated --track and --sprint options."""
 
-    def test_track_shows_deprecation_warning(self, cli_runner, mock_run_implementation, tmp_roadmap):
+    def test_track_shows_deprecation_warning(self, cli_runner, mock_ticket_service, mock_run_implementation):
         """--track shows deprecation warning."""
-        track_id = "01KC2D0JK9JKQXGQW6MQEB0JZP"
-        (tmp_roadmap / "tracks" / f"{track_id}.yaml").write_text("id: " + track_id)
-
+        mock_ticket = MagicMock()
+        mock_ticket_service.return_value.get_ticket.return_value = mock_ticket
         mock_run_implementation.return_value = 0
-        result = cli_runner.invoke(implement, ['--track', track_id])
+
+        result = cli_runner.invoke(implement, ['--track', '01KC...'])
 
         assert "Warning" in result.output
         assert "--track is deprecated" in result.output
-        assert f"--ticket {track_id}" in result.output
+        assert "--ticket" in result.output
 
-    def test_sprint_shows_deprecation_warning(self, cli_runner, mock_run_implementation, tmp_roadmap):
+    def test_sprint_shows_deprecation_warning(self, cli_runner, mock_ticket_service, mock_run_implementation):
         """--sprint shows deprecation warning."""
-        sprint_id = "01KC2D0JKVT80AFQ6C1PA8CKJD"
-        (tmp_roadmap / "sprints" / f"{sprint_id}.yaml").write_text("id: " + sprint_id)
-
+        mock_ticket = MagicMock()
+        mock_ticket_service.return_value.get_ticket.return_value = mock_ticket
         mock_run_implementation.return_value = 0
-        result = cli_runner.invoke(implement, ['--sprint', sprint_id])
+
+        result = cli_runner.invoke(implement, ['--sprint', '01KC...'])
 
         assert "Warning" in result.output
         assert "--sprint is deprecated" in result.output
-        assert f"--ticket {sprint_id}" in result.output
 
-    def test_deprecated_options_still_execute(self, cli_runner, mock_run_implementation, tmp_roadmap):
-        """Deprecated options still execute (backward compatible)."""
-        track_id = "01KC2D0JK9JKQXGQW6MQEB0JZP"
-        (tmp_roadmap / "tracks" / f"{track_id}.yaml").write_text("id: " + track_id)
-
+    def test_deprecated_options_use_ticket_service(self, cli_runner, mock_ticket_service, mock_run_implementation):
+        """Deprecated options still use TicketService (same code path)."""
+        mock_ticket = MagicMock()
+        mock_ticket_service.return_value.get_ticket.return_value = mock_ticket
         mock_run_implementation.return_value = 0
-        result = cli_runner.invoke(implement, ['--track', track_id])
 
-        mock_run_implementation.assert_called_once()
+        result = cli_runner.invoke(implement, ['--track', '01KC...'])
 
-    def test_ticket_takes_precedence_over_deprecated(self, cli_runner, mock_run_implementation, tmp_roadmap):
-        """--ticket takes precedence when both provided."""
-        track_id = "01KC2D0JK9JKQXGQW6MQEB0JZP"
-        task_id = "01KC2D0JK7READW9KAK1HBX4B8"
-        (tmp_roadmap / "tracks" / f"{track_id}.yaml").write_text("id: " + track_id)
-        (tmp_roadmap / "tasks" / f"{task_id}.yaml").write_text("id: " + task_id)
-
-        mock_run_implementation.return_value = 0
-        result = cli_runner.invoke(implement, ['--track', track_id, '--ticket', task_id])
-
-        call_kwargs = mock_run_implementation.call_args.kwargs
-        assert call_kwargs['target_ticket'] == task_id  # --ticket wins
+        # Same TicketService call as --ticket
+        mock_ticket_service.return_value.get_ticket.assert_called_once()
 
 
 # Fixtures
 
 @pytest.fixture
 def cli_runner():
-    """Create CLI test runner."""
     return CliRunner()
 
 
 @pytest.fixture
 def mock_run_implementation():
-    """Mock run_implementation_cmd function."""
     with patch('vibey.cli.implement.run_implementation_cmd') as mock:
         yield mock
 
 
 @pytest.fixture
-def tmp_roadmap(tmp_path, monkeypatch):
-    """Create temporary roadmap structure."""
-    roadmap = tmp_path / ".vibey" / "roadmap"
-    (roadmap / "tracks").mkdir(parents=True)
-    (roadmap / "sprints").mkdir(parents=True)
-    (roadmap / "tasks").mkdir(parents=True)
-
-    monkeypatch.chdir(tmp_path)
-    return roadmap
+def mock_ticket_service():
+    with patch('vibey.cli.implement.TicketService') as mock:
+        yield mock
 ```
 
-### Step 3: Create TaskSelector tests (tests/services/implementation/test_selector.py)
+### Step 2: TaskSelector tests (tests/services/implementation/test_selector.py)
 
 ```python
-"""Tests for TaskSelector with hierarchical scope."""
+"""Tests for TaskSelector with HierarchicalTicket scope."""
 
 import pytest
 from unittest.mock import MagicMock
-from pathlib import Path
 
 from vibey.services.implementation.selector import TaskSelector
+from vibey.roadmap.models.ticket.enums import TicketStatus
 
 
-class TestTaskSelectorTaskIdFilter:
-    """Tests for task_id parameter (single task execution)."""
+class TestTaskSelectorWithScope:
+    """Tests for scope-based task selection."""
 
-    def test_get_next_task_with_task_id(self, selector, sample_task):
-        """get_next_task with task_id returns only that task."""
-        result = selector.get_next_task(task_id=sample_task['id'])
+    def test_scope_with_ultimate_child_returns_if_executable(self, selector):
+        """Scope that is_ultimate_child returns itself if executable."""
+        scope = MagicMock()
+        scope.is_ultimate_child = True
+        scope.status = TicketStatus.NOT_STARTED
+        scope.is_planned = True
+        scope.can_transition_to.return_value = (True, [])
 
-        assert result is not None
-        assert result.id == sample_task['id']
+        result = selector.get_next_task(scope=scope)
 
-    def test_get_next_task_blocked_task_returns_none(self, selector, blocked_task):
-        """Blocked task returns None."""
-        result = selector.get_next_task(task_id=blocked_task['id'])
+        assert result == scope
+
+    def test_scope_with_parent_searches_descendants(self, selector):
+        """Scope that is_parent searches descendants for executable work."""
+        child1 = MagicMock()
+        child1.is_ultimate_child = True
+        child1.status = TicketStatus.COMPLETED  # Not executable
+
+        child2 = MagicMock()
+        child2.is_ultimate_child = True
+        child2.status = TicketStatus.NOT_STARTED
+        child2.is_planned = True
+        child2.can_transition_to.return_value = (True, [])
+
+        scope = MagicMock()
+        scope.is_ultimate_child = False
+        scope.descendants = [child1, child2]
+
+        result = selector.get_next_task(scope=scope)
+
+        assert result == child2
+
+    def test_uses_is_planned_property(self, selector):
+        """Selector uses HierarchicalTicket.is_planned for planning check."""
+        scope = MagicMock()
+        scope.is_ultimate_child = True
+        scope.status = TicketStatus.NOT_STARTED
+        scope.is_planned = False  # Not planned
+
+        result = selector.get_next_task(scope=scope)
 
         assert result is None
 
-    def test_get_next_task_completed_task_returns_none(self, selector, completed_task):
-        """Completed task returns None."""
-        result = selector.get_next_task(task_id=completed_task['id'])
+    def test_uses_can_transition_to_for_dependencies(self, selector):
+        """Selector uses can_transition_to(IN_PROGRESS) for dependency check."""
+        scope = MagicMock()
+        scope.is_ultimate_child = True
+        scope.status = TicketStatus.NOT_STARTED
+        scope.is_planned = True
+        scope.can_transition_to.return_value = (False, ["Dependency not met"])
+
+        result = selector.get_next_task(scope=scope)
 
         assert result is None
-
-    def test_get_next_task_nonexistent_task_returns_none(self, selector):
-        """Nonexistent task returns None."""
-        result = selector.get_next_task(task_id='NONEXISTENT_TASK_ID')
-
-        assert result is None
-
-    def test_get_all_executable_with_task_id(self, selector, sample_task):
-        """get_all_executable with task_id returns list with one task."""
-        result = selector.get_all_executable(task_id=sample_task['id'])
-
-        assert len(result) == 1
-        assert result[0].id == sample_task['id']
-
-    def test_count_remaining_with_task_id(self, selector, sample_task):
-        """count_remaining with task_id returns 1 for executable task."""
-        result = selector.count_remaining(task_id=sample_task['id'])
-
-        assert result == 1
-
-    def test_count_remaining_with_blocked_task_id(self, selector, blocked_task):
-        """count_remaining with blocked task_id returns 0."""
-        result = selector.count_remaining(task_id=blocked_task['id'])
-
-        assert result == 0
+        scope.can_transition_to.assert_called_with(TicketStatus.IN_PROGRESS)
 
 
-class TestTaskSelectorExistingBehavior:
-    """Tests that existing track_id/sprint_id filtering unchanged."""
+class TestTaskSelectorNoTypeSpecificParams:
+    """Tests that TaskSelector doesn't use type-specific parameters."""
 
-    def test_track_id_filtering_unchanged(self, selector, track_with_tasks):
-        """Existing track_id filtering works as before."""
-        result = selector.get_all_executable(track_id=track_with_tasks['id'])
+    def test_no_track_id_parameter(self, selector):
+        """TaskSelector.get_next_task has no track_id parameter."""
+        import inspect
+        sig = inspect.signature(selector.get_next_task)
+        assert 'track_id' not in sig.parameters
 
-        assert len(result) > 0
-        for task in result:
-            assert task.track_id == track_with_tasks['id']
+    def test_no_sprint_id_parameter(self, selector):
+        """TaskSelector.get_next_task has no sprint_id parameter."""
+        import inspect
+        sig = inspect.signature(selector.get_next_task)
+        assert 'sprint_id' not in sig.parameters
 
-    def test_sprint_id_filtering_unchanged(self, selector, sprint_with_tasks):
-        """Existing sprint_id filtering works as before."""
-        result = selector.get_all_executable(sprint_id=sprint_with_tasks['id'])
+    def test_scope_parameter_is_hierarchical_ticket(self, selector):
+        """TaskSelector.get_next_task accepts HierarchicalTicket scope."""
+        import inspect
+        sig = inspect.signature(selector.get_next_task)
+        assert 'scope' in sig.parameters
 
-        assert len(result) > 0
-        for task in result:
-            assert task.sprint_id == sprint_with_tasks['id']
+
+@pytest.fixture
+def selector(mock_ticket_service):
+    return TaskSelector(mock_ticket_service)
+
+
+@pytest.fixture
+def mock_ticket_service():
+    return MagicMock()
 ```
 
-### Step 4: Create TicketCompletionChecker tests (tests/services/implementation/test_completion.py)
+### Step 3: Completion tests (tests/services/implementation/test_completion.py)
 
 ```python
-"""Tests for TicketCompletionChecker."""
+"""Tests for ScopeCompletionChecker using HierarchicalTicket methods."""
 
 import pytest
-from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from vibey.services.implementation.completion import TicketCompletionChecker
+from vibey.services.implementation.completion import ScopeCompletionChecker
+from vibey.roadmap.models.ticket.enums import TicketStatus
 
 
-class TestTaskCompletion:
-    """Tests for task completion detection."""
+class TestCompletionWithCanTransitionTo:
+    """Tests that completion uses can_transition_to()."""
 
-    def test_completed_task_returns_true(self, checker, completed_task_id):
-        """Completed task returns (True, message)."""
-        is_complete, message = checker.check_and_complete(
-            completed_task_id, "task"
-        )
+    def test_uses_can_transition_to_for_completion_check(self, checker):
+        """Completion check uses HierarchicalTicket.can_transition_to()."""
+        scope = MagicMock()
+        scope.can_transition_to.return_value = (True, [])
 
+        is_complete, _ = checker.check_scope_completion(scope)
+
+        scope.can_transition_to.assert_called_with(TicketStatus.COMPLETED)
         assert is_complete is True
-        assert completed_task_id in message
 
-    def test_incomplete_task_returns_false(self, checker, incomplete_task_id):
-        """Incomplete task returns (False, None)."""
-        is_complete, message = checker.check_and_complete(
-            incomplete_task_id, "task"
-        )
+    def test_uses_progress_for_transition_for_details(self, checker):
+        """Progress details use progress_for_transition()."""
+        scope = MagicMock()
+        scope.can_transition_to.return_value = (False, ["Child not complete"])
+        scope.progress_for_transition.return_value = MagicMock(total=5, completed=3)
 
+        is_complete, message = checker.check_scope_completion(scope)
+
+        scope.progress_for_transition.assert_called_with(TicketStatus.COMPLETED)
         assert is_complete is False
+        assert "2" in message  # 5 - 3 = 2 remaining
 
 
-class TestSprintCompletion:
-    """Tests for sprint auto-completion."""
+class TestCompletionWithAutoProgress:
+    """Tests that completion uses auto_progress()."""
 
-    def test_sprint_with_all_tasks_complete(self, checker, sprint_all_complete):
-        """Sprint with all tasks complete auto-completes."""
-        is_complete, message = checker.check_and_complete(
-            sprint_all_complete['id'], "sprint"
-        )
+    def test_try_complete_uses_auto_progress(self, checker, mock_service):
+        """try_complete_scope uses auto_progress() for transitions."""
+        scope = MagicMock()
+        scope.id = "SCOPE_ID"
 
+        refreshed = MagicMock()
+        refreshed.status = TicketStatus.COMPLETED
+        refreshed.auto_progress.return_value = ["SCOPE_ID: IN_PROGRESS → COMPLETED"]
+        mock_service.get_ticket.return_value = refreshed
+
+        context = MagicMock()
+
+        is_complete, transitions = checker.try_complete_scope(scope, context)
+
+        refreshed.auto_progress.assert_called_once_with(context)
         assert is_complete is True
-        assert "completed" in message.lower()
-
-    def test_sprint_with_incomplete_tasks(self, checker, sprint_incomplete):
-        """Sprint with incomplete tasks does not complete."""
-        is_complete, message = checker.check_and_complete(
-            sprint_incomplete['id'], "sprint"
-        )
-
-        assert is_complete is False
-        assert "remaining" in message
-
-    @patch('vibey.operations.roadmap.status_manager.StatusManager')
-    def test_sprint_completion_updates_yaml(self, mock_manager, checker, sprint_all_complete):
-        """Sprint completion updates YAML file."""
-        checker.check_and_complete(sprint_all_complete['id'], "sprint")
-
-        mock_manager.return_value.complete_sprint.assert_called_with(
-            sprint_all_complete['id']
-        )
 
 
-class TestTrackCompletion:
-    """Tests for track auto-completion."""
+class TestNoTypeSpecificMethods:
+    """Tests that completion doesn't have type-specific methods."""
 
-    def test_track_with_all_sprints_complete(self, checker, track_all_complete):
-        """Track with all sprints complete auto-completes."""
-        is_complete, message = checker.check_and_complete(
-            track_all_complete['id'], "track"
-        )
+    def test_no_check_track_complete_method(self, checker):
+        """ScopeCompletionChecker has no _check_track_complete method."""
+        assert not hasattr(checker, '_check_track_complete')
 
-        assert is_complete is True
-        assert "completed" in message.lower()
+    def test_no_check_sprint_complete_method(self, checker):
+        """ScopeCompletionChecker has no _check_sprint_complete method."""
+        assert not hasattr(checker, '_check_sprint_complete')
 
-    def test_track_with_incomplete_sprints(self, checker, track_incomplete):
-        """Track with incomplete sprints does not complete."""
-        is_complete, message = checker.check_and_complete(
-            track_incomplete['id'], "track"
-        )
-
-        assert is_complete is False
-        assert "remaining" in message
-
-    @patch('vibey.operations.roadmap.status_manager.StatusManager')
-    def test_track_completion_updates_yaml(self, mock_manager, checker, track_all_complete):
-        """Track completion updates YAML file."""
-        checker.check_and_complete(track_all_complete['id'], "track")
-
-        mock_manager.return_value.complete_track.assert_called_with(
-            track_all_complete['id']
-        )
-```
-
-### Step 5: Add conftest.py fixtures
-
-Create `tests/services/implementation/conftest.py`:
-
-```python
-"""Shared fixtures for implementation tests."""
-
-import pytest
-import sqlite3
-from pathlib import Path
-
-from vibey.services.implementation.selector import TaskSelector
-from vibey.services.implementation.completion import TicketCompletionChecker
+    def test_no_check_task_complete_method(self, checker):
+        """ScopeCompletionChecker has no _check_task_complete method."""
+        assert not hasattr(checker, '_check_task_complete')
 
 
 @pytest.fixture
-def test_db(tmp_path):
-    """Create test database with sample data."""
-    db_path = tmp_path / "roadmap.db"
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-
-    # Create schema
-    conn.executescript("""
-        CREATE TABLE tracks (
-            id TEXT PRIMARY KEY,
-            name TEXT,
-            status TEXT
-        );
-        CREATE TABLE sprints (
-            id TEXT PRIMARY KEY,
-            track_id TEXT,
-            name TEXT,
-            status TEXT
-        );
-        CREATE TABLE tasks (
-            id TEXT PRIMARY KEY,
-            sprint_id TEXT,
-            track_id TEXT,
-            title TEXT,
-            status TEXT,
-            blocked INTEGER DEFAULT 0
-        );
-    """)
-
-    # Insert test data
-    conn.execute(
-        "INSERT INTO tracks VALUES (?, ?, ?)",
-        ("TRACK01", "Test Track", "in_progress")
-    )
-    conn.execute(
-        "INSERT INTO sprints VALUES (?, ?, ?, ?)",
-        ("SPRINT01", "TRACK01", "Test Sprint", "in_progress")
-    )
-    conn.execute(
-        "INSERT INTO tasks VALUES (?, ?, ?, ?, ?, ?)",
-        ("TASK01", "SPRINT01", "TRACK01", "Test Task", "not_started", 0)
-    )
-    conn.execute(
-        "INSERT INTO tasks VALUES (?, ?, ?, ?, ?, ?)",
-        ("TASK02", "SPRINT01", "TRACK01", "Blocked Task", "not_started", 1)
-    )
-    conn.execute(
-        "INSERT INTO tasks VALUES (?, ?, ?, ?, ?, ?)",
-        ("TASK03", "SPRINT01", "TRACK01", "Completed Task", "completed", 0)
-    )
-    conn.commit()
-
-    yield db_path
-    conn.close()
+def mock_service():
+    return MagicMock()
 
 
 @pytest.fixture
-def selector(test_db, tmp_path):
-    """Create TaskSelector with test database."""
-    roadmap = tmp_path / ".vibey" / "roadmap"
-    roadmap.mkdir(parents=True)
-    # Copy test db to expected location
-    import shutil
-    shutil.copy(test_db, roadmap / "roadmap.db")
-    return TaskSelector(roadmap)
-
-
-@pytest.fixture
-def checker(test_db, tmp_path):
-    """Create TicketCompletionChecker with test database."""
-    roadmap = tmp_path / ".vibey" / "roadmap"
-    roadmap.mkdir(parents=True)
-    import shutil
-    shutil.copy(test_db, roadmap / "roadmap.db")
-    return TicketCompletionChecker(roadmap)
-
-
-@pytest.fixture
-def sample_task():
-    """Return sample executable task data."""
-    return {'id': 'TASK01', 'title': 'Test Task', 'status': 'not_started'}
-
-
-@pytest.fixture
-def blocked_task():
-    """Return blocked task data."""
-    return {'id': 'TASK02', 'title': 'Blocked Task'}
-
-
-@pytest.fixture
-def completed_task():
-    """Return completed task data."""
-    return {'id': 'TASK03', 'title': 'Completed Task'}
+def checker(mock_service):
+    return ScopeCompletionChecker(mock_service)
 ```
 
 ## Files to Create
@@ -532,31 +381,37 @@ def completed_task():
 |------|-------------|
 | `tests/cli/test_implement.py` | CLI behavior tests |
 | `tests/services/implementation/test_selector.py` | TaskSelector tests |
-| `tests/services/implementation/test_completion.py` | TicketCompletionChecker tests |
-| `tests/services/implementation/conftest.py` | Shared fixtures |
+| `tests/services/implementation/test_completion.py` | ScopeCompletionChecker tests |
 
 ## Test Coverage Requirements
 
 | Component | Tests | Coverage Target |
 |-----------|-------|-----------------|
 | Bare command behavior | 2 | 100% |
-| --all-tickets flag | 5 | 100% |
-| --ticket option | 4 | 100% |
-| Deprecated options | 4 | 100% |
-| TaskSelector.task_id | 7 | 100% |
-| TicketCompletionChecker | 8 | 100% |
-| **Total** | **30** | **90%+** |
+| --all-tickets flag | 2 | 100% |
+| --ticket with TicketService | 3 | 100% |
+| Deprecated options | 3 | 100% |
+| TaskSelector scope | 4 | 100% |
+| TaskSelector no type params | 3 | 100% |
+| Completion with can_transition | 2 | 100% |
+| Completion with auto_progress | 1 | 100% |
+| No type-specific methods | 3 | 100% |
+| **Total** | **23** | **90%+** |
 
 ## Run Tests Command
 
 ```bash
-pytest tests/cli/test_implement.py tests/services/implementation/ -v --cov=vibey.cli.implement --cov=vibey.services.implementation
+pytest tests/cli/test_implement.py tests/services/implementation/ -v \
+    --cov=vibey.cli.implement \
+    --cov=vibey.services.implementation
 ```
 
 ## Acceptance Criteria
 
-- [ ] All 30 tests pass
+- [ ] All tests pass
 - [ ] Coverage >= 90% for affected modules
-- [ ] No flaky tests
+- [ ] Tests verify TicketService is used (not filesystem)
+- [ ] Tests verify HierarchicalTicket properties used (not type-specific logic)
+- [ ] Tests verify can_transition_to/auto_progress used (not type-specific methods)
+- [ ] No tests reference track_id/sprint_id/task_id directly
 - [ ] Tests run in < 30 seconds
-- [ ] CI pipeline passes

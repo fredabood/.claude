@@ -7,59 +7,75 @@
 
 ## Description
 
-Update vibey implement --help output to reflect new options. Update CLI_REFERENCE.md with new usage patterns. Add examples for --ticket with different ticket types.
+Update vibey implement --help output to reflect new options using unified terminology (tickets, not track/sprint/task). Update CLI_REFERENCE.md with new usage patterns. Add examples that demonstrate the unified approach.
+
+## Architecture Context
+
+Documentation should use unified terminology consistent with the architecture:
+- "ticket" not "track/sprint/task"
+- "work item" for executable leaf tickets
+- "scope" for the target ticket
+
+This reinforces that the CLI operates on tickets generically, not on type-specific entities.
 
 ## Current State
 
-- `vibey implement --help` shows existing options (--track, --sprint, --max-tasks, etc.)
-- CLI_REFERENCE.md does not have an `implement` command section
-- No usage examples for the new explicit scope workflow
+- `vibey implement --help` shows existing options (--track, --sprint)
+- CLI_REFERENCE.md may not have an `implement` command section
+- No unified terminology in help text
 
 ## Target State
 
-- `--help` output reflects new options (--all-tickets, --ticket, --yes)
-- Deprecated options clearly marked in help text
+- `--help` output uses unified terminology
+- Deprecated options clearly marked
 - CLI_REFERENCE.md includes complete `implement` command documentation
-- Clear examples for each scope type
+- Examples demonstrate hierarchy-agnostic usage
 
 ## Implementation Steps
 
-### Step 1: Update implement() docstring (implement.py)
+### Step 1: Update implement() docstring
 
 ```python
 @click.group(invoke_without_command=True)
-@click.option('--all-tickets', is_flag=True, help='Execute all planned tasks (requires confirmation)')
+@click.option('--all-tickets', is_flag=True, help='Execute all planned tickets (requires confirmation)')
 @click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompts')
-@click.option('--ticket', help='Execute specific ticket by ULID (track/sprint/task)')
-@click.option('--track', help='[DEPRECATED] Use --ticket <track-ulid> instead')
-@click.option('--sprint', help='[DEPRECATED] Use --ticket <sprint-ulid> instead')
-@click.option('--max-tasks', type=int, help='Stop after N tasks')
+@click.option('--ticket', help='Execute specific ticket by ULID')
+@click.option('--track', help='[DEPRECATED] Use --ticket instead')
+@click.option('--sprint', help='[DEPRECATED] Use --ticket instead')
+@click.option('--max-tasks', type=int, help='Stop after N work items')
 @click.option('--max-tokens', type=int, help='Stop after N tokens')
 @click.option('--dry-run', is_flag=True, help='Show what would run without executing')
 @click.option('--background', is_flag=True, help='Run as background process')
 @click.pass_context
 def implement(ctx, all_tickets, yes, ticket, track, sprint, max_tasks, max_tokens, dry_run, background):
     """
-    Run implementation mode to execute planned tasks.
+    Run implementation mode to execute planned tickets.
 
     REQUIRES explicit scope specification to prevent accidental execution.
+    All ticket types (roadmap, workstream, iteration, work item) are handled
+    uniformly through the --ticket option.
 
     \b
     SCOPE OPTIONS (one required):
       --all-tickets         Execute entire roadmap (with confirmation)
-      --ticket ULID         Execute specific track, sprint, or task
+      --ticket ULID         Execute specific ticket and its descendants
 
     \b
     EXAMPLES:
-      vibey implement --ticket 01KC...     # Execute specific ticket
+      vibey implement --ticket 01KC...     # Execute ticket and descendants
       vibey implement --all-tickets        # Execute all (with confirmation)
       vibey implement --all-tickets --yes  # Execute all (no confirmation)
-      vibey implement --dry-run            # Preview what would run
+      vibey implement --ticket 01KC... --dry-run  # Preview execution
 
     \b
-    DEPRECATED (still work):
-      --track ULID   → Use --ticket ULID instead
-      --sprint ULID  → Use --ticket ULID instead
+    BEHAVIOR BY TICKET TYPE:
+      Parent tickets    Executes all descendant work items
+      Work items        Executes just that single ticket
+
+    \b
+    DEPRECATED OPTIONS (still work):
+      --track <ULID>   → Use --ticket <ULID> instead
+      --sprint <ULID>  → Use --ticket <ULID> instead
     """
 ```
 
@@ -74,27 +90,32 @@ def _show_scope_required_help():
             "The implement command requires explicit scope to prevent accidental execution.\n\n"
             "[bold cyan]Options:[/bold cyan]\n"
             "  --all-tickets       Execute entire roadmap (with confirmation)\n"
-            "  --ticket ULID       Execute specific track, sprint, or task\n\n"
+            "  --ticket ULID       Execute specific ticket and its descendants\n\n"
             "[bold cyan]Examples:[/bold cyan]\n"
-            "  vibey implement --ticket 01KC2D0JK9...   [dim]# Execute track[/dim]\n"
-            "  vibey implement --ticket 01KC2D0JKVT... [dim]# Execute sprint[/dim]\n"
-            "  vibey implement --ticket 01KC2D0JK7R... [dim]# Execute task[/dim]\n"
-            "  vibey implement --all-tickets           [dim]# Execute all[/dim]\n"
-            "  vibey implement --dry-run               [dim]# Preview only[/dim]",
+            "  vibey implement --ticket 01KC2D0JK9...   [dim]# Parent: all descendants[/dim]\n"
+            "  vibey implement --ticket 01KC2D0JK7R... [dim]# Work item: single ticket[/dim]\n"
+            "  vibey implement --all-tickets           [dim]# Execute all tickets[/dim]\n"
+            "  vibey implement --ticket 01KC... --dry-run [dim]# Preview only[/dim]",
             title="[bold yellow]vibey implement[/bold yellow]",
             border_style="yellow",
         )
     )
 ```
 
-### Step 3: Add implement section to CLI_REFERENCE.md
+### Step 3: CLI_REFERENCE.md section
 
-Add new section to `docs/reference/CLI_REFERENCE.md`:
+The CLI_REFERENCE.md is auto-generated by `vibey docs generate-cli`. After implementing the code changes, regenerate:
+
+```bash
+vibey docs generate-cli
+```
+
+Expected output in CLI_REFERENCE.md:
 
 ```markdown
 ## implement
 
-Run implementation mode for autonomous task execution.
+Run implementation mode for autonomous ticket execution.
 
 **Usage:**
 ```bash
@@ -102,33 +123,31 @@ vibey implement [OPTIONS] [COMMAND]
 ```
 
 **Description:**
-Implementation mode executes planned tasks autonomously. Requires explicit scope
-specification to prevent accidental full-roadmap execution.
+Implementation mode executes planned tickets autonomously. Requires explicit scope
+specification to prevent accidental full-roadmap execution. All ticket types are
+handled uniformly through the --ticket option.
 
 **Options:**
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `--all-tickets` | Flag | Execute all planned tasks across roadmap (requires confirmation) |
+| `--all-tickets` | Flag | Execute all planned tickets (requires confirmation) |
 | `--yes, -y` | Flag | Skip confirmation prompts |
-| `--ticket` | ULID | Execute specific ticket (auto-detects track/sprint/task) |
+| `--ticket` | ULID | Execute specific ticket and its descendants |
 | `--track` | ULID | **[DEPRECATED]** Use --ticket instead |
 | `--sprint` | ULID | **[DEPRECATED]** Use --ticket instead |
-| `--max-tasks` | Integer | Stop after N tasks |
+| `--max-tasks` | Integer | Stop after N work items |
 | `--max-tokens` | Integer | Stop after N tokens consumed |
-| `--dry-run` | Flag | Preview tasks without executing |
+| `--dry-run` | Flag | Preview without executing |
 | `--background` | Flag | Run as background process |
 
 **Examples:**
 
 ```bash
-# Execute specific track
+# Execute a ticket and all its descendants
 vibey implement --ticket 01KC2D0JK9JKQXGQW6MQEB0JZP
 
-# Execute specific sprint
-vibey implement --ticket 01KC2D0JKVT80AFQ6C1PA8CKJD
-
-# Execute specific task
+# Execute a single work item
 vibey implement --ticket 01KC2D0JK7READW9KAK1HBX4B8
 
 # Execute all with confirmation
@@ -141,37 +160,16 @@ vibey implement --all-tickets --yes
 vibey implement --ticket 01KC... --dry-run
 
 # Limit execution
-vibey implement --ticket 01KC... --max-tasks 10 --max-tokens 50000
+vibey implement --ticket 01KC... --max-tasks 10
 ```
-
-**Subcommands:**
-
-| Command | Description |
-|---------|-------------|
-| `pause` | Pause current implementation session |
-| `resume` | Resume paused session |
-| `status` | Show current session status |
-| `stop` | Stop implementation session |
 
 **Notes:**
 - Running bare `vibey implement` without scope shows help
-- `--ticket` auto-detects ticket type from ULID
-- Track ULIDs execute all tasks in all sprints
-- Sprint ULIDs execute all tasks in that sprint
-- Task ULIDs execute just that single task
-- Parent tickets are auto-completed when all children finish
+- `--ticket` works with any ticket type (parent or work item)
+- Parent tickets execute all descendant work items
+- Work items execute just that single ticket
+- Parent tickets auto-complete when all descendants finish
 ```
-
-### Step 4: Run docs generator to regenerate CLI_REFERENCE.md
-
-After implementing changes:
-
-```bash
-vibey docs generate-cli
-```
-
-This regenerates the reference from actual command introspection, so Step 3
-content will be auto-generated from the docstring and option definitions.
 
 ## Files to Modify
 
@@ -182,7 +180,7 @@ content will be auto-generated from the docstring and option definitions.
 
 ## Test Cases
 
-1. `vibey implement --help` → Shows new options and examples
+1. `vibey implement --help` → Shows unified terminology
 2. `vibey implement` (bare) → Shows scope required help with examples
 3. Check deprecated options show `[DEPRECATED]` in help
 4. `vibey docs generate-cli` → Regenerates reference with implement section
@@ -190,8 +188,9 @@ content will be auto-generated from the docstring and option definitions.
 
 ## Acceptance Criteria
 
-- [ ] Docstring has clear examples section
-- [ ] Help text shows deprecated status for --track/--sprint
+- [ ] Docstring uses unified terminology ("ticket" not "track/sprint/task")
+- [ ] Help explains "parent tickets" vs "work items" behavior
+- [ ] Deprecated options marked in help text
 - [ ] Bare command shows helpful scope required message
 - [ ] CLI_REFERENCE.md includes implement section after regeneration
-- [ ] No documentation drift after changes
+- [ ] No type-specific language (no "track", "sprint", "task" in new text)

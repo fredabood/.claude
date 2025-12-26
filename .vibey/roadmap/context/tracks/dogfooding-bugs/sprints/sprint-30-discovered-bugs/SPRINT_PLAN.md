@@ -18,36 +18,41 @@ The audit revealed a chain of failures:
 | 01 | Database rebuild silently skips validation errors | 25 tasks not loaded, no warning | High |
 | 02 | Legacy v2 format YAML not cleaned up | Orphaned files cause silent failures | Medium |
 | 03 | YAML loader fails silently on malformed depends_on | 24 tasks skipped due to missing field | High |
+| 04 | recalculate_all auto-completes tracks incorrectly | Status corrections reverted on rebuild | **Critical** |
 
 ## Dependency Graph
 
 ```
-Task 03 (depends_on fix)
+Task 04 (auto-complete fix) ← CRITICAL: Blocks all status work
     ↓
-Task 01 (error reporting) ← Most impactful
+Task 03 (depends_on fix) ✓ DONE
+    ↓
+Task 01 (error reporting) ← Already implemented!
     ↓
 Task 02 (legacy cleanup) ← Prevents recurrence
 ```
 
 ## Recommended Execution Order
 
-1. **Task 03** - Fix YAML loader to handle missing depends_on fields gracefully
-2. **Task 01** - Add comprehensive error reporting to db rebuild
-3. **Task 02** - Add legacy format detection and cleanup
+1. **Task 03** - Fix YAML loader to handle missing depends_on fields gracefully ✓ DONE
+2. **Task 04** - Fix recalculate_all to not auto-complete tracks ← CRITICAL
+3. **Task 01** - Error reporting already exists in codebase (verify/enhance)
+4. **Task 02** - Add legacy format detection and cleanup
 
 ## Success Criteria
 
-- [ ] `vibey roadmap db rebuild` reports all files that fail to load
+- [x] depends_on entries without required_status handled gracefully (Task 03)
+- [ ] recalculate_all only updates progress counters, not status (Task 04)
+- [x] `vibey roadmap db rebuild` reports all files that fail to load (Task 01 - already exists!)
 - [ ] `--strict` flag available to abort on first error
 - [ ] `--verbose` flag shows each file processed
 - [ ] Legacy v2 format files detected and reported
-- [ ] depends_on entries without required_status handled gracefully
 
 ## Files Likely to Change
 
 ```
-vibey/roadmap/serialization/yaml_loader.py   # Task 03
-vibey/cli/commands.py                        # Task 01
-vibey/operations/roadmap/db_rebuild.py       # Task 01
+vibey/roadmap/serialization/yaml_loader.py   # Task 03 ✓ DONE
+vibey/operations/roadmap/__init__.py         # Task 04 (recalculate_all)
+vibey/cli/commands_legacy.py                 # Task 01 (already has error reporting)
 vibey/operations/roadmap/migrations/         # Task 02
 ```

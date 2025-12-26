@@ -1164,14 +1164,14 @@ def load_track(file_path: Union[str, Path]) -> Track:
                 last_checked=datetime.now(timezone.utc),
             ))
         elif isinstance(d, dict):
-            # Structured format
+            # Structured format with sensible defaults for optional fields
             depends_on.append(DependencyStatus(
                 blocker_id=d['blocker_id'],
                 blocker_type=d['blocker_type'],
-                required_status=d['required_status'],
-                current_status=d['current_status'],
+                required_status=d.get('required_status', 'completed'),  # Default: must be completed
+                current_status=d.get('current_status', 'unknown'),  # Default: unknown until checked
                 blocks_transition_to=d.get('blocks_transition_to', 'completed'),
-                last_checked=_parse_datetime(d['last_checked']),
+                last_checked=_parse_datetime(d.get('last_checked')) if d.get('last_checked') else datetime.now(timezone.utc),
             ))
 
     # Parse depended_on_by (reverse index)
@@ -1819,10 +1819,11 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
                 ))
             elif isinstance(d, dict):
                 # Structured format with optional cache fields
+                # All fields except blocker_id and blocker_type have sensible defaults
                 depends_on.append(DependencyStatus(
                     blocker_id=d['blocker_id'],
                     blocker_type=d['blocker_type'],
-                    required_status=d['required_status'],
+                    required_status=d.get('required_status', 'completed'),  # Default: must be completed
                     current_status=d.get('current_status', 'unknown'),  # Default to 'unknown' if not cached
                     blocks_transition_to=d.get('blocks_transition_to', 'in_progress'),  # Default to hard blocker
                     last_checked=_parse_datetime(d.get('last_checked')) if d.get('last_checked') else datetime.now(timezone.utc),  # Default to now

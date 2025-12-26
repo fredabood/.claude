@@ -36,16 +36,16 @@ Task 02 (legacy cleanup) ← Prevents recurrence
 
 1. **Task 03** - Fix YAML loader to handle missing depends_on fields gracefully ✓ DONE
 2. **Task 04** - Fix recalculate_all to not auto-complete tracks ✓ DONE
-3. **Task 01** - Error reporting already exists in codebase (verify/enhance)
+3. **Task 01** - Error reporting enhanced with --strict and --verbose flags ✓ DONE
 4. **Task 02** - Add legacy format detection and cleanup
 
 ## Success Criteria
 
 - [x] depends_on entries without required_status handled gracefully (Task 03)
 - [x] recalculate_all only updates progress counters, not status (Task 04)
-- [x] `vibey roadmap db rebuild` reports all files that fail to load (Task 01 - already exists!)
-- [ ] `--strict` flag available to abort on first error
-- [ ] `--verbose` flag shows each file processed
+- [x] `vibey roadmap db rebuild` reports all files that fail to load (Task 01)
+- [x] `--strict` flag available to abort on first error (Task 01)
+- [x] `--verbose` flag shows each file processed (Task 01)
 - [ ] Legacy v2 format files detected and reported
 
 ## Files Likely to Change

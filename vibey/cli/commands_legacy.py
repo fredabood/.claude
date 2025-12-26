@@ -3320,8 +3320,14 @@ def roadmap_validate_commits_cmd() -> int:
 # Database Commands
 # ============================================================================
 
-def db_init_cmd(force: bool = False) -> int:
-    """Initialize SQLite database from YAML files."""
+def db_init_cmd(force: bool = False, strict: bool = False, verbose: bool = False) -> int:
+    """Initialize SQLite database from YAML files.
+
+    Args:
+        force: Overwrite existing database
+        strict: Abort on first validation error
+        verbose: Show each file as it is processed
+    """
     from datetime import datetime, timezone
 
     root_dir = Path.cwd()
@@ -3378,7 +3384,13 @@ def db_init_cmd(force: bool = False) -> int:
             print("   ⚠️  No roadmap.yaml found, database initialized empty")
         else:
             roadmap = load_roadmap(roadmap_yaml)
-            _load_roadmap_to_db(conn, roadmap, vibey_dir)
+            load_result = _load_roadmap_to_db(conn, roadmap, vibey_dir, strict=strict, verbose=verbose)
+            if load_result is not None and load_result > 0:
+                # Errors occurred and strict mode - abort
+                close_connection(db_path=db_path)
+                if db_path.exists():
+                    db_path.unlink()
+                return 1
 
         # Set database state
         now = datetime.now(timezone.utc).isoformat()
@@ -3424,8 +3436,16 @@ def _normalize_status(status_value: str) -> str:
     return status_map.get(status_value, status_value)
 
 
-def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_create_sprint, db_create_task, load_track, load_sprint, load_task):
-    """Load roadmap data from ULID flat file structure."""
+def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_create_sprint, db_create_task, load_track, load_sprint, load_task, strict: bool = False, verbose: bool = False):
+    """Load roadmap data from ULID flat file structure.
+
+    Args:
+        strict: Abort on first validation error
+        verbose: Show each file as it is processed
+
+    Returns:
+        Number of errors encountered (0 = success)
+    """
     roadmap_dir = vibey_dir / "roadmap"
     loaded_tracks = 0
     loaded_sprints = 0
@@ -3462,6 +3482,8 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
 
     # 1. Load all tracks from tracks/*.yaml
     for track_file in sorted(tracks_dir.glob("*.yaml")):
+        if verbose:
+            print(f"     Loading track: {track_file.name}")
         try:
             track = load_track(track_file)
             track_status = track.status.value if hasattr(track.status, 'value') else str(track.status)
@@ -3481,12 +3503,17 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
         except Exception as e:
             skipped_tracks += 1
             skipped_files.append(('track', track_file.name, str(e)))
+            if strict:
+                print(f"   ❌ STRICT MODE: Aborting on error in tracks/{track_file.name}: {e}")
+                return len(skipped_files)
             continue
 
     # 2. Load all sprints from sprints/*.yaml
     valid_sprint_ulids = set()
     if sprints_dir.exists():
         for sprint_file in sorted(sprints_dir.glob("*.yaml")):
+            if verbose:
+                print(f"     Loading sprint: {sprint_file.name}")
             try:
                 sprint = load_sprint(sprint_file)
                 sprint_status = sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status)
@@ -3496,6 +3523,9 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 if not track_id:
                     skipped_sprints += 1
                     skipped_files.append(('sprint', sprint_file.name, 'Missing track_id'))
+                    if strict:
+                        print(f"   ❌ STRICT MODE: Aborting on error in sprints/{sprint_file.name}: Missing track_id")
+                        return len(skipped_files)
                     continue
 
                 # Resolve slug to ULID if needed
@@ -3505,6 +3535,9 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                     # Unknown track_id, skip
                     skipped_sprints += 1
                     skipped_files.append(('sprint', sprint_file.name, f'Unknown track_id: {track_id}'))
+                    if strict:
+                        print(f"   ❌ STRICT MODE: Aborting on error in sprints/{sprint_file.name}: Unknown track_id: {track_id}")
+                        return len(skipped_files)
                     continue
 
                 # Build metadata dict
@@ -3538,11 +3571,16 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
             except Exception as e:
                 skipped_sprints += 1
                 skipped_files.append(('sprint', sprint_file.name, str(e)))
+                if strict:
+                    print(f"   ❌ STRICT MODE: Aborting on error in sprints/{sprint_file.name}: {e}")
+                    return len(skipped_files)
                 continue
 
     # 3. Load all tasks from tasks/*.yaml
     if tasks_dir.exists():
         for task_file in sorted(tasks_dir.glob("*.yaml")):
+            if verbose:
+                print(f"     Loading task: {task_file.name}")
             try:
                 task = load_task(task_file)
                 task_status = task.status.value if hasattr(task.status, 'value') else str(task.status)
@@ -3553,6 +3591,9 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 if not sprint_id:
                     skipped_tasks += 1
                     skipped_files.append(('task', task_file.name, 'Missing sprint_id'))
+                    if strict:
+                        print(f"   ❌ STRICT MODE: Aborting on error in tasks/{task_file.name}: Missing sprint_id")
+                        return len(skipped_files)
                     continue
 
                 # Resolve sprint slug to ULID if needed
@@ -3561,6 +3602,9 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 elif sprint_id not in valid_sprint_ulids:
                     skipped_tasks += 1
                     skipped_files.append(('task', task_file.name, f'Unknown sprint_id: {sprint_id}'))
+                    if strict:
+                        print(f"   ❌ STRICT MODE: Aborting on error in tasks/{task_file.name}: Unknown sprint_id: {sprint_id}")
+                        return len(skipped_files)
                     continue
 
                 # Resolve track slug to ULID if needed
@@ -3596,6 +3640,9 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
             except Exception as e:
                 skipped_tasks += 1
                 skipped_files.append(('task', task_file.name, str(e)))
+                if strict:
+                    print(f"   ❌ STRICT MODE: Aborting on error in tasks/{task_file.name}: {e}")
+                    return len(skipped_files)
                 continue
 
     # Print summary
@@ -3609,16 +3656,43 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
             print(f"     - {entity_type}s/{filename}: {reason}")
         if len(skipped_files) > 10:
             print(f"     ... and {len(skipped_files) - 10} more")
+
+        # Write error log
+        error_log_path = roadmap_dir / "rebuild-errors.log"
+        try:
+            from datetime import datetime, timezone
+            with open(error_log_path, 'w') as f:
+                f.write(f"# Rebuild Error Log - {datetime.now(timezone.utc).isoformat()}\n\n")
+                f.write(f"Total errors: {total_skipped}\n")
+                f.write(f"  Tracks skipped: {skipped_tracks}\n")
+                f.write(f"  Sprints skipped: {skipped_sprints}\n")
+                f.write(f"  Tasks skipped: {skipped_tasks}\n\n")
+                f.write("## Error Details\n\n")
+                for entity_type, filename, reason in skipped_files:
+                    f.write(f"### {entity_type}s/{filename}\n")
+                    f.write(f"Error: {reason}\n\n")
+            print(f"\n   📝 Error log written to: {error_log_path}")
+        except Exception as e:
+            print(f"\n   ⚠️  Could not write error log: {e}")
     else:
         print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
 
+    # Return error count (0 = success)
+    return total_skipped
 
-def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
+
+def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path, strict: bool = False, verbose: bool = False):
     """Load roadmap data into database.
 
-    Supports both:
-    - ULID flat structure (tracks/, sprints/, tasks/)
-    - Legacy nested structure (track-id/sprint-id/task-id/)
+    Args:
+        conn: Database connection
+        roadmap: Roadmap object
+        vibey_dir: Path to .vibey directory
+        strict: Abort on first validation error
+        verbose: Show each file as it is processed
+
+    Returns:
+        Number of errors (0 = success), or None if not using flat structure
     """
     from datetime import datetime, timezone
     from vibey.roadmap.database.crud import (
@@ -3648,7 +3722,12 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
     tracks_dir = roadmap_dir / "tracks"
     if tracks_dir.is_dir():
         # ULID flat structure - iterate flat directories
-        return _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_create_sprint, db_create_task, load_track, load_sprint, load_task)
+        return _load_roadmap_to_db_flat(
+            conn, roadmap, vibey_dir, now,
+            db_create_track, db_create_sprint, db_create_task,
+            load_track, load_sprint, load_task,
+            strict=strict, verbose=verbose
+        )
 
     # Flat structure not found - error
     raise ValueError(
@@ -3658,8 +3737,14 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
     )
 
 
-def db_rebuild_cmd(force: bool = False) -> int:
-    """Rebuild database from YAML files."""
+def db_rebuild_cmd(force: bool = False, strict: bool = False, verbose: bool = False) -> int:
+    """Rebuild database from YAML files.
+
+    Args:
+        force: Skip dirty check for uncommitted changes
+        strict: Abort on first validation error
+        verbose: Show each file as it is processed
+    """
     root_dir = Path.cwd()
     vibey_dir = root_dir / ".vibey"
     db_path = vibey_dir / "roadmap.db"
@@ -3702,7 +3787,7 @@ def db_rebuild_cmd(force: bool = False) -> int:
     # Remove and reinitialize
     db_path.unlink()
 
-    result = db_init_cmd(force=True)
+    result = db_init_cmd(force=True, strict=strict, verbose=verbose)
 
     if result == 0:
         print("\n✅ Database rebuilt successfully")

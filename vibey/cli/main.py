@@ -3729,8 +3729,10 @@ def db_init(ctx, force: bool):
 
 @roadmap_db.command('rebuild')
 @click.option('--force', '-f', is_flag=True, help='Force rebuild even with uncommitted changes')
+@click.option('--strict', is_flag=True, help='Abort on first validation error')
+@click.option('--verbose', '-v', is_flag=True, help='Show each file as it is processed')
 @click.pass_context
-def db_rebuild(ctx, force: bool):
+def db_rebuild(ctx, force: bool, strict: bool, verbose: bool):
     """Rebuild database from YAML files.
 
     Drops all tables and reloads from YAML. Use after pulling changes
@@ -3740,11 +3742,13 @@ def db_rebuild(ctx, force: bool):
 
     Examples:
       vibey roadmap db rebuild
-      vibey roadmap db rebuild --force  # Skip dirty check
+      vibey roadmap db rebuild --force    # Skip dirty check
+      vibey roadmap db rebuild --verbose  # Show progress
+      vibey roadmap db rebuild --strict   # Abort on first error
     """
     from vibey.cli.commands import db_rebuild_cmd
 
-    exit_code = db_rebuild_cmd(force=force)
+    exit_code = db_rebuild_cmd(force=force, strict=strict, verbose=verbose)
     sys.exit(exit_code)
 
 

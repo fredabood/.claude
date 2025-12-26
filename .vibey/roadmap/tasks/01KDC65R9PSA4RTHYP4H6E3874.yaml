@@ -1,0 +1,30 @@
+task:
+  id: 01KDC65R9PSA4RTHYP4H6E3874
+  sprint_id: 01KDC65R9KB5PA8TTMRG1VEW75
+  track_id: 01KC2D0JKWWW8WMS7PPGDQ42HB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Accessibility audit and fixes
+  description: Ensure WCAG 2.1 AA compliance.
+  status: not_started
+  blocked: false
+  created: '2025-12-26T02:00:33.795983+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  deferred: false
+  metadata: {}

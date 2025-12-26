@@ -1,6 +1,6 @@
 track:
   id: 01KC2D0JKWWW8WMS7PPGDQ42HB
-  name: VS Code Roadmap Visualization Extension
+  name: Roadmap Visualization Platform
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
@@ -29,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-25T14:32:14.461312+00:00'
+    last_updated: '2025-12-26T02:05:25.759556+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

@@ -1,0 +1,31 @@
+task:
+  id: 01KDC65R8DABXRM0D3D4M5PGAN
+  sprint_id: 01KDC65R89REHB1SA2MMKPX89N
+  track_id: 01KC2D0JKWWW8WMS7PPGDQ42HB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add authentication and session management
+  description: Implement authentication for API access, compatible with Databricks
+    Apps auth.
+  status: not_started
+  blocked: false
+  created: '2025-12-26T02:00:33.795983+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  deferred: false
+  metadata: {}

@@ -3793,6 +3793,28 @@ def db_backup(ctx, output: Optional[str]):
     sys.exit(exit_code)
 
 
+@roadmap_db.command('cleanup-legacy')
+@click.option('--dry-run', is_flag=True, help='Show what would be done without making changes')
+@click.option('--delete', is_flag=True, help='Delete legacy files (moves to backup first)')
+@click.option('--backup-dir', type=click.Path(), help='Custom backup directory')
+@click.pass_context
+def db_cleanup_legacy(ctx, dry_run: bool, delete: bool, backup_dir: Optional[str]):
+    """Find and handle legacy v2 format YAML files.
+
+    Scans for YAML files using the old v2 format (with parent_ref, created_at, etc.)
+    and reports or removes them.
+
+    Examples:
+      vibey roadmap db cleanup-legacy              # List legacy files
+      vibey roadmap db cleanup-legacy --dry-run    # Show what would be deleted
+      vibey roadmap db cleanup-legacy --delete     # Move to backup and remove
+    """
+    from vibey.cli.commands import db_cleanup_legacy_cmd
+
+    exit_code = db_cleanup_legacy_cmd(dry_run=dry_run, delete=delete, backup_dir=backup_dir)
+    sys.exit(exit_code)
+
+
 @roadmap_db.command('dump')
 @click.option('--force', '-f', is_flag=True, help='Overwrite YAML even if modified externally')
 @click.option('--verbose', '-v', is_flag=True, help='Show detailed output')

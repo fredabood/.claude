@@ -3417,6 +3417,17 @@ def db_init_cmd(force: bool = False, strict: bool = False, verbose: bool = False
         print(f"   Sprints:  {counts['sprints']}")
         print(f"   Tasks:    {counts['tasks']}")
 
+        # Check for legacy v2 format files
+        try:
+            from vibey.roadmap.serialization.format_detector import scan_for_legacy_files
+            legacy_files = scan_for_legacy_files(vibey_dir / "roadmap")
+            if legacy_files:
+                print(f"\n⚠️  Found {len(legacy_files)} legacy v2 format file(s)!")
+                print(f"   These files use outdated field names and may cause issues.")
+                print(f"   Run 'vibey roadmap db cleanup-legacy' to view and handle them.")
+        except Exception:
+            pass  # Don't fail init if format detector has issues
+
         close_connection(db_path=db_path)
         return 0
 
@@ -3807,6 +3818,110 @@ def db_rebuild_cmd(force: bool = False, strict: bool = False, verbose: bool = Fa
         shutil.move(backup_path, db_path)
 
     return result
+
+
+def db_cleanup_legacy_cmd(dry_run: bool = False, delete: bool = False, backup_dir: str = None) -> int:
+    """Find and handle legacy v2 format YAML files.
+
+    Args:
+        dry_run: Show what would be done without making changes
+        delete: Delete legacy files (moves to backup first)
+        backup_dir: Custom backup directory path
+    """
+    from datetime import datetime, timezone
+    import shutil
+
+    root_dir = Path.cwd()
+    vibey_dir = root_dir / ".vibey"
+    roadmap_dir = vibey_dir / "roadmap"
+
+    if not roadmap_dir.exists():
+        print("❌ No roadmap directory found at .vibey/roadmap/")
+        return 1
+
+    # Import format detector
+    try:
+        from vibey.roadmap.serialization.format_detector import (
+            scan_for_legacy_files,
+            get_legacy_file_details,
+            YAMLFormat,
+        )
+    except ImportError as e:
+        print(f"❌ Could not import format detector: {e}")
+        return 1
+
+    print("🔍 Scanning for legacy v2 format files...")
+
+    legacy_files = scan_for_legacy_files(roadmap_dir)
+
+    if not legacy_files:
+        print("✅ No legacy format files found. All files use current v3 format.")
+        return 0
+
+    print(f"\n⚠️  Found {len(legacy_files)} legacy v2 format file(s):\n")
+
+    for file_path, entity_type, format_version in legacy_files:
+        print(f"   📄 {entity_type}s/{file_path.name}")
+
+        # Get detailed info
+        details = get_legacy_file_details(file_path)
+        if details:
+            print(f"      ID: {details.get('id', 'unknown')}")
+            print(f"      Legacy fields:")
+            for field_name, field_value, note in details.get("legacy_fields", []):
+                value_preview = str(field_value)[:50] + "..." if len(str(field_value)) > 50 else str(field_value)
+                print(f"        - {field_name}: {value_preview}")
+                print(f"          → {note}")
+        print()
+
+    if dry_run:
+        print("ℹ️  Dry run mode - no changes made.")
+        print(f"\n   To delete these files, run:")
+        print(f"   vibey roadmap db cleanup-legacy --delete")
+        return 0
+
+    if not delete:
+        print("ℹ️  Use --delete to remove legacy files (backs up first).")
+        print(f"   Use --dry-run to preview without changes.")
+        return 0
+
+    # Create backup directory
+    if backup_dir:
+        backup_path = Path(backup_dir)
+    else:
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        backup_path = vibey_dir / "backup" / f"legacy_v2_{timestamp}"
+
+    backup_path.mkdir(parents=True, exist_ok=True)
+    print(f"\n📦 Backing up legacy files to: {backup_path}")
+
+    deleted_count = 0
+    error_count = 0
+
+    for file_path, entity_type, format_version in legacy_files:
+        try:
+            # Copy to backup
+            backup_file = backup_path / f"{entity_type}s" / file_path.name
+            backup_file.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(file_path, backup_file)
+
+            # Delete original
+            file_path.unlink()
+            print(f"   ✓ Deleted: {entity_type}s/{file_path.name}")
+            deleted_count += 1
+        except Exception as e:
+            print(f"   ✗ Error deleting {file_path.name}: {e}")
+            error_count += 1
+
+    print(f"\n✅ Cleanup complete:")
+    print(f"   Deleted: {deleted_count} file(s)")
+    print(f"   Errors: {error_count}")
+    print(f"   Backup: {backup_path}")
+
+    if deleted_count > 0:
+        print(f"\n   Run 'vibey roadmap db rebuild --force' to update the database.")
+
+    return 0 if error_count == 0 else 1
 
 
 def db_dump_cmd(force: bool = False, verbose: bool = False) -> int:

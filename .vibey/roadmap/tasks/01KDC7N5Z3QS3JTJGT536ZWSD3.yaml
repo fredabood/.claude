@@ -1,0 +1,33 @@
+task:
+  id: 01KDC7N5Z3QS3JTJGT536ZWSD3
+  sprint_id: 01KDC7N5Z0XCP55GSH21S73K7Z
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update TaskSelector for hierarchical ticket scope
+  description: 'Modify TaskSelector to filter tasks based on parent ticket ULID. Implement
+    hierarchy traversal: if ULID is a track, include all sprints/tasks; if sprint,
+    include all tasks; if task, include only that task and its criteria.'
+  status: not_started
+  blocked: false
+  created: '2025-12-26T02:26:27.936283+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  deferred: false
+  metadata:
+    sequence: 4

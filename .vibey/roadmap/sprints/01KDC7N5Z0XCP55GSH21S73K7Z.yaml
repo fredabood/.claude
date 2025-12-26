@@ -1,0 +1,18 @@
+sprint:
+  id: 01KDC7N5Z0XCP55GSH21S73K7Z
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  name: 'Sprint 12: Explicit Scope Requirements'
+  description: Require explicit ticket scope for implementation mode to prevent accidental
+    full-roadmap execution. Add --all-tickets flag for full roadmap and --ticket ULID
+    for targeted execution.
+  sprint_type: development
+  status: not_started
+  blocked: false
+  created: '2025-12-26T02:26:27.936283+00:00'
+  started: null
+  completed: null
+  priority: high
+  phase_label: null
+  deferred: false
+  metadata: {}

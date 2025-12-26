@@ -33,11 +33,11 @@ task:
     1. Remove auto-completion logic from recalculate_all
     2. Add --no-auto-complete flag to db rebuild
     3. Only auto-progress, never auto-complete
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-26T10:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-26T19:00:00+00:00'
+  completed: '2025-12-26T19:15:00+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null

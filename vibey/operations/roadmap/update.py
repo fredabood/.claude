@@ -1695,38 +1695,10 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
     sprint.progress.production_gate_tasks_completed = prod_gate_completed
     sprint.progress.completion_percent = completion_percent
 
-    # Check if sprint can auto-progress
-    status_manager = StatusManager(fs.root_dir)
-    progressed, new_status, message = status_manager.progress_sprint_status(sprint)
-
-    if progressed and new_status:
-        old_status = sprint.status
-        sprint.status = new_status
-
-        # Set appropriate timestamp based on new status
-        now = datetime.now(timezone.utc)
-        if new_status == Status.IN_PROGRESS:
-            sprint.started = now
-        elif new_status == Status.COMPLETION_GATE_CHECK:
-            sprint.completion_gate_check_at = now
-        elif new_status == Status.COMPLETED:
-            sprint.completed = now
-        elif new_status == Status.PRODUCTION_GATE_CHECK:
-            sprint.production_gate_check_at = now
-        elif new_status == Status.PRODUCTION_READY:
-            sprint.production_ready_at = now
-        elif new_status == Status.DEPLOYED:
-            sprint.deployed_at = now
-
-        sprint.metadata.last_modified = now
-        print(f"🎉 Sprint '{sprint.name}' progressed to {new_status.value}: {message}")
-
-        # Update dependency caches for all dependents when status changes
-        for dependent_id in sprint.depended_on_by:
-            if _update_dependent_cache(fs, dependent_id, sprint_id, new_status.value):
-                print(f"  ✓ Updated dependent: {dependent_id}")
-            else:
-                print(f"  ⚠️  Failed to update dependent: {dependent_id}")
+    # NOTE: Auto-progression logic was removed here.
+    # Status changes should only occur via explicit CLI commands (e.g., vibey roadmap complete).
+    # This ensures manual status corrections persist after db rebuild.
+    # See Sprint 30 Task 04: recalculate_all auto-completes tracks with incomplete tasks.
 
     # Compute blockers
     computer = BlockerComputer(fs.root_dir)
@@ -1785,32 +1757,10 @@ def _update_track_progress(fs: FileSystemManager, track_id: str):
     track.progress.tasks_completed = completed_tasks
     track.progress.completion_percent = completion_percent
 
-    # Check if track can auto-progress
-    status_manager = StatusManager(fs.root_dir)
-    progressed, new_status, message = status_manager.progress_track_status(track)
-
-    if progressed and new_status:
-        old_status = track.status
-        track.status = new_status
-
-        # Set appropriate timestamp based on new status
-        # Note: Tracks only support started and completed timestamps
-        # (unlike tasks which also have production_ready_at)
-        now = datetime.now(timezone.utc)
-        if new_status == Status.IN_PROGRESS and not track.started:
-            track.started = now
-        elif new_status == Status.COMPLETED and not track.completed:
-            track.completed = now
-
-        track.metadata.last_modified = now
-        print(f"🎉 Track '{track.name}' progressed to {new_status.value}: {message}")
-
-        # Update dependency caches for all dependents when status changes
-        for dependent_id in track.depended_on_by:
-            if _update_dependent_cache(fs, dependent_id, track_id, new_status.value):
-                print(f"  ✓ Updated dependent: {dependent_id}")
-            else:
-                print(f"  ⚠️  Failed to update dependent: {dependent_id}")
+    # NOTE: Auto-progression logic was removed here.
+    # Status changes should only occur via explicit CLI commands (e.g., vibey roadmap complete).
+    # This ensures manual status corrections persist after db rebuild.
+    # See Sprint 30 Task 04: recalculate_all auto-completes tracks with incomplete tasks.
 
     # Compute blockers
     computer = BlockerComputer(fs.root_dir)
@@ -1873,13 +1823,10 @@ def _update_roadmap_progress(fs: FileSystemManager):
     roadmap.progress.tasks_completed = completed_tasks
     roadmap.progress.completion_percent = completion_percent
 
-    # Check if roadmap can auto-progress
-    status_manager = StatusManager(fs.root_dir)
-    progressed, new_status, message = status_manager.progress_roadmap_status(roadmap)
-
-    if progressed and new_status:
-        roadmap.status = new_status
-        print(f"🎉 Roadmap '{roadmap.name}' progressed to {new_status.value}: {message}")
+    # NOTE: Auto-progression logic was removed here.
+    # Status changes should only occur via explicit CLI commands.
+    # This ensures manual status corrections persist after db rebuild.
+    # See Sprint 30 Task 04: recalculate_all auto-completes tracks with incomplete tasks.
 
     # Save roadmap
     save_roadmap(roadmap, roadmap_path)

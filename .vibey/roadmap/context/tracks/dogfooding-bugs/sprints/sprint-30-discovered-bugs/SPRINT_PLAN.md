@@ -48,11 +48,24 @@ Task 02 (legacy cleanup) ← Prevents recurrence
 - [x] `--verbose` flag shows each file processed (Task 01)
 - [x] Legacy v2 format files detected and reported (Task 02)
 
-## Files Likely to Change
+## Files Changed
 
 ```
 vibey/roadmap/serialization/yaml_loader.py   # Task 03 ✓ DONE
-vibey/operations/roadmap/__init__.py         # Task 04 (recalculate_all)
-vibey/cli/commands_legacy.py                 # Task 01 (already has error reporting)
-vibey/operations/roadmap/migrations/         # Task 02
+vibey/operations/roadmap/update.py           # Task 04 ✓ DONE (removed auto-progression)
+vibey/cli/main.py                            # Task 01 & 02 ✓ DONE (--strict, --verbose, cleanup-legacy)
+vibey/cli/commands_legacy.py                 # Task 01 & 02 ✓ DONE (error reporting, legacy scan)
+vibey/roadmap/serialization/format_detector.py # Task 02 ✓ NEW (format detection module)
 ```
+
+## Post-Sprint Cleanup
+
+After completing all tasks, one legacy v2 format file was discovered and cleaned up:
+
+- **File**: `.vibey/roadmap/tasks/01KDDE9NEKAH3BM9PRFPHNNCNC.yaml`
+- **Action**: Converted from v2 format (parent_ref, name, created_at) to v3 format (sprint_id, title, created)
+- **Commit**: `fix(roadmap): Convert legacy v2 format task to v3 format`
+
+## Sprint Status
+
+**COMPLETED** - All 4 bugs fixed, all success criteria met, legacy files cleaned up.

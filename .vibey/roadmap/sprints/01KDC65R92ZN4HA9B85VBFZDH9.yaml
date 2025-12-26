@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -40,7 +40,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-26T02:01:58.530137+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

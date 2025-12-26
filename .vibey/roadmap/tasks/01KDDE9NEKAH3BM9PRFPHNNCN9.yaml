@@ -1,0 +1,35 @@
+task:
+  id: 01KDDE9NEKAH3BM9PRFPHNNCN9
+  sprint_id: 01KDC9293X9AMMB8XRXQ7TJB1J
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit codebase for dead code and orphaned files
+  description: Run static analysis to identify dead code, unused imports, and orphaned
+    files. Use vulture for dead code detection. Check for Python files not imported
+    anywhere. Identify test files with no corresponding source. Find migration scripts
+    that were never executed. Generate cleanup recommendations.
+  status: not_started
+  blocked: false
+  created: '2025-12-26T03:15:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

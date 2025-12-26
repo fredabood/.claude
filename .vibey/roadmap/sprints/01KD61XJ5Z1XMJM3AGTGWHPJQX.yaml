@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -30,23 +30,36 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: |
-    Add advanced experiment types and complete the A/B testing system:
+  description: 'Add advanced experiment types and complete the A/B testing system:
+
 
     1. Define TEMPLATE variant type for ticket template experiments
+
     2. Define STRATEGY variant type for execution strategy experiments
+
     3. Implement multi-metric optimization for variant selection
+
     4. (Stretch) Implement adaptive strategy selector
+
     5. Create comprehensive documentation and experiment design guide
+
     6. Write end-to-end experiment scenario tests
 
+
     This sprint completes the A/B testing framework enabling:
+
     - Model comparison (Sonnet vs Opus)
+
     - Prompt effectiveness testing
+
     - Ticket template optimization
+
     - Execution strategy comparison
 
+
     Reference: .vibey/roadmap/context/tracks/agent-workflow-review/AB_TESTING_RECOMMENDATIONS.md
+
+    '
   goal: Complete the A/B testing system with advanced experiment types and documentation
   success_criteria: []
   risks: []
@@ -56,7 +69,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-23T16:50:44.544316+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

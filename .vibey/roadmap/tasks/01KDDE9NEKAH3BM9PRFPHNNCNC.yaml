@@ -1,0 +1,35 @@
+task:
+  id: 01KDDE9NEKAH3BM9PRFPHNNCNC
+  sprint_id: 01KDC9293X9AMMB8XRXQ7TJB1J
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit roadmap state for orphans and broken references
+  description: Check for orphan tasks (no valid sprint_id). Find orphan sprints (no
+    valid track_id). Identify broken blocked_by/depends_on references pointing to
+    nonexistent IDs. Check for circular dependencies. Verify all ULIDs in .id files
+    map to existing entities. Find tasks with invalid parent references.
+  status: not_started
+  blocked: false
+  created: '2025-12-26T03:15:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

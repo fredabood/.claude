@@ -5,35 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create PromptTemplate dataclass and PromptTemplateRegistry
-  description: |
-    Create the prompt template infrastructure:
-
-    1. **PromptTemplate** dataclass:
-       - id: str (template identifier)
-       - name: str (human-readable name)
-       - version: str (semver for tracking changes)
-       - system_prompt: str (Jinja2 template)
-       - task_prompt: str (Jinja2 template)
-       - variables: List[str] (expected variables)
-
-    2. **PromptTemplateRegistry**:
-       - __init__(template_dir: Path)
-       - _load_templates() - Load all .yaml files from directory
-       - get_template(template_id) -> Optional[PromptTemplate]
-       - list_templates() -> List[PromptTemplate]
-       - get_default_template() -> PromptTemplate
-
-    3. **Template storage**:
-       - .vibey/config/prompts/{template_id}.yaml
-       - Create default.yaml with current hardcoded prompts
-
-    Files:
-    - vibey/services/implementation/experiment/prompt_template.py (new)
-    - .vibey/config/prompts/default.yaml (new)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 3.3
+  description: "Create the prompt template infrastructure:\n\n1. **PromptTemplate**\
+    \ dataclass:\n   - id: str (template identifier)\n   - name: str (human-readable\
+    \ name)\n   - version: str (semver for tracking changes)\n   - system_prompt:\
+    \ str (Jinja2 template)\n   - task_prompt: str (Jinja2 template)\n   - variables:\
+    \ List[str] (expected variables)\n\n2. **PromptTemplateRegistry**:\n   - __init__(template_dir:\
+    \ Path)\n   - _load_templates() - Load all .yaml files from directory\n   - get_template(template_id)\
+    \ -> Optional[PromptTemplate]\n   - list_templates() -> List[PromptTemplate]\n\
+    \   - get_default_template() -> PromptTemplate\n\n3. **Template storage**:\n \
+    \  - .vibey/config/prompts/{template_id}.yaml\n   - Create default.yaml with current\
+    \ hardcoded prompts\n\nFiles:\n- vibey/services/implementation/experiment/prompt_template.py\
+    \ (new)\n- .vibey/config/prompts/default.yaml (new)\n\nReference: AB_TESTING_RECOMMENDATIONS.md\
+    \ Section 3.3\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -49,8 +34,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: sprint
-      blocker_id: 01KD620GZH9ZNQDZHYAV14BS8P
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

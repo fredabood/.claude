@@ -5,35 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create prompt template MCP tools
-  description: |
-    Register MCP tools for prompt template management:
-
-    1. **vibey_list_prompt_templates** tool:
-       - Input: None
-       - Output: List of available templates with names/versions
-
-    2. **vibey_get_prompt_template** tool:
-       - Input: template_id
-       - Output: Full template content with variables
-
-    3. **vibey_preview_prompt** tool:
-       - Input: task_id, template_id (optional)
-       - Output: Rendered prompt for the task
-       - Useful for debugging template issues
-
-    4. **vibey_create_prompt_template** tool:
-       - Input: id, name, system_prompt, task_prompt, variables
-       - Output: Created template confirmation
-
-    5. **Register in MCP server**:
-       - Add to vibey/mcp/tools/prompt.py
-       - Register in vibey/mcp/server.py
-
-    File: vibey/mcp/tools/prompt.py (new)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 5.2
+  description: "Register MCP tools for prompt template management:\n\n1. **vibey_list_prompt_templates**\
+    \ tool:\n   - Input: None\n   - Output: List of available templates with names/versions\n\
+    \n2. **vibey_get_prompt_template** tool:\n   - Input: template_id\n   - Output:\
+    \ Full template content with variables\n\n3. **vibey_preview_prompt** tool:\n\
+    \   - Input: task_id, template_id (optional)\n   - Output: Rendered prompt for\
+    \ the task\n   - Useful for debugging template issues\n\n4. **vibey_create_prompt_template**\
+    \ tool:\n   - Input: id, name, system_prompt, task_prompt, variables\n   - Output:\
+    \ Created template confirmation\n\n5. **Register in MCP server**:\n   - Add to\
+    \ vibey/mcp/tools/prompt.py\n   - Register in vibey/mcp/server.py\n\nFile: vibey/mcp/tools/prompt.py\
+    \ (new)\n\nReference: AB_TESTING_RECOMMENDATIONS.md Section 5.2\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -49,8 +32,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NMF
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

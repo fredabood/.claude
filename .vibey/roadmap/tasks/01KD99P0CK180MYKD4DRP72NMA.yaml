@@ -5,34 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement model metrics collection
-  description: |
-    Implement basic metrics collection for model experiments:
-
-    1. **Model-specific metrics**:
-       - tokens_input, tokens_output, tokens_total
-       - success (boolean as 0/1)
-       - duration_seconds
-       - commits_count
-       - retries_count
-
-    2. **Create BasicMetricsCollector**:
-       - record_execution(experiment, variant, task_id, result)
-       - Extract standard metrics from ExecutionResult
-       - Store in JSONL format per experiment
-
-    3. **Integration point**:
-       - Call from ImplementationLoop._handle_result()
-       - Only collect if experiment is active
-
-    4. **Storage format**:
-       - .vibey/experiments/metrics/{experiment_id}.jsonl
-       - One JSON line per metric observation
-
-    File: vibey/services/implementation/experiment/metrics.py (new, basic version)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 4.1
+  description: "Implement basic metrics collection for model experiments:\n\n1. **Model-specific\
+    \ metrics**:\n   - tokens_input, tokens_output, tokens_total\n   - success (boolean\
+    \ as 0/1)\n   - duration_seconds\n   - commits_count\n   - retries_count\n\n2.\
+    \ **Create BasicMetricsCollector**:\n   - record_execution(experiment, variant,\
+    \ task_id, result)\n   - Extract standard metrics from ExecutionResult\n   - Store\
+    \ in JSONL format per experiment\n\n3. **Integration point**:\n   - Call from\
+    \ ImplementationLoop._handle_result()\n   - Only collect if experiment is active\n\
+    \n4. **Storage format**:\n   - .vibey/experiments/metrics/{experiment_id}.jsonl\n\
+    \   - One JSON line per metric observation\n\nFile: vibey/services/implementation/experiment/metrics.py\
+    \ (new, basic version)\n\nReference: AB_TESTING_RECOMMENDATIONS.md Section 4.1\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -48,8 +32,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NM9
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -30,21 +30,32 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: |
-    Enable A/B testing of different system prompts and templates:
+  description: 'Enable A/B testing of different system prompts and templates:
+
 
     1. Create PromptTemplate dataclass and PromptTemplateRegistry
+
     2. Integrate Jinja2 for template rendering with variables
+
     3. Refactor hardcoded prompts in spawner.py, context.py, executor.py to use templates
+
     4. Define PROMPT variant type behavior
+
     5. Modify context builder for variant-aware template selection
 
+
     Hardcoded prompts to replace (from research):
+
     - spawner.py:537-570 (system/task prompts)
+
     - context.py:273-317 (full execution prompt)
+
     - executor.py:239-258 (fallback prompt)
 
+
     Reference: .vibey/roadmap/context/tracks/agent-workflow-review/AGENT_MANAGEMENT_RESEARCH.md
+
+    '
   goal: Enable variant-aware prompt template selection for A/B testing
   success_criteria: []
   risks: []
@@ -54,7 +65,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-23T16:48:31.060188+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

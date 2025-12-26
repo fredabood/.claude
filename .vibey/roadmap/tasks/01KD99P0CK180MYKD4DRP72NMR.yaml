@@ -5,33 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement multi-metric optimization for variant selection
-  description: |
-    Create multi-metric optimization for choosing winning variants:
-
-    1. **WeightedMetricOptimizer**:
-       - Configure weights for each metric
-       - Example: success_rate: 0.5, tokens_total: -0.2, duration: -0.3
-       - Negative weights for metrics to minimize
-
-    2. **Scoring function**:
-       - Normalize each metric to 0-1 range
-       - Apply weights and sum
-       - Return composite score per variant
-
-    3. **Pareto optimization** (optional):
-       - Identify Pareto-optimal variants
-       - No variant dominates another on all metrics
-       - Useful for multi-objective tradeoffs
-
-    4. **Integration with ExperimentAnalyzer**:
-       - recommend_winner() uses optimizer
-       - Configurable optimization strategy
-
-    File: vibey/services/implementation/experiment/optimizer.py (new)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 4.2
+  description: "Create multi-metric optimization for choosing winning variants:\n\n\
+    1. **WeightedMetricOptimizer**:\n   - Configure weights for each metric\n   -\
+    \ Example: success_rate: 0.5, tokens_total: -0.2, duration: -0.3\n   - Negative\
+    \ weights for metrics to minimize\n\n2. **Scoring function**:\n   - Normalize\
+    \ each metric to 0-1 range\n   - Apply weights and sum\n   - Return composite\
+    \ score per variant\n\n3. **Pareto optimization** (optional):\n   - Identify Pareto-optimal\
+    \ variants\n   - No variant dominates another on all metrics\n   - Useful for\
+    \ multi-objective tradeoffs\n\n4. **Integration with ExperimentAnalyzer**:\n \
+    \  - recommend_winner() uses optimizer\n   - Configurable optimization strategy\n\
+    \nFile: vibey/services/implementation/experiment/optimizer.py (new)\n\nReference:\
+    \ AB_TESTING_RECOMMENDATIONS.md Section 4.2\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -47,8 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NMQ
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

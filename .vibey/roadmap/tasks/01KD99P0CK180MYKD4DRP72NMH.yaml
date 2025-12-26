@@ -5,36 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement full MetricsCollector with JSONL storage
-  description: |
-    Extend the basic MetricsCollector to full implementation:
-
-    1. **ExperimentMetric** dataclass:
-       - experiment_id, variant_id, task_id
-       - metric_name, value (float)
-       - timestamp, metadata dict
-       - to_dict() for serialization
-
-    2. **MetricsCollector** class:
-       - __init__(storage_path: Path)
-       - record(experiment, variant, task_id, metrics dict, metadata)
-       - record_from_result(experiment, variant, task_id, ExecutionResult)
-       - get_metrics(experiment_id) -> List[ExperimentMetric]
-
-    3. **Metrics extraction from ExecutionResult**:
-       - success (0/1), tokens_input, tokens_output, tokens_total
-       - duration_seconds, commits_count, retries_count
-       - error_rate, model_used
-
-    4. **Storage format**:
-       - JSONL for efficient append-only writes
-       - One file per experiment
-       - Rotation/cleanup for old experiments
-
-    File: vibey/services/implementation/experiment/metrics.py (extend)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.4
+  description: "Extend the basic MetricsCollector to full implementation:\n\n1. **ExperimentMetric**\
+    \ dataclass:\n   - experiment_id, variant_id, task_id\n   - metric_name, value\
+    \ (float)\n   - timestamp, metadata dict\n   - to_dict() for serialization\n\n\
+    2. **MetricsCollector** class:\n   - __init__(storage_path: Path)\n   - record(experiment,\
+    \ variant, task_id, metrics dict, metadata)\n   - record_from_result(experiment,\
+    \ variant, task_id, ExecutionResult)\n   - get_metrics(experiment_id) -> List[ExperimentMetric]\n\
+    \n3. **Metrics extraction from ExecutionResult**:\n   - success (0/1), tokens_input,\
+    \ tokens_output, tokens_total\n   - duration_seconds, commits_count, retries_count\n\
+    \   - error_rate, model_used\n\n4. **Storage format**:\n   - JSONL for efficient\
+    \ append-only writes\n   - One file per experiment\n   - Rotation/cleanup for\
+    \ old experiments\n\nFile: vibey/services/implementation/experiment/metrics.py\
+    \ (extend)\n\nReference: AB_TESTING_RECOMMENDATIONS.md Section 2.4\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -50,8 +34,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: sprint
-      blocker_id: 01KD61SFTK19VKWVWSX2A6RVRG
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

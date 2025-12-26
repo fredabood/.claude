@@ -5,34 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Define PROMPT variant type and context builder integration
-  description: |
-    Implement PROMPT variant type for A/B testing prompts:
-
-    1. **PromptVariant behavior**:
-       - Variant config must include `template_id` key
-       - Points to a PromptTemplate in the registry
-       - Optional variable overrides in config
-
-    2. **Modify TaskContextBuilder**:
-       - Accept optional variant parameter
-       - If PROMPT variant, use specified template_id
-       - Fallback to default template
-
-    3. **Integration with VariantAssigner**:
-       - PROMPT variants assigned same as MODEL variants
-       - Template selected based on assigned variant
-
-    4. **Validation**:
-       - Verify template_id exists in registry
-       - Warn if template variables don't match task context
-
-    Files to modify:
-    - vibey/services/implementation/context.py
-    - vibey/services/implementation/experiment/prompt_template.py
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.1
+  description: "Implement PROMPT variant type for A/B testing prompts:\n\n1. **PromptVariant\
+    \ behavior**:\n   - Variant config must include `template_id` key\n   - Points\
+    \ to a PromptTemplate in the registry\n   - Optional variable overrides in config\n\
+    \n2. **Modify TaskContextBuilder**:\n   - Accept optional variant parameter\n\
+    \   - If PROMPT variant, use specified template_id\n   - Fallback to default template\n\
+    \n3. **Integration with VariantAssigner**:\n   - PROMPT variants assigned same\
+    \ as MODEL variants\n   - Template selected based on assigned variant\n\n4. **Validation**:\n\
+    \   - Verify template_id exists in registry\n   - Warn if template variables don't\
+    \ match task context\n\nFiles to modify:\n- vibey/services/implementation/context.py\n\
+    - vibey/services/implementation/experiment/prompt_template.py\n\nReference: AB_TESTING_RECOMMENDATIONS.md\
+    \ Section 2.1\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -48,8 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NME
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

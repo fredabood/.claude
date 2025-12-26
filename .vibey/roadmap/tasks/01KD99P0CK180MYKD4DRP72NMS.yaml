@@ -5,39 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create comprehensive A/B testing documentation
-  description: |
-    Create documentation for the A/B testing system:
-
-    1. **docs/guides/AB_TESTING_GUIDE.md**:
-       - Overview of experiment types (model, prompt, template, strategy)
-       - Step-by-step: Creating your first experiment
-       - Best practices for experiment design
-       - Statistical significance and sample size
-       - Interpreting results
-
-    2. **docs/guides/EXPERIMENT_DESIGN.md**:
-       - Formulating hypotheses
-       - Choosing metrics
-       - Setting sample sizes
-       - Avoiding common pitfalls
-       - Multi-arm bandit vs A/B
-
-    3. **docs/reference/EXPERIMENT_CLI.md**:
-       - All experiment CLI commands
-       - Examples and use cases
-
-    4. **Inline documentation**:
-       - Update docstrings in all experiment modules
-       - Add usage examples
-
-    Files:
-    - docs/guides/AB_TESTING_GUIDE.md (new)
-    - docs/guides/EXPERIMENT_DESIGN.md (new)
-    - docs/reference/EXPERIMENT_CLI.md (new)
-
-    Reference: Full A/B testing system documentation
+  description: "Create documentation for the A/B testing system:\n\n1. **docs/guides/AB_TESTING_GUIDE.md**:\n\
+    \   - Overview of experiment types (model, prompt, template, strategy)\n   - Step-by-step:\
+    \ Creating your first experiment\n   - Best practices for experiment design\n\
+    \   - Statistical significance and sample size\n   - Interpreting results\n\n\
+    2. **docs/guides/EXPERIMENT_DESIGN.md**:\n   - Formulating hypotheses\n   - Choosing\
+    \ metrics\n   - Setting sample sizes\n   - Avoiding common pitfalls\n   - Multi-arm\
+    \ bandit vs A/B\n\n3. **docs/reference/EXPERIMENT_CLI.md**:\n   - All experiment\
+    \ CLI commands\n   - Examples and use cases\n\n4. **Inline documentation**:\n\
+    \   - Update docstrings in all experiment modules\n   - Add usage examples\n\n\
+    Files:\n- docs/guides/AB_TESTING_GUIDE.md (new)\n- docs/guides/EXPERIMENT_DESIGN.md\
+    \ (new)\n- docs/reference/EXPERIMENT_CLI.md (new)\n\nReference: Full A/B testing\
+    \ system documentation\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -53,8 +34,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NMR
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

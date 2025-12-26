@@ -5,36 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create VariantMetricsSummary and ExperimentReport
-  description: |
-    Create data structures for aggregated experiment analysis:
-
-    1. **VariantMetricsSummary** dataclass:
-       - variant_id, variant_name
-       - sample_count
-       - metrics: Dict[metric_name -> {mean, std, min, max, count}]
-
-    2. **ExperimentReport** dataclass:
-       - experiment_id, experiment_name, status
-       - started_at, ended_at
-       - total_samples
-       - variant_summaries: List[VariantMetricsSummary]
-       - winner: Optional[str] (variant_id)
-       - confidence: Optional[float]
-
-    3. **MetricsCollector.get_summary()**:
-       - Calculate aggregated statistics per variant
-       - Group metrics by variant_id
-       - Compute mean, std, min, max for each metric
-
-    4. **MetricsCollector.generate_report()**:
-       - Create full ExperimentReport
-       - Include statistical comparison results
-
-    File: vibey/services/implementation/experiment/metrics.py (extend)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 4.3
+  description: "Create data structures for aggregated experiment analysis:\n\n1. **VariantMetricsSummary**\
+    \ dataclass:\n   - variant_id, variant_name\n   - sample_count\n   - metrics:\
+    \ Dict[metric_name -> {mean, std, min, max, count}]\n\n2. **ExperimentReport**\
+    \ dataclass:\n   - experiment_id, experiment_name, status\n   - started_at, ended_at\n\
+    \   - total_samples\n   - variant_summaries: List[VariantMetricsSummary]\n   -\
+    \ winner: Optional[str] (variant_id)\n   - confidence: Optional[float]\n\n3. **MetricsCollector.get_summary()**:\n\
+    \   - Calculate aggregated statistics per variant\n   - Group metrics by variant_id\n\
+    \   - Compute mean, std, min, max for each metric\n\n4. **MetricsCollector.generate_report()**:\n\
+    \   - Create full ExperimentReport\n   - Include statistical comparison results\n\
+    \nFile: vibey/services/implementation/experiment/metrics.py (extend)\n\nReference:\
+    \ AB_TESTING_RECOMMENDATIONS.md Section 4.3\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -50,8 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NMH
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

@@ -28,6 +28,7 @@ task:
   depended_on_by: []
   deliverables: []
   commits: []
-  deferred: false
   metadata:
-    sequence: 7
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

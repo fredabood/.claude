@@ -5,34 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement statistical comparison functions
-  description: |
-    Implement statistical tests for variant comparison:
-
-    1. **StatisticalTest** dataclass:
-       - test_name (two_proportion_z_test, t_test, etc.)
-       - metric_name
-       - control_value, treatment_value
-       - difference, relative_difference
-       - p_value, confidence_interval
-       - is_significant (p_value < alpha)
-       - winner property
-
-    2. **Statistical functions**:
-       - two_proportion_z_test(control, treatment) - For success_rate
-       - welch_t_test(control, treatment) - For continuous metrics
-       - calculate_confidence_interval(data, alpha)
-       - calculate_sample_size(effect_size, power, alpha)
-
-    3. **ExperimentAnalyzer** class:
-       - compare_variants(experiment_id, metric) -> StatisticalTest
-       - recommend_winner(experiment_id) -> Optional[str]
-       - calculate_power(experiment_id) -> float
-
-    File: vibey/services/implementation/experiment/analysis.py (new)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 4.3
+  description: "Implement statistical tests for variant comparison:\n\n1. **StatisticalTest**\
+    \ dataclass:\n   - test_name (two_proportion_z_test, t_test, etc.)\n   - metric_name\n\
+    \   - control_value, treatment_value\n   - difference, relative_difference\n \
+    \  - p_value, confidence_interval\n   - is_significant (p_value < alpha)\n   -\
+    \ winner property\n\n2. **Statistical functions**:\n   - two_proportion_z_test(control,\
+    \ treatment) - For success_rate\n   - welch_t_test(control, treatment) - For continuous\
+    \ metrics\n   - calculate_confidence_interval(data, alpha)\n   - calculate_sample_size(effect_size,\
+    \ power, alpha)\n\n3. **ExperimentAnalyzer** class:\n   - compare_variants(experiment_id,\
+    \ metric) -> StatisticalTest\n   - recommend_winner(experiment_id) -> Optional[str]\n\
+    \   - calculate_power(experiment_id) -> float\n\nFile: vibey/services/implementation/experiment/analysis.py\
+    \ (new)\n\nReference: AB_TESTING_RECOMMENDATIONS.md Section 4.3\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -48,8 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NMJ
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

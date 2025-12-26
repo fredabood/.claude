@@ -5,33 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Modify AgentSpawner for variant-aware model selection
-  description: |
-    Modify AgentSpawner._build_command() to support experiment variants:
-
-    1. **Update _build_command()** (spawner.py:477-508):
-       - Accept optional `variant: Variant` parameter
-       - If variant is MODEL type, use variant.config["model"]
-       - Fallback to config.agent.model if no variant
-
-    2. **Update spawn_agent()**:
-       - Accept experiment_context with assigned variant
-       - Pass variant to _build_command()
-
-    3. **Integration with ExperimentRegistry**:
-       - If experiment is active, get assigned variant before spawning
-       - Log variant assignment for debugging
-
-    4. **Backward compatibility**:
-       - If no experiment active, use existing behavior
-       - If variant has no model config, use default
-
-    Files to modify:
-    - vibey/services/implementation/spawner.py:477-508 (model injection)
-    - vibey/services/implementation/spawner.py:380-420 (spawn_agent)
-
-    Reference: AGENT_MANAGEMENT_RESEARCH.md Section 3.3
+  description: "Modify AgentSpawner._build_command() to support experiment variants:\n\
+    \n1. **Update _build_command()** (spawner.py:477-508):\n   - Accept optional `variant:\
+    \ Variant` parameter\n   - If variant is MODEL type, use variant.config[\"model\"\
+    ]\n   - Fallback to config.agent.model if no variant\n\n2. **Update spawn_agent()**:\n\
+    \   - Accept experiment_context with assigned variant\n   - Pass variant to _build_command()\n\
+    \n3. **Integration with ExperimentRegistry**:\n   - If experiment is active, get\
+    \ assigned variant before spawning\n   - Log variant assignment for debugging\n\
+    \n4. **Backward compatibility**:\n   - If no experiment active, use existing behavior\n\
+    \   - If variant has no model config, use default\n\nFiles to modify:\n- vibey/services/implementation/spawner.py:477-508\
+    \ (model injection)\n- vibey/services/implementation/spawner.py:380-420 (spawn_agent)\n\
+    \nReference: AGENT_MANAGEMENT_RESEARCH.md Section 3.3\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -47,8 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NM7
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

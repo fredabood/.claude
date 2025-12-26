@@ -5,32 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate experiment field in ImplementConfig
-  description: |
-    Add experiment configuration to the existing ImplementConfig:
-
-    1. **Modify ImplementConfig** (config.py:178-478):
-       - Add `experiment: ExperimentConfig = field(default_factory=ExperimentConfig)`
-       - Ensure backward compatibility (experiment is optional)
-
-    2. **Update ImplementConfig.load()**:
-       - Parse experiment section from YAML if present
-       - Load ExperimentConfig with defaults
-
-    3. **Update ImplementConfig.merge_cli_options()**:
-       - Support --experiment-id CLI override
-       - Support --experiment-enabled flag
-
-    4. **Create experiment module __init__.py**:
-       - Export ExperimentConfig, Experiment, Variant, VariantType
-       - Export ExperimentRegistry, VariantAssigner
-
-    Files:
-    - vibey/services/implementation/config.py (modify)
-    - vibey/services/implementation/experiment/__init__.py (new)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 3.1
+  description: "Add experiment configuration to the existing ImplementConfig:\n\n\
+    1. **Modify ImplementConfig** (config.py:178-478):\n   - Add `experiment: ExperimentConfig\
+    \ = field(default_factory=ExperimentConfig)`\n   - Ensure backward compatibility\
+    \ (experiment is optional)\n\n2. **Update ImplementConfig.load()**:\n   - Parse\
+    \ experiment section from YAML if present\n   - Load ExperimentConfig with defaults\n\
+    \n3. **Update ImplementConfig.merge_cli_options()**:\n   - Support --experiment-id\
+    \ CLI override\n   - Support --experiment-enabled flag\n\n4. **Create experiment\
+    \ module __init__.py**:\n   - Export ExperimentConfig, Experiment, Variant, VariantType\n\
+    \   - Export ExperimentRegistry, VariantAssigner\n\nFiles:\n- vibey/services/implementation/config.py\
+    \ (modify)\n- vibey/services/implementation/experiment/__init__.py (new)\n\nReference:\
+    \ AB_TESTING_RECOMMENDATIONS.md Section 3.1\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -46,12 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NM2
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NM3
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NM4
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

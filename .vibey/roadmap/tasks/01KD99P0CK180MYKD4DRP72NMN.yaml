@@ -5,33 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create analysis CLI commands and MCP tools
-  description: |
-    Create CLI and MCP interfaces for experiment analysis:
-
-    1. **CLI Commands**:
-       - `vibey experiment results <id>` - Show aggregated results
-         Options: --format (table/json/yaml), --metrics (filter)
-       - `vibey experiment analyze <id>` - Statistical analysis
-         Options: --metric, --alpha (default 0.05), --detailed
-       - `vibey experiment compare <id>` - Side-by-side comparison
-
-    2. **MCP Tools**:
-       - vibey_get_experiment_results - Raw metrics and summaries
-       - vibey_compare_variants - Statistical comparison
-       - vibey_get_experiment_report - Full analysis report
-
-    3. **Output formatting**:
-       - Rich tables for CLI
-       - Highlighted significant results
-       - Confidence interval visualization
-
-    Files:
-    - vibey/cli/command_modules/experiment.py (extend)
-    - vibey/mcp/tools/experiment.py (extend)
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 5.1
+  description: "Create CLI and MCP interfaces for experiment analysis:\n\n1. **CLI\
+    \ Commands**:\n   - `vibey experiment results <id>` - Show aggregated results\n\
+    \     Options: --format (table/json/yaml), --metrics (filter)\n   - `vibey experiment\
+    \ analyze <id>` - Statistical analysis\n     Options: --metric, --alpha (default\
+    \ 0.05), --detailed\n   - `vibey experiment compare <id>` - Side-by-side comparison\n\
+    \n2. **MCP Tools**:\n   - vibey_get_experiment_results - Raw metrics and summaries\n\
+    \   - vibey_compare_variants - Statistical comparison\n   - vibey_get_experiment_report\
+    \ - Full analysis report\n\n3. **Output formatting**:\n   - Rich tables for CLI\n\
+    \   - Highlighted significant results\n   - Confidence interval visualization\n\
+    \nFiles:\n- vibey/cli/command_modules/experiment.py (extend)\n- vibey/mcp/tools/experiment.py\
+    \ (extend)\n\nReference: AB_TESTING_RECOMMENDATIONS.md Section 5.1\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -47,8 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NMM
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

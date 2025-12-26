@@ -17,7 +17,7 @@ task:
   phase_label: null
   estimated_tokens: 1500
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
@@ -27,5 +27,7 @@ task:
   depended_on_by: []
   deliverables: []
   commits: []
-  deferred: false
-  metadata: {}
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

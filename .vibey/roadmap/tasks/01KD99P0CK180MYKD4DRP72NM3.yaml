@@ -5,31 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create ExperimentRegistry with YAML persistence
-  description: |
-    Implement the ExperimentRegistry for managing A/B experiments:
-
-    1. **ExperimentRegistry** class:
-       - __init__(storage_path: Path) - Initialize with directory for YAML files
-       - _load_experiments() - Load all experiments from storage on init
-       - _load_experiment_file(path) - Parse single experiment YAML
-       - _save_experiment(experiment) - Persist experiment to YAML
-
-    2. **CRUD Operations**:
-       - create_experiment(name, variants, description, metrics, target_sample_size, filters) -> Experiment
-       - get_experiment(experiment_id) -> Optional[Experiment]
-       - list_experiments(status=None) -> List[Experiment]
-       - get_active_experiments() -> List[Experiment]
-
-    3. **Lifecycle Operations**:
-       - activate_experiment(experiment_id) -> bool
-       - pause_experiment(experiment_id) -> bool
-       - complete_experiment(experiment_id) -> bool
-
-    File: vibey/services/implementation/experiment/registry.py
-
-    Reference: AB_TESTING_RECOMMENDATIONS.md Section 2.2
+  description: "Implement the ExperimentRegistry for managing A/B experiments:\n\n\
+    1. **ExperimentRegistry** class:\n   - __init__(storage_path: Path) - Initialize\
+    \ with directory for YAML files\n   - _load_experiments() - Load all experiments\
+    \ from storage on init\n   - _load_experiment_file(path) - Parse single experiment\
+    \ YAML\n   - _save_experiment(experiment) - Persist experiment to YAML\n\n2. **CRUD\
+    \ Operations**:\n   - create_experiment(name, variants, description, metrics,\
+    \ target_sample_size, filters) -> Experiment\n   - get_experiment(experiment_id)\
+    \ -> Optional[Experiment]\n   - list_experiments(status=None) -> List[Experiment]\n\
+    \   - get_active_experiments() -> List[Experiment]\n\n3. **Lifecycle Operations**:\n\
+    \   - activate_experiment(experiment_id) -> bool\n   - pause_experiment(experiment_id)\
+    \ -> bool\n   - complete_experiment(experiment_id) -> bool\n\nFile: vibey/services/implementation/experiment/registry.py\n\
+    \nReference: AB_TESTING_RECOMMENDATIONS.md Section 2.2\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-24T12:00:00+00:00'
   started: null
   completed: null
@@ -45,8 +34,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - blocker_type: task
-      blocker_id: 01KD99P0CK180MYKD4DRP72NM2
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

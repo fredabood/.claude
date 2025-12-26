@@ -1,0 +1,68 @@
+task:
+  id: 01KDDJ3VXTPSGN8YJ6QNY8MZ7C
+  sprint_id: 01KDDJ3VXTPSGN8YJ6QNY8MZ7B
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: bug
+  title: YAML loader fails silently when depends_on missing required_status field
+  description: '**Bug**: Tasks with depends_on entries that only contain blocker_type
+    and blocker_id
+
+    fail to load with KeyError: ''required_status'', but the error is not surfaced
+    during
+
+    db rebuild.
+
+
+    **Impact**: 24 experiment tasks were not loaded into the database.
+
+
+    **Root Cause**: The yaml_loader.py expects depends_on entries to have:
+
+    - blocker_type
+
+    - blocker_id
+
+    - required_status (MISSING)
+
+    - current_status (MISSING)
+
+    - blocks_transition_to (MISSING)
+
+
+    **Fix Options**:
+
+    1. Make required_status/current_status/blocks_transition_to optional with defaults
+
+    2. Validate YAML format when tasks are created
+
+    3. Surface loader errors during db rebuild instead of silently skipping
+
+
+    **Workaround Applied**: Manually added missing fields to 24 task YAML files.
+
+    '
+  status: not_started
+  blocked: false
+  created: '2025-12-26T09:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

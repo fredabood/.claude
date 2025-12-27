@@ -3,11 +3,11 @@ sprint:
   name: 'Sprint 12: Explicit Scope Requirements'
   track_id: 01KCZF73PX9YNKWXKYVARY89MV
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   blocked_reason: null
   created: '2025-12-26T02:26:27.936283+00:00'
-  started: null
+  started: '2025-12-27T17:00:00+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 8
-    development_tasks_completed: 0
+    development_tasks_completed: 4
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 8
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 4
+    completion_percent: 50
   development_gates: []
   blocks: []
   blocked_by: []

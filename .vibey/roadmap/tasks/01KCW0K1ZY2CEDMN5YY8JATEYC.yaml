@@ -38,11 +38,11 @@ task:
     user guide 9) Update CLAUDE.md with submodule section
 
     See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-19T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T04:30:00+00:00'
+  completed: '2025-12-28T05:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

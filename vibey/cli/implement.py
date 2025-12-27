@@ -303,6 +303,21 @@ def implement(ctx, all_tickets, ticket, track, sprint, max_tasks, max_tokens, dr
     # Resolve scope - --ticket takes precedence over deprecated options
     scope_ulid = ticket or track or sprint
 
+    # Validate that the ticket ULID exists (via TicketService)
+    if scope_ulid:
+        try:
+            from vibey.services.ticket_service import TicketService, TicketNotFoundError
+            service = TicketService()
+            # This validates the ULID exists - raises TicketNotFoundError if not
+            validated_ticket = service.get_ticket(scope_ulid)
+            console.print(f"[dim]Scope: {validated_ticket.name}[/dim]\n")
+        except TicketNotFoundError:
+            console.print(f"[red]Error:[/red] Ticket not found: {scope_ulid}")
+            sys.exit(1)
+        except Exception as e:
+            # TicketService may not be fully configured - fall back to TaskSelector
+            console.print(f"[dim]Note: Could not validate ticket via TicketService: {e}[/dim]\n")
+
     # Run the main implementation loop
     exit_code = run_implementation_cmd(
         scope_ulid=scope_ulid,

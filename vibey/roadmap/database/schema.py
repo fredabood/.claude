@@ -4,7 +4,7 @@ SQLite schema definitions for roadmap database.
 This module contains the DDL for creating the database schema.
 Schema is populated in task-002.
 
-Tables (30 total):
+Tables (33 total):
 - Core Entities (4): roadmaps, tracks, sprints, tasks
 - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
 - Quality & Gates (2): quality_gates, development_gates
@@ -16,6 +16,7 @@ Tables (30 total):
 - Audit Trail (1): audit_trail
 - Artifact System (1): artifacts
 - Context System V2 (3): ticket_commit_links, ticket_artifact_associations, commit_artifact_changes
+- Submodule Integration (3): submodule_references, linked_task_pairs, external_blockers
 """
 
 import sqlite3
@@ -36,7 +37,7 @@ def get_schema_ddl() -> str:
     Returns:
         SQL string with CREATE TABLE statements
 
-    Tables (30 total):
+    Tables (33 total):
     - Core Entities (4): roadmaps, tracks, sprints, tasks
     - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
     - Quality & Gates (2): quality_gates, development_gates
@@ -48,6 +49,7 @@ def get_schema_ddl() -> str:
     - Audit Trail (1): audit_trail
     - Artifact System (1): artifacts
     - Context System V2 (3): ticket_commit_links, ticket_artifact_associations, commit_artifact_changes
+    - Submodule Integration (3): submodule_references, linked_task_pairs, external_blockers
     """
     return """
 -- =============================================================================
@@ -770,6 +772,109 @@ CREATE TABLE IF NOT EXISTS commit_artifact_changes (
     PRIMARY KEY (commit_sha, artifact_id),
     FOREIGN KEY (artifact_id) REFERENCES artifacts(id) ON DELETE CASCADE
 );
+
+-- =============================================================================
+-- SUBMODULE INTEGRATION TABLES (3)
+-- Cross-repo roadmap coordination for git submodules
+-- Design reference: SUBMODULE_ISOLATION_AND_PUSHDOWN.md
+-- =============================================================================
+
+-- 31. submodule_references
+-- Registry of git submodules with vibey roadmaps
+-- All data lives in PARENT repo only (isolation principle)
+CREATE TABLE IF NOT EXISTS submodule_references (
+    -- Identity
+    id TEXT PRIMARY KEY,
+    roadmap_id TEXT NOT NULL REFERENCES roadmaps(id) ON DELETE CASCADE,
+
+    -- Submodule location
+    path TEXT NOT NULL,  -- Relative path to submodule (e.g., 'libs/repo-a')
+    submodule_roadmap_id TEXT,  -- Roadmap ID from submodule's .vibey/roadmap.yaml
+
+    -- Aggregation settings
+    aggregate INTEGER NOT NULL DEFAULT 1,  -- Whether to include in parent status
+    track_filter TEXT,  -- JSON array of track IDs (null = all tracks)
+
+    -- Push settings
+    default_push_mode TEXT NOT NULL DEFAULT 'linked' CHECK (default_push_mode IN (
+        'linked',           -- Create tasks in both repos with link
+        'parent_only',      -- Keep task in parent only
+        'submodule_only'    -- Push to submodule, remove from parent
+    )),
+
+    -- Sync tracking
+    last_synced TEXT,  -- ISO 8601 datetime of last sync
+    created TEXT NOT NULL,
+
+    -- Unique constraint: one entry per path per roadmap
+    UNIQUE(roadmap_id, path)
+);
+
+-- 32. linked_task_pairs
+-- Tracks parent ↔ submodule task relationships
+-- Created when tasks are pushed with 'linked' mode
+CREATE TABLE IF NOT EXISTS linked_task_pairs (
+    -- Identity
+    id TEXT PRIMARY KEY,
+
+    -- Parent side
+    parent_task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+
+    -- Submodule side
+    submodule_path TEXT NOT NULL,  -- Path to submodule (references submodule_references.path)
+    submodule_task_id TEXT NOT NULL,  -- Task ULID in submodule's roadmap
+
+    -- Push mode used to create this link
+    push_mode TEXT NOT NULL CHECK (push_mode IN ('linked', 'parent_only', 'submodule_only')),
+
+    -- Sync tracking
+    created TEXT NOT NULL,
+
+    -- Unique constraint: one link per parent-submodule task pair
+    UNIQUE(parent_task_id, submodule_task_id)
+);
+
+-- 33. external_blockers
+-- Cross-repo dependency tracking via ExternalBlockerInfo
+-- Extends entity_blocked_by with submodule-specific fields
+CREATE TABLE IF NOT EXISTS external_blockers (
+    -- Identity
+    id TEXT PRIMARY KEY,
+
+    -- Parent task being blocked
+    task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+
+    -- Blocker identification (from ExternalBlockerInfo)
+    blocker_type TEXT NOT NULL CHECK (blocker_type IN (
+        'external_project',     -- Dependency on external project
+        'submodule_task',       -- Dependency on task in submodule
+        'external_api',         -- External API or service
+        'manual_approval'       -- Human approval required
+    )),
+    blocker_id TEXT NOT NULL,  -- Human-readable identifier (e.g., 'repo-a:feature-x')
+
+    -- Resolution (populated when dependency is linked)
+    resolved_to TEXT,  -- Submodule task ULID when linked to actual task
+    required_status TEXT NOT NULL DEFAULT 'completed' CHECK (required_status IN (
+        'in_progress', 'completed', 'production_ready'
+    )),
+
+    -- Submodule context (for submodule_task type)
+    submodule_path TEXT,  -- Path to submodule (references submodule_references.path)
+
+    -- Current state
+    is_satisfied INTEGER NOT NULL DEFAULT 0,
+    last_synced TEXT,  -- ISO 8601 datetime of last status check
+
+    -- Description
+    description TEXT,
+
+    -- Audit
+    created TEXT NOT NULL,
+
+    -- One blocker entry per task-blocker pair
+    UNIQUE(task_id, blocker_id)
+);
 """
 
 
@@ -956,6 +1061,37 @@ CREATE INDEX IF NOT EXISTS idx_cac_artifact ON commit_artifact_changes(artifact_
 
 -- commit_artifact_changes: by change type (find all additions, deletions, etc.)
 CREATE INDEX IF NOT EXISTS idx_cac_change_type ON commit_artifact_changes(change_type);
+
+-- =============================================================================
+-- SUBMODULE INTEGRATION INDEXES
+-- =============================================================================
+
+-- submodule_references: lookup by path
+CREATE INDEX IF NOT EXISTS idx_submod_refs_path ON submodule_references(path);
+
+-- submodule_references: lookup by roadmap
+CREATE INDEX IF NOT EXISTS idx_submod_refs_roadmap ON submodule_references(roadmap_id);
+
+-- linked_task_pairs: lookup by parent task
+CREATE INDEX IF NOT EXISTS idx_linked_pairs_parent ON linked_task_pairs(parent_task_id);
+
+-- linked_task_pairs: lookup by submodule path (find all links to a submodule)
+CREATE INDEX IF NOT EXISTS idx_linked_pairs_submodule ON linked_task_pairs(submodule_path);
+
+-- linked_task_pairs: lookup by submodule task ID (reverse lookup)
+CREATE INDEX IF NOT EXISTS idx_linked_pairs_submodule_task ON linked_task_pairs(submodule_task_id);
+
+-- external_blockers: lookup by task (find all blockers for a task)
+CREATE INDEX IF NOT EXISTS idx_ext_blockers_task ON external_blockers(task_id);
+
+-- external_blockers: lookup by blocker type (find all submodule deps)
+CREATE INDEX IF NOT EXISTS idx_ext_blockers_type ON external_blockers(blocker_type);
+
+-- external_blockers: lookup by submodule path (find all deps on a submodule)
+CREATE INDEX IF NOT EXISTS idx_ext_blockers_submodule ON external_blockers(submodule_path);
+
+-- external_blockers: find unsatisfied dependencies
+CREATE INDEX IF NOT EXISTS idx_ext_blockers_unsatisfied ON external_blockers(is_satisfied) WHERE is_satisfied = 0;
 """
 
 
@@ -1311,6 +1447,10 @@ EXPECTED_TABLES = [
     "ticket_commit_links",
     "ticket_artifact_associations",
     "commit_artifact_changes",
+    # Submodule Integration (3)
+    "submodule_references",
+    "linked_task_pairs",
+    "external_blockers",
 ]
 
 

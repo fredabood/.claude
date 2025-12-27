@@ -13,8 +13,8 @@ track:
     sprints_total: 12
     sprints_completed: 11
     tasks_total: 45
-    tasks_completed: 41
-    completion_percent: 91
+    tasks_completed: 42
+    completion_percent: 93
   sprints: []
   dependencies: []
   blocks: []

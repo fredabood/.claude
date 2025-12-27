@@ -295,6 +295,12 @@ from vibey.services.implementation.versioning import (
     ContentVersioner,
     VersionStage,
 )
+from vibey.services.implementation.completion import (
+    ScopeCompletionChecker,
+    load_scope_ticket,
+    reload_scope_ticket,
+    check_scope_complete,
+)
 
 __all__ = [
     # Main loop
@@ -437,4 +443,9 @@ __all__ = [
     "ContentVersion",
     "ContentVersioner",
     "VersionStage",
+    # Scope completion checking
+    "ScopeCompletionChecker",
+    "load_scope_ticket",
+    "reload_scope_ticket",
+    "check_scope_complete",
 ]

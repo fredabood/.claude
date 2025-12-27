@@ -57,6 +57,11 @@ from vibey.services.implementation.regression import (
     RegressionReport,
     RegressionSnapshot,
 )
+from vibey.services.implementation.completion import (
+    ScopeCompletionChecker,
+    load_scope_ticket,
+    reload_scope_ticket,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -302,6 +307,26 @@ class ImplementationLoop:
         self._current_snapshot: Optional[RegressionSnapshot] = None
         self._last_regression_report: Optional[RegressionReport] = None
 
+        # Scope completion tracking
+        self._scope_ticket: Optional[HierarchicalTicket] = None
+        self._completion_checker = ScopeCompletionChecker()
+
+        # Load scope ticket if scope_ulid is configured
+        if config.scope_ulid:
+            self._scope_ticket = load_scope_ticket(
+                config.scope_ulid, selector.root
+            )
+            if self._scope_ticket:
+                logger.info(
+                    f"Scope ticket loaded: {self._scope_ticket.id} "
+                    f"({self._scope_ticket.name})"
+                )
+            else:
+                logger.warning(
+                    f"Scope ticket {config.scope_ulid} not found, "
+                    "completion detection disabled"
+                )
+
     # =========================================================================
     # MAIN EXECUTION LOOP
     # =========================================================================
@@ -394,6 +419,14 @@ class ImplementationLoop:
                             stop_reason = "regression_blocked"
                             break
 
+                # Check for scope completion after successful task
+                if result.success and self._scope_ticket is not None:
+                    scope_complete, message = self._check_scope_completion()
+                    if scope_complete:
+                        logger.info(f"Scope complete: {message}")
+                        stop_reason = "scope_complete"
+                        break
+
                 # Auto-save after each task
                 if self.config.auto_save:
                     self._save_state()
@@ -402,6 +435,9 @@ class ImplementationLoop:
             if stop_reason == "":
                 # Normal completion
                 stop_reason = "completed"
+                self.state.complete()
+            elif stop_reason == "scope_complete":
+                # Scope ticket is complete - successful completion
                 self.state.complete()
             elif stop_reason == "signal":
                 self.state.stop()
@@ -480,6 +516,45 @@ class ImplementationLoop:
                 return True, "max_tokens"
 
         return False, ""
+
+    def _check_scope_completion(self) -> tuple[bool, str]:
+        """
+        Check if the scope ticket is complete.
+
+        Reloads the scope ticket from disk to get fresh state after task
+        execution, then checks if it can transition to COMPLETED status.
+
+        Returns:
+            Tuple of (is_complete: bool, message: str)
+        """
+        if self._scope_ticket is None:
+            return False, "No scope ticket"
+
+        # Reload scope ticket to get fresh state
+        self._scope_ticket = reload_scope_ticket(
+            self._scope_ticket, self.selector.root
+        )
+
+        # Check if already complete
+        if self._completion_checker.is_scope_complete(self._scope_ticket):
+            return True, f"Scope {self._scope_ticket.id} already complete"
+
+        # Check if can transition to complete
+        can_complete, message = self._completion_checker.check_scope_completion(
+            self._scope_ticket
+        )
+
+        if can_complete:
+            return True, message or f"Scope {self._scope_ticket.id} complete"
+
+        # Log progress for visibility
+        progress = self._completion_checker.get_completion_progress(self._scope_ticket)
+        logger.debug(
+            f"Scope progress: {progress['completed_criteria']}/{progress['total_criteria']} "
+            f"({progress['percentage']:.0f}%)"
+        )
+
+        return False, message or "Scope not complete"
 
     # =========================================================================
     # TASK EXECUTION

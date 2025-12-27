@@ -4,55 +4,54 @@ task:
   track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement submodule isolation safety measures
-  description: 'Ensure submodule repos work 100% independently when accessed directly:
+  title: Verify submodule isolation architecture
+  description: 'Verify and document that the submodule architecture ensures complete isolation:
 
     CORE PRINCIPLE: Repo A must function perfectly whether accessed directly or as
-    a submodule of Repo C.
+    a submodule of Repo C. A has ZERO knowledge of any parent repos.
 
-    SAFETY MEASURES TO IMPLEMENT:
+    ARCHITECTURE VERIFICATION:
 
-    1) Incoming Requirements Isolation (vibey/operations/submodule/incoming.py):
-       - Store parent-pushed requirements in .vibey/incoming/ (separate from core roadmap)
-       - Mark incoming requirements with source_repo field
-       - Add --include-incoming flag to status/show commands (off by default)
-       - Warn user about unresolvable incoming refs, never fail
+    1) Confirm No Cross-Repo Data in Submodules:
+       - Submodule A has no .vibey/incoming/ or .vibey/outgoing/ directories
+       - Submodule A''s tasks have no external ULIDs in depends_on
+       - All cross-repo metadata lives ONLY in parent C
+       - Link from C to A stored in C''s blocked_by with resolved_to field
 
-    2) Cross-Repo Reference Validation (vibey/operations/submodule/validation.py):
-       - Add validate_standalone() function to verify roadmap works without parent
-       - Check all depends_on references resolve locally OR are marked external
-       - External dependencies must have fallback behavior (warn, not fail)
-       - Add "vibey roadmap validate --standalone" command
+    2) Confirm Parent-Only Cross-Repo Storage:
+       - C stores submodule registry in .vibey/config/submodules.yaml
+       - C''s tasks use blocked_by with blocker_type: external for submodule deps
+       - C stores ULID mapping (resolved_to) for linked mode tasks
+       - Aggregation reads A''s roadmap directly, no push from A
 
-    3) Graceful Degradation Patterns:
-       - All core commands (status, show, start, complete) must never fail on missing parent
-       - Cross-repo features silently degrade when parent unavailable
-       - Add is_submodule_context() detection (checks if .git is file vs directory)
-       - Log debug messages for skipped cross-repo operations
+    3) Confirm Direct Write Push-Down:
+       - C can create tasks in A''s roadmap via vibey submodule push
+       - Created tasks in A are standalone (no reference to C)
+       - C''s corresponding task stores link via resolved_to field
+       - Three modes work: parent_only, submodule_only, linked
 
-    4) Data Isolation Rules:
-       - Core roadmap (tracks/sprints/tasks) MUST NOT contain parent-repo ULIDs
-       - Cross-repo data stored ONLY in .vibey/incoming/ and .vibey/outgoing/
-       - Parent requirements are COPIED to local tasks, not referenced
-       - Local task is source of truth, incoming requirement is advisory
+    4) Test Suite (tests/operations/submodule/test_isolation.py):
+       - Test A works identically whether cloned directly or as submodule
+       - Test A''s core commands work with no parent context
+       - Test C can aggregate from A without modifying A
+       - Test C can push task to A, A''s task is standalone
+       - Test ULID linking between C and A tasks
 
-    5) Test Suite (tests/operations/submodule/test_isolation.py):
-       - Test A works when accessed directly (no parent)
-       - Test A works when accessed as submodule of C
-       - Test A handles corrupt/missing incoming requirements gracefully
-       - Test validation catches invalid cross-repo references
-       - Test core commands never fail due to cross-repo issues'
+    5) Documentation:
+       - Reference design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md
+       - Add architecture diagram to user guide
+       - Document push modes (parent_only, submodule_only, linked)'
   status: not_started
   blocked: false
   created: '2025-12-27T00:00:00+00:00'
   started: null
   completed: null
   assigned_agent: null
-  priority: critical
+  priority: high
   phase_label: null
-  estimated_tokens: 6000
+  estimated_tokens: 3000
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []

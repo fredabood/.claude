@@ -1,0 +1,55 @@
+task:
+  id: 01KDH17KJ0ZKE93R2FMX6CVAMC
+  sprint_id: 01KDATZAG0PQ8HVFD2SGBC6ESE
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: bug
+  title: 'BUG: roadmap complete command requires unrelated tracks to complete'
+  description: >
+    The `vibey roadmap complete` command incorrectly enforces cross-track dependencies
+    when completing a sprint. When attempting to complete Sprint 2 of the Git Submodule
+    Integration track (01KCW0K1ZY2CEDMN5YY8JATEY4), the command fails with an error
+    listing 51 unrelated tracks that "must complete" first.
+
+    REPRODUCTION:
+    1. Have a sprint with all tasks completed
+    2. Run: vibey roadmap complete <sprint-id>
+    3. Error: "Cannot complete <sprint-id>: Track 01KC2D0JK... must complete" (51 tracks listed)
+
+    EXPECTED BEHAVIOR:
+    The complete command should only verify that all tasks within the sprint are completed,
+    not enforce dependencies on unrelated tracks.
+
+    ACTUAL BEHAVIOR:
+    Command fails with error requiring 51 unrelated tracks to complete first.
+
+    WORKAROUND:
+    Manually edit the YAML files to update status fields.
+
+    ROOT CAUSE (suspected):
+    The validation logic in the complete command is incorrectly checking track-level
+    dependencies instead of just verifying task completion within the sprint.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T06:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

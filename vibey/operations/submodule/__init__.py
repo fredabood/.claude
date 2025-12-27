@@ -6,6 +6,7 @@ git submodules that have vibey roadmaps.
 """
 
 from vibey.operations.submodule.discovery import SubmoduleDiscovery
+from vibey.operations.submodule.pull import ProgressAggregator
 from vibey.operations.submodule.push import TaskDefinition, TaskPusher
 
-__all__ = ["SubmoduleDiscovery", "TaskPusher", "TaskDefinition"]
+__all__ = ["SubmoduleDiscovery", "TaskPusher", "TaskDefinition", "ProgressAggregator"]

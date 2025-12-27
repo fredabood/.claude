@@ -1114,3 +1114,258 @@ def bulk_update_criteria_met_status(
 
     conn.commit()
     return updated
+
+
+# =============================================================================
+# SUBMODULE INTEGRATION SERIALIZATION
+# Design reference: SUBMODULE_ISOLATION_AND_PUSHDOWN.md
+# =============================================================================
+
+from ..models.submodule import SubmoduleReference
+from ..models.cross_repo import LinkedTaskPair, ExternalBlockerInfo
+from ..id_generator import generate_id
+
+
+def save_submodule_reference(
+    ref: SubmoduleReference,
+    roadmap_id: str = "vibey-framework-v2",
+    db_path: Optional[Path] = None,
+) -> str:
+    """
+    Save or update a submodule reference to SQLite.
+
+    Args:
+        ref: SubmoduleReference object
+        roadmap_id: Parent roadmap ID
+        db_path: Optional path to database file
+
+    Returns:
+        ID of the saved submodule reference
+    """
+    conn = get_connection(db_path=db_path)
+    now = _format_datetime(datetime.now(timezone.utc))
+
+    # Check if already exists
+    existing = conn.execute(
+        "SELECT id FROM submodule_references WHERE roadmap_id = ? AND path = ?",
+        (roadmap_id, ref.path)
+    ).fetchone()
+
+    track_filter_json = json.dumps(ref.track_filter) if ref.track_filter else None
+
+    if existing:
+        # Update existing
+        ref_id = existing[0]
+        conn.execute(
+            """
+            UPDATE submodule_references
+            SET submodule_roadmap_id = ?, aggregate = ?, track_filter = ?,
+                default_push_mode = ?, last_synced = ?
+            WHERE id = ?
+            """,
+            (
+                ref.roadmap_id,
+                1 if ref.aggregate else 0,
+                track_filter_json,
+                'linked',  # Default push mode
+                _format_datetime(ref.last_synced),
+                ref_id,
+            )
+        )
+    else:
+        # Insert new
+        ref_id = generate_id()
+        conn.execute(
+            """
+            INSERT INTO submodule_references
+            (id, roadmap_id, path, submodule_roadmap_id, aggregate, track_filter,
+             default_push_mode, last_synced, created)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                ref_id,
+                roadmap_id,
+                ref.path,
+                ref.roadmap_id,
+                1 if ref.aggregate else 0,
+                track_filter_json,
+                'linked',
+                _format_datetime(ref.last_synced),
+                now,
+            )
+        )
+
+    conn.commit()
+    return ref_id
+
+
+def save_linked_task_pair(
+    pair: LinkedTaskPair,
+    db_path: Optional[Path] = None,
+) -> str:
+    """
+    Save or update a linked task pair to SQLite.
+
+    Args:
+        pair: LinkedTaskPair object
+        db_path: Optional path to database file
+
+    Returns:
+        ID of the saved link
+    """
+    conn = get_connection(db_path=db_path)
+    now = _format_datetime(datetime.now(timezone.utc))
+
+    # Check if already exists
+    existing = conn.execute(
+        """
+        SELECT id FROM linked_task_pairs
+        WHERE parent_task_id = ? AND submodule_task_id = ?
+        """,
+        (pair.parent_task_id, pair.submodule_task_id)
+    ).fetchone()
+
+    if existing:
+        # Update existing
+        link_id = existing[0]
+        conn.execute(
+            """
+            UPDATE linked_task_pairs
+            SET submodule_path = ?, push_mode = ?
+            WHERE id = ?
+            """,
+            (
+                pair.submodule_path,
+                pair.push_mode.value,
+                link_id,
+            )
+        )
+    else:
+        # Insert new
+        link_id = pair.id or generate_id()
+        conn.execute(
+            """
+            INSERT INTO linked_task_pairs
+            (id, parent_task_id, submodule_path, submodule_task_id, push_mode, created)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                link_id,
+                pair.parent_task_id,
+                pair.submodule_path,
+                pair.submodule_task_id,
+                pair.push_mode.value,
+                _format_datetime(pair.created) or now,
+            )
+        )
+
+    conn.commit()
+    return link_id
+
+
+def save_external_blocker(
+    task_id: str,
+    blocker: ExternalBlockerInfo,
+    db_path: Optional[Path] = None,
+) -> str:
+    """
+    Save or update an external blocker to SQLite.
+
+    Args:
+        task_id: ID of the parent task
+        blocker: ExternalBlockerInfo object
+        db_path: Optional path to database file
+
+    Returns:
+        ID of the saved blocker
+    """
+    conn = get_connection(db_path=db_path)
+    now = _format_datetime(datetime.now(timezone.utc))
+
+    # Check if already exists
+    existing = conn.execute(
+        """
+        SELECT id FROM external_blockers
+        WHERE task_id = ? AND blocker_id = ?
+        """,
+        (task_id, blocker.blocker_id)
+    ).fetchone()
+
+    if existing:
+        # Update existing
+        blocker_db_id = existing[0]
+        conn.execute(
+            """
+            UPDATE external_blockers
+            SET blocker_type = ?, resolved_to = ?, required_status = ?,
+                submodule_path = ?, is_satisfied = ?, last_synced = ?, description = ?
+            WHERE id = ?
+            """,
+            (
+                blocker.blocker_type.value,
+                blocker.resolved_to,
+                blocker.required_status,
+                blocker.submodule_path,
+                1 if blocker.is_satisfied else 0,
+                _format_datetime(blocker.last_synced),
+                blocker.description,
+                blocker_db_id,
+            )
+        )
+    else:
+        # Insert new
+        blocker_db_id = generate_id()
+        conn.execute(
+            """
+            INSERT INTO external_blockers
+            (id, task_id, blocker_type, blocker_id, resolved_to, required_status,
+             submodule_path, is_satisfied, last_synced, description, created)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                blocker_db_id,
+                task_id,
+                blocker.blocker_type.value,
+                blocker.blocker_id,
+                blocker.resolved_to,
+                blocker.required_status,
+                blocker.submodule_path,
+                1 if blocker.is_satisfied else 0,
+                _format_datetime(blocker.last_synced),
+                blocker.description,
+                now,
+            )
+        )
+
+    conn.commit()
+    return blocker_db_id
+
+
+def delete_linked_task_pair(
+    parent_task_id: str,
+    submodule_task_id: str,
+    db_path: Optional[Path] = None,
+) -> bool:
+    """
+    Delete a linked task pair from SQLite.
+
+    Args:
+        parent_task_id: Parent task ID
+        submodule_task_id: Submodule task ID
+        db_path: Optional path to database file
+
+    Returns:
+        True if deleted, False if not found
+    """
+    conn = get_connection(db_path=db_path)
+
+    cursor = conn.execute(
+        """
+        DELETE FROM linked_task_pairs
+        WHERE parent_task_id = ? AND submodule_task_id = ?
+        """,
+        (parent_task_id, submodule_task_id)
+    )
+
+    conn.commit()
+    return cursor.rowcount > 0

@@ -3007,3 +3007,113 @@ def _migrate_roadmap_to_ticket(roadmap_data: Dict[str, Any]) -> RoadmapTicket:
         total_token_budget=roadmap_data.get('total_token_budget'),
         total_token_enforcement=_parse_token_enforcement(roadmap_data.get('total_token_enforcement')),
     )
+
+
+# =============================================================================
+# SUBMODULE INTEGRATION SERIALIZATION
+# Design reference: SUBMODULE_ISOLATION_AND_PUSHDOWN.md
+# =============================================================================
+
+from ..models.submodule import (
+    SubmoduleReference,
+    DetectionSource,
+    SyncStatus,
+)
+from ..models.cross_repo import (
+    SubmoduleConfig,
+    PushMode,
+    LinkedTaskPair,
+)
+
+
+def load_submodule_reference(data: Dict[str, Any]) -> SubmoduleReference:
+    """
+    Parse a single submodule entry from YAML.
+
+    Args:
+        data: Dict with submodule fields (path, roadmap_id, aggregate, track_filter, etc.)
+
+    Returns:
+        SubmoduleReference object
+    """
+    return SubmoduleReference(
+        path=data['path'],
+        roadmap_id=data.get('roadmap_id'),
+        aggregate=data.get('aggregate', True),
+        track_filter=data.get('track_filter', []),
+        detection_source=DetectionSource(data.get('detection_source', 'gitmodules')),
+        last_synced=_parse_datetime(data.get('last_synced')),
+        sync_status=SyncStatus(data.get('sync_status', 'never_synced')),
+    )
+
+
+def load_submodule_config(config_path: Path) -> SubmoduleConfig:
+    """
+    Load submodule configuration from .vibey/config/submodules.yaml.
+
+    Args:
+        config_path: Path to submodules.yaml file
+
+    Returns:
+        SubmoduleConfig object with submodules list and settings
+    """
+    if not config_path.exists():
+        # Return empty config if file doesn't exist
+        return SubmoduleConfig()
+
+    with open(config_path, 'r') as f:
+        data = yaml.safe_load(f)
+
+    if data is None:
+        return SubmoduleConfig()
+
+    # Parse submodules list
+    submodules = []
+    for sub_data in data.get('submodules', []):
+        submodules.append(load_submodule_reference(sub_data))
+
+    # Parse config settings
+    default_push_mode = PushMode(data.get('default_push_mode', 'linked'))
+    aggregate_on_status = data.get('aggregate_on_status', True)
+    stale_threshold_minutes = data.get('stale_threshold_minutes', 60)
+
+    return SubmoduleConfig(
+        submodules=submodules,
+        default_push_mode=default_push_mode,
+        aggregate_on_status=aggregate_on_status,
+        stale_threshold_minutes=stale_threshold_minutes,
+    )
+
+
+def load_linked_task_pairs(config_path: Path) -> List[LinkedTaskPair]:
+    """
+    Load linked task pairs from .vibey/config/linked_tasks.yaml.
+
+    Args:
+        config_path: Path to linked_tasks.yaml file
+
+    Returns:
+        List of LinkedTaskPair objects
+    """
+    if not config_path.exists():
+        return []
+
+    with open(config_path, 'r') as f:
+        data = yaml.safe_load(f)
+
+    if data is None or 'links' not in data:
+        return []
+
+    pairs = []
+    for link_data in data.get('links', []):
+        pair = LinkedTaskPair(
+            parent_task_id=link_data['parent_task_id'],
+            submodule_path=link_data['submodule_path'],
+            submodule_task_id=link_data['submodule_task_id'],
+            push_mode=PushMode(link_data.get('push_mode', 'linked')),
+            created=_parse_datetime(link_data.get('created')),
+            id=link_data.get('id'),
+        )
+        pairs.append(pair)
+
+    return pairs

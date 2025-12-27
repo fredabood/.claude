@@ -1598,3 +1598,130 @@ def save_roadmap_auto(roadmap: Roadmap, fs: "FileSystemManager"):
     """
     roadmap_path = fs.get_roadmap_path()
     save_roadmap(roadmap, roadmap_path)
+
+
+# =============================================================================
+# SUBMODULE INTEGRATION SERIALIZATION
+# Design reference: SUBMODULE_ISOLATION_AND_PUSHDOWN.md
+# =============================================================================
+
+from ..models.submodule import SubmoduleReference
+from ..models.cross_repo import SubmoduleConfig, LinkedTaskPair, PushMode
+
+
+def _dump_submodule_reference(ref: SubmoduleReference) -> dict:
+    """
+    Serialize SubmoduleReference to dict for YAML output.
+
+    Args:
+        ref: SubmoduleReference object
+
+    Returns:
+        Dictionary suitable for YAML dump
+    """
+    result = {
+        'path': ref.path,
+    }
+
+    # Only include non-default/non-None fields
+    if ref.roadmap_id:
+        result['roadmap_id'] = ref.roadmap_id
+    if not ref.aggregate:
+        result['aggregate'] = ref.aggregate
+    if ref.track_filter:
+        result['track_filter'] = ref.track_filter
+    if ref.detection_source.value != 'gitmodules':
+        result['detection_source'] = ref.detection_source.value
+    if ref.last_synced:
+        result['last_synced'] = _format_datetime(ref.last_synced)
+    if ref.sync_status.value != 'never_synced':
+        result['sync_status'] = ref.sync_status.value
+
+    return result
+
+
+def dump_submodule_config(config: SubmoduleConfig, config_path: Path) -> None:
+    """
+    Write SubmoduleConfig to .vibey/config/submodules.yaml.
+
+    Args:
+        config: SubmoduleConfig object
+        config_path: Path to submodules.yaml file
+    """
+    # Ensure parent directory exists
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+
+    data = {}
+
+    # Add settings if non-default
+    if config.default_push_mode != PushMode.LINKED:
+        data['default_push_mode'] = config.default_push_mode.value
+    else:
+        data['default_push_mode'] = 'linked'
+
+    if not config.aggregate_on_status:
+        data['aggregate_on_status'] = config.aggregate_on_status
+    else:
+        data['aggregate_on_status'] = True
+
+    if config.stale_threshold_minutes != 60:
+        data['stale_threshold_minutes'] = config.stale_threshold_minutes
+
+    # Add submodules list
+    data['submodules'] = [
+        _dump_submodule_reference(ref)
+        for ref in config.submodules
+    ]
+
+    with open(config_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
+def dump_linked_task_pair(pair: LinkedTaskPair, config_path: Path) -> None:
+    """
+    Append LinkedTaskPair to .vibey/config/linked_tasks.yaml.
+
+    Args:
+        pair: LinkedTaskPair to save
+        config_path: Path to linked_tasks.yaml file
+    """
+    # Ensure parent directory exists
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Load existing data or create new
+    existing_data = {}
+    if config_path.exists():
+        with open(config_path, 'r') as f:
+            existing_data = yaml.safe_load(f) or {}
+
+    links = existing_data.get('links', [])
+
+    # Check if link already exists (by parent/submodule task pair)
+    for i, link in enumerate(links):
+        if (link.get('parent_task_id') == pair.parent_task_id and
+            link.get('submodule_task_id') == pair.submodule_task_id):
+            # Update existing link
+            links[i] = {
+                'id': pair.id,
+                'parent_task_id': pair.parent_task_id,
+                'submodule_path': pair.submodule_path,
+                'submodule_task_id': pair.submodule_task_id,
+                'push_mode': pair.push_mode.value,
+                'created': _format_datetime(pair.created),
+            }
+            break
+    else:
+        # Add new link
+        links.append({
+            'id': pair.id,
+            'parent_task_id': pair.parent_task_id,
+            'submodule_path': pair.submodule_path,
+            'submodule_task_id': pair.submodule_task_id,
+            'push_mode': pair.push_mode.value,
+            'created': _format_datetime(pair.created),
+        })
+
+    existing_data['links'] = links
+
+    with open(config_path, 'w') as f:
+        yaml.dump(existing_data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)

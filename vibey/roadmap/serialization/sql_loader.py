@@ -1740,3 +1740,169 @@ def load_dependents_from_criteria(
     ).fetchall()
 
     return [_row_to_dict(row) for row in rows]
+
+
+# =============================================================================
+# SUBMODULE INTEGRATION SERIALIZATION
+# Design reference: SUBMODULE_ISOLATION_AND_PUSHDOWN.md
+# =============================================================================
+
+from ..models.submodule import (
+    SubmoduleReference,
+    DetectionSource,
+    SyncStatus,
+)
+from ..models.cross_repo import (
+    LinkedTaskPair,
+    PushMode,
+    ExternalBlockerInfo,
+    ExternalBlockerType,
+)
+
+
+def load_submodule_references(
+    roadmap_id: str = "vibey-framework-v2",
+    db_path: Optional[Path] = None,
+) -> List[SubmoduleReference]:
+    """
+    Load all submodule references for a roadmap from SQLite.
+
+    Args:
+        roadmap_id: ID of the parent roadmap
+        db_path: Optional path to database file
+
+    Returns:
+        List of SubmoduleReference objects
+    """
+    conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT id, roadmap_id, path, submodule_roadmap_id, aggregate,
+               track_filter, default_push_mode, last_synced, created
+        FROM submodule_references
+        WHERE roadmap_id = ?
+        ORDER BY path
+        """,
+        (roadmap_id,)
+    ).fetchall()
+
+    refs = []
+    for row in rows:
+        data = _row_to_dict(row)
+        track_filter = _parse_json(data.get('track_filter'), [])
+
+        ref = SubmoduleReference(
+            path=data['path'],
+            roadmap_id=data.get('submodule_roadmap_id'),
+            aggregate=bool(data.get('aggregate', 1)),
+            track_filter=track_filter if isinstance(track_filter, list) else [],
+            detection_source=DetectionSource.MANUAL,  # Default for DB-loaded refs
+            last_synced=_parse_datetime(data.get('last_synced')),
+            sync_status=SyncStatus.SYNCED if data.get('last_synced') else SyncStatus.NEVER_SYNCED,
+        )
+        refs.append(ref)
+
+    return refs
+
+
+def load_linked_task_pairs(
+    parent_task_id: Optional[str] = None,
+    submodule_path: Optional[str] = None,
+    db_path: Optional[Path] = None,
+) -> List[LinkedTaskPair]:
+    """
+    Load linked task pairs from SQLite.
+
+    Args:
+        parent_task_id: Optional filter by parent task ID
+        submodule_path: Optional filter by submodule path
+        db_path: Optional path to database file
+
+    Returns:
+        List of LinkedTaskPair objects
+    """
+    conn = get_connection(db_path=db_path)
+
+    # Build query with optional filters
+    query = """
+        SELECT id, parent_task_id, submodule_path, submodule_task_id,
+               push_mode, created
+        FROM linked_task_pairs
+        WHERE 1=1
+    """
+    params = []
+
+    if parent_task_id:
+        query += " AND parent_task_id = ?"
+        params.append(parent_task_id)
+
+    if submodule_path:
+        query += " AND submodule_path = ?"
+        params.append(submodule_path)
+
+    query += " ORDER BY created DESC"
+
+    rows = conn.execute(query, params).fetchall()
+
+    pairs = []
+    for row in rows:
+        data = _row_to_dict(row)
+        pair = LinkedTaskPair(
+            id=data['id'],
+            parent_task_id=data['parent_task_id'],
+            submodule_path=data['submodule_path'],
+            submodule_task_id=data['submodule_task_id'],
+            push_mode=PushMode(data.get('push_mode', 'linked')),
+            created=_parse_datetime(data.get('created')),
+        )
+        pairs.append(pair)
+
+    return pairs
+
+
+def load_external_blockers(
+    task_id: str,
+    db_path: Optional[Path] = None,
+) -> List[ExternalBlockerInfo]:
+    """
+    Load external blocker info for a task from SQLite.
+
+    Args:
+        task_id: ID of the parent task
+        db_path: Optional path to database file
+
+    Returns:
+        List of ExternalBlockerInfo objects
+    """
+    conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT id, task_id, blocker_type, blocker_id, resolved_to,
+               required_status, submodule_path, is_satisfied, last_synced,
+               description, created
+        FROM external_blockers
+        WHERE task_id = ?
+        ORDER BY created
+        """,
+        (task_id,)
+    ).fetchall()
+
+    blockers = []
+    for row in rows:
+        data = _row_to_dict(row)
+        blocker = ExternalBlockerInfo(
+            blocker_id=data['blocker_id'],
+            blocker_type=ExternalBlockerType(data.get('blocker_type', 'submodule_task')),
+            resolved_to=data.get('resolved_to'),
+            required_status=data.get('required_status', 'completed'),
+            submodule_path=data.get('submodule_path'),
+            current_status=None,  # Not stored in DB, synced on demand
+            is_satisfied=bool(data.get('is_satisfied', 0)),
+            last_synced=_parse_datetime(data.get('last_synced')),
+            description=data.get('description'),
+        )
+        blockers.append(blocker)
+
+    return blockers

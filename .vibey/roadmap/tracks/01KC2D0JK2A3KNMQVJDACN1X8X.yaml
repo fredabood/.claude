@@ -10,24 +10,12 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 2
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 20
-    tasks_completed: 20
-    completion_percent: 100.0
-  sprints:
-  - id: 01KC2D0JK2A3KNMQVJDACN1X8Y
-    name: Config-to-Docs Architecture
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 13
-    started: null
-  - id: 01KC2D0JK2A3KNMQVJDACN1X9C
-    name: Framework Polish & Refinements
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 7
-    started: null
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -41,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-27T22:12:01.244984+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

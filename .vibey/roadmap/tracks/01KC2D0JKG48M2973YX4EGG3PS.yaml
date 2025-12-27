@@ -10,180 +10,12 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 28
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 83
-    tasks_completed: 14
-    completion_percent: 17.0
-  sprints:
-  - id: 01KC2D0JKG48M2973YX4EGG3PT
-    name: 'Audit: aider-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKG48M2973YX4EGG3PY
-    name: 'Audit: directory-migration'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 2
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKG48M2973YX4EGG3Q1
-    name: 'Audit: documentation-system'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKG48M2973YX4EGG3Q5
-    name: 'Audit: gemini-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCY8
-    name: 'Audit: goose-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 2
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCYB
-    name: 'Audit: infrastructure-fixes'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCYF
-    name: 'Audit: interface-unification'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 2
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCYJ
-    name: 'Audit: jetbrains-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCYP
-    name: 'Audit: mcp-server'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCYT
-    name: 'Audit: missing-agents'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 2
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCYX
-    name: 'Audit: multi-platform'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCZ2
-    name: 'Audit: amazonq-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKH5PSS831V3PVFSCZ6
-    name: 'Audit: platform-context-management'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB55
-    name: 'Audit: replit-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB5A
-    name: 'Audit: roadmap-integration'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB5E
-    name: 'Audit: roadmap-integrity-fixes'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 5
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB5M
-    name: 'Audit: roadmap-system'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB5R
-    name: 'Audit: standards-system'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 1
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB5T
-    name: 'Audit: testing-system'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 2
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB5X
-    name: 'Audit: vscode-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKJEKCQR9C1BQ4TQB62
-    name: 'Audit: windsurf-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKKVMZ8ZJNGPHV822Q3
-    name: 'Audit: claude-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 1
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKKVMZ8ZJNGPHV822Q5
-    name: 'Audit: cody-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKKVMZ8ZJNGPHV822Q9
-    name: 'Audit: continue-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKKVMZ8ZJNGPHV822QE
-    name: 'Audit: copilot-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 4
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKKVMZ8ZJNGPHV822QK
-    name: 'Audit: core-framework'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKKVMZ8ZJNGPHV822QQ
-    name: 'Audit: cursor-port'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 3
-    started: '2025-11-23T20:35:52.725661+00:00'
-  - id: 01KC2D0JKKVMZ8ZJNGPHV822QV
-    name: 'Audit: directory-consolidation'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 1
-    started: '2025-11-23T20:35:52.725661+00:00'
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -197,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-27T22:12:15.698951+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

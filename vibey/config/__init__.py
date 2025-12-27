@@ -55,6 +55,13 @@ from vibey.config.loader import (
     load_config,
 )
 
+from vibey.config.submodule_config import (
+    get_default_config as get_default_submodule_config,
+    get_submodule_config_path,
+    load_submodule_config,
+    save_submodule_config,
+)
+
 __all__ = [
     # Enums
     "ProjectType",
@@ -92,4 +99,9 @@ __all__ = [
     "ConfigNotFoundError",
     "ConfigValidationError",
     "load_config",
+    # Submodule Config
+    "get_default_submodule_config",
+    "get_submodule_config_path",
+    "load_submodule_config",
+    "save_submodule_config",
 ]

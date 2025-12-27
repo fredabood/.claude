@@ -38,11 +38,11 @@ task:
     --edit: Open in editor
 
     See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-12-27T22:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T01:30:00+00:00'
+  completed: '2025-12-28T02:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -54,12 +54,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

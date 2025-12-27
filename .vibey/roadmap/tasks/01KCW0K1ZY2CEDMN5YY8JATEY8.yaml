@@ -5,16 +5,48 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement progress pull-up mechanism
-  description: 'Implement pull-up of progress/status from submodule to parent roadmaps.
-    Create ProgressAggregator class in vibey/operations/submodule/pull.py that:
-    1) Collects SubmoduleProgress from each submodule with Vibey roadmap
-    2) Surfaces SubmoduleBlocker objects from submodules to parent (by severity)
-    3) Computes AggregatedProgress with combined metrics across all submodules
-    4) Supports collection methods (POLLING, ON_DEMAND, WEBHOOK, GIT_HOOK)
-    5) Tracks staleness with configurable stale_threshold_minutes
-    6) Propagates status changes (submodule completion triggers parent updates)
-    7) Stores progress snapshots in .vibey/roadmap/submodule_progress/
-    Follow Sprint 1 design document submodule.py specifications.'
+  description: 'Implement PARENT-INITIATED aggregation from submodule roadmaps.
+
+    Per design decision: Parent C reads submodule A''s roadmap directly.
+    Submodule A is a passive data source (no outgoing/ directory).
+
+    Create ProgressAggregator class in vibey/operations/submodule/pull.py:
+
+    1) aggregate_all() -> AggregatedProgress:
+       - Read submodule registry from .vibey/config/submodules.yaml
+       - For each SubmoduleReference with aggregate=True:
+         - Call aggregate_submodule(path)
+       - Combine into AggregatedProgress with total metrics
+
+    2) aggregate_submodule(path) -> SubmoduleProgress:
+       - Read submodule''s .vibey/roadmap.db (or YAML files)
+       - Apply track_filter if configured
+       - Compute: tracks_total, tracks_completed, sprints_total, sprints_completed,
+         tasks_total, tasks_completed, completion_percent
+       - Identify blockers (tasks with blocked=True)
+       - Return SubmoduleProgress
+
+    3) sync_blocked_by_status():
+       - Find all parent tasks with ExternalBlockerInfo (blocker_type=external)
+       - For each with resolved_to set:
+         - Read submodule task status
+         - Update ExternalBlockerInfo.current_status
+         - Update ExternalBlockerInfo.last_synced
+       - Save updated parent tasks
+
+    4) get_blockers(severity_filter) -> list[SubmoduleBlocker]:
+       - Aggregate blockers from all submodules
+       - Filter by severity if specified
+       - Return sorted by severity (critical first)
+
+    5) get_stale_submodules(threshold_minutes) -> list[SubmoduleReference]:
+       - Find submodules not synced within threshold
+       - Return list for user action
+
+    Note: No .vibey/roadmap/submodule_progress/ directory - parent stores
+    aggregation cache in its own config if needed.
+
+    See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
   blocked: false
   created: '2025-12-19T19:00:00+00:00'

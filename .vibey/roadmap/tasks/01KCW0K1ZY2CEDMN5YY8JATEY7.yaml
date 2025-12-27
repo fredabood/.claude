@@ -5,16 +5,47 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement requirements push-down mechanism
-  description: 'Implement push-down of requirements from parent to submodule roadmaps.
-    Create RequirementPusher class in vibey/operations/submodule/push.py that:
-    1) Translates parent ticket requirements to CrossRepoRequirement objects
-    2) Tracks ownership model (PARENT_OWNED, SUBMODULE_OWNED, SHARED)
-    3) Supports push modes (AUTOMATIC, NOTIFICATION, MANUAL)
-    4) Creates requirement YAML files in target submodule
-    5) Handles sync mechanism to propagate changes
-    6) Implements conflict resolution when submodule has local changes
-    7) Updates requirement status through lifecycle (DRAFT -> PUSHED -> ACKNOWLEDGED -> FULFILLED)
-    Follow Sprint 1 design document cross_repo.py specifications.'
+  description: 'Implement DIRECT WRITE push-down from parent to submodule roadmaps.
+
+    Per design decision: Parent C creates actual tasks in submodule A''s roadmap.
+    Submodule A has no knowledge of parent C (isolation principle).
+
+    Create TaskPusher class in vibey/operations/submodule/push.py:
+
+    1) push_task(submodule_path, title, description, mode) -> LinkedTaskPair:
+       - mode: PushMode.LINKED | PARENT_ONLY | SUBMODULE_ONLY
+
+       LINKED mode (default):
+       - Generate new ULID for submodule task
+       - Create task YAML in <submodule_path>/.vibey/roadmap/tasks/<ulid>.yaml
+       - Create corresponding task in parent roadmap
+       - Store link in parent task via ExternalBlockerInfo.resolved_to
+       - Create git commit in submodule (optional, configurable)
+       - Return LinkedTaskPair with both ULIDs
+
+       PARENT_ONLY mode:
+       - Create task in parent with ExternalBlockerInfo (resolved_to=None)
+       - No task created in submodule
+       - Return LinkedTaskPair with parent ULID only
+
+       SUBMODULE_ONLY mode:
+       - Create task in submodule only
+       - No parent task created
+       - Return LinkedTaskPair with submodule ULID only
+
+    2) link_existing(parent_task_id, submodule_path, submodule_task_id):
+       - Add ExternalBlockerInfo to parent task''s blocked_by
+       - Set resolved_to = submodule_task_id
+       - Return updated LinkedTaskPair
+
+    3) unlink(parent_task_id):
+       - Remove ExternalBlockerInfo from parent task
+       - Does NOT delete submodule task (isolation preserved)
+
+    4) get_linked_tasks(parent_task_id) -> list[LinkedTaskPair]:
+       - Find all submodule tasks linked from this parent task
+
+    See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
   blocked: false
   created: '2025-12-19T19:00:00+00:00'

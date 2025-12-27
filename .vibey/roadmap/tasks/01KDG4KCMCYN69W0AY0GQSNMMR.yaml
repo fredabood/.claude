@@ -5,16 +5,47 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add YAML/SQL serialization for submodule entities
-  description: 'Implement serialization for new submodule entities:
-    1) Update vibey/roadmap/serialization/yaml_loader.py - add load functions for
-    SubmoduleReference, CrossRepoRequirement, CrossRepoDependency, AggregatedProgress.
-    2) Update vibey/roadmap/serialization/yaml_dumper.py - add dump functions for
-    all submodule entities to YAML files.
-    3) Update vibey/roadmap/serialization/sql_loader.py - add query functions to
-    load submodule data from SQLite tables.
-    4) Update vibey/roadmap/serialization/sql_dumper.py - add insert/update functions
-    for persisting submodule data to SQLite.
-    Follow existing serialization patterns for consistency.'
+  description: 'Implement serialization for submodule entities per design decisions.
+
+    vibey/roadmap/serialization/yaml_loader.py:
+    1) load_submodule_config(path) -> SubmoduleConfig
+       - Load .vibey/config/submodules.yaml
+       - Parse submodules list into SubmoduleReference objects
+       - Return SubmoduleConfig with default_push_mode, aggregate_on_status
+
+    2) load_submodule_reference(data) -> SubmoduleReference
+       - Parse single submodule entry from YAML
+       - Handle optional track_filter list
+
+    vibey/roadmap/serialization/yaml_dumper.py:
+    3) dump_submodule_config(config, path)
+       - Write SubmoduleConfig to .vibey/config/submodules.yaml
+       - Preserve comments if possible
+
+    4) dump_linked_task_pair(pair, path)
+       - Append to .vibey/config/linked_tasks.yaml (optional tracking file)
+
+    vibey/roadmap/serialization/sql_loader.py:
+    5) load_submodule_references(db) -> list[SubmoduleReference]
+       - Query submodule_references table
+       - Return list of SubmoduleReference
+
+    6) load_linked_task_pairs(db, parent_task_id) -> list[LinkedTaskPair]
+       - Query linked_task_pairs table by parent_task_id
+       - Return linked relationships
+
+    vibey/roadmap/serialization/sql_dumper.py:
+    7) save_submodule_reference(db, ref)
+       - Insert/update submodule_references table
+
+    8) save_linked_task_pair(db, pair)
+       - Insert into linked_task_pairs table
+
+    9) save_external_blocker_info(db, task_id, blocker)
+       - Persist ExternalBlockerInfo with resolved_to field
+
+    Follow existing serialization patterns for consistency.
+    See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
   blocked: false
   created: '2025-12-27T22:00:00+00:00'

@@ -5,21 +5,49 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: testing
   title: Integration tests and documentation
-  description: 'Complete submodule integration with comprehensive tests and documentation:
+  description: 'Complete submodule integration with comprehensive tests and documentation.
 
     TESTS (tests/operations/submodule/):
-    1) test_discovery.py - SubmoduleDiscovery with mock .gitmodules
-    2) test_push.py - RequirementPusher push-down in isolation
-    3) test_pull.py - ProgressAggregator pull-up in isolation
-    4) test_deps.py - CrossRepoDependencyResolver with cycle detection
-    5) test_integration.py - End-to-end tests with mock submodule repos
+
+    1) test_discovery.py - SubmoduleDiscovery tests:
+       - test_parse_gitmodules() with mock .gitmodules file
+       - test_validate_submodule() with initialized/uninitialized states
+       - test_has_vibey_roadmap() with/without .vibey/ directory
+       - test_discover() full flow writing to submodules.yaml
+       - test_get_vibey_submodules() reading from config
+
+    2) test_push.py - TaskPusher tests:
+       - test_push_task_linked() creates tasks in both repos
+       - test_push_task_parent_only() creates parent task only
+       - test_push_task_submodule_only() creates submodule task only
+       - test_link_existing() links pre-existing tasks
+       - test_unlink() removes link without deleting submodule task
+
+    3) test_pull.py - ProgressAggregator tests:
+       - test_aggregate_submodule() reads submodule roadmap
+       - test_aggregate_all() combines multiple submodules
+       - test_sync_blocked_by_status() updates ExternalBlockerInfo
+       - test_track_filter() applies track filtering
+
+    4) test_deps.py - DependencyResolver tests:
+       - test_add_dependency() creates ExternalBlockerInfo
+       - test_resolve_dependency() sets resolved_to
+       - test_detect_cycles() finds cross-repo cycles
+       - test_validate_dependencies() checks for broken links
+
+    5) test_isolation.py - Isolation architecture tests:
+       - test_submodule_has_no_parent_knowledge()
+       - test_submodule_works_standalone()
+       - test_pushed_task_is_standalone()
 
     DOCUMENTATION:
-    6) Update docs/reference/CLI_REFERENCE.md with 15 submodule commands
+
+    6) Update docs/reference/CLI_REFERENCE.md with 16 submodule commands
     7) Update docs/reference/MCP_REFERENCE.md with 14 submodule tools
     8) Create docs/guides/SUBMODULE_INTEGRATION.md user guide
-    9) Add configuration examples to docs/guides/
-    10) Update CLAUDE.md with submodule section'
+    9) Update CLAUDE.md with submodule section
+
+    See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
   blocked: false
   created: '2025-12-19T19:00:00+00:00'

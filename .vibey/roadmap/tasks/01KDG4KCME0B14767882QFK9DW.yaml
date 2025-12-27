@@ -5,19 +5,41 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create directory structure for submodule data storage
-  description: 'Create directory structure for submodule data per design document:
-    1) .vibey/roadmap/submodules/ - Submodule registry
-       - .registry.yaml - master registry of detected submodules
-       - {submodule-name}.yaml - individual submodule reference files
-    2) .vibey/roadmap/cross_repo_requirements/ - Push-down requirements storage
-       - {requirement-id}.yaml files
-    3) .vibey/roadmap/cross_repo_deps/ - Cross-repo dependencies
-       - outgoing/ - dependencies this repo has on other repos
-       - incoming/ - dependencies other repos have on this repo
-    4) .vibey/roadmap/submodule_progress/ - Pull-up progress data
-       - .aggregated.yaml - combined progress from all submodules
-       - {submodule-name}.yaml - individual submodule progress snapshots
-    Add directory creation to roadmap init and ensure proper .gitignore handling.'
+  description: 'Create directory structure for submodule data per design decisions.
+
+    Per SUBMODULE_ISOLATION_AND_PUSHDOWN.md: All cross-repo data lives in PARENT only.
+    Submodules have NO additional directories for submodule integration.
+
+    PARENT REPO structure:
+
+    1) .vibey/config/submodules.yaml - Submodule registry (primary config)
+       Contents:
+       - submodules: list[SubmoduleReference]
+       - default_push_mode: linked|parent_only|submodule_only
+       - aggregate_on_status: bool
+
+    2) .vibey/config/linked_tasks.yaml - Optional task link tracking
+       Contents:
+       - links: list[LinkedTaskPair] with parent/submodule task ULIDs
+
+    SUBMODULE REPO structure:
+    - NO new directories (isolation principle)
+    - Standard .vibey/roadmap/ only
+    - Tasks pushed by parent are regular tasks in tasks/ directory
+
+    Implementation:
+    1) Create config/ directory if not exists during roadmap init
+    2) Create empty submodules.yaml template on first submodule command
+    3) Add .vibey/config/ to default .gitignore patterns (optional, user choice)
+    4) Update vibey roadmap init to create config/ directory
+
+    REMOVED from OLD design:
+    - .vibey/roadmap/submodules/ (replaced by config/submodules.yaml)
+    - .vibey/roadmap/cross_repo_requirements/ (no longer needed)
+    - .vibey/roadmap/cross_repo_deps/incoming/outgoing/ (no longer needed)
+    - .vibey/roadmap/submodule_progress/ (no longer needed)
+
+    See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
   blocked: false
   created: '2025-12-27T22:00:00+00:00'
@@ -32,8 +54,7 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by:

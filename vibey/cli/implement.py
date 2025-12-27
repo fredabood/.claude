@@ -558,12 +558,10 @@ def _run_dry_run(
     try:
         selector = TaskSelector(roadmap_root)
 
-        # Get executable tasks
-        # TODO: Task 04 will refactor TaskSelector to use scope_ulid directly
-        # For now, pass scope_ulid as track_id (works for any ULID type)
+        # Get executable tasks within scope
         limit = max_tasks or 20
         tasks = selector.get_all_executable(
-            track_id=scope_ulid,
+            scope_ulid=scope_ulid,
             limit=limit,
         )
 
@@ -604,8 +602,7 @@ def _run_dry_run(
 
         # Summary
         console.print()
-        # TODO: Task 04 will refactor to use scope_ulid directly
-        remaining = selector.count_remaining(track_id=scope_ulid)
+        remaining = selector.count_remaining(scope_ulid=scope_ulid)
         console.print(f"[dim]Total executable tasks: {remaining}[/dim]")
 
         if max_tasks and len(tasks) >= max_tasks:

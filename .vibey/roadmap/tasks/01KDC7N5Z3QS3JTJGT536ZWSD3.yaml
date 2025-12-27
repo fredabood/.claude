@@ -8,7 +8,7 @@ task:
   description: 'Modify TaskSelector to filter tasks based on parent ticket ULID. Implement
     hierarchy traversal: if ULID is a track, include all sprints/tasks; if sprint,
     include all tasks; if task, include only that task and its criteria.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-26T02:26:27.936283+00:00'
   started: null

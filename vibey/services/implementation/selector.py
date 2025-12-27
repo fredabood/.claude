@@ -108,8 +108,9 @@ class TaskSelector:
 
     def get_next_task(
         self,
-        track_id: Optional[str] = None,
-        sprint_id: Optional[str] = None,
+        scope_ulid: Optional[str] = None,
+        track_id: Optional[str] = None,  # DEPRECATED: Use scope_ulid
+        sprint_id: Optional[str] = None,  # DEPRECATED: Use scope_ulid
     ) -> Optional[HierarchicalTicket]:
         """
         Find the next planned and unblocked task.
@@ -123,8 +124,9 @@ class TaskSelector:
         6. Ordered by creation date (oldest first within same priority)
 
         Args:
-            track_id: Optional track ULID to filter by
-            sprint_id: Optional sprint ULID to filter by
+            scope_ulid: Optional ULID to filter scope (any ticket type)
+            track_id: [DEPRECATED] Use scope_ulid instead
+            sprint_id: [DEPRECATED] Use scope_ulid instead
 
         Returns:
             HierarchicalTicket for the next executable task, or None
@@ -133,11 +135,15 @@ class TaskSelector:
         Example:
             >>> selector = TaskSelector(Path(".vibey/roadmap"))
             >>> task = selector.get_next_task()
-            >>> task = selector.get_next_task(track_id="01KC...")
+            >>> task = selector.get_next_task(scope_ulid="01KC...")
         """
+        # Resolve unified scope - scope_ulid takes precedence
+        effective_track_id = scope_ulid or track_id
+        effective_sprint_id = sprint_id if not scope_ulid else None
+
         candidates = self._query_candidate_tasks(
-            track_id=track_id,
-            sprint_id=sprint_id,
+            track_id=effective_track_id,
+            sprint_id=effective_sprint_id,
             limit=100,  # Get more to filter for planned status
         )
 
@@ -151,8 +157,9 @@ class TaskSelector:
 
     def get_all_executable(
         self,
-        track_id: Optional[str] = None,
-        sprint_id: Optional[str] = None,
+        scope_ulid: Optional[str] = None,
+        track_id: Optional[str] = None,  # DEPRECATED: Use scope_ulid
+        sprint_id: Optional[str] = None,  # DEPRECATED: Use scope_ulid
         limit: int = 100,
     ) -> List[HierarchicalTicket]:
         """
@@ -167,8 +174,9 @@ class TaskSelector:
         Tasks are returned ordered by priority then creation date.
 
         Args:
-            track_id: Optional track ULID to filter by
-            sprint_id: Optional sprint ULID to filter by
+            scope_ulid: Optional ULID to filter scope (any ticket type)
+            track_id: [DEPRECATED] Use scope_ulid instead
+            sprint_id: [DEPRECATED] Use scope_ulid instead
             limit: Maximum number of tasks to return (default 100)
 
         Returns:
@@ -176,13 +184,17 @@ class TaskSelector:
 
         Example:
             >>> selector = TaskSelector(Path(".vibey/roadmap"))
-            >>> tasks = selector.get_all_executable()
+            >>> tasks = selector.get_all_executable(scope_ulid="01KC...")
             >>> for task in tasks:
             ...     print(f"{task.id}: {task.name}")
         """
+        # Resolve unified scope - scope_ulid takes precedence
+        effective_track_id = scope_ulid or track_id
+        effective_sprint_id = sprint_id if not scope_ulid else None
+
         candidates = self._query_candidate_tasks(
-            track_id=track_id,
-            sprint_id=sprint_id,
+            track_id=effective_track_id,
+            sprint_id=effective_sprint_id,
             limit=limit * 2,  # Get more to account for filtering
         )
 
@@ -198,8 +210,9 @@ class TaskSelector:
 
     def count_remaining(
         self,
-        track_id: Optional[str] = None,
-        sprint_id: Optional[str] = None,
+        scope_ulid: Optional[str] = None,
+        track_id: Optional[str] = None,  # DEPRECATED: Use scope_ulid
+        sprint_id: Optional[str] = None,  # DEPRECATED: Use scope_ulid
     ) -> int:
         """
         Count tasks that could be executed.
@@ -212,20 +225,25 @@ class TaskSelector:
             len(selector.get_all_executable())
 
         Args:
-            track_id: Optional track ULID to filter by
-            sprint_id: Optional sprint ULID to filter by
+            scope_ulid: Optional ULID to filter scope (any ticket type)
+            track_id: [DEPRECATED] Use scope_ulid instead
+            sprint_id: [DEPRECATED] Use scope_ulid instead
 
         Returns:
             Count of potentially executable tasks.
 
         Example:
             >>> selector = TaskSelector(Path(".vibey/roadmap"))
-            >>> remaining = selector.count_remaining()
+            >>> remaining = selector.count_remaining(scope_ulid="01KC...")
             >>> print(f"{remaining} tasks remaining")
         """
+        # Resolve unified scope - scope_ulid takes precedence
+        effective_track_id = scope_ulid or track_id
+        effective_sprint_id = sprint_id if not scope_ulid else None
+
         candidates = self._query_candidate_tasks(
-            track_id=track_id,
-            sprint_id=sprint_id,
+            track_id=effective_track_id,
+            sprint_id=effective_sprint_id,
             limit=10000,  # High limit for counting
             count_only=True,
         )

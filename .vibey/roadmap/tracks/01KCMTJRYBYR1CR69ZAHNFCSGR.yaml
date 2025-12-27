@@ -12,13 +12,13 @@ track:
   progress:
     sprints_total: 2
     sprints_completed: 0
-    tasks_total: 14
-    tasks_completed: 6
-    completion_percent: 43.0
+    tasks_total: 19
+    tasks_completed: 15
+    completion_percent: 79.0
   sprints:
   - id: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
     name: 'Sprint 1: Research & Design'
-    status: in_progress
+    status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
@@ -26,7 +26,7 @@ track:
     name: 'Sprint 2: Implementation'
     status: not_started
     estimated_duration: null
-    tasks_count: 8
+    tasks_count: 13
     started: null
   dependencies: []
   blocks: []

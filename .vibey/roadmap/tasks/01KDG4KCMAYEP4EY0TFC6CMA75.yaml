@@ -1,6 +1,10 @@
 task:
   id: 01KDG4KCMAYEP4EY0TFC6CMA75
-  name: Extend SQLite schema for submodule integration
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Extend SQLite schema for submodule integration
   description: 'Add SQLite schema extensions for submodule integration per design
     decisions.
 
@@ -30,28 +34,26 @@ task:
     creation) - cross_repo_dependencies table (replaced by ExternalBlockerInfo)
 
     See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCW0K1ZY2CEDMN5YY8JATEY4
   status: completed
-  created_at: '2025-12-27T22:00:00+00:00'
-  started_at: '2025-12-27T20:50:35.474258+00:00'
-  completed_at: '2025-12-27T21:05:00+00:00'
-  updated_at: '2025-12-27T21:05:00+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2025-12-27T22:00:00+00:00'
+  started: '2025-12-27T20:50:35.474258+00:00'
+  completed: '2025-12-27T21:05:00+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 3000
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

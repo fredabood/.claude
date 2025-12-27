@@ -10,12 +10,48 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 6
     sprints_completed: 0
-    tasks_total: 0
+    tasks_total: 25
     tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    completion_percent: 0.0
+  sprints:
+  - id: 01KD61EBPAZG2Y73781H7SNZ5B
+    name: 'Sprint 0: Current State Audit'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 0
+    started: '2025-12-23T16:42:26.379248+00:00'
+  - id: 01KD61F3J5VZDD8K1DH94WFKR9
+    name: 'Sprint 1: Experiment Foundation'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KD61SFTK19VKWVWSX2A6RVRG
+    name: 'Sprint 3: Prompt Experiments'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KD61V2H333T9GZ4M2NY85K3P
+    name: 'Sprint 4: Metrics & Analysis'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KD61XJ5Z1XMJM3AGTGWHPJQX
+    name: 'Sprint 5: Advanced Experiments & Integration'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KD620GZH9ZNQDZHYAV14BS8P
+    name: 'Sprint 2: Model Experiments'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +65,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-27T21:08:42.660374+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

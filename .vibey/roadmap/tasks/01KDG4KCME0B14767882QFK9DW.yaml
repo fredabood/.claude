@@ -12,32 +12,24 @@ task:
 
     PARENT REPO structure:
 
-    1) .vibey/config/submodules.yaml - Submodule registry (primary config)
-       Contents:
-       - submodules: list[SubmoduleReference]
-       - default_push_mode: linked|parent_only|submodule_only
-       - aggregate_on_status: bool
+    1) .vibey/config/submodules.yaml - Submodule registry (primary config) Contents:
+    - submodules: list[SubmoduleReference] - default_push_mode: linked|parent_only|submodule_only
+    - aggregate_on_status: bool
 
-    2) .vibey/config/linked_tasks.yaml - Optional task link tracking
-       Contents:
-       - links: list[LinkedTaskPair] with parent/submodule task ULIDs
+    2) .vibey/config/linked_tasks.yaml - Optional task link tracking Contents: - links:
+    list[LinkedTaskPair] with parent/submodule task ULIDs
 
-    SUBMODULE REPO structure:
-    - NO new directories (isolation principle)
-    - Standard .vibey/roadmap/ only
-    - Tasks pushed by parent are regular tasks in tasks/ directory
+    SUBMODULE REPO structure: - NO new directories (isolation principle) - Standard
+    .vibey/roadmap/ only - Tasks pushed by parent are regular tasks in tasks/ directory
 
-    Implementation:
-    1) Create config/ directory if not exists during roadmap init
-    2) Create empty submodules.yaml template on first submodule command
-    3) Add .vibey/config/ to default .gitignore patterns (optional, user choice)
-    4) Update vibey roadmap init to create config/ directory
+    Implementation: 1) Create config/ directory if not exists during roadmap init
+    2) Create empty submodules.yaml template on first submodule command 3) Add .vibey/config/
+    to default .gitignore patterns (optional, user choice) 4) Update vibey roadmap
+    init to create config/ directory
 
-    REMOVED from OLD design:
-    - .vibey/roadmap/submodules/ (replaced by config/submodules.yaml)
-    - .vibey/roadmap/cross_repo_requirements/ (no longer needed)
-    - .vibey/roadmap/cross_repo_deps/incoming/outgoing/ (no longer needed)
-    - .vibey/roadmap/submodule_progress/ (no longer needed)
+    REMOVED from OLD design: - .vibey/roadmap/submodules/ (replaced by config/submodules.yaml)
+    - .vibey/roadmap/cross_repo_requirements/ (no longer needed) - .vibey/roadmap/cross_repo_deps/incoming/outgoing/
+    (no longer needed) - .vibey/roadmap/submodule_progress/ (no longer needed)
 
     See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: completed
@@ -57,8 +49,7 @@ task:
   blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:

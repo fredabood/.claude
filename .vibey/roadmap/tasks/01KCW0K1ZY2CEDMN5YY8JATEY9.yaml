@@ -13,47 +13,38 @@ task:
     Create DependencyResolver class in vibey/operations/submodule/deps.py:
 
     1) add_dependency(parent_task_id, submodule_path, submodule_task_ref, dep_type):
-       - dep_type: COMPLETION | ARTIFACT | MILESTONE
-       - Create ExternalBlockerInfo in parent task''s blocked_by list
-       - If submodule_task_ref is ULID, set resolved_to directly
-       - If human-readable ref, store in blocker_id for manual resolution
-       - Return updated ExternalBlockerInfo
+    - dep_type: COMPLETION | ARTIFACT | MILESTONE - Create ExternalBlockerInfo in
+    parent task''s blocked_by list - If submodule_task_ref is ULID, set resolved_to
+    directly - If human-readable ref, store in blocker_id for manual resolution -
+    Return updated ExternalBlockerInfo
 
-    2) resolve_dependency(parent_task_id, blocker_id, submodule_task_id):
-       - Find ExternalBlockerInfo by blocker_id
-       - Set resolved_to = submodule_task_id (ULID)
-       - Now dependency can be auto-synced
+    2) resolve_dependency(parent_task_id, blocker_id, submodule_task_id): - Find ExternalBlockerInfo
+    by blocker_id - Set resolved_to = submodule_task_id (ULID) - Now dependency can
+    be auto-synced
 
-    3) check_satisfied(external_blocker_info) -> bool:
-       - If resolved_to is set, read submodule task status
-       - Compare against required_status
-       - Return True if satisfied
+    3) check_satisfied(external_blocker_info) -> bool: - If resolved_to is set, read
+    submodule task status - Compare against required_status - Return True if satisfied
 
-    4) detect_cycles(start_task_id) -> list[CyclePath]:
-       - Walk dependency graph across repos
-       - Build visited set including (repo_path, task_id) tuples
-       - Return list of cycle paths if found
+    4) detect_cycles(start_task_id) -> list[CyclePath]: - Walk dependency graph across
+    repos - Build visited set including (repo_path, task_id) tuples - Return list
+    of cycle paths if found
 
-    5) build_dependency_graph(task_id) -> DependencyGraph:
-       - Collect all ExternalBlockerInfo from parent tasks
-       - For each with resolved_to, fetch submodule task info
-       - Build graph structure for visualization
-       - Return graph with nodes and edges
+    5) build_dependency_graph(task_id) -> DependencyGraph: - Collect all ExternalBlockerInfo
+    from parent tasks - For each with resolved_to, fetch submodule task info - Build
+    graph structure for visualization - Return graph with nodes and edges
 
-    6) validate_dependencies() -> list[ValidationError]:
-       - Find all ExternalBlockerInfo entries
-       - Check resolved_to points to valid task in submodule
-       - Check submodule path exists
-       - Return list of validation errors
+    6) validate_dependencies() -> list[ValidationError]: - Find all ExternalBlockerInfo
+    entries - Check resolved_to points to valid task in submodule - Check submodule
+    path exists - Return list of validation errors
 
     Note: No .vibey/roadmap/cross_repo_deps/ directory - all data in parent tasks.
 
     See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-27T22:05:09.925394+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -65,12 +56,8 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-    - 01KCW0K1ZY2CEDMN5YY8JATEY6
-    - 01KCW0K1ZY2CEDMN5YY8JATEY5
-  depended_on_by:
-    - 01KCW0K1ZY2CEDMN5YY8JATEYA
-    - 01KCW0K1ZY2CEDMN5YY8JATEYB
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:

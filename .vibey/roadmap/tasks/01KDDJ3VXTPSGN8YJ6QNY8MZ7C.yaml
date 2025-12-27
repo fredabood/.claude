@@ -1,6 +1,10 @@
 task:
   id: 01KDDJ3VXTPSGN8YJ6QNY8MZ7C
-  name: YAML loader fails silently when depends_on missing required_status field
+  sprint_id: 01KDDJ3VXTPSGN8YJ6QNY8MZ7B
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: YAML loader fails silently when depends_on missing required_status field
   description: '**Bug**: Tasks with depends_on entries that only contain blocker_type
     and blocker_id
 
@@ -38,28 +42,26 @@ task:
     **Workaround Applied**: Manually added missing fields to 24 task YAML files.
 
     '
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KDDJ3VXTPSGN8YJ6QNY8MZ7B
   status: completed
-  created_at: '2025-12-26T09:30:00+00:00'
-  started_at: null
-  completed_at: '2025-12-26T17:08:27.502631+00:00'
-  updated_at: '2025-12-26T17:08:27.502631+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2025-12-26T09:30:00+00:00'
+  started: null
+  completed: '2025-12-26T17:08:27.502631+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 3000
   actual_tokens: null
   complexity: medium
-  phase_label: null
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

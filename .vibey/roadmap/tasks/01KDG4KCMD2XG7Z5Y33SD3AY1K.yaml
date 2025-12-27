@@ -5,55 +5,41 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create configuration schema for submodule settings
-  description: 'Implement configuration support for submodule integration per design decisions.
+  description: 'Implement configuration support for submodule integration per design
+    decisions.
 
     Per SUBMODULE_ISOLATION_AND_PUSHDOWN.md: Config lives in PARENT repo only.
 
-    1) Define SubmoduleConfig schema in vibey/roadmap/models/submodule.py:
-       @dataclass
-       class SubmoduleConfig:
-           submodules: list[SubmoduleReference]
-           default_push_mode: PushMode = PushMode.LINKED
-           aggregate_on_status: bool = True
-           stale_threshold_minutes: int = 60
+    1) Define SubmoduleConfig schema in vibey/roadmap/models/submodule.py: @dataclass
+    class SubmoduleConfig: submodules: list[SubmoduleReference] default_push_mode:
+    PushMode = PushMode.LINKED aggregate_on_status: bool = True stale_threshold_minutes:
+    int = 60
 
-    2) Create .vibey/config/submodules.yaml schema:
-       ```yaml
-       # Submodule integration configuration
-       default_push_mode: linked  # linked|parent_only|submodule_only
-       aggregate_on_status: true  # Auto-aggregate on status command
-       stale_threshold_minutes: 60  # Warn if not synced within threshold
+    2) Create .vibey/config/submodules.yaml schema: ```yaml # Submodule integration
+    configuration default_push_mode: linked  # linked|parent_only|submodule_only aggregate_on_status:
+    true  # Auto-aggregate on status command stale_threshold_minutes: 60  # Warn if
+    not synced within threshold
 
-       submodules:
-         - path: libs/repo-a
-           roadmap_id: repo-a-v2
-           aggregate: true
-           track_filter: []  # Empty = all tracks
-           default_push_mode: linked  # Override per-submodule
+    submodules: - path: libs/repo-a roadmap_id: repo-a-v2 aggregate: true track_filter:
+    []  # Empty = all tracks default_push_mode: linked  # Override per-submodule
 
-         - path: libs/repo-b
-           roadmap_id: repo-b-core
-           aggregate: true
-           track_filter: ["core-api"]  # Only aggregate this track
-       ```
+    - path: libs/repo-b roadmap_id: repo-b-core aggregate: true track_filter: ["core-api"]  #
+    Only aggregate this track ```
 
-    3) Add configuration loader in vibey/config/submodule_config.py:
-       - load_submodule_config(repo_path) -> SubmoduleConfig
-       - save_submodule_config(config, repo_path)
-       - get_default_config() -> SubmoduleConfig
+    3) Add configuration loader in vibey/config/submodule_config.py: - load_submodule_config(repo_path)
+    -> SubmoduleConfig - save_submodule_config(config, repo_path) - get_default_config()
+    -> SubmoduleConfig
 
-    4) Integrate config with operations:
-       - SubmoduleDiscovery reads/writes submodules list
-       - TaskPusher uses default_push_mode
-       - ProgressAggregator uses aggregate_on_status and stale_threshold
+    4) Integrate config with operations: - SubmoduleDiscovery reads/writes submodules
+    list - TaskPusher uses default_push_mode - ProgressAggregator uses aggregate_on_status
+    and stale_threshold
 
-    5) Add CLI command: vibey submodule config
-       - --show: Display current config
-       - --edit: Open in editor
+    5) Add CLI command: vibey submodule config - --show: Display current config -
+    --edit: Open in editor
 
     See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-27T22:00:00+00:00'
   started: null
   completed: null
@@ -69,7 +55,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

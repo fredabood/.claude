@@ -5,10 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Audit roadmap state for orphans and broken references
-  description: 'Check for orphan tasks (no valid sprint_id). Find orphan sprints (no
+  description: Check for orphan tasks (no valid sprint_id). Find orphan sprints (no
     valid track_id). Identify broken blocked_by/depends_on references pointing to
     nonexistent IDs. Check for circular dependencies. Verify all ULIDs in .id files
-    map to existing entities. Find tasks with invalid parent references.'
+    map to existing entities. Find tasks with invalid parent references.
   status: in_progress
   blocked: false
   created: '2025-12-26T03:15:00+00:00'

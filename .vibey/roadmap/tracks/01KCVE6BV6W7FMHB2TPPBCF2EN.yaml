@@ -10,12 +10,78 @@ track:
   completed: '2025-12-20T15:56:08.639003+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 11
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    tasks_total: 52
+    tasks_completed: 7
+    completion_percent: 13.0
+  sprints:
+  - id: 01KCWDNDQ3BPN1TC8QJVG8AVPX
+    name: 'Sprint 0: Architecture Design'
+    status: in_progress
+    estimated_duration: null
+    tasks_count: 4
+    started: '2025-12-20T14:32:00.300363+00:00'
+  - id: 01KCWDNDQ40Y43H4ZGH9KTTBH0
+    name: 'Sprint 1: Core Abstractions'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: '2025-12-20T16:01:35.517936+00:00'
+  - id: 01KCWDNDQ40Y43H4ZGH9KTTBH7
+    name: 'Sprint 2: VibeyAdapter'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KCWDNDQ40Y43H4ZGH9KTTBHD
+    name: 'Sprint 3: CLI Refactor'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KCWDNDQ5MGHF8E9MEM2737T4
+    name: 'Sprint 4: JiraAdapter'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KCWDNDQ62WMFNTC3YTNT7DQ2
+    name: 'Sprint 5: Jira Sync'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KCWDNDQ62WMFNTC3YTNT7DQ8
+    name: 'Sprint 6: GitHubAdapter'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KCWDNDQ62WMFNTC3YTNT7DQE
+    name: 'Sprint 7: TrelloAdapter'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KCWDNDQ768HTSN9458MK07NY
+    name: 'Sprint 8: AsanaAdapter'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KCWDNDQ768HTSN9458MK07P3
+    name: 'Sprint 9: ConfluenceAdapter'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KCWDNDQ768HTSN9458MK07P8
+    name: 'Sprint 10: Integration & Polish'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +95,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-27T21:08:54.481424+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

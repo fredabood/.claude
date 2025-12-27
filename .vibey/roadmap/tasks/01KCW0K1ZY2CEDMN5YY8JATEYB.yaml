@@ -5,35 +5,33 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add MCP tools for submodule integration
-  description: 'Implement all 14 MCP tools in vibey/mcp/tools/submodule.py per Sprint 1 design:
+  description: 'Implement all 14 MCP tools in vibey/mcp/tools/submodule.py per Sprint
+    1 design:
 
-    DISCOVERY (3 tools):
-    1) submodule_list - list all detected submodules and their Vibey status
-    2) submodule_discover - run submodule discovery and return findings
+    DISCOVERY (3 tools): 1) submodule_list - list all detected submodules and their
+    Vibey status 2) submodule_discover - run submodule discovery and return findings
     3) submodule_roadmap(path) - get roadmap summary for a Vibey-enabled submodule
 
-    PUSH-DOWN (3 tools):
-    4) submodule_push_requirement(parent_ticket_id, submodule_path, title, description, push_mode)
-    5) submodule_requirements(direction, status_filter) - list cross-repo requirements
-    6) submodule_accept_requirement(requirement_id, create_ticket) - accept incoming requirement
+    PUSH-DOWN (3 tools): 4) submodule_push_requirement(parent_ticket_id, submodule_path,
+    title, description, push_mode) 5) submodule_requirements(direction, status_filter)
+    - list cross-repo requirements 6) submodule_accept_requirement(requirement_id,
+    create_ticket) - accept incoming requirement
 
-    PULL-UP (3 tools):
-    7) submodule_status - get aggregated progress from all submodules
-    8) submodule_blockers(severity_filter, submodule_filter) - list blockers from submodules
-    9) submodule_refresh - force refresh of submodule progress data
+    PULL-UP (3 tools): 7) submodule_status - get aggregated progress from all submodules
+    8) submodule_blockers(severity_filter, submodule_filter) - list blockers from
+    submodules 9) submodule_refresh - force refresh of submodule progress data
 
-    CROSS-REPO DEPENDENCIES (4 tools):
-    10) task_add_cross_dep(ticket_id, dependency_ref, dependency_type, blocking, reason)
-    11) task_cross_deps(ticket_id, direction) - list cross-repo dependencies for a ticket
-    12) submodule_dep_graph - get the full cross-repo dependency graph
-    13) submodule_validate_deps - validate cross-repo dependencies (cycles, missing targets)
+    CROSS-REPO DEPENDENCIES (4 tools): 10) task_add_cross_dep(ticket_id, dependency_ref,
+    dependency_type, blocking, reason) 11) task_cross_deps(ticket_id, direction) -
+    list cross-repo dependencies for a ticket 12) submodule_dep_graph - get the full
+    cross-repo dependency graph 13) submodule_validate_deps - validate cross-repo
+    dependencies (cycles, missing targets)
 
-    SYNC (1 tool):
-    14) submodule_sync - trigger sync operations across all submodules
+    SYNC (1 tool): 14) submodule_sync - trigger sync operations across all submodules
 
     Register tools with MCP server in vibey/mcp/server.py.'
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
@@ -49,10 +47,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - 01KCW0K1ZY2CEDMN5YY8JATEY5
-    - 01KCW0K1ZY2CEDMN5YY8JATEY7
-    - 01KCW0K1ZY2CEDMN5YY8JATEY8
-    - 01KCW0K1ZY2CEDMN5YY8JATEY9
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

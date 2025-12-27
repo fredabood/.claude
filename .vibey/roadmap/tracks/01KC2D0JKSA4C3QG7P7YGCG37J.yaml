@@ -10,12 +10,30 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 3
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    tasks_total: 30
+    tasks_completed: 30
+    completion_percent: 100.0
+  sprints:
+  - id: 01KC2D0JKSA4C3QG7P7YGCG37K
+    name: Test Framework & Unit Tests
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 10
+    started: null
+  - id: 01KC2D0JKTE7Z4HCNHST8ZVW42
+    name: Journey Integration Tests
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 10
+    started: null
+  - id: 01KC2D0JKTE7Z4HCNHST8ZVW4D
+    name: E2E Tests & Platform Tests
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 10
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +47,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-27T21:08:50.035892+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

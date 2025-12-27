@@ -5,11 +5,11 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: bug
   title: Rebuild database after trigger fix
-  description: 'Rebuild the SQLite database after fixing the triggers to apply the
+  description: Rebuild the SQLite database after fixing the triggers to apply the
     updated trigger definitions. Then use the CLI to complete the Implementation Mode
-    track which has 11 production_ready sprints and 1 completed sprint.'
+    track which has 11 production_ready sprints and 1 completed sprint.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-27T21:00:00+00:00'
   started: '2025-12-27T21:25:00+00:00'
   completed: '2025-12-27T21:30:00+00:00'
@@ -25,7 +25,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-    - 01KDG3ACB3V6H4E916V9A1T7Z2
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []
   commits: []

@@ -5,34 +5,57 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: bug
   title: recalculate_all auto-completes tracks with incomplete tasks
-  description: |
-    **Bug**: The `recalculate_all` function (called during `db rebuild`) automatically
+  description: '**Bug**: The `recalculate_all` function (called during `db rebuild`)
+    automatically
+
     sets track/sprint statuses to `production_ready` based on some completion logic,
+
     even when tasks are incomplete.
 
+
     **Impact**:
+
     - Manual status corrections are reverted after db rebuild
+
     - Tracks with 50-90% completion incorrectly show as production_ready
-    - Status audit fixes don't persist
+
+    - Status audit fixes don''t persist
+
 
     **Observed Behavior**:
+
     - Set track to in_progress via SQL/YAML
+
     - Run `vibey roadmap db rebuild`
+
     - recalculate_all changes status back to production_ready
 
+
     **Expected Behavior**:
+
     - recalculate_all should NOT auto-complete tracks/sprints
+
     - Status should only change via explicit CLI commands
+
     - Progress counters should update, but status should be preserved
 
+
     **Root Cause**:
+
     - recalculate_all in vibey/operations/roadmap/__init__.py
+
     - Contains auto-completion logic that ignores actual task status
 
+
     **Fix Options**:
+
     1. Remove auto-completion logic from recalculate_all
+
     2. Add --no-auto-complete flag to db rebuild
+
     3. Only auto-progress, never auto-complete
+
+    '
   status: completed
   blocked: false
   created: '2025-12-26T10:00:00+00:00'

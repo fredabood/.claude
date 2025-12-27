@@ -374,8 +374,8 @@ def run_implementation_cmd(
         )
         return 1
 
-    # Handle --all-tickets confirmation
-    if all_tickets and not yes:
+    # Handle --all-tickets confirmation (skip for dry_run - it's a safe operation)
+    if all_tickets and not yes and not dry_run:
         # Count executable tasks for confirmation
         from vibey.services.implementation import TaskSelector
         selector = TaskSelector(roadmap_root)

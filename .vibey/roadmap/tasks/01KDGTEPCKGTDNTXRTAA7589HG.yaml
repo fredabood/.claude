@@ -1,0 +1,63 @@
+task:
+  id: 01KDGTEPCKGTDNTXRTAA7589HG
+  sprint_id: 01KDATZAG0PQ8HVFD2SGBC6ESE
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: bug
+  title: 'CLI: vibey roadmap db rebuild times out after 120 seconds'
+  description: |
+    **Problem:** The `vibey roadmap db rebuild` command times out after 120 seconds,
+    even though direct Python database operations complete quickly.
+
+    **Reproduction:**
+    1. Run: `timeout 120 vibey roadmap db rebuild`
+    2. Result: Command times out (exit code 124)
+    3. Run directly via Python or sqlite3: Works immediately
+
+    **Evidence:**
+    - `vibey roadmap db rebuild` timed out during routine verification
+    - Direct sqlite3 UPDATE commands complete in <1 second
+    - Similar to task 01KDATZG3VVXXF1S328DS3XBC3 but for db commands
+
+    **Workaround:**
+    Use direct sqlite3 commands to update task statuses:
+    ```sql
+    UPDATE tasks SET status = 'completed' WHERE id = '<task_id>';
+    ```
+
+    **Root Cause (suspected):**
+    Same underlying issue as other CLI timeout bugs - possibly Rich console
+    initialization, database connection pooling, or event loop issues.
+
+    **Files to Investigate:**
+    - vibey/cli/commands_legacy.py (db rebuild implementation)
+    - vibey/operations/roadmap/yaml_loader.py (YAML loading)
+    - vibey/roadmap/database/crud/ (database operations)
+
+    **Verification:**
+    - `vibey roadmap db rebuild` completes within 30 seconds
+    - Database correctly reflects YAML file contents after rebuild
+  status: not_started
+  blocked: false
+  created: '2025-12-27T21:11:56.051517+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

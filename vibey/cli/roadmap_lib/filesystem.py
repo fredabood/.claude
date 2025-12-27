@@ -29,6 +29,7 @@ class FileSystemManager:
         self.root_dir = Path(root_dir) if root_dir else Path.cwd()
         self.vibey_dir = self.root_dir / self.VIBEY_DIR
         self.roadmap_root = self.vibey_dir / self.ROADMAP_DIR
+        self.config_root = self.vibey_dir / "config"
         self.activity_log_dir = self.roadmap_root / "activity_log"
         self.structure_format = "flat"
         self._id_to_slug_cache: Dict[str, str] = {}
@@ -37,6 +38,7 @@ class FileSystemManager:
     def ensure_structure(self):
         self.vibey_dir.mkdir(parents=True, exist_ok=True)
         self.roadmap_root.mkdir(parents=True, exist_ok=True)
+        self.config_root.mkdir(parents=True, exist_ok=True)
         self.tracks_dir.mkdir(exist_ok=True)
         self.sprints_dir.mkdir(exist_ok=True)
         self.tasks_dir.mkdir(exist_ok=True)
@@ -179,6 +181,44 @@ class FileSystemManager:
 
     def list_sprint_tasks(self) -> list[str]:
         return self.list_sprints()
+
+    @property
+    def submodules_config_path(self) -> Path:
+        """Path to .vibey/config/submodules.yaml (submodule registry)."""
+        return self.config_root / "submodules.yaml"
+
+    @property
+    def linked_tasks_config_path(self) -> Path:
+        """Path to .vibey/config/linked_tasks.yaml (task link tracking)."""
+        return self.config_root / "linked_tasks.yaml"
+
+    def ensure_submodules_config(self) -> Path:
+        """Ensure submodules.yaml exists with default template if missing.
+
+        Per SUBMODULE_ISOLATION_AND_PUSHDOWN.md: All cross-repo data lives
+        in PARENT only. Submodules have NO additional directories for
+        submodule integration.
+
+        Returns:
+            Path to the submodules config file.
+        """
+        self.config_root.mkdir(parents=True, exist_ok=True)
+        if not self.submodules_config_path.exists():
+            template = {
+                "submodules": [],
+                "default_push_mode": "linked",
+                "aggregate_on_status": True,
+            }
+            save_yaml(self.submodules_config_path, template)
+        return self.submodules_config_path
+
+    def submodules_config_exists(self) -> bool:
+        """Check if submodules.yaml exists."""
+        return self.submodules_config_path.exists()
+
+    def linked_tasks_config_exists(self) -> bool:
+        """Check if linked_tasks.yaml exists."""
+        return self.linked_tasks_config_path.exists()
 
 
 def find_roadmap_root(start_path: Optional[Path] = None) -> Optional[Path]:

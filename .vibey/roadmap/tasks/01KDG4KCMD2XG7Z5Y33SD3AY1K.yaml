@@ -1,0 +1,42 @@
+task:
+  id: 01KDG4KCMD2XG7Z5Y33SD3AY1K
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create configuration schema for submodule settings
+  description: 'Implement configuration support for submodule integration per design:
+    1) Create .vibey/config/submodules.yaml schema with sections for:
+       - enabled: bool - master toggle for submodule integration
+       - discovery: auto_discover triggers, detection_methods priority, include/exclude patterns
+       - push_down: enabled, default_mode (automatic|notification|manual), default_ownership
+       - pull_up: enabled, triggers, stale_threshold_minutes, blocker surfacing settings
+       - cross_repo_deps: enabled, validation rules, resolution settings, notifications
+    2) Add configuration loader in vibey/config/ to parse submodules.yaml
+    3) Integrate config with SubmoduleDiscovery, RequirementPusher, ProgressAggregator classes
+    4) Add CLI command: vibey config submodules --show/--edit'
+  status: not_started
+  blocked: false
+  created: '2025-12-27T22:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

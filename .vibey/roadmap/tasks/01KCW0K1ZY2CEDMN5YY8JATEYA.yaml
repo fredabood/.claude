@@ -5,33 +5,55 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add CLI commands for submodule management
-  description: 'Add CLI commands for git submodule integration: 1) vibey submodule
-    list - show detected submodules, 2) vibey submodule status - aggregated progress,
-    3) vibey submodule push <requirement> - push requirement to submodules, 4) vibey
-    submodule sync - sync all submodule roadmaps, 5) vibey submodule deps - show cross-repo
-    dependencies.'
+  description: 'Implement all 15 CLI commands in vibey/cli/submodule.py per Sprint 1 design:
+
+    DISCOVERY (3 commands):
+    1) vibey submodule list - list all detected submodules with Vibey status
+    2) vibey submodule discover - refresh submodule discovery
+    3) vibey submodule show <path> - show details for specific submodule
+
+    PUSH-DOWN (4 commands):
+    4) vibey submodule push-requirement <ticket_id> <submodule_path> --title --description --mode
+    5) vibey submodule requirements --direction [incoming|outgoing] --status
+    6) vibey submodule accept-requirement <requirement_id> - accept incoming requirement
+    7) vibey submodule reject-requirement <requirement_id> --reason - reject with reason
+
+    PULL-UP (3 commands):
+    8) vibey submodule status - show aggregated submodule progress
+    9) vibey submodule blockers --severity [critical|high|medium|low]
+    10) vibey submodule refresh - force refresh submodule progress data
+
+    CROSS-REPO DEPENDENCIES (4 commands):
+    11) vibey submodule add-dep <ticket_id> <dependency_ref> --type --blocking --reason
+    12) vibey submodule deps <ticket_id> --direction [outgoing|incoming|both]
+    13) vibey submodule validate-deps - check for cycles and missing targets
+    14) vibey submodule dep-graph - visualize cross-repo dependency graph
+
+    SYNC (1 command):
+    15) vibey submodule sync - sync all submodule roadmaps
+
+    Register submodule command group in vibey/cli/main.py.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 6000
   actual_tokens: null
-  complexity: medium
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+    - 01KCW0K1ZY2CEDMN5YY8JATEY7
+    - 01KCW0K1ZY2CEDMN5YY8JATEY8
+    - 01KCW0K1ZY2CEDMN5YY8JATEY9
   depended_on_by: []
   deliverables: []
   commits: []

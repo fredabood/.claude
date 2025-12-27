@@ -1,0 +1,43 @@
+task:
+  id: 01KDG4KCMAYEP4EY0TFC6CMA75
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Extend SQLite schema for submodule integration
+  description: 'Add SQLite schema extensions for submodule integration per design document:
+    1) CREATE TABLE submodule_references - links parent roadmap to submodule roadmaps
+    with fields for path, url, commit, detection source, sync status.
+    2) CREATE TABLE cross_repo_requirements - stores push-down requirements with
+    source/target ticket refs, requirement spec JSON, ownership model, push mode, status.
+    3) CREATE TABLE cross_repo_dependencies - tracks dependencies between tickets in
+    different repos with blocking flag, resolution criteria, status.
+    4) Add indexes: idx_submod_refs_parent, idx_cross_req_source, idx_cross_req_target,
+    idx_cross_deps_dependent, idx_cross_deps_dependency.
+    Add to vibey/roadmap/database/schema.py following existing patterns.'
+  status: not_started
+  blocked: false
+  created: '2025-12-27T22:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+    - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+    - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

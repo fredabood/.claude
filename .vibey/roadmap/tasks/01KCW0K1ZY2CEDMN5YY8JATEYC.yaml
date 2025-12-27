@@ -5,20 +5,30 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: testing
   title: Integration tests and documentation
-  description: 'Complete submodule integration with tests and docs: 1) Integration
-    tests with mock submodule repos, 2) Test push-down and pull-up in isolation, 3)
-    Test cross-repo dependency resolution, 4) Update CLI_REFERENCE.md with submodule
-    commands, 5) Update MCP_REFERENCE.md with submodule tools, 6) Add submodule user
-    guide to docs/guides/.'
+  description: 'Complete submodule integration with comprehensive tests and documentation:
+
+    TESTS (tests/operations/submodule/):
+    1) test_discovery.py - SubmoduleDiscovery with mock .gitmodules
+    2) test_push.py - RequirementPusher push-down in isolation
+    3) test_pull.py - ProgressAggregator pull-up in isolation
+    4) test_deps.py - CrossRepoDependencyResolver with cycle detection
+    5) test_integration.py - End-to-end tests with mock submodule repos
+
+    DOCUMENTATION:
+    6) Update docs/reference/CLI_REFERENCE.md with 15 submodule commands
+    7) Update docs/reference/MCP_REFERENCE.md with 14 submodule tools
+    8) Create docs/guides/SUBMODULE_INTEGRATION.md user guide
+    9) Add configuration examples to docs/guides/
+    10) Update CLAUDE.md with submodule section'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 6000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -27,11 +37,9 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+    - 01KCW0K1ZY2CEDMN5YY8JATEYA
+    - 01KCW0K1ZY2CEDMN5YY8JATEYB
+    - 01KDG4KCMD2XG7Z5Y33SD3AY1K
   depended_on_by: []
   deliverables: []
   commits: []

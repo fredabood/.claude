@@ -5,19 +5,40 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create cross-repo relationship data models
-  description: 'Define data models for cross-repo relationships: 1) SubmoduleReference
-    linking parent roadmap to submodule roadmap, 2) CrossRepoRequirement for push-down
-    requirements, 3) CrossRepoDependency for task dependencies across repos, 4) AggregatedProgress
-    for roll-up metrics. Add to vibey/roadmap/models/.'
+  description: 'Define all data models for submodule integration per Sprint 1 design:
+
+    vibey/roadmap/models/submodule.py:
+    1) DetectionSource enum (GITMODULES, GIT_COMMAND, DIRECTORY_SCAN, MANUAL)
+    2) SyncStatus enum (SYNCED, STALE, NEVER_SYNCED, ERROR)
+    3) SubmoduleReference class - links parent to submodule roadmap
+    4) SubmoduleProgress class - progress summary from single submodule
+    5) BlockerSeverity enum (CRITICAL, HIGH, MEDIUM, LOW)
+    6) SubmoduleBlocker class - blocker affecting parent
+    7) CollectionMethod enum (POLLING, ON_DEMAND, WEBHOOK, GIT_HOOK)
+    8) AggregatedProgress class - rolled-up progress from all submodules
+
+    vibey/roadmap/models/cross_repo.py:
+    9) RequirementType enum (FEATURE, BUGFIX, UPGRADE, COMPLIANCE, INTERFACE)
+    10) OwnershipModel enum (PARENT_OWNED, SUBMODULE_OWNED, SHARED)
+    11) PushMode enum (AUTOMATIC, NOTIFICATION, MANUAL)
+    12) RequirementStatus enum (DRAFT, PUSHED, ACKNOWLEDGED, IN_PROGRESS, FULFILLED, REJECTED, CANCELLED)
+    13) ArtifactRequirement class - artifact that must be created
+    14) InterfaceContract class - interface that must be implemented
+    15) RequirementSpec class - full requirement specification
+    16) CrossRepoRequirement class - links parent ticket to submodule ticket
+    17) DependencyType enum (COMPLETION, ARTIFACT, INTERFACE, MILESTONE, APPROVAL)
+    18) DependencyStatus enum (ACTIVE, SATISFIED, CANCELLED, FAILED)
+    19) ResolutionCriteria class - what needs to happen for dependency satisfaction
+    20) CrossRepoDependency class - dependency between tickets in different repos'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 4000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -26,12 +47,9 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
-  depended_on_by: []
+    - 01KDG4KCMAYEP4EY0TFC6CMA75
+  depended_on_by:
+    - 01KDG4KCMCYN69W0AY0GQSNMMR
   deliverables: []
   commits: []
   metadata:

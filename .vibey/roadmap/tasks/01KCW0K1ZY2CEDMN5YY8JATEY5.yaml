@@ -6,18 +6,23 @@ task:
   task_type: development
   title: Implement submodule detection and discovery
   description: 'Implement automatic detection of git submodules via .gitmodules parsing.
-    Create SubmoduleDiscovery class that: 1) Parses .gitmodules file, 2) Identifies
-    submodules with .vibey/roadmap directories, 3) Builds submodule registry with
-    paths and roadmap references. Follow Sprint 1 design document specifications.'
+    Create SubmoduleDiscovery class in vibey/operations/submodule/discovery.py that:
+    1) Parses .gitmodules file using configparser
+    2) Validates entries with git submodule status command
+    3) Identifies submodules with .vibey/roadmap directories
+    4) Reads submodule roadmap IDs
+    5) Builds submodule registry with paths and roadmap references
+    6) Provides get_vibey_submodules() and refresh(path) methods
+    Follow Sprint 1 design document specifications exactly.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 3000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -26,12 +31,12 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
-  depended_on_by: []
+    - 01KDG4KCME0B14767882QFK9DW
+    - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  depended_on_by:
+    - 01KDG4KCMD2XG7Z5Y33SD3AY1K
+    - 01KCW0K1ZY2CEDMN5YY8JATEYA
+    - 01KCW0K1ZY2CEDMN5YY8JATEYB
   deliverables: []
   commits: []
   metadata:

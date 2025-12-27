@@ -5,19 +5,25 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement requirements push-down mechanism
-  description: 'Implement push-down of requirements from parent to submodule roadmaps:
-    1) RequirementPusher class to translate parent requirements to submodule tasks,
-    2) Ownership tracking (parent vs submodule owned), 3) Sync mechanism to propagate
-    changes, 4) Conflict resolution when submodule has local changes.'
+  description: 'Implement push-down of requirements from parent to submodule roadmaps.
+    Create RequirementPusher class in vibey/operations/submodule/push.py that:
+    1) Translates parent ticket requirements to CrossRepoRequirement objects
+    2) Tracks ownership model (PARENT_OWNED, SUBMODULE_OWNED, SHARED)
+    3) Supports push modes (AUTOMATIC, NOTIFICATION, MANUAL)
+    4) Creates requirement YAML files in target submodule
+    5) Handles sync mechanism to propagate changes
+    6) Implements conflict resolution when submodule has local changes
+    7) Updates requirement status through lifecycle (DRAFT -> PUSHED -> ACKNOWLEDGED -> FULFILLED)
+    Follow Sprint 1 design document cross_repo.py specifications.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 4000
   actual_tokens: null
   complexity: complex
   gate_info: null
@@ -26,12 +32,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
-  depended_on_by: []
+    - 01KCW0K1ZY2CEDMN5YY8JATEY6
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  depended_on_by:
+    - 01KCW0K1ZY2CEDMN5YY8JATEYA
+    - 01KCW0K1ZY2CEDMN5YY8JATEYB
   deliverables: []
   commits: []
   metadata:

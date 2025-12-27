@@ -5,19 +5,26 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement cross-repo dependency tracking
-  description: 'Implement dependency tracking across repo boundaries: 1) CrossRepoDependencyResolver
-    to validate dependencies span repos, 2) Extend criterion system to evaluate cross-repo
-    blockers, 3) Dependency graph visualization across repos, 4) Circular dependency
-    detection spanning multiple repos.'
+  description: 'Implement dependency tracking across repo boundaries.
+    Create CrossRepoDependencyResolver class in vibey/operations/submodule/deps.py that:
+    1) Creates CrossRepoDependency objects linking tickets across repos
+    2) Supports dependency types (COMPLETION, ARTIFACT, INTERFACE, MILESTONE, APPROVAL)
+    3) Validates dependencies span repos correctly
+    4) Detects circular dependencies spanning multiple repos
+    5) Evaluates ResolutionCriteria to check if dependencies are satisfied
+    6) Extends criterion system with CrossRepoCriterionTarget for cross-repo blockers
+    7) Generates dependency graph visualization across repos
+    8) Stores dependencies in .vibey/roadmap/cross_repo_deps/ (outgoing/incoming)
+    Follow Sprint 1 design document cross_repo.py specifications.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 5000
   actual_tokens: null
   complexity: complex
   gate_info: null
@@ -26,12 +33,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
-  depended_on_by: []
+    - 01KCW0K1ZY2CEDMN5YY8JATEY6
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  depended_on_by:
+    - 01KCW0K1ZY2CEDMN5YY8JATEYA
+    - 01KCW0K1ZY2CEDMN5YY8JATEYB
   deliverables: []
   commits: []
   metadata:

@@ -30,10 +30,12 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Implement git submodule integration features based on Sprint 1 design
-    document
-  goal: Working git submodule detection, push-down, pull-up, and cross-repo dependency
-    tracking
+  description: 'Implement git submodule integration features based on Sprint 1 design
+    document. Expanded from 8 to 12 tasks to ensure complete coverage: added SQLite
+    schema extensions, YAML/SQL serialization, configuration schema, and directory
+    structure tasks. CLI expanded to 15 commands, MCP to 14 tools.'
+  goal: 'Complete implementation: 20 data models, 3 SQLite tables, 15 CLI commands,
+    14 MCP tools, 4 operations classes, configuration support, and full test coverage'
   success_criteria: []
   risks: []
   notes: null

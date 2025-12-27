@@ -1,0 +1,43 @@
+task:
+  id: 01KDG4KCMCYN69W0AY0GQSNMMR
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add YAML/SQL serialization for submodule entities
+  description: 'Implement serialization for new submodule entities:
+    1) Update vibey/roadmap/serialization/yaml_loader.py - add load functions for
+    SubmoduleReference, CrossRepoRequirement, CrossRepoDependency, AggregatedProgress.
+    2) Update vibey/roadmap/serialization/yaml_dumper.py - add dump functions for
+    all submodule entities to YAML files.
+    3) Update vibey/roadmap/serialization/sql_loader.py - add query functions to
+    load submodule data from SQLite tables.
+    4) Update vibey/roadmap/serialization/sql_dumper.py - add insert/update functions
+    for persisting submodule data to SQLite.
+    Follow existing serialization patterns for consistency.'
+  status: not_started
+  blocked: false
+  created: '2025-12-27T22:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - 01KDG4KCMAYEP4EY0TFC6CMA75
+    - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

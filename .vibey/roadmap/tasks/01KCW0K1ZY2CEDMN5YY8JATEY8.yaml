@@ -5,19 +5,25 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement progress pull-up mechanism
-  description: 'Implement pull-up of progress/status from submodule to parent roadmaps:
-    1) ProgressAggregator class to collect submodule metrics, 2) Blocker surfacing
-    from submodules to parent, 3) Completion roll-up calculations, 4) Status change
-    propagation (submodule completion triggers parent updates).'
+  description: 'Implement pull-up of progress/status from submodule to parent roadmaps.
+    Create ProgressAggregator class in vibey/operations/submodule/pull.py that:
+    1) Collects SubmoduleProgress from each submodule with Vibey roadmap
+    2) Surfaces SubmoduleBlocker objects from submodules to parent (by severity)
+    3) Computes AggregatedProgress with combined metrics across all submodules
+    4) Supports collection methods (POLLING, ON_DEMAND, WEBHOOK, GIT_HOOK)
+    5) Tracks staleness with configurable stale_threshold_minutes
+    6) Propagates status changes (submodule completion triggers parent updates)
+    7) Stores progress snapshots in .vibey/roadmap/submodule_progress/
+    Follow Sprint 1 design document submodule.py specifications.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 4000
   actual_tokens: null
   complexity: complex
   gate_info: null
@@ -26,12 +32,11 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
-  depended_on_by: []
+    - 01KCW0K1ZY2CEDMN5YY8JATEY6
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  depended_on_by:
+    - 01KCW0K1ZY2CEDMN5YY8JATEYA
+    - 01KCW0K1ZY2CEDMN5YY8JATEYB
   deliverables: []
   commits: []
   metadata:

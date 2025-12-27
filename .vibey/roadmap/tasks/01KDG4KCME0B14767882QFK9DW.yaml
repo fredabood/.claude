@@ -1,0 +1,46 @@
+task:
+  id: 01KDG4KCME0B14767882QFK9DW
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create directory structure for submodule data storage
+  description: 'Create directory structure for submodule data per design document:
+    1) .vibey/roadmap/submodules/ - Submodule registry
+       - .registry.yaml - master registry of detected submodules
+       - {submodule-name}.yaml - individual submodule reference files
+    2) .vibey/roadmap/cross_repo_requirements/ - Push-down requirements storage
+       - {requirement-id}.yaml files
+    3) .vibey/roadmap/cross_repo_deps/ - Cross-repo dependencies
+       - outgoing/ - dependencies this repo has on other repos
+       - incoming/ - dependencies other repos have on this repo
+    4) .vibey/roadmap/submodule_progress/ - Pull-up progress data
+       - .aggregated.yaml - combined progress from all submodules
+       - {submodule-name}.yaml - individual submodule progress snapshots
+    Add directory creation to roadmap init and ensure proper .gitignore handling.'
+  status: not_started
+  blocked: false
+  created: '2025-12-27T22:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,32 +5,54 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add MCP tools for submodule integration
-  description: 'Add MCP tools for AI assistant submodule access: 1) submodule_list
-    - list detected submodules, 2) submodule_status - get aggregated progress, 3)
-    submodule_requirements - view/manage cross-repo requirements, 4) submodule_dependencies
-    - query cross-repo dependency graph, 5) submodule_sync - trigger sync operations.'
+  description: 'Implement all 14 MCP tools in vibey/mcp/tools/submodule.py per Sprint 1 design:
+
+    DISCOVERY (3 tools):
+    1) submodule_list - list all detected submodules and their Vibey status
+    2) submodule_discover - run submodule discovery and return findings
+    3) submodule_roadmap(path) - get roadmap summary for a Vibey-enabled submodule
+
+    PUSH-DOWN (3 tools):
+    4) submodule_push_requirement(parent_ticket_id, submodule_path, title, description, push_mode)
+    5) submodule_requirements(direction, status_filter) - list cross-repo requirements
+    6) submodule_accept_requirement(requirement_id, create_ticket) - accept incoming requirement
+
+    PULL-UP (3 tools):
+    7) submodule_status - get aggregated progress from all submodules
+    8) submodule_blockers(severity_filter, submodule_filter) - list blockers from submodules
+    9) submodule_refresh - force refresh of submodule progress data
+
+    CROSS-REPO DEPENDENCIES (4 tools):
+    10) task_add_cross_dep(ticket_id, dependency_ref, dependency_type, blocking, reason)
+    11) task_cross_deps(ticket_id, direction) - list cross-repo dependencies for a ticket
+    12) submodule_dep_graph - get the full cross-repo dependency graph
+    13) submodule_validate_deps - validate cross-repo dependencies (cycles, missing targets)
+
+    SYNC (1 tool):
+    14) submodule_sync - trigger sync operations across all submodules
+
+    Register tools with MCP server in vibey/mcp/server.py.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: unassigned
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 5000
   actual_tokens: null
-  complexity: medium
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+    - 01KCW0K1ZY2CEDMN5YY8JATEY5
+    - 01KCW0K1ZY2CEDMN5YY8JATEY7
+    - 01KCW0K1ZY2CEDMN5YY8JATEY8
+    - 01KCW0K1ZY2CEDMN5YY8JATEY9
   depended_on_by: []
   deliverables: []
   commits: []

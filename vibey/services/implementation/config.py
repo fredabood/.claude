@@ -191,8 +191,9 @@ class ImplementConfig:
         max_tokens_per_task: Maximum tokens for a single task
         timeout_per_task: Timeout in seconds for each task
         state_path: Path for persisting loop state
-        track_id: Optional track ULID to filter tasks
-        sprint_id: Optional sprint ULID to filter tasks
+        scope_ulid: Ticket ULID defining execution scope (replaces track_id/sprint_id)
+        track_id: [DEPRECATED] Use scope_ulid instead
+        sprint_id: [DEPRECATED] Use scope_ulid instead
         auto_save: Whether to auto-save state after each task
         save_interval: How often to save state during long tasks (seconds)
         retry: Retry behavior configuration
@@ -214,8 +215,9 @@ class ImplementConfig:
 
     # State management
     state_path: Optional[Path] = None
-    track_id: Optional[str] = None
-    sprint_id: Optional[str] = None
+    scope_ulid: Optional[str] = None  # Unified scope (replaces track_id/sprint_id)
+    track_id: Optional[str] = None    # DEPRECATED: Use scope_ulid instead
+    sprint_id: Optional[str] = None   # DEPRECATED: Use scope_ulid instead
     auto_save: bool = True
     save_interval: int = 60  # seconds
 
@@ -410,8 +412,9 @@ class ImplementConfig:
                 - max_tokens: Override max_tokens_per_session
                 - max_tokens_per_task: Override max_tokens_per_task
                 - timeout: Override timeout_per_task
-                - track_id: Override track_id filter
-                - sprint_id: Override sprint_id filter
+                - scope_ulid: Ticket ULID for scoped execution
+                - track_id: [DEPRECATED] Use scope_ulid instead
+                - sprint_id: [DEPRECATED] Use scope_ulid instead
                 - state_path: Override state_path
                 - model: Override agent.model
                 - print_output: Override agent.print_output

@@ -214,34 +214,61 @@ def save_state(state: LoopState) -> None:
 # =============================================================================
 
 
+def _show_scope_required_help() -> None:
+    """Display help message when no scope is specified."""
+    console.print(
+        Panel(
+            "[bold cyan]Implementation Mode[/bold cyan]\n\n"
+            "[yellow]Explicit scope required.[/yellow]\n\n"
+            "To prevent accidental execution, you must specify what to run:\n\n"
+            "  [bold]vibey implement --ticket <ULID>[/bold]\n"
+            "    Execute a specific ticket and its descendants\n\n"
+            "  [bold]vibey implement --all-tickets[/bold]\n"
+            "    Execute all planned tickets (will prompt for confirmation)\n\n"
+            "  [bold]vibey implement --dry-run --ticket <ULID>[/bold]\n"
+            "    Preview what would be executed\n\n"
+            "[dim]Use 'vibey implement --help' for all options[/dim]",
+            title="Scope Required",
+            border_style="yellow",
+        )
+    )
+
+
 @click.group(invoke_without_command=True)
-@click.option('--track', help='Only tasks in this track (ULID)')
-@click.option('--sprint', help='Only tasks in this sprint (ULID)')
+@click.option('--all-tickets', is_flag=True, help='Execute all planned tickets (requires confirmation)')
+@click.option('--ticket', help='Execute specific ticket by ULID')
+@click.option('--track', help='[DEPRECATED] Use --ticket instead')
+@click.option('--sprint', help='[DEPRECATED] Use --ticket instead')
 @click.option('--max-tasks', type=int, help='Stop after N tasks')
 @click.option('--max-tokens', type=int, help='Stop after N tokens')
 @click.option('--dry-run', is_flag=True, help='Show what would run without executing')
 @click.option('--background', is_flag=True, help='Run as background process')
+@click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompts')
 @click.pass_context
-def implement(ctx, track, sprint, max_tasks, max_tokens, dry_run, background):
+def implement(ctx, all_tickets, ticket, track, sprint, max_tasks, max_tokens, dry_run, background, yes):
     """
-    Run implementation mode to execute planned tasks.
+    Run implementation mode to execute planned tickets.
 
-    Starts an execution loop that:
-    1. Finds the next planned and unblocked task
-    2. Executes the task via Claude Code agent
-    3. Updates task status based on result
-    4. Continues until no more tasks or limit reached
+    REQUIRES explicit scope specification to prevent accidental execution.
 
-    Examples:
+    \b
+    SCOPE OPTIONS (one required):
+      --all-tickets         Execute entire roadmap (with confirmation)
+      --ticket ULID         Execute specific ticket and its descendants
 
-      vibey implement                    # Run all planned tasks
-      vibey implement --track 01KC...    # Only tasks in track
-      vibey implement --max-tasks 5      # Stop after 5 tasks
-      vibey implement --dry-run          # Preview without executing
-      vibey implement --background       # Run in background
+    \b
+    EXAMPLES:
+      vibey implement --ticket 01KC...     # Execute specific ticket
+      vibey implement --all-tickets        # Execute all (with confirmation)
+      vibey implement --dry-run            # Preview what would run
 
-    Control commands:
+    \b
+    DEPRECATED OPTIONS (still work, will be removed):
+      --track <ULID>   → Use --ticket <ULID> instead
+      --sprint <ULID>  → Use --ticket <ULID> instead
 
+    \b
+    CONTROL COMMANDS:
       vibey implement status             # Show current status
       vibey implement pause              # Pause after current task
       vibey implement resume             # Resume paused execution
@@ -253,14 +280,38 @@ def implement(ctx, track, sprint, max_tasks, max_tokens, dry_run, background):
     if ctx.invoked_subcommand is not None:
         return
 
+    # Deprecation warnings for --track and --sprint
+    if track:
+        console.print(
+            f"[yellow]Warning:[/yellow] --track is deprecated. "
+            f"Use [bold]--ticket {track}[/bold] instead.\n"
+        )
+
+    if sprint:
+        console.print(
+            f"[yellow]Warning:[/yellow] --sprint is deprecated. "
+            f"Use [bold]--ticket {sprint}[/bold] instead.\n"
+        )
+
+    # Check for explicit scope
+    has_scope = all_tickets or ticket or track or sprint
+
+    if not has_scope:
+        _show_scope_required_help()
+        sys.exit(0)
+
+    # Resolve scope - --ticket takes precedence over deprecated options
+    scope_ulid = ticket or track or sprint
+
     # Run the main implementation loop
     exit_code = run_implementation_cmd(
-        track=track,
-        sprint=sprint,
+        scope_ulid=scope_ulid,
+        all_tickets=all_tickets,
         max_tasks=max_tasks,
         max_tokens=max_tokens,
         dry_run=dry_run,
         background=background,
+        yes=yes,
     )
     sys.exit(exit_code)
 
@@ -271,23 +322,25 @@ def implement(ctx, track, sprint, max_tasks, max_tokens, dry_run, background):
 
 
 def run_implementation_cmd(
-    track: Optional[str] = None,
-    sprint: Optional[str] = None,
+    scope_ulid: Optional[str] = None,
+    all_tickets: bool = False,
     max_tasks: Optional[int] = None,
     max_tokens: Optional[int] = None,
     dry_run: bool = False,
     background: bool = False,
+    yes: bool = False,
 ) -> int:
     """
-    Run implementation mode to execute planned tasks.
+    Run implementation mode to execute planned tickets.
 
     Args:
-        track: Only tasks in this track (ULID)
-        sprint: Only tasks in this sprint (ULID)
+        scope_ulid: Specific ticket ULID to execute (and its descendants)
+        all_tickets: Execute all planned tickets (requires confirmation)
         max_tasks: Stop after N tasks
         max_tokens: Stop after N tokens
         dry_run: Show what would run without executing
         background: Run as background process
+        yes: Skip confirmation prompts
 
     Returns:
         Exit code (0 = success, 1 = error)
@@ -321,13 +374,31 @@ def run_implementation_cmd(
         )
         return 1
 
+    # Handle --all-tickets confirmation
+    if all_tickets and not yes:
+        # Count executable tasks for confirmation
+        from vibey.services.implementation import TaskSelector
+        selector = TaskSelector(roadmap_root)
+        count = selector.count_remaining()
+
+        if count == 0:
+            console.print("[yellow]No executable tasks found.[/yellow]")
+            return 0
+
+        console.print(
+            f"\n[bold yellow]Warning:[/bold yellow] About to execute [bold]{count}[/bold] planned tickets.\n"
+        )
+        if not click.confirm("Do you want to continue?"):
+            console.print("[dim]Cancelled.[/dim]")
+            return 0
+
     # Handle background mode
     if background:
-        return _run_background(track, sprint, max_tasks, max_tokens)
+        return _run_background(scope_ulid, all_tickets, max_tasks, max_tokens)
 
     # Handle dry-run mode
     if dry_run:
-        return _run_dry_run(roadmap_root, track, sprint, max_tasks)
+        return _run_dry_run(roadmap_root, scope_ulid, max_tasks)
 
     # Create configuration
     state_path = get_state_path()
@@ -335,8 +406,7 @@ def run_implementation_cmd(
         max_tasks=max_tasks,
         max_tokens=max_tokens,
         state_path=state_path,
-        track_id=track,
-        sprint_id=sprint,
+        scope_ulid=scope_ulid,
         auto_save=True,
     )
 
@@ -347,7 +417,7 @@ def run_implementation_cmd(
     display = ProgressDisplay(state, console=console)
 
     # Show startup banner
-    _show_startup_banner(track, sprint, max_tasks, max_tokens)
+    _show_startup_banner(scope_ulid, all_tickets, max_tasks, max_tokens)
 
     # Write PID for status tracking
     write_pid(os.getpid())
@@ -413,22 +483,20 @@ def run_implementation_cmd(
 
 
 def _show_startup_banner(
-    track: Optional[str],
-    sprint: Optional[str],
+    scope_ulid: Optional[str],
+    all_tickets: bool,
     max_tasks: Optional[int],
     max_tokens: Optional[int],
 ) -> None:
     """Display startup banner with configuration."""
     lines = ["[bold cyan]Implementation Mode[/bold cyan]"]
 
-    # Add filters
-    filters = []
-    if track:
-        filters.append(f"Track: {track[:12]}...")
-    if sprint:
-        filters.append(f"Sprint: {sprint[:12]}...")
-    if filters:
-        lines.append(f"Filters: {', '.join(filters)}")
+    # Add scope info
+    if all_tickets:
+        lines.append("Scope: [bold]All planned tickets[/bold]")
+    elif scope_ulid:
+        scope_display = scope_ulid[:12] + "..." if len(scope_ulid) > 12 else scope_ulid
+        lines.append(f"Scope: Ticket {scope_display}")
 
     # Add limits
     limits = []
@@ -447,8 +515,7 @@ def _show_startup_banner(
 
 def _run_dry_run(
     roadmap_root: Path,
-    track: Optional[str],
-    sprint: Optional[str],
+    scope_ulid: Optional[str],
     max_tasks: Optional[int],
 ) -> int:
     """
@@ -456,8 +523,7 @@ def _run_dry_run(
 
     Args:
         roadmap_root: Path to roadmap directory
-        track: Track filter
-        sprint: Sprint filter
+        scope_ulid: Scope ticket ULID (or None for all)
         max_tasks: Maximum tasks to show
 
     Returns:
@@ -478,10 +544,11 @@ def _run_dry_run(
         selector = TaskSelector(roadmap_root)
 
         # Get executable tasks
+        # TODO: Task 04 will refactor TaskSelector to use scope_ulid directly
+        # For now, pass scope_ulid as track_id (works for any ULID type)
         limit = max_tasks or 20
         tasks = selector.get_all_executable(
-            track_id=track,
-            sprint_id=sprint,
+            track_id=scope_ulid,
             limit=limit,
         )
 
@@ -492,7 +559,7 @@ def _run_dry_run(
             console.print("  - All tasks are completed")
             console.print("  - Tasks have incomplete dependencies")
             console.print("  - Tasks are not yet planned (missing context files)")
-            console.print("  - Track/sprint filters don't match any tasks")
+            console.print("  - Scope doesn't match any tasks")
             return 0
 
         # Display tasks table
@@ -522,7 +589,8 @@ def _run_dry_run(
 
         # Summary
         console.print()
-        remaining = selector.count_remaining(track_id=track, sprint_id=sprint)
+        # TODO: Task 04 will refactor to use scope_ulid directly
+        remaining = selector.count_remaining(track_id=scope_ulid)
         console.print(f"[dim]Total executable tasks: {remaining}[/dim]")
 
         if max_tasks and len(tasks) >= max_tasks:
@@ -543,8 +611,8 @@ def _run_dry_run(
 
 
 def _run_background(
-    track: Optional[str],
-    sprint: Optional[str],
+    scope_ulid: Optional[str],
+    all_tickets: bool,
     max_tasks: Optional[int],
     max_tokens: Optional[int],
 ) -> int:
@@ -552,8 +620,8 @@ def _run_background(
     Run implementation mode as a background process.
 
     Args:
-        track: Track filter
-        sprint: Sprint filter
+        scope_ulid: Scope ticket ULID
+        all_tickets: Execute all tickets
         max_tasks: Maximum tasks
         max_tokens: Maximum tokens
 
@@ -563,10 +631,10 @@ def _run_background(
     # Build command
     cmd = [sys.executable, "-m", "vibey", "implement"]
 
-    if track:
-        cmd.extend(["--track", track])
-    if sprint:
-        cmd.extend(["--sprint", sprint])
+    if all_tickets:
+        cmd.extend(["--all-tickets", "--yes"])  # Skip confirmation in background
+    elif scope_ulid:
+        cmd.extend(["--ticket", scope_ulid])
     if max_tasks:
         cmd.extend(["--max-tasks", str(max_tasks)])
     if max_tokens:

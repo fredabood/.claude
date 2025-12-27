@@ -25,6 +25,7 @@ from .tools.query_tools import get_query_tools, handle_query_tool
 from .tools.content_tools import get_content_tools, handle_content_tool
 from .tools.context_tools import get_context_tools, handle_context_tool
 from .tools.token_tools import get_token_tools, handle_token_tool
+from .tools.submodule_tools import get_submodule_tools, handle_submodule_tool
 from .utils.errors import VibeyMCPError
 from .discovery import ToolDiscovery
 
@@ -170,6 +171,9 @@ class VibeyMCPServer:
         # Token metrics tools (Sprint 4: CLI & Reporting)
         tools.extend(get_token_tools())
 
+        # Submodule integration tools (Sprint 2: Git Submodule Integration)
+        tools.extend(get_submodule_tools())
+
         # Dynamic agent and workflow tools (from frontmatter discovery)
         try:
             discovered_tools = self.tool_discovery.get_all_tools()
@@ -259,6 +263,13 @@ class VibeyMCPServer:
                 "vibey_get_token_usage_report",
             ]:
                 return await handle_token_tool(tool_name, arguments, self.adapter)
+
+            # Route to submodule integration tools
+            if tool_name.startswith("vibey_submodule_") or tool_name in [
+                "vibey_task_add_cross_dep",
+                "vibey_task_cross_deps",
+            ]:
+                return await handle_submodule_tool(tool_name, arguments)
 
             # Route to dynamic agent/workflow tools
             if tool_name.startswith("vibey_"):

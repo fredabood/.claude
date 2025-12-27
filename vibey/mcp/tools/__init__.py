@@ -10,6 +10,7 @@ from .query_tools import get_query_tools, handle_query_tool
 from .content_tools import get_content_tools, handle_content_tool
 from .context_tools import get_context_tools, handle_context_tool
 from .token_tools import get_token_tools, handle_token_tool
+from .submodule_tools import get_submodule_tools, handle_submodule_tool
 
 __all__ = [
     "get_task_tools",
@@ -24,4 +25,6 @@ __all__ = [
     "handle_context_tool",
     "get_token_tools",
     "handle_token_tool",
+    "get_submodule_tools",
+    "handle_submodule_tool",
 ]

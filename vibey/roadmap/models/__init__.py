@@ -133,6 +133,27 @@ from .relationships import (
     CommitArtifactChange,
 )
 
+from .submodule import (
+    DetectionSource,
+    SyncStatus,
+    BlockerSeverity,
+    CollectionMethod,
+    SubmoduleReference,
+    SubmoduleProgress,
+    SubmoduleBlocker,
+    AggregatedProgress,
+)
+
+from .cross_repo import (
+    PushMode,
+    ExternalBlockerType,
+    ExternalBlockerInfo,
+    SubmoduleConfig,
+    LinkedTaskPair,
+    PushResult,
+    SyncResult,
+)
+
 __all__ = [
     # Roadmap
     "Roadmap",
@@ -211,6 +232,23 @@ __all__ = [
     "TicketCommitLink",
     "TicketArtifactAssociation",
     "CommitArtifactChange",
+    # Submodule
+    "DetectionSource",
+    "SyncStatus",
+    "BlockerSeverity",
+    "CollectionMethod",
+    "SubmoduleReference",
+    "SubmoduleProgress",
+    "SubmoduleBlocker",
+    "AggregatedProgress",
+    # Cross-Repo
+    "PushMode",
+    "ExternalBlockerType",
+    "ExternalBlockerInfo",
+    "SubmoduleConfig",
+    "LinkedTaskPair",
+    "PushResult",
+    "SyncResult",
 ]
 
-__version__ = "2.1"
+__version__ = "2.2"

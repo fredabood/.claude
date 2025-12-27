@@ -194,6 +194,180 @@ def submodule_show_cmd(path: str) -> int:
 
 
 # ============================================================================
+# Push-down Commands
+# ============================================================================
+
+
+def submodule_push_cmd(
+    submodule_path: str,
+    title: str,
+    description: Optional[str],
+    mode: str,
+    sprint: Optional[str],
+) -> int:
+    """Push a task to a submodule.
+
+    Modes:
+    - linked: Creates task in BOTH parent and submodule, stores ULID mapping
+    - parent_only: Creates external dependency in parent only
+    - submodule_only: Creates task in submodule only
+    """
+    from vibey.operations.submodule import TaskPusher
+    from vibey.config import load_submodule_config
+
+    try:
+        config = load_submodule_config()
+
+        # Normalize path
+        submodule_path = submodule_path.replace("\\", "/").strip("/")
+
+        # Check if submodule is registered
+        sub_ref = config.get_submodule(submodule_path)
+        if sub_ref is None:
+            console.print(f"[yellow]Submodule not registered: {submodule_path}[/yellow]")
+            console.print("Run 'vibey submodule discover --register' first.")
+            return 1
+
+        pusher = TaskPusher()
+
+        console.print(f"[blue]Pushing task to {submodule_path} (mode: {mode})...[/blue]")
+
+        result = pusher.push_task(
+            submodule_path=submodule_path,
+            title=title,
+            description=description or "",
+            mode=mode,
+            sprint_id=sprint,
+        )
+
+        if result.success:
+            console.print(f"[green]Task created successfully[/green]")
+            if result.parent_task_id:
+                console.print(f"  Parent Task ID: {result.parent_task_id}")
+            if result.submodule_task_id:
+                console.print(f"  Submodule Task ID: {result.submodule_task_id}")
+            if result.linked:
+                console.print(f"  [blue]Tasks are linked[/blue]")
+        else:
+            console.print(f"[red]Failed: {result.error}[/red]")
+            return 1
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_requirements_cmd(
+    direction: str,
+    status: Optional[str],
+) -> int:
+    """List cross-repo requirements.
+
+    Direction:
+    - outgoing: Requirements pushed FROM this repo TO submodules
+    - incoming: Requirements pushed TO this repo FROM parent
+    """
+    from vibey.operations.submodule import RequirementTracker
+    from vibey.config import load_submodule_config
+
+    try:
+        config = load_submodule_config()
+        tracker = RequirementTracker()
+
+        requirements = tracker.list_requirements(
+            direction=direction,
+            status_filter=status,
+        )
+
+        if not requirements:
+            console.print(f"[dim]No {direction} requirements found.[/dim]")
+            return 0
+
+        table = Table(title=f"{direction.title()} Requirements")
+        table.add_column("ID", style="cyan")
+        table.add_column("Title", style="white")
+        table.add_column("Submodule", style="blue")
+        table.add_column("Status", style="yellow")
+        table.add_column("Linked", style="green")
+
+        for req in requirements:
+            table.add_row(
+                req.id[:12] + "...",
+                req.title[:40] + ("..." if len(req.title) > 40 else ""),
+                req.submodule_path,
+                req.status,
+                "✓" if req.linked else "✗",
+            )
+
+        console.print(table)
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_link_cmd(parent_task_id: str, submodule_task_id: str) -> int:
+    """Manually link an existing parent task to a submodule task."""
+    from vibey.operations.submodule import TaskPusher
+
+    try:
+        pusher = TaskPusher()
+
+        console.print(f"[blue]Linking tasks...[/blue]")
+        console.print(f"  Parent: {parent_task_id}")
+        console.print(f"  Submodule: {submodule_task_id}")
+
+        result = pusher.link_existing(
+            parent_task_id=parent_task_id,
+            submodule_task_id=submodule_task_id,
+        )
+
+        if result.success:
+            console.print(f"[green]Tasks linked successfully[/green]")
+        else:
+            console.print(f"[red]Failed: {result.error}[/red]")
+            return 1
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_unlink_cmd(parent_task_id: str) -> int:
+    """Remove link between a parent task and its submodule task.
+
+    Note: This does NOT delete the submodule task, only removes the link.
+    """
+    from vibey.operations.submodule import TaskPusher
+
+    try:
+        pusher = TaskPusher()
+
+        console.print(f"[blue]Unlinking task: {parent_task_id}[/blue]")
+
+        result = pusher.unlink(parent_task_id=parent_task_id)
+
+        if result.success:
+            console.print(f"[green]Link removed successfully[/green]")
+            if result.submodule_task_id:
+                console.print(f"  Submodule task preserved: {result.submodule_task_id}")
+        else:
+            console.print(f"[red]Failed: {result.error}[/red]")
+            return 1
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+# ============================================================================
 # Aggregation Commands
 # ============================================================================
 
@@ -293,6 +467,321 @@ def submodule_aggregate_cmd() -> int:
 
         console.print()
         console.print(f"[green]Overall completion: {result.overall_completion_percent:.1f}%[/green]")
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_blockers_cmd(severity: Optional[str], submodule: Optional[str]) -> int:
+    """List blockers from submodules.
+
+    Severity levels: critical, high, medium, low
+    """
+    from vibey.operations.submodule import ProgressAggregator
+    from vibey.config import load_submodule_config
+
+    try:
+        config = load_submodule_config()
+
+        if not config.submodules:
+            console.print("[yellow]No submodules registered.[/yellow]")
+            return 0
+
+        aggregator = ProgressAggregator()
+        result = aggregator.aggregate_all()
+
+        blockers = result.active_blockers
+
+        # Filter by severity
+        if severity:
+            blockers = [b for b in blockers if b.severity == severity]
+
+        # Filter by submodule
+        if submodule:
+            submodule = submodule.replace("\\", "/").strip("/")
+            blockers = [b for b in blockers if b.submodule_path == submodule]
+
+        if not blockers:
+            console.print("[green]No active blockers found.[/green]")
+            return 0
+
+        table = Table(title="Submodule Blockers")
+        table.add_column("Submodule", style="cyan")
+        table.add_column("Task", style="white")
+        table.add_column("Blocker", style="yellow")
+        table.add_column("Severity", style="red")
+
+        for blocker in blockers:
+            severity_color = {
+                "critical": "red bold",
+                "high": "red",
+                "medium": "yellow",
+                "low": "dim",
+            }.get(blocker.severity, "white")
+
+            table.add_row(
+                blocker.submodule_path,
+                blocker.task_id[:12] + "...",
+                blocker.blocker_description[:40] + ("..." if len(blocker.blocker_description) > 40 else ""),
+                f"[{severity_color}]{blocker.severity}[/{severity_color}]",
+            )
+
+        console.print(table)
+        console.print()
+        console.print(f"Total blockers: {len(blockers)}")
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_refresh_cmd(path: str) -> int:
+    """Force refresh progress data for a single submodule."""
+    from vibey.operations.submodule import ProgressAggregator
+    from vibey.config import load_submodule_config, save_submodule_config
+    from datetime import datetime, timezone
+
+    try:
+        config = load_submodule_config()
+
+        # Normalize path
+        path = path.replace("\\", "/").strip("/")
+
+        # Check if submodule is registered
+        sub_ref = config.get_submodule(path)
+        if sub_ref is None:
+            console.print(f"[yellow]Submodule not registered: {path}[/yellow]")
+            return 1
+
+        aggregator = ProgressAggregator()
+
+        console.print(f"[blue]Refreshing progress for: {path}[/blue]")
+
+        progress = aggregator.aggregate_submodule(path)
+
+        console.print(f"[green]Progress refreshed:[/green]")
+        console.print(f"  Tracks: {progress.tracks_completed}/{progress.tracks_total}")
+        console.print(f"  Sprints: {progress.sprints_completed}/{progress.sprints_total}")
+        console.print(f"  Tasks: {progress.tasks_completed}/{progress.tasks_total}")
+        console.print(f"  Completion: {progress.completion_percent:.1f}%")
+
+        # Update last_synced
+        sub_ref.last_synced = datetime.now(timezone.utc)
+        save_submodule_config(config)
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+# ============================================================================
+# Cross-repo Dependency Commands
+# ============================================================================
+
+
+def submodule_add_dep_cmd(
+    ticket_id: str,
+    dependency_ref: str,
+    dep_type: str,
+    blocking: bool,
+    reason: Optional[str],
+) -> int:
+    """Add a cross-repo dependency to a ticket.
+
+    dependency_ref format: submodule_path:task_id
+    Example: libs/core:01KC2D0JK7READW9KAK1HBX4B8
+    """
+    from vibey.operations.submodule import DependencyResolver
+
+    try:
+        # Parse dependency reference
+        if ":" not in dependency_ref:
+            console.print("[red]Invalid dependency_ref format. Use: submodule_path:task_id[/red]")
+            return 1
+
+        submodule_path, target_task_id = dependency_ref.split(":", 1)
+
+        resolver = DependencyResolver()
+
+        console.print(f"[blue]Adding cross-repo dependency...[/blue]")
+        console.print(f"  From: {ticket_id}")
+        console.print(f"  To: {dependency_ref}")
+        console.print(f"  Type: {dep_type}")
+        console.print(f"  Blocking: {blocking}")
+
+        result = resolver.add_dependency(
+            ticket_id=ticket_id,
+            submodule_path=submodule_path,
+            target_task_id=target_task_id,
+            dependency_type=dep_type,
+            blocking=blocking,
+            reason=reason,
+        )
+
+        if result.success:
+            console.print(f"[green]Dependency added successfully[/green]")
+        else:
+            console.print(f"[red]Failed: {result.error}[/red]")
+            return 1
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_deps_cmd(ticket_id: str, direction: str) -> int:
+    """List cross-repo dependencies for a ticket.
+
+    Direction:
+    - outgoing: Dependencies this ticket has on submodule tasks
+    - incoming: Tasks in submodules that depend on this ticket
+    - both: Show all dependencies
+    """
+    from vibey.operations.submodule import DependencyResolver
+
+    try:
+        resolver = DependencyResolver()
+
+        deps = resolver.get_dependencies(
+            ticket_id=ticket_id,
+            direction=direction,
+        )
+
+        if not deps:
+            console.print(f"[dim]No {direction} cross-repo dependencies found.[/dim]")
+            return 0
+
+        table = Table(title=f"Cross-repo Dependencies for {ticket_id}")
+        table.add_column("Direction", style="blue")
+        table.add_column("Submodule", style="cyan")
+        table.add_column("Task ID", style="white")
+        table.add_column("Type", style="yellow")
+        table.add_column("Blocking", style="red")
+        table.add_column("Status", style="green")
+
+        for dep in deps:
+            table.add_row(
+                dep.direction,
+                dep.submodule_path,
+                dep.task_id[:12] + "...",
+                dep.dependency_type,
+                "Yes" if dep.blocking else "No",
+                dep.status,
+            )
+
+        console.print(table)
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_validate_deps_cmd() -> int:
+    """Validate cross-repo dependencies.
+
+    Checks for:
+    - Circular dependencies (cycles)
+    - Missing targets (broken links)
+    - Stale references
+    """
+    from vibey.operations.submodule import DependencyResolver
+
+    try:
+        resolver = DependencyResolver()
+
+        console.print("[blue]Validating cross-repo dependencies...[/blue]")
+
+        result = resolver.validate_all()
+
+        if result.is_valid:
+            console.print("[green]All dependencies are valid![/green]")
+        else:
+            console.print("[red]Dependency issues found:[/red]")
+
+            if result.cycles:
+                console.print()
+                console.print("[bold red]Circular Dependencies:[/bold red]")
+                for cycle in result.cycles:
+                    console.print(f"  {' -> '.join(cycle)}")
+
+            if result.missing_targets:
+                console.print()
+                console.print("[bold yellow]Missing Targets:[/bold yellow]")
+                for missing in result.missing_targets:
+                    console.print(f"  {missing.source} -> {missing.target} (not found)")
+
+            if result.stale_references:
+                console.print()
+                console.print("[bold dim]Stale References:[/bold dim]")
+                for stale in result.stale_references:
+                    console.print(f"  {stale.source} -> {stale.target}")
+
+            return 1
+
+        return 0
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return 1
+
+
+def submodule_dep_graph_cmd(output_format: str) -> int:
+    """Visualize cross-repo dependency graph.
+
+    Output formats:
+    - text: ASCII tree visualization
+    - dot: Graphviz DOT format
+    - json: JSON representation
+    """
+    from vibey.operations.submodule import DependencyResolver
+
+    try:
+        resolver = DependencyResolver()
+
+        console.print("[blue]Building dependency graph...[/blue]")
+
+        graph = resolver.build_graph()
+
+        if not graph.nodes:
+            console.print("[dim]No cross-repo dependencies found.[/dim]")
+            return 0
+
+        if output_format == "text":
+            console.print()
+            console.print(Panel("[bold]Cross-repo Dependency Graph[/bold]"))
+            console.print()
+
+            for node in graph.nodes:
+                deps = graph.get_dependencies(node)
+                if deps:
+                    console.print(f"[cyan]{node}[/cyan]")
+                    for dep in deps:
+                        arrow = "[red]──▶[/red]" if dep.blocking else "──>"
+                        console.print(f"  {arrow} {dep.target} ({dep.submodule_path})")
+                    console.print()
+
+        elif output_format == "dot":
+            dot_output = graph.to_dot()
+            console.print(dot_output)
+
+        elif output_format == "json":
+            import json
+            json_output = graph.to_json()
+            console.print(json.dumps(json_output, indent=2))
+
+        else:
+            console.print(f"[red]Unknown format: {output_format}[/red]")
+            return 1
 
         return 0
 

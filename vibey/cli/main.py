@@ -6424,6 +6424,203 @@ def submodule_aggregate(ctx):
     sys.exit(exit_code)
 
 
+@submodule.command('push')
+@click.argument('submodule_path')
+@click.option('--title', '-t', required=True, help='Task title')
+@click.option('--description', '-d', help='Task description')
+@click.option('--mode', '-m', type=click.Choice(['linked', 'parent_only', 'submodule_only']),
+              default='linked', help='Push mode (default: linked)')
+@click.option('--sprint', '-s', help='Sprint ID to add task to')
+@click.pass_context
+def submodule_push(ctx, submodule_path: str, title: str, description: str, mode: str, sprint: str):
+    """Push a task to a submodule.
+
+    Modes:
+      linked: Creates task in BOTH parent and submodule (default)
+      parent_only: Creates external dependency in parent only
+      submodule_only: Creates task in submodule only
+
+    Examples:
+      vibey submodule push libs/core --title "Add logging" --mode linked
+      vibey submodule push libs/core -t "Fix bug" -m submodule_only
+    """
+    from vibey.cli.submodule import submodule_push_cmd
+
+    exit_code = submodule_push_cmd(submodule_path, title, description, mode, sprint)
+    sys.exit(exit_code)
+
+
+@submodule.command('requirements')
+@click.option('--direction', '-d', type=click.Choice(['outgoing', 'incoming']),
+              default='outgoing', help='Direction of requirements')
+@click.option('--status', '-s', help='Filter by status')
+@click.pass_context
+def submodule_requirements(ctx, direction: str, status: str):
+    """List cross-repo requirements.
+
+    Examples:
+      vibey submodule requirements                   # Outgoing requirements
+      vibey submodule requirements -d incoming       # Incoming requirements
+      vibey submodule requirements -s pending        # Filter by status
+    """
+    from vibey.cli.submodule import submodule_requirements_cmd
+
+    exit_code = submodule_requirements_cmd(direction, status)
+    sys.exit(exit_code)
+
+
+@submodule.command('link')
+@click.argument('parent_task_id')
+@click.argument('submodule_task_id')
+@click.pass_context
+def submodule_link(ctx, parent_task_id: str, submodule_task_id: str):
+    """Manually link a parent task to a submodule task.
+
+    Examples:
+      vibey submodule link 01KC... 01KD...
+    """
+    from vibey.cli.submodule import submodule_link_cmd
+
+    exit_code = submodule_link_cmd(parent_task_id, submodule_task_id)
+    sys.exit(exit_code)
+
+
+@submodule.command('unlink')
+@click.argument('parent_task_id')
+@click.pass_context
+def submodule_unlink(ctx, parent_task_id: str):
+    """Remove link between a parent task and its submodule task.
+
+    Note: This does NOT delete the submodule task.
+
+    Examples:
+      vibey submodule unlink 01KC...
+    """
+    from vibey.cli.submodule import submodule_unlink_cmd
+
+    exit_code = submodule_unlink_cmd(parent_task_id)
+    sys.exit(exit_code)
+
+
+@submodule.command('blockers')
+@click.option('--severity', '-s', type=click.Choice(['critical', 'high', 'medium', 'low']),
+              help='Filter by severity level')
+@click.option('--submodule', '-m', help='Filter by submodule path')
+@click.pass_context
+def submodule_blockers(ctx, severity: str, submodule: str):
+    """List blockers from submodules.
+
+    Examples:
+      vibey submodule blockers                       # All blockers
+      vibey submodule blockers -s critical           # Critical only
+      vibey submodule blockers -m libs/core          # From specific submodule
+    """
+    from vibey.cli.submodule import submodule_blockers_cmd
+
+    exit_code = submodule_blockers_cmd(severity, submodule)
+    sys.exit(exit_code)
+
+
+@submodule.command('refresh')
+@click.argument('path')
+@click.pass_context
+def submodule_refresh(ctx, path: str):
+    """Force refresh progress for a single submodule.
+
+    Examples:
+      vibey submodule refresh libs/core
+    """
+    from vibey.cli.submodule import submodule_refresh_cmd
+
+    exit_code = submodule_refresh_cmd(path)
+    sys.exit(exit_code)
+
+
+@submodule.command('add-dep')
+@click.argument('ticket_id')
+@click.argument('dependency_ref')
+@click.option('--type', '-t', 'dep_type', default='blocks',
+              help='Dependency type (default: blocks)')
+@click.option('--blocking/--non-blocking', default=True,
+              help='Whether this dependency blocks progress')
+@click.option('--reason', '-r', help='Reason for the dependency')
+@click.pass_context
+def submodule_add_dep(ctx, ticket_id: str, dependency_ref: str, dep_type: str, blocking: bool, reason: str):
+    """Add a cross-repo dependency to a ticket.
+
+    DEPENDENCY_REF format: submodule_path:task_id
+
+    Examples:
+      vibey submodule add-dep 01KC... libs/core:01KD...
+      vibey submodule add-dep 01KC... libs/core:01KD... --non-blocking
+      vibey submodule add-dep 01KC... libs/core:01KD... -r "Needs API"
+    """
+    from vibey.cli.submodule import submodule_add_dep_cmd
+
+    exit_code = submodule_add_dep_cmd(ticket_id, dependency_ref, dep_type, blocking, reason)
+    sys.exit(exit_code)
+
+
+@submodule.command('deps')
+@click.argument('ticket_id')
+@click.option('--direction', '-d', type=click.Choice(['outgoing', 'incoming', 'both']),
+              default='both', help='Direction of dependencies')
+@click.pass_context
+def submodule_deps(ctx, ticket_id: str, direction: str):
+    """List cross-repo dependencies for a ticket.
+
+    Examples:
+      vibey submodule deps 01KC...
+      vibey submodule deps 01KC... -d outgoing
+    """
+    from vibey.cli.submodule import submodule_deps_cmd
+
+    exit_code = submodule_deps_cmd(ticket_id, direction)
+    sys.exit(exit_code)
+
+
+@submodule.command('validate-deps')
+@click.pass_context
+def submodule_validate_deps(ctx):
+    """Validate all cross-repo dependencies.
+
+    Checks for:
+      - Circular dependencies
+      - Missing targets
+      - Stale references
+
+    Examples:
+      vibey submodule validate-deps
+    """
+    from vibey.cli.submodule import submodule_validate_deps_cmd
+
+    exit_code = submodule_validate_deps_cmd()
+    sys.exit(exit_code)
+
+
+@submodule.command('dep-graph')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['text', 'dot', 'json']),
+              default='text', help='Output format')
+@click.pass_context
+def submodule_dep_graph(ctx, output_format: str):
+    """Visualize cross-repo dependency graph.
+
+    Output formats:
+      text: ASCII visualization (default)
+      dot: Graphviz DOT format
+      json: JSON representation
+
+    Examples:
+      vibey submodule dep-graph
+      vibey submodule dep-graph -f dot > deps.dot
+      vibey submodule dep-graph -f json
+    """
+    from vibey.cli.submodule import submodule_dep_graph_cmd
+
+    exit_code = submodule_dep_graph_cmd(output_format)
+    sys.exit(exit_code)
+
+
 @submodule.command('config')
 @click.option('--show', '-s', 'show', is_flag=True, default=True, help='Show current configuration')
 @click.option('--edit', '-e', 'edit', is_flag=True, help='Edit configuration in $EDITOR')

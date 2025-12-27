@@ -8,11 +8,11 @@ task:
   description: Mark --track and --sprint as deprecated with warning messages. Map
     them internally to --ticket for backward compatibility. Update help text to recommend
     --ticket instead.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-26T02:26:27.936283+00:00'
-  started: null
-  completed: null
+  started: '2025-12-27T20:00:00+00:00'
+  completed: '2025-12-27T20:10:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

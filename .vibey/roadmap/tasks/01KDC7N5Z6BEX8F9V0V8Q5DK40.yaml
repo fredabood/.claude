@@ -8,11 +8,11 @@ task:
   description: 'Write tests for: (1) bare command shows help, (2) --all-tickets enables
     full execution, (3) --ticket filters correctly by hierarchy, (4) completion detection
     works for parent tickets, (5) deprecated options still work with warnings.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-26T02:26:27.936283+00:00'
-  started: null
-  completed: null
+  started: '2025-12-27T20:15:00+00:00'
+  completed: '2025-12-27T20:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

@@ -8,11 +8,11 @@ task:
   description: Update vibey implement --help output to reflect new options. Update
     CLI_REFERENCE.md with new usage patterns. Add examples for --ticket with different
     ticket types.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-26T02:26:27.936283+00:00'
-  started: null
-  completed: null
+  started: '2025-12-27T20:10:00+00:00'
+  completed: '2025-12-27T20:15:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

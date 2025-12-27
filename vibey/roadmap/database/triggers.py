@@ -539,7 +539,7 @@ TRIGGER_DEFINITIONS = {
           AND EXISTS (
             SELECT 1 FROM tasks
             WHERE sprint_id = NEW.id
-              AND status NOT IN ('completed', 'wont_do')
+              AND status NOT IN ('completed', 'production_ready', 'deployed', 'wont_do')
           )
         BEGIN
             SELECT RAISE(ABORT, 'Cannot complete sprint: incomplete tasks exist');
@@ -554,7 +554,7 @@ TRIGGER_DEFINITIONS = {
           AND EXISTS (
             SELECT 1 FROM sprints
             WHERE track_id = NEW.id
-              AND status NOT IN ('completed', 'wont_do')
+              AND status NOT IN ('completed', 'production_ready', 'deployed', 'wont_do')
           )
         BEGIN
             SELECT RAISE(ABORT, 'Cannot complete track: incomplete sprints exist');

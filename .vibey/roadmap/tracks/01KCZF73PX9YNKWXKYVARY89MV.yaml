@@ -10,11 +10,11 @@ track:
   completed: '2025-12-24T15:22:06.528650+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 12
-    sprints_completed: 12
-    tasks_total: 45
-    tasks_completed: 45
-    completion_percent: 100
+    sprints_total: 0
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   sprints: []
   dependencies: []
   blocks: []
@@ -29,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-27T13:58:28.697131+00:00'
+    last_updated: '2025-12-27T14:32:57.452277+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

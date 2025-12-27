@@ -5,34 +5,39 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add CLI commands for submodule management
-  description: 'Implement all 15 CLI commands in vibey/cli/submodule.py per Sprint 1 design:
+  description: 'Implement all 16 CLI commands in vibey/cli/submodule.py per design decisions:
 
-    DISCOVERY (3 commands):
+    DISCOVERY & REGISTRY (3 commands):
     1) vibey submodule list - list all detected submodules with Vibey status
-    2) vibey submodule discover - refresh submodule discovery
+    2) vibey submodule discover - auto-discover from .gitmodules, write to config
     3) vibey submodule show <path> - show details for specific submodule
 
-    PUSH-DOWN (4 commands):
-    4) vibey submodule push-requirement <ticket_id> <submodule_path> --title --description --mode
-    5) vibey submodule requirements --direction [incoming|outgoing] --status
-    6) vibey submodule accept-requirement <requirement_id> - accept incoming requirement
-    7) vibey submodule reject-requirement <requirement_id> --reason - reject with reason
+    PUSH-DOWN with Direct Write (4 commands):
+    4) vibey submodule push <submodule_path> --title --description --mode [linked|parent_only|submodule_only]
+       - linked (default): creates task in BOTH parent and submodule, stores ULID mapping
+       - parent_only: creates external dependency in parent only
+       - submodule_only: creates task in submodule only
+    5) vibey submodule requirements --direction [outgoing] --status
+    6) vibey submodule link <parent_task_id> <submodule_task_id> - manually link existing tasks
+    7) vibey submodule unlink <parent_task_id> - remove link to submodule task
 
-    PULL-UP (3 commands):
-    8) vibey submodule status - show aggregated submodule progress
-    9) vibey submodule blockers --severity [critical|high|medium|low]
-    10) vibey submodule refresh - force refresh submodule progress data
+    PULL-UP / AGGREGATION (4 commands):
+    8) vibey submodule status - show aggregated progress across all submodules
+    9) vibey submodule aggregate - pull progress from all submodules, update blocked_by statuses
+    10) vibey submodule blockers --severity [critical|high|medium|low]
+    11) vibey submodule refresh <path> - force refresh single submodule progress
 
     CROSS-REPO DEPENDENCIES (4 commands):
-    11) vibey submodule add-dep <ticket_id> <dependency_ref> --type --blocking --reason
-    12) vibey submodule deps <ticket_id> --direction [outgoing|incoming|both]
-    13) vibey submodule validate-deps - check for cycles and missing targets
-    14) vibey submodule dep-graph - visualize cross-repo dependency graph
+    12) vibey submodule add-dep <ticket_id> <submodule:task_ref> --type --blocking
+    13) vibey submodule deps <ticket_id> --direction [outgoing|incoming|both]
+    14) vibey submodule validate-deps - check for cycles and missing targets
+    15) vibey submodule dep-graph - visualize cross-repo dependency graph
 
-    SYNC (1 command):
-    15) vibey submodule sync - sync all submodule roadmaps
+    CONFIG (1 command):
+    16) vibey submodule config - edit .vibey/config/submodules.yaml settings
 
-    Register submodule command group in vibey/cli/main.py.'
+    Register submodule command group in vibey/cli/main.py.
+    See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
   blocked: false
   created: '2025-12-19T19:00:00+00:00'

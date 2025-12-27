@@ -5,31 +5,48 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create cross-repo relationship data models
-  description: 'Define all data models for submodule integration per Sprint 1 design:
+  description: 'Define all data models for submodule integration per design decisions:
 
     vibey/roadmap/models/submodule.py:
     1) DetectionSource enum (GITMODULES, GIT_COMMAND, DIRECTORY_SCAN, MANUAL)
     2) SyncStatus enum (SYNCED, STALE, NEVER_SYNCED, ERROR)
     3) SubmoduleReference class - links parent to submodule roadmap
+       - path: str (relative path to submodule)
+       - roadmap_id: str (submodule''s roadmap identifier)
+       - aggregate: bool (include in parent''s progress rollup)
+       - track_filter: list[str] (optional, filter which tracks to aggregate)
     4) SubmoduleProgress class - progress summary from single submodule
     5) BlockerSeverity enum (CRITICAL, HIGH, MEDIUM, LOW)
     6) SubmoduleBlocker class - blocker affecting parent
-    7) CollectionMethod enum (POLLING, ON_DEMAND, WEBHOOK, GIT_HOOK)
+    7) CollectionMethod enum (POLLING, ON_DEMAND, GIT_HOOK)
     8) AggregatedProgress class - rolled-up progress from all submodules
 
     vibey/roadmap/models/cross_repo.py:
-    9) RequirementType enum (FEATURE, BUGFIX, UPGRADE, COMPLIANCE, INTERFACE)
-    10) OwnershipModel enum (PARENT_OWNED, SUBMODULE_OWNED, SHARED)
-    11) PushMode enum (AUTOMATIC, NOTIFICATION, MANUAL)
-    12) RequirementStatus enum (DRAFT, PUSHED, ACKNOWLEDGED, IN_PROGRESS, FULFILLED, REJECTED, CANCELLED)
-    13) ArtifactRequirement class - artifact that must be created
-    14) InterfaceContract class - interface that must be implemented
-    15) RequirementSpec class - full requirement specification
-    16) CrossRepoRequirement class - links parent ticket to submodule ticket
-    17) DependencyType enum (COMPLETION, ARTIFACT, INTERFACE, MILESTONE, APPROVAL)
-    18) DependencyStatus enum (ACTIVE, SATISFIED, CANCELLED, FAILED)
-    19) ResolutionCriteria class - what needs to happen for dependency satisfaction
-    20) CrossRepoDependency class - dependency between tickets in different repos'
+    9) PushMode enum (LINKED, PARENT_ONLY, SUBMODULE_ONLY) - per design decision
+    10) ExternalBlockerInfo class - extends BlockerInfo for cross-repo deps:
+        - blocker_id: str (human-readable, e.g., "libs/repo-a:auth-v2")
+        - blocker_type: "external"
+        - resolved_to: Optional[str] (submodule task ULID when linked mode)
+        - submodule_path: str (path to submodule directory)
+        - current_status: str (synced from submodule task)
+        - last_synced: datetime
+    11) SubmoduleConfig class - .vibey/config/submodules.yaml schema:
+        - submodules: list[SubmoduleReference]
+        - default_push_mode: PushMode
+        - aggregate_on_status: bool (auto-aggregate on status command)
+    12) LinkedTaskPair class - tracks parent-submodule task relationship:
+        - parent_task_id: str (ULID in parent repo)
+        - submodule_path: str
+        - submodule_task_id: str (ULID in submodule repo)
+        - push_mode: PushMode
+        - created: datetime
+
+    REMOVED (per isolation design - submodule has no knowledge of parent):
+    - Incoming requirement models (no .vibey/incoming/ in submodule)
+    - Outgoing progress models (no .vibey/outgoing/ in submodule)
+    - CrossRepoRequirement (replaced by direct task creation)
+
+    See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
   status: not_started
   blocked: false
   created: '2025-12-19T19:00:00+00:00'

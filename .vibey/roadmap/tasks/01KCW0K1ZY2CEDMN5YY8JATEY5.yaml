@@ -38,11 +38,11 @@ task:
        - Re-validate and update entry in submodules.yaml
 
     See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-19T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-27T22:50:00+00:00'
+  completed: '2025-12-27T23:15:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

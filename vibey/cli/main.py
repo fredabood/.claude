@@ -6305,6 +6305,146 @@ def planned_next(ctx, track_id: str):
 
 
 # ============================================================================
+# Submodule Commands - Git Submodule Integration
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def submodule(ctx):
+    """Git submodule integration with vibey roadmaps.
+
+    Manage git submodules that have their own vibey roadmaps.
+    Supports discovery, push-down of requirements, pull-up of progress,
+    and cross-repo dependency tracking.
+
+    Key principle: Submodules have NO knowledge of parent repos.
+    All cross-repo data lives in the PARENT repo only.
+
+    Commands:
+      Discovery:   list, discover, show
+      Aggregation: status, aggregate
+      Config:      config
+
+    Examples:
+
+      vibey submodule list              # List all submodules
+      vibey submodule discover          # Discover from .gitmodules
+      vibey submodule status            # Show aggregated progress
+      vibey submodule config --show     # View configuration
+    """
+    ctx.ensure_object(dict)
+
+
+@submodule.command('list')
+@click.option('--all', '-a', 'show_all', is_flag=True, help='Show all submodules, not just Vibey-enabled')
+@click.pass_context
+def submodule_list(ctx, show_all: bool):
+    """List all detected submodules with Vibey status.
+
+    Shows submodules found in .gitmodules and their registration status.
+    By default, only shows submodules with Vibey roadmaps.
+
+    Examples:
+      vibey submodule list
+      vibey submodule list --all
+    """
+    from vibey.cli.submodule import submodule_list_cmd
+
+    exit_code = submodule_list_cmd(show_all)
+    sys.exit(exit_code)
+
+
+@submodule.command('discover')
+@click.option('--register', '-r', 'auto_register', is_flag=True, help='Auto-register Vibey-enabled submodules')
+@click.pass_context
+def submodule_discover(ctx, auto_register: bool):
+    """Auto-discover submodules from .gitmodules.
+
+    Parses .gitmodules file and checks each submodule for a Vibey roadmap.
+    Use --register to automatically add Vibey-enabled submodules to config.
+
+    Examples:
+      vibey submodule discover
+      vibey submodule discover --register
+    """
+    from vibey.cli.submodule import submodule_discover_cmd
+
+    exit_code = submodule_discover_cmd(auto_register)
+    sys.exit(exit_code)
+
+
+@submodule.command('show')
+@click.argument('path')
+@click.pass_context
+def submodule_show(ctx, path: str):
+    """Show details for a specific submodule.
+
+    Displays registration status, sync status, and progress for a submodule.
+
+    Examples:
+      vibey submodule show libs/core
+      vibey submodule show shared/utils
+    """
+    from vibey.cli.submodule import submodule_show_cmd
+
+    exit_code = submodule_show_cmd(path)
+    sys.exit(exit_code)
+
+
+@submodule.command('status')
+@click.pass_context
+def submodule_status(ctx):
+    """Show aggregated progress across all submodules.
+
+    Displays overall completion metrics for all registered submodules.
+
+    Examples:
+      vibey submodule status
+    """
+    from vibey.cli.submodule import submodule_status_cmd
+
+    exit_code = submodule_status_cmd()
+    sys.exit(exit_code)
+
+
+@submodule.command('aggregate')
+@click.pass_context
+def submodule_aggregate(ctx):
+    """Pull progress from all submodules and sync blocked_by statuses.
+
+    Aggregates progress from all registered submodules and updates
+    any blocked_by relationships with current status.
+
+    Examples:
+      vibey submodule aggregate
+    """
+    from vibey.cli.submodule import submodule_aggregate_cmd
+
+    exit_code = submodule_aggregate_cmd()
+    sys.exit(exit_code)
+
+
+@submodule.command('config')
+@click.option('--show', '-s', 'show', is_flag=True, default=True, help='Show current configuration')
+@click.option('--edit', '-e', 'edit', is_flag=True, help='Edit configuration in $EDITOR')
+@click.pass_context
+def submodule_config(ctx, show: bool, edit: bool):
+    """View or edit submodule configuration.
+
+    Configuration is stored in .vibey/config/submodules.yaml.
+
+    Examples:
+      vibey submodule config              # Show config
+      vibey submodule config --show       # Show config
+      vibey submodule config --edit       # Edit in $EDITOR
+    """
+    from vibey.cli.submodule import submodule_config_cmd
+
+    exit_code = submodule_config_cmd(show, edit)
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

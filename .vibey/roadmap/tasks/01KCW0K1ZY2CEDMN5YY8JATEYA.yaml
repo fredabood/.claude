@@ -37,10 +37,10 @@ task:
     settings
 
     Register submodule command group in vibey/cli/main.py. See design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md'
-  status: not_started
-  blocked: true
+  status: in_progress
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
-  started: null
+  started: '2025-12-28T02:30:00+00:00'
   completed: null
   assigned_agent: null
   priority: medium
@@ -53,12 +53,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

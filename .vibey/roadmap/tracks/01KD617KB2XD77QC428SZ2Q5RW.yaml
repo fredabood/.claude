@@ -6,8 +6,8 @@ track:
   blocked: false
   priority: high
   created: '2025-12-23T16:38:44.834177+00:00'
-  started: '2025-12-23T16:38:44.834177+00:00'
-  completed: '2025-12-25T13:18:12.097763+00:00'
+  started: null
+  completed: null
   estimated_duration: null
   progress:
     sprints_total: 0
@@ -29,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-26T15:00:41.213934+00:00'
+    last_updated: '2025-12-27T12:31:44.992017+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

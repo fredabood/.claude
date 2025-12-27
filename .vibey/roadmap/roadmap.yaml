@@ -15,7 +15,7 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 52
-    tracks_completed: 34
+    tracks_completed: 28
     sprints_total: 0
     sprints_completed: 0
     tasks_total: 0
@@ -176,7 +176,7 @@ roadmap:
     priority: high
   - id: 01KC39XSXJ39N12HWJ93F77KQ9
     name: CLI Dogfooding Bug Fixes
-    status: production_ready
+    status: in_progress
     priority: critical
   - id: 01KC7H29E0Z5BC7HK1CK222152
     name: Embedded Task Migration
@@ -184,7 +184,7 @@ roadmap:
     priority: critical
   - id: 01KC7TNS0SC0FX8TPGN9SG4J14
     name: Coding Platform Compatibility
-    status: production_ready
+    status: in_progress
     priority: medium
   - id: 01KCMG30TJT8TYPH30WEM5T5Z9
     name: '[ARCHIVED] User Journey Audit Recommendation Implementation'
@@ -208,11 +208,11 @@ roadmap:
     priority: medium
   - id: 01KCMTJRYBYR1CR69ZAHNFCSGR
     name: Git Submodule Integration
-    status: production_ready
+    status: in_progress
     priority: medium
   - id: 01KCVE6BV6W7FMHB2TPPBCF2EN
     name: PM Tool Integrations
-    status: production_ready
+    status: in_progress
     priority: medium
   - id: 01KCYA0G5135Z8B8ENFD841B0Q
     name: Robust Token Estimation System
@@ -220,11 +220,11 @@ roadmap:
     priority: high
   - id: 01KCZF73PX9YNKWXKYVARY89MV
     name: Implementation Mode (Autonomous Execution)
-    status: production_ready
+    status: in_progress
     priority: medium
   - id: 01KD617KB2XD77QC428SZ2Q5RW
     name: Agent Workflow & Handoff Architecture Review
-    status: production_ready
+    status: not_started
     priority: high
   - id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
     name: Ticket Template System

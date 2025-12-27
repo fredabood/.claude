@@ -10,48 +10,12 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 6
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 51
-    tasks_completed: 51
-    completion_percent: 100.0
-  sprints:
-  - id: 01KC2D0JKRGBQDPFWNXWNXV5ZX
-    name: Core Data Model & YAML Schema
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 8
-    started: null
-  - id: 01KC2D0JKRGBQDPFWNXWNXV606
-    name: Standards Resolution Engine
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JKRGBQDPFWNXWNXV60E
-    name: Standard Validators
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 9
-    started: null
-  - id: 01KC2D0JKSA4C3QG7P7YGCG36M
-    name: CLI Integration
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 10
-    started: null
-  - id: 01KC2D0JKSA4C3QG7P7YGCG36Z
-    name: Standard Templates Library
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 8
-    started: null
-  - id: 01KC2D0JKSA4C3QG7P7YGCG378
-    name: UI/UX Enhancements & Documentation
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 9
-    started: null
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -65,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-27T12:32:13.042229+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

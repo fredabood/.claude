@@ -41,11 +41,11 @@ task:
        - Reference design doc: SUBMODULE_ISOLATION_AND_PUSHDOWN.md
        - Add architecture diagram to user guide
        - Document push modes (parent_only, submodule_only, linked)'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-27T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-27T23:30:00+00:00'
+  completed: '2025-12-27T23:45:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

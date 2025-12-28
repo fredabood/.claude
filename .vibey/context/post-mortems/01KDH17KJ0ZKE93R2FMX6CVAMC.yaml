@@ -1,0 +1,10 @@
+post_mortem:
+  ticket_id: 01KDH17KJ0ZKE93R2FMX6CVAMC
+  completed_at: '2025-12-28T02:34:06.889824+00:00'
+  duration_hours: null
+  summary: Completed with 0 commits
+  artifacts_changed: []
+  commits: []
+  key_decisions: []
+  lessons_learned: []
+  follow_up_items: []

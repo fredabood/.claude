@@ -807,7 +807,13 @@ class QueryTicketLoader:
         # Task IDs contain -task-, so exclude them
         if '-task-' in ticket_id:
             return False
-        # Sprint IDs: track-N where N is a number
+        # Check for ULID-based sprint IDs (26-char alphanumeric starting with 01)
+        # by checking if sprint file exists in flat sprints directory
+        if len(ticket_id) == 26 and ticket_id.isalnum() and ticket_id.startswith('01'):
+            sprint_path = self.fs.roadmap_root / "sprints" / f"{ticket_id}.yaml"
+            if sprint_path.exists():
+                return True
+        # Legacy sprint IDs: track-N where N is a number
         parts = ticket_id.rsplit('-', 1)
         if len(parts) == 2:
             try:
@@ -822,7 +828,12 @@ class QueryTicketLoader:
         # Track IDs don't have numbers at the end (unless it's a sprint)
         if self._is_sprint_id(ticket_id):
             return False
-        # Check if track directory exists
+        # Check for ULID-based track IDs in flat tracks directory
+        if len(ticket_id) == 26 and ticket_id.isalnum() and ticket_id.startswith('01'):
+            track_path = self.fs.roadmap_root / "tracks" / f"{ticket_id}.yaml"
+            if track_path.exists():
+                return True
+        # Legacy: Check if track path exists via FileSystemManager
         track_path = self.fs.get_track_path(ticket_id)
         return track_path.exists()
 
@@ -849,6 +860,17 @@ class QueryTicketLoader:
         """Load a sprint and convert to SprintTicket."""
         sprint_path = self.fs.get_sprint_path(sprint_id)
 
+        # Check for ULID-based sprint IDs - use v2 loader directly
+        if len(sprint_id) == 26 and sprint_id.isalnum() and sprint_id.startswith('01'):
+            from vibey.roadmap.serialization.yaml_loader import load_sprint_ticket as yaml_load_sprint_ticket
+            ulid_sprint_path = self.fs.roadmap_root / "sprints" / f"{sprint_id}.yaml"
+            if ulid_sprint_path.exists():
+                sprint_ticket = yaml_load_sprint_ticket(ulid_sprint_path)
+                # Populate criteria from child tasks in the flat tasks directory
+                sprint_ticket = self._populate_sprint_children_criteria(sprint_ticket, sprint_id)
+                return sprint_ticket
+
+        # Legacy path for slug-based sprint IDs
         if self.use_sqlite:
             sprint = load_sprint(sprint_id, root_dir=self.root_dir)
         else:
@@ -863,6 +885,17 @@ class QueryTicketLoader:
         """Load a track and convert to TrackTicket."""
         track_path = self.fs.get_track_path(track_id)
 
+        # Check for ULID-based track IDs - use v2 loader directly
+        if len(track_id) == 26 and track_id.isalnum() and track_id.startswith('01'):
+            from vibey.roadmap.serialization.yaml_loader import load_track_ticket as yaml_load_track_ticket
+            ulid_track_path = self.fs.roadmap_root / "tracks" / f"{track_id}.yaml"
+            if ulid_track_path.exists():
+                track_ticket = yaml_load_track_ticket(ulid_track_path)
+                # Populate criteria from child sprints in the flat sprints directory
+                track_ticket = self._populate_track_children_criteria(track_ticket, track_id)
+                return track_ticket
+
+        # Legacy path for slug-based track IDs
         if self.use_sqlite:
             track = load_track(track_id, root_dir=self.root_dir)
         else:
@@ -948,6 +981,138 @@ class QueryTicketLoader:
         except Exception:
             # If criteria loading fails, return empty list
             return []
+
+    def _populate_sprint_children_criteria(self, sprint_ticket: SprintTicket, sprint_id: str) -> SprintTicket:
+        """
+        Populate sprint criteria from child tasks in the flat tasks directory.
+
+        For ULID-based sprints using flat directory structure, tasks are stored
+        separately and reference the sprint via sprint_id. This method scans the
+        tasks directory and adds criteria for each child task.
+
+        Args:
+            sprint_ticket: The loaded SprintTicket (may have empty criteria)
+            sprint_id: The sprint ULID to match against task.sprint_id
+
+        Returns:
+            Updated SprintTicket with criteria populated from child tasks
+        """
+        import yaml
+        # Criterion and CompletableTarget are imported at module level (lines 27, 29)
+
+        status_map = {
+            'not_started': TicketStatus.NOT_STARTED,
+            'in_progress': TicketStatus.IN_PROGRESS,
+            'completed': TicketStatus.COMPLETED,
+            'blocked': TicketStatus.NOT_STARTED,
+            'production_ready': TicketStatus.PRODUCTION_READY,
+        }
+
+        # Only populate if criteria is empty (not already loaded from v2 format)
+        if sprint_ticket.criteria:
+            return sprint_ticket
+
+        # Scan tasks directory for children of this sprint
+        criteria = []
+        tasks_dir = self.fs.roadmap_root / "tasks"
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                try:
+                    with open(task_file) as f:
+                        task_data = yaml.safe_load(f)
+                    task = task_data.get('task', {})
+                    if task.get('sprint_id') == sprint_id:
+                        task_id = task.get('id', task_file.stem)
+                        task_status_str = task.get('status', 'not_started')
+                        task_status = status_map.get(task_status_str, TicketStatus.NOT_STARTED)
+
+                        target = CompletableTarget(
+                            completable_id=task_id,
+                            required_status=TicketStatus.COMPLETED,
+                            current_status=task_status,
+                        )
+                        criteria.append(Criterion(
+                            id=f"subtask-{task_id}",
+                            description=f"Subtask {task_id} must complete",
+                            blocks_transition_to=TicketStatus.COMPLETED,
+                            target=target,
+                            required=True,
+                        ))
+                except Exception:
+                    continue
+
+        if criteria:
+            # Create new sprint ticket with populated criteria
+            return sprint_ticket.model_copy(update={'criteria': criteria})
+
+        return sprint_ticket
+
+    def _populate_track_children_criteria(self, track_ticket: TrackTicket, track_id: str) -> TrackTicket:
+        """
+        Populate track criteria from child sprints in the flat sprints directory.
+
+        For ULID-based tracks using flat directory structure, sprints are stored
+        separately and reference the track via track_id. This method scans the
+        sprints directory and adds criteria for each child sprint.
+
+        Args:
+            track_ticket: The loaded TrackTicket (may have empty criteria)
+            track_id: The track ULID to match against sprint.track_id
+
+        Returns:
+            Updated TrackTicket with criteria populated from child sprints
+        """
+        import yaml
+        # Criterion and CompletableTarget are imported at module level (lines 27, 29)
+
+        status_map = {
+            'not_started': TicketStatus.NOT_STARTED,
+            'in_progress': TicketStatus.IN_PROGRESS,
+            'completed': TicketStatus.COMPLETED,
+            'blocked': TicketStatus.NOT_STARTED,
+            'production_ready': TicketStatus.PRODUCTION_READY,
+        }
+
+        # Only populate if criteria is empty (not already loaded from v2 format)
+        if track_ticket.criteria:
+            return track_ticket
+
+        # Scan sprints directory for children of this track
+        criteria = []
+        sprints_dir = self.fs.roadmap_root / "sprints"
+        if sprints_dir.exists():
+            for sprint_file in sprints_dir.glob("*.yaml"):
+                try:
+                    with open(sprint_file) as f:
+                        sprint_data = yaml.safe_load(f)
+                    sprint = sprint_data.get('sprint', {})
+                    # Check both track_id and parent_ref for v1/v2 compatibility
+                    sprint_track_id = sprint.get('track_id') or sprint.get('parent_ref')
+                    if sprint_track_id == track_id:
+                        sprint_id = sprint.get('id', sprint_file.stem)
+                        sprint_status_str = sprint.get('status', 'not_started')
+                        sprint_status = status_map.get(sprint_status_str, TicketStatus.NOT_STARTED)
+
+                        target = CompletableTarget(
+                            completable_id=sprint_id,
+                            required_status=TicketStatus.COMPLETED,
+                            current_status=sprint_status,
+                        )
+                        criteria.append(Criterion(
+                            id=f"sprint-{sprint_id}",
+                            description=f"Sprint {sprint_id} must complete",
+                            blocks_transition_to=TicketStatus.COMPLETED,
+                            target=target,
+                            required=True,
+                        ))
+                except Exception:
+                    continue
+
+        if criteria:
+            # Create new track ticket with populated criteria
+            return track_ticket.model_copy(update={'criteria': criteria})
+
+        return track_ticket
 
     def _sprint_to_ticket(self, sprint: Sprint, track_id: str) -> SprintTicket:
         """Convert legacy Sprint to SprintTicket."""

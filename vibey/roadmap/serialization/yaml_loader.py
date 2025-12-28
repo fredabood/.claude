@@ -269,7 +269,8 @@ def detect_yaml_format(data: Dict[str, Any]) -> str:
         'ticket_type',
         'commits_local',
         'requirements_local',
-        'assigned_agents',  # List in v2, assigned_agent (singular) in v1
+        # Note: 'assigned_agents' is NOT a reliable v2 indicator because it
+        # exists in v1 format as well. Only use structural differences.
     ]
 
     for indicator in v2_indicators:
@@ -2389,12 +2390,17 @@ def _load_sprint_ticket_v2(sprint_data: Dict[str, Any]) -> SprintTicket:
     # Parse commits
     commits = _convert_legacy_commits(sprint_data.get('commits', []))
 
+    # Handle parent_ref - fall back to track_id if not present (v1 compatibility)
+    parent_ref = sprint_data.get('parent_ref') or sprint_data.get('track_id')
+    if not parent_ref:
+        raise ValueError(f"Sprint {sprint_data.get('id')} missing both parent_ref and track_id")
+
     return SprintTicket(
         id=sprint_data['id'],
         name=sprint_data['name'],
         description=sprint_data.get('description'),
         criteria=criteria,
-        parent_ref=sprint_data['parent_ref'],
+        parent_ref=parent_ref,
         status=_convert_status_to_ticket_status(sprint_data.get('status', 'not_started')),
         created_at=_parse_datetime(sprint_data.get('created_at')) or datetime.now(timezone.utc),
         started_at=_parse_datetime(sprint_data.get('started_at')),
@@ -2407,8 +2413,8 @@ def _load_sprint_ticket_v2(sprint_data: Dict[str, Any]) -> SprintTicket:
         metadata=sprint_data.get('metadata', {}),
         sequence=sprint_data.get('sequence', 0),
         slug=sprint_data.get('slug', ''),
-        track_id=sprint_data['track_id'],
-        roadmap_id=sprint_data['roadmap_id'],
+        track_id=sprint_data.get('track_id') or parent_ref,  # Fall back to parent_ref (v2)
+        roadmap_id=sprint_data.get('roadmap_id', 'vibey-framework-v2'),
         completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
         production_gate_check_at=_parse_datetime(sprint_data.get('production_gate_check_at')),
         production_ready_at=_parse_datetime(sprint_data.get('production_ready_at')),
@@ -2617,12 +2623,16 @@ def _load_track_ticket_v2(track_data: Dict[str, Any]) -> TrackTicket:
     # Parse commits
     commits = _convert_legacy_commits(track_data.get('commits', []))
 
+    # Handle parent_ref - fall back to roadmap_id if not present (v1 compatibility)
+    parent_ref = track_data.get('parent_ref') or track_data.get('roadmap_id', 'vibey-framework-v2')
+    roadmap_id = track_data.get('roadmap_id', 'vibey-framework-v2')
+
     return TrackTicket(
         id=track_data['id'],
         name=track_data['name'],
         description=track_data.get('description'),
         criteria=criteria,
-        parent_ref=track_data['parent_ref'],
+        parent_ref=parent_ref,
         status=_convert_status_to_ticket_status(track_data.get('status', 'not_started')),
         created_at=_parse_datetime(track_data.get('created_at')) or datetime.now(timezone.utc),
         started_at=_parse_datetime(track_data.get('started_at')),
@@ -2635,7 +2645,7 @@ def _load_track_ticket_v2(track_data: Dict[str, Any]) -> TrackTicket:
         metadata=track_data.get('metadata', {}),
         sequence=track_data.get('sequence', 0),
         slug=track_data.get('slug', ''),
-        roadmap_id=track_data['roadmap_id'],
+        roadmap_id=roadmap_id,
         strategic_value=track_data.get('strategic_value', []),
         # Token tracking (v2 format - Ticket class fields)
         input_tokens=_parse_tokens(track_data.get('input_tokens')),

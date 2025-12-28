@@ -10,12 +10,132 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 20
     sprints_completed: 0
-    tasks_total: 0
+    tasks_total: 120
     tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    completion_percent: 0.0
+  sprints:
+  - id: 01KC2D0JKWWW8WMS7PPGDQ42HC
+    name: Foundation & Project Setup
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JKXPS17WN2TC0K8NG65
+    name: Tree View Implementation
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC2D0JKXPS17WN2TC0K8NG6C
+    name: Basic Edit Operations
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC2D0JKXPS17WN2TC0K8NG6K
+    name: Status Bar Integration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JKXPS17WN2TC0K8NG6S
+    name: Git Integration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: 01KC2D0JKXPS17WN2TC0K8NG71
+    name: Task Links & File Navigation
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC2D0JKY8WC5NT15KN5SW9Y6
+    name: Testing & Marketplace Publishing
+    status: not_started
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: 01KDC65R84RNNZDF8GW8C9J77J
+    name: 'Sprint 1: Project Setup & Architecture'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R89REHB1SA2MMKPX89N
+    name: 'Sprint 2: Roadmap API Backend'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R8DABXRM0D3D4M5PGAP
+    name: 'Sprint 3: Core UI Layout'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R8JW13RAQGFS0Y6Z3A7
+    name: 'Sprint 4: Tree View'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R8PM6X9KCJX5X6M4TNB
+    name: 'Sprint 5: Kanban Board'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R8TN9EBABCBR2XW34JZ
+    name: 'Sprint 6: Gantt/Timeline View'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R8YQNMTN2D941F7SND8
+    name: 'Sprint 7: Doc Viewer'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R92ZN4HA9B85VBFZDH9
+    name: 'Sprint 8: Chat Interface Backend'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R97ANFGP0CCWZWFQ6KY
+    name: 'Sprint 9: Chat Interface Frontend'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R9BZ2F8Q9GJ19VQ1EPW
+    name: 'Sprint 10: VS Code Extension Foundation'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R9F5NRXC0AM1ASJVX12
+    name: 'Sprint 11: VS Code Extension Integration'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R9KB5PA8TTMRG1VEW75
+    name: 'Sprint 12: Testing & Quality'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KDC65R9RJFA9NJDPYPN01GRH
+    name: 'Sprint 13: Deployment & Publishing'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +149,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-28T02:10:49.862296+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

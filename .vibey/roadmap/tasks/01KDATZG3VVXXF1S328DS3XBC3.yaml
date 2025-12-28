@@ -65,7 +65,7 @@ task:
   parent_ref: 01KDATZAG0PQ8HVFD2SGBC6ESE
   status: completed
   created_at: '2025-12-25T14:00:00+00:00'
-  started_at: '2025-12-28T13:11:36.261544+00:00'
+  started_at: '2025-12-28T04:00:00+00:00'
   completed_at: '2025-12-28T04:45:00+00:00'
   updated_at: '2025-12-28T13:11:36.261547+00:00'
   assigned_agents: []
@@ -86,7 +86,7 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  started: null
-  completed: null
+  started: '2025-12-28T04:00:00+00:00'
+  completed: '2025-12-28T04:45:00+00:00'
   production_ready_at: null
   deployed_at: null

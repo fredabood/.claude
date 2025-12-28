@@ -1,6 +1,6 @@
 task:
   id: 01KDJNKE2B2W5NJRTSRZWN4QT3
-  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
+  sprint_id: 01KDJVATAXPPTMVV24CF3E5JXT
   track_id: 01KDJKA1TT237C23PQ77D2J4ZK
   roadmap_id: vibey-framework-v2
   task_type: documentation
@@ -8,7 +8,8 @@ task:
   description: Generate a comprehensive summary report comparing the original User
     Journey Audit (Dec 12-16) findings with the V2 audit updates. Document what changed,
     what was added, what gaps were filled, and recommendations for ongoing audit
-    maintenance.
+    maintenance. This task was moved from Sprint 5 to Sprint 7 to ensure it includes
+    Sprint 6 findings and final synchronized file counts.
   status: not_started
   blocked: false
   created: '2025-12-28T15:00:00+00:00'
@@ -26,10 +27,9 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QT0
-  - 01KDJNKE2B2W5NJRTSRZWN4QT1
-  - 01KDJNKE2B2W5NJRTSRZWN4QT2
-  depended_on_by: []
+  - 01KDJVATAXPPTMVV24CF3E5JXZ
+  depended_on_by:
+  - 01KDJVB8QJ0T9P34MV6M7VEE9V
   deliverables:
   - COMPREHENSIVE_AUDIT_V2_SUMMARY.md
   - Recommendations for audit maintenance cadence

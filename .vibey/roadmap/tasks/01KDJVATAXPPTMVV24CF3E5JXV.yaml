@@ -1,0 +1,38 @@
+task:
+  id: 01KDJVATAXPPTMVV24CF3E5JXV
+  sprint_id: 01KDJVATAXPPTMVV24CF3E5JXT
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Re-scan file inventory for audit-created files
+  description: Scan the repository for all files created during Sprints 4-6 of this
+    audit. Add them to FILE_INVENTORY.yaml. This includes documentation files (CLI_REFERENCE.md,
+    MCP_REFERENCE.md, ADRs, journeys, walkthroughs), remediation logs, and this sprint's
+    own outputs. Ensure no audit artifacts are missing from the inventory.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T18:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - 01KDJVATAXPPTMVV24CF3E5JXW
+  deliverables:
+  - Updated FILE_INVENTORY.yaml with all audit files
+  - List of files added since Sprint 1
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

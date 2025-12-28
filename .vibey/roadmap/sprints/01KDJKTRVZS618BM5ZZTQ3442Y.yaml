@@ -14,13 +14,13 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 9
+    development_tasks_total: 8
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 9
+    tasks_total: 8
     tasks_completed: 0
     completion_percent: 0
   development_gates: []
@@ -69,8 +69,9 @@ sprint:
   - Final audit report published
   - Monitoring process documented
   risks: []
-  notes: Tasks 5.1 and 5.4 moved from original Sprint 33. This sprint depends on findings
-    from Sprints 1-4.
+  notes: Tasks 5.1 and 5.4 moved from original Sprint 33. Task 5.9 (V2 Summary Report)
+    moved to Sprint 7 to ensure it includes Sprint 6 findings. This sprint depends
+    on findings from Sprints 1-4.
   assigned_agents: []
   quality_gates: []
   commits: []

@@ -1,0 +1,39 @@
+task:
+  id: 01KDJVATAXPPTMVV24CF3E5JXY
+  sprint_id: 01KDJVATAXPPTMVV24CF3E5JXT
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update QUALITY_METRICS_BASELINE with final state
+  description: Update QUALITY_METRICS_BASELINE.md to reflect the final repository
+    state after all remediation and documentation work. Include any changes to test
+    coverage, linting scores, type checking status, and code complexity that resulted
+    from Sprint 5 remediation work.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T18:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJVATAXPPTMVV24CF3E5JXX
+  depended_on_by:
+  - 01KDJVATAXPPTMVV24CF3E5JXZ
+  deliverables:
+  - Final QUALITY_METRICS_BASELINE.md
+  - Metrics delta since Sprint 5
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

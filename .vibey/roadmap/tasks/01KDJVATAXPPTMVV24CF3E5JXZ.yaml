@@ -1,0 +1,37 @@
+task:
+  id: 01KDJVATAXPPTMVV24CF3E5JXZ
+  sprint_id: 01KDJVATAXPPTMVV24CF3E5JXT
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Finalize AUDIT_PROGRESS_TRACKER with all sprints
+  description: Finalize AUDIT_PROGRESS_TRACKER.yaml with complete sprint and task
+    counts including Sprint 7 itself. Update completion percentages and ensure all
+    8 sprints (1, 1.5, 2, 3, 4, 5, 6, 7) and 58 tasks are accurately reflected.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T18:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJVATAXPPTMVV24CF3E5JXY
+  depended_on_by:
+  - 01KDJNKE2B2W5NJRTSRZWN4QT3
+  deliverables:
+  - Final AUDIT_PROGRESS_TRACKER.yaml
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

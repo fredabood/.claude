@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 11
-    sprints_completed: 0
+    sprints_completed: 1
     tasks_total: 52
     tasks_completed: 7
-    completion_percent: 13.0
+    completion_percent: 13
   sprints:
   - id: 01KCWDNDQ3BPN1TC8QJVG8AVPX
     name: 'Sprint 0: Architecture Design'

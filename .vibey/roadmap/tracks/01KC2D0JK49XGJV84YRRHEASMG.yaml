@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 3
-    sprints_completed: 0
+    sprints_completed: 3
     tasks_total: 19
     tasks_completed: 19
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: 01KC2D0JK49XGJV84YRRHEASMH
     name: Hierarchical Structure & Core Generation

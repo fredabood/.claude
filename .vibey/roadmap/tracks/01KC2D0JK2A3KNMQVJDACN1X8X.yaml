@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 2
-    sprints_completed: 0
+    sprints_completed: 2
     tasks_total: 20
     tasks_completed: 20
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: 01KC2D0JK2A3KNMQVJDACN1X8Y
     name: Config-to-Docs Architecture

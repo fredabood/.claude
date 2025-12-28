@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 3
-    sprints_completed: 0
+    sprints_completed: 3
     tasks_total: 16
     tasks_completed: 16
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: 01KC2D0JKDQPXAYGH93V9Z82XJ
     name: Foundation & Sprint Planning Integration

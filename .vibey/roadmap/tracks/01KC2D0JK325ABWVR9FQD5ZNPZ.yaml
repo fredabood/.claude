@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 5
-    sprints_completed: 0
+    sprints_completed: 5
     tasks_total: 23
     tasks_completed: 23
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: 01KC2D0JK325ABWVR9FQD5ZNQ0
     name: Low-Risk Cleanup & Preparation

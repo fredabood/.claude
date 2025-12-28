@@ -16,11 +16,11 @@ roadmap:
   progress:
     tracks_total: 52
     tracks_completed: 30
-    sprints_total: 0
-    sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    sprints_total: 268
+    sprints_completed: 188
+    tasks_total: 1824
+    tasks_completed: 1429
+    completion_percent: 78
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port

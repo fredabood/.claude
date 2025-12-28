@@ -30,15 +30,15 @@ sprint:
   - blocker_id: 01KDJKTRVZS618BM5ZZTQ3442V
     blocker_type: sprint
     required_status: completed
-    current_status: in_progress
+    current_status: completed
     blocks_transition_to: completed
-    last_checked: '2025-12-28T18:09:19.551574+00:00'
+    last_checked: '2025-12-28T19:56:38.144653+00:00'
   - blocker_id: 01KDC9293X9AMMB8XRXQ7TJB1J
     blocker_type: sprint
     required_status: completed
-    current_status: not_started
+    current_status: completed
     blocks_transition_to: completed
-    last_checked: '2025-12-28T09:01:04.369611+00:00'
+    last_checked: '2025-12-28T21:21:02.478314+00:00'
   - blocker_id: 01KDJKTRVZS618BM5ZZTQ3442W
     blocker_type: sprint
     required_status: completed

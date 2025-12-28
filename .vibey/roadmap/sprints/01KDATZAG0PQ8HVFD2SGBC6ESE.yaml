@@ -1,59 +1,45 @@
 sprint:
   id: 01KDATZAG0PQ8HVFD2SGBC6ESE
   name: 'Sprint 29: CLI Command Timeout and Missing Commands'
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-25T14:00:00+00:00'
+  started: '2025-12-25T14:32:13.057072+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-28T13:18:15.116364+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 5
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 5
+    completion_percent: 100
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
   description: CLI bugs discovered during roadmap state verification - commands timing
     out, missing update command, confirmation prompts not working with piped input
-  format_version: v2
-  ticket_type: sprint
-  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
-  status: completed
-  created_at: '2025-12-25T14:00:00+00:00'
-  started_at: '2025-12-25T14:32:13.057072+00:00'
-  completed_at: '2025-12-28T13:18:15.116364+00:00'
-  updated_at: '2025-12-28T13:18:15.116367+00:00'
-  assigned_agents: []
-  priority: medium
-  criteria:
-  - id: subtask-01KDATZG3VVXXF1S328DS3XBC4
-    description: Subtask 01KDATZG3VVXXF1S328DS3XBC4 must complete
-    blocks_transition_to: completed
-    target:
-      type: completable
-      completable_id: 01KDATZG3VVXXF1S328DS3XBC4
-      required_status: completed
-    required: true
-  - id: subtask-01KDH17KJ0ZKE93R2FMX6CVAMC
-    description: Subtask 01KDH17KJ0ZKE93R2FMX6CVAMC must complete
-    blocks_transition_to: completed
-    target:
-      type: completable
-      completable_id: 01KDH17KJ0ZKE93R2FMX6CVAMC
-      required_status: completed
-    required: true
-  - id: subtask-01KDATZG3VVXXF1S328DS3XBC5
-    description: Subtask 01KDATZG3VVXXF1S328DS3XBC5 must complete
-    blocks_transition_to: completed
-    target:
-      type: completable
-      completable_id: 01KDATZG3VVXXF1S328DS3XBC5
-      required_status: completed
-    required: true
-  - id: subtask-01KDGTEPCKGTDNTXRTAA7589HG
-    description: Subtask 01KDGTEPCKGTDNTXRTAA7589HG must complete
-    blocks_transition_to: completed
-    target:
-      type: completable
-      completable_id: 01KDGTEPCKGTDNTXRTAA7589HG
-      required_status: completed
-    required: true
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  plan_file: null
   goal: Fix CLI command timeout and add missing roadmap update command
   success_criteria: []
-  development_gates: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
     last_updated: null
     estimated_duration: null

@@ -1,0 +1,47 @@
+track:
+  id: 01KDJKA1TT237C23PQ77D2J4ZK
+  name: Comprehensive Repository Audit V2
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-12-28T14:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 1
+    sprints_completed: 0
+    tasks_total: 11
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: 01KDC9293X9AMMB8XRXQ7TJB1J
+    name: 'Sprint 33: Data Integrity Audit'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 11
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value:
+  - Validates all project data integrity after User Journey Audit
+  - Identifies discrepancies between claimed and actual state
+  - Updates stale audit outputs from Dec 2024
+  - Establishes baseline for ongoing integrity monitoring
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude-code
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: Moved Sprint 33 from CLI Dogfooding Bug Fixes track. This track provides
+      a comprehensive audit combining User Journey Audit refresh with data integrity
+      validation originally planned in Sprint 33.

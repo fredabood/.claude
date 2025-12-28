@@ -411,6 +411,92 @@ def roadmap_revert(ctx, item_id: str, target_status: str, yes: bool):
     sys.exit(exit_code)
 
 
+@roadmap.group('update')
+@click.pass_context
+def roadmap_update(ctx):
+    """Update fields on tracks, sprints, or tasks.
+
+    Allows modifying status, priority, blocked flag, and other fields
+    without going through start/complete workflows.
+
+    Examples:
+      vibey roadmap update task <id> --status in_progress
+      vibey roadmap update sprint <id> --status completed
+      vibey roadmap update track <id> --priority high
+    """
+    pass
+
+
+@roadmap_update.command('task')
+@click.argument('task_id')
+@click.option('--status', '-s', type=click.Choice(['not_started', 'in_progress', 'completed', 'blocked', 'deferred']),
+              help='New status')
+@click.option('--priority', '-p', type=click.Choice(['low', 'medium', 'high', 'critical']),
+              help='New priority')
+@click.option('--blocked/--no-blocked', default=None, help='Set blocked flag')
+@click.option('--title', '-t', help='New title')
+@click.option('--description', '-d', help='New description')
+@click.pass_context
+def roadmap_update_task(ctx, task_id: str, status: Optional[str], priority: Optional[str],
+                        blocked: Optional[bool], title: Optional[str], description: Optional[str]):
+    """Update a task's fields.
+
+    Examples:
+      vibey roadmap update task 01KC2D0JK7READW9KAK1HBX4B8 --status in_progress
+      vibey roadmap update task my-task --priority high --blocked
+      vibey roadmap update task 01KC... --title "New title"
+    """
+    from vibey.cli.commands_legacy import roadmap_update_task_cmd
+
+    exit_code = roadmap_update_task_cmd(task_id, status, priority, blocked, title, description)
+    sys.exit(exit_code)
+
+
+@roadmap_update.command('sprint')
+@click.argument('sprint_id')
+@click.option('--status', '-s', type=click.Choice(['not_started', 'in_progress', 'completed', 'production_ready', 'blocked']),
+              help='New status')
+@click.option('--blocked/--no-blocked', default=None, help='Set blocked flag')
+@click.option('--name', '-n', help='New name')
+@click.option('--description', '-d', help='New description')
+@click.pass_context
+def roadmap_update_sprint(ctx, sprint_id: str, status: Optional[str],
+                          blocked: Optional[bool], name: Optional[str], description: Optional[str]):
+    """Update a sprint's fields.
+
+    Examples:
+      vibey roadmap update sprint 01KC2D0JK7READW9KAK1HBX4B8 --status in_progress
+      vibey roadmap update sprint my-sprint --name "Sprint 5: New Name"
+    """
+    from vibey.cli.commands_legacy import roadmap_update_sprint_cmd
+
+    exit_code = roadmap_update_sprint_cmd(sprint_id, status, blocked, name, description)
+    sys.exit(exit_code)
+
+
+@roadmap_update.command('track')
+@click.argument('track_id')
+@click.option('--status', '-s', type=click.Choice(['not_started', 'in_progress', 'completed', 'production_ready', 'blocked', 'paused']),
+              help='New status')
+@click.option('--priority', '-p', type=click.Choice(['low', 'medium', 'high', 'critical']),
+              help='New priority')
+@click.option('--blocked/--no-blocked', default=None, help='Set blocked flag')
+@click.option('--name', '-n', help='New name')
+@click.pass_context
+def roadmap_update_track(ctx, track_id: str, status: Optional[str], priority: Optional[str],
+                         blocked: Optional[bool], name: Optional[str]):
+    """Update a track's fields.
+
+    Examples:
+      vibey roadmap update track 01KC2D0JK7READW9KAK1HBX4B8 --status in_progress
+      vibey roadmap update track my-track --priority critical
+    """
+    from vibey.cli.commands_legacy import roadmap_update_track_cmd
+
+    exit_code = roadmap_update_track_cmd(track_id, status, priority, blocked, name)
+    sys.exit(exit_code)
+
+
 @roadmap.command('reconcile')
 @click.option('--fix', is_flag=True, help='Auto-fix detected issues')
 @click.option('--dry-run', is_flag=True, help='Show issues without fixing (default)')

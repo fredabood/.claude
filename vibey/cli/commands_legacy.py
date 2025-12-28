@@ -6763,3 +6763,334 @@ def context_search_cmd(
 
     print(f"\nFound {len(results)} matches")
     return 0
+
+
+# =============================================================================
+# Update Commands - Sprint 29 CLI Dogfooding Bug Fixes
+# =============================================================================
+
+def roadmap_update_task_cmd(
+    task_id: str,
+    status: Optional[str] = None,
+    priority: Optional[str] = None,
+    blocked: Optional[bool] = None,
+    title: Optional[str] = None,
+    description: Optional[str] = None,
+) -> int:
+    """Update a task's fields.
+
+    Args:
+        task_id: Task ULID or slug
+        status: New status (not_started, in_progress, completed)
+        priority: New priority (low, medium, high, critical)
+        blocked: Set blocked flag
+        title: New title
+        description: New description
+
+    Returns:
+        Exit code (0 for success)
+    """
+    import yaml
+    from datetime import datetime, timezone
+
+    root_dir = Path.cwd()
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Find task file
+    is_ulid = len(task_id) == 26 and task_id.isalnum() and task_id.startswith('01')
+
+    if is_ulid:
+        task_path = roadmap_root / "tasks" / f"{task_id}.yaml"
+    else:
+        # Try to resolve via .id file
+        id_file = roadmap_root / "tasks" / ".id"
+        if id_file.exists():
+            for line in id_file.read_text().splitlines():
+                if line.startswith(f"{task_id}:"):
+                    ulid = line.split(":")[1].strip()
+                    task_path = roadmap_root / "tasks" / f"{ulid}.yaml"
+                    break
+            else:
+                print(f"Error: Task '{task_id}' not found in .id mapping")
+                return 1
+        else:
+            print(f"Error: Cannot resolve task '{task_id}' - no .id file")
+            return 1
+
+    if not task_path.exists():
+        print(f"Error: Task file not found: {task_path}")
+        return 1
+
+    # Load task
+    with open(task_path) as f:
+        data = yaml.safe_load(f)
+
+    task_data = data.get('task', data)
+    updates_made = []
+
+    # Apply updates
+    if status is not None:
+        valid_statuses = ['not_started', 'in_progress', 'completed', 'blocked', 'deferred']
+        if status not in valid_statuses:
+            print(f"Error: Invalid status '{status}'. Valid: {', '.join(valid_statuses)}")
+            return 1
+        old_status = task_data.get('status')
+        task_data['status'] = status
+        updates_made.append(f"status: {old_status} → {status}")
+
+        # Update timestamps
+        now = datetime.now(timezone.utc).isoformat()
+        if status == 'in_progress' and not task_data.get('started'):
+            task_data['started'] = now
+        elif status == 'completed' and not task_data.get('completed'):
+            task_data['completed'] = now
+
+    if priority is not None:
+        valid_priorities = ['low', 'medium', 'high', 'critical']
+        if priority not in valid_priorities:
+            print(f"Error: Invalid priority '{priority}'. Valid: {', '.join(valid_priorities)}")
+            return 1
+        old_priority = task_data.get('priority')
+        task_data['priority'] = priority
+        updates_made.append(f"priority: {old_priority} → {priority}")
+
+    if blocked is not None:
+        old_blocked = task_data.get('blocked', False)
+        task_data['blocked'] = blocked
+        updates_made.append(f"blocked: {old_blocked} → {blocked}")
+
+    if title is not None:
+        old_title = task_data.get('title', '')[:30]
+        task_data['title'] = title
+        updates_made.append(f"title: '{old_title}...' → '{title[:30]}...'")
+
+    if description is not None:
+        task_data['description'] = description
+        updates_made.append("description: updated")
+
+    if not updates_made:
+        print("No updates specified. Use --status, --priority, --blocked, --title, or --description")
+        return 1
+
+    # Save task
+    with open(task_path, 'w') as f:
+        yaml.dump({'task': task_data}, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+
+    print(f"✅ Updated task '{task_id}':")
+    for update in updates_made:
+        print(f"   {update}")
+
+    return 0
+
+
+def roadmap_update_sprint_cmd(
+    sprint_id: str,
+    status: Optional[str] = None,
+    blocked: Optional[bool] = None,
+    name: Optional[str] = None,
+    description: Optional[str] = None,
+) -> int:
+    """Update a sprint's fields.
+
+    Args:
+        sprint_id: Sprint ULID or slug
+        status: New status (not_started, in_progress, completed, production_ready)
+        blocked: Set blocked flag
+        name: New name
+        description: New description
+
+    Returns:
+        Exit code (0 for success)
+    """
+    import yaml
+    from datetime import datetime, timezone
+
+    root_dir = Path.cwd()
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Find sprint file
+    is_ulid = len(sprint_id) == 26 and sprint_id.isalnum() and sprint_id.startswith('01')
+
+    if is_ulid:
+        sprint_path = roadmap_root / "sprints" / f"{sprint_id}.yaml"
+    else:
+        # Try to resolve via .id file
+        id_file = roadmap_root / "sprints" / ".id"
+        if id_file.exists():
+            for line in id_file.read_text().splitlines():
+                if line.startswith(f"{sprint_id}:"):
+                    ulid = line.split(":")[1].strip()
+                    sprint_path = roadmap_root / "sprints" / f"{ulid}.yaml"
+                    break
+            else:
+                print(f"Error: Sprint '{sprint_id}' not found in .id mapping")
+                return 1
+        else:
+            print(f"Error: Cannot resolve sprint '{sprint_id}' - no .id file")
+            return 1
+
+    if not sprint_path.exists():
+        print(f"Error: Sprint file not found: {sprint_path}")
+        return 1
+
+    # Load sprint
+    with open(sprint_path) as f:
+        data = yaml.safe_load(f)
+
+    sprint_data = data.get('sprint', data)
+    updates_made = []
+
+    # Apply updates
+    if status is not None:
+        valid_statuses = ['not_started', 'in_progress', 'completed', 'production_ready', 'blocked']
+        if status not in valid_statuses:
+            print(f"Error: Invalid status '{status}'. Valid: {', '.join(valid_statuses)}")
+            return 1
+        old_status = sprint_data.get('status')
+        sprint_data['status'] = status
+        updates_made.append(f"status: {old_status} → {status}")
+
+        # Update timestamps
+        now = datetime.now(timezone.utc).isoformat()
+        if status == 'in_progress' and not sprint_data.get('started'):
+            sprint_data['started'] = now
+        elif status == 'completed' and not sprint_data.get('completed'):
+            sprint_data['completed'] = now
+        elif status == 'production_ready' and not sprint_data.get('production_ready_at'):
+            sprint_data['production_ready_at'] = now
+
+    if blocked is not None:
+        old_blocked = sprint_data.get('blocked', False)
+        sprint_data['blocked'] = blocked
+        updates_made.append(f"blocked: {old_blocked} → {blocked}")
+
+    if name is not None:
+        old_name = sprint_data.get('name', '')
+        sprint_data['name'] = name
+        updates_made.append(f"name: '{old_name}' → '{name}'")
+
+    if description is not None:
+        sprint_data['description'] = description
+        updates_made.append("description: updated")
+
+    if not updates_made:
+        print("No updates specified. Use --status, --blocked, --name, or --description")
+        return 1
+
+    # Save sprint
+    with open(sprint_path, 'w') as f:
+        yaml.dump({'sprint': sprint_data}, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+
+    print(f"✅ Updated sprint '{sprint_id}':")
+    for update in updates_made:
+        print(f"   {update}")
+
+    return 0
+
+
+def roadmap_update_track_cmd(
+    track_id: str,
+    status: Optional[str] = None,
+    priority: Optional[str] = None,
+    blocked: Optional[bool] = None,
+    name: Optional[str] = None,
+) -> int:
+    """Update a track's fields.
+
+    Args:
+        track_id: Track ULID or slug
+        status: New status (not_started, in_progress, completed, production_ready)
+        priority: New priority (low, medium, high, critical)
+        blocked: Set blocked flag
+        name: New name
+
+    Returns:
+        Exit code (0 for success)
+    """
+    import yaml
+    from datetime import datetime, timezone
+
+    root_dir = Path.cwd()
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Find track file
+    is_ulid = len(track_id) == 26 and track_id.isalnum() and track_id.startswith('01')
+
+    if is_ulid:
+        track_path = roadmap_root / "tracks" / f"{track_id}.yaml"
+    else:
+        # Try to resolve via .id file
+        id_file = roadmap_root / "tracks" / ".id"
+        if id_file.exists():
+            for line in id_file.read_text().splitlines():
+                if line.startswith(f"{track_id}:"):
+                    ulid = line.split(":")[1].strip()
+                    track_path = roadmap_root / "tracks" / f"{ulid}.yaml"
+                    break
+            else:
+                print(f"Error: Track '{track_id}' not found in .id mapping")
+                return 1
+        else:
+            print(f"Error: Cannot resolve track '{track_id}' - no .id file")
+            return 1
+
+    if not track_path.exists():
+        print(f"Error: Track file not found: {track_path}")
+        return 1
+
+    # Load track
+    with open(track_path) as f:
+        data = yaml.safe_load(f)
+
+    track_data = data.get('track', data)
+    updates_made = []
+
+    # Apply updates
+    if status is not None:
+        valid_statuses = ['not_started', 'in_progress', 'completed', 'production_ready', 'blocked', 'paused']
+        if status not in valid_statuses:
+            print(f"Error: Invalid status '{status}'. Valid: {', '.join(valid_statuses)}")
+            return 1
+        old_status = track_data.get('status')
+        track_data['status'] = status
+        updates_made.append(f"status: {old_status} → {status}")
+
+        # Update timestamps
+        now = datetime.now(timezone.utc).isoformat()
+        if status == 'in_progress' and not track_data.get('started'):
+            track_data['started'] = now
+        elif status == 'completed' and not track_data.get('completed'):
+            track_data['completed'] = now
+
+    if priority is not None:
+        valid_priorities = ['low', 'medium', 'high', 'critical']
+        if priority not in valid_priorities:
+            print(f"Error: Invalid priority '{priority}'. Valid: {', '.join(valid_priorities)}")
+            return 1
+        old_priority = track_data.get('priority')
+        track_data['priority'] = priority
+        updates_made.append(f"priority: {old_priority} → {priority}")
+
+    if blocked is not None:
+        old_blocked = track_data.get('blocked', False)
+        track_data['blocked'] = blocked
+        updates_made.append(f"blocked: {old_blocked} → {blocked}")
+
+    if name is not None:
+        old_name = track_data.get('name', '')
+        track_data['name'] = name
+        updates_made.append(f"name: '{old_name}' → '{name}'")
+
+    if not updates_made:
+        print("No updates specified. Use --status, --priority, --blocked, or --name")
+        return 1
+
+    # Save track
+    with open(track_path, 'w') as f:
+        yaml.dump({'track': track_data}, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+
+    print(f"✅ Updated track '{track_id}':")
+    for update in updates_made:
+        print(f"   {update}")
+
+    return 0

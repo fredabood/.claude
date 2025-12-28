@@ -64,11 +64,11 @@ task:
     - YAML files and database are both updated
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-25T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T01:08:26.768823+00:00'
+  completed: '2025-12-28T01:08:41.427234+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

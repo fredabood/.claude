@@ -9,11 +9,11 @@ task:
     21 views to 25 views since Dec 12. Update DATABASE_SCHEMA_DOCUMENTATION.md to
     reflect the current schema. Document all new tables, views, and any trigger
     changes. Include schema version information.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-28T15:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T21:00:00+00:00'
+  completed: '2025-12-28T21:00:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -28,7 +28,7 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables:
-  - Updated DATABASE_SCHEMA_DOCUMENTATION.md
+  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-2/outputs/DATABASE_SCHEMA_DOCUMENTATION_V2.md
   commits: []
   metadata:
     last_updated: null

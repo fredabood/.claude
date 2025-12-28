@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 7
-    sprints_completed: 2
+    sprints_completed: 3
     tasks_total: 51
-    tasks_completed: 15
-    completion_percent: 29
+    tasks_completed: 23
+    completion_percent: 45
   sprints:
   - id: 01KDJKTRVZS618BM5ZZTQ3442V
     name: 01KDJKTRVZS618BM5ZZTQ3442V
@@ -30,10 +30,10 @@ track:
     started: '2025-12-28T19:57:19+00:00'
   - id: 01KDC9293X9AMMB8XRXQ7TJB1J
     name: 01KDC9293X9AMMB8XRXQ7TJB1J
-    status: not_started
+    status: completed
     estimated_duration: null
     tasks_count: null
-    started: null
+    started: '2025-12-28T20:30:00+00:00'
   - id: 01KDJKTRVZS618BM5ZZTQ3442W
     name: 01KDJKTRVZS618BM5ZZTQ3442W
     status: not_started

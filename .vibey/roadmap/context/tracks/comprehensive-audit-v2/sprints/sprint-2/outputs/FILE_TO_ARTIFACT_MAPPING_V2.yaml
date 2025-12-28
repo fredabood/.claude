@@ -1,0 +1,132 @@
+# File to Artifact Type Mapping (Updated)
+# Generated: 2025-12-28
+# Sprint: Comprehensive Audit V2 - Sprint 2
+# Previous Version: 2025-12-12
+
+# Maps file categories to artifact types trackable in database
+
+mapping_summary:
+  total_files_audited: 1014  # Updated from 856
+  file_categories: 8  # Updated from 6
+  artifact_types_needed: 11  # Updated from 9
+  new_since_dec_12:
+    tables: 11
+    views: 4
+    files: 158
+
+# File inventory update from Sprint 1.5 Module Audits
+file_inventory:
+  by_module:
+    cli: 123
+    operations: 115
+    roadmap: 100
+    mcp: 41
+    adapters: 44
+    common: 3
+    services: 46  # NEW MODULE
+    tests: 155
+  total_python: 627
+
+# Updated category mappings
+category_mappings:
+
+  # Core Library (now includes services)
+  - category: core_library
+    source_sprint: "Comprehensive Audit V2 - Sprint 1.5"
+    file_count: 472  # Updated
+    extensions: [.py]
+    directories:
+      - vibey/cli
+      - vibey/operations
+      - vibey/roadmap
+      - vibey/mcp
+      - vibey/adapters
+      - vibey/common
+      - vibey/services  # NEW
+    artifact_mapping:
+      type: code
+      subtypes:
+        - { subtype: cli, directories: [vibey/cli], files: 123 }
+        - { subtype: operations, directories: [vibey/operations], files: 115 }
+        - { subtype: roadmap_models, directories: [vibey/roadmap/models], files: 35 }
+        - { subtype: serialization, directories: [vibey/roadmap/serialization], files: 25 }
+        - { subtype: database, directories: [vibey/roadmap/database], files: 40 }
+        - { subtype: mcp, directories: [vibey/mcp], files: 41 }
+        - { subtype: adapters, directories: [vibey/adapters], files: 44 }
+        - { subtype: common, directories: [vibey/common], files: 3 }
+        - { subtype: services, directories: [vibey/services], files: 46 }  # NEW
+
+  # Implementation Services (NEW)
+  - category: services
+    source_sprint: "Comprehensive Audit V2 - Sprint 1.5"
+    file_count: 46
+    extensions: [.py]
+    directories:
+      - vibey/services/implementation
+    artifact_mapping:
+      type: code
+      subtypes:
+        - { subtype: loop, purpose: "Implementation loop orchestration" }
+        - { subtype: selector, purpose: "Task selection logic" }
+        - { subtype: state, purpose: "Loop state management" }
+        - { subtype: completion, purpose: "Task completion handling" }
+
+# New database tables since Dec 12
+new_database_artifacts:
+  tables:
+    - name: sessions
+      purpose: Work session tracking
+      related_files:
+        - vibey/operations/roadmap/session_manager.py
+    - name: session_events
+      purpose: Session event logging
+      related_files:
+        - vibey/operations/roadmap/session_manager.py
+    - name: session_tasks
+      purpose: Tasks within sessions
+    - name: session_commits
+      purpose: Commits within sessions
+    - name: session_snapshots
+      purpose: Session state snapshots
+    - name: linked_task_pairs
+      purpose: Task linking relationships
+      related_files:
+        - vibey/roadmap/models/task.py
+    - name: submodule_references
+      purpose: Git submodule tracking
+    - name: commit_artifact_changes
+      purpose: Artifact changes per commit
+    - name: ticket_artifact_associations
+      purpose: Ticket-artifact links
+    - name: ticket_commit_links
+      purpose: Ticket-commit links
+    - name: database_state
+      purpose: Database state tracking
+
+  views:
+    - name: v_active_sessions
+      purpose: Currently active sessions
+    - name: v_session_summary
+      purpose: Session overview
+    - name: v_session_decisions
+      purpose: Session decisions
+    - name: v_session_timeline
+      purpose: Session event timeline
+
+# Cross-module dependencies (from Sprint 1.5 analysis)
+dependency_hotspots:
+  cli:
+    outgoing_edges: 333
+    targets: [operations, roadmap, mcp]
+    status: needs_refactoring
+  operations:
+    incoming_edges: 239
+    sources: [cli, services]
+    status: central_hub
+  services:
+    outgoing_edges: 53
+    targets: [roadmap, operations]
+    status: healthy
+
+# Documentation updated
+generated_by: "Comprehensive Audit V2 - Sprint 2"

@@ -1392,6 +1392,75 @@ def refresh_progress(root_dir: Path) -> int:
     return 0
 
 
+def _preload_all_tasks(fs: FileSystemManager) -> dict:
+    """
+    Pre-load all tasks and build a mapping of sprint_id -> [tasks].
+
+    This is an O(n) operation that loads each task file once, instead of
+    O(sprints * tasks) if we loaded for each sprint.
+
+    Returns:
+        Dict mapping sprint_id (ULID) to list of task objects
+    """
+    from vibey.roadmap.models import TaskType
+
+    task_mapping = {}  # sprint_id -> [tasks]
+    tasks_dir = fs.roadmap_root / "tasks"
+
+    if not tasks_dir.exists():
+        return task_mapping
+
+    for task_file in tasks_dir.glob("*.yaml"):
+        try:
+            task = load_task(task_file)
+            sprint_id = getattr(task, 'sprint_id', None)
+            if sprint_id:
+                if sprint_id not in task_mapping:
+                    task_mapping[sprint_id] = []
+                task_mapping[sprint_id].append(task)
+        except Exception:
+            # Try raw YAML parse for v2 format tasks
+            try:
+                import yaml
+                with open(task_file) as f:
+                    raw_data = yaml.safe_load(f)
+                task_data = raw_data.get('task', raw_data)
+
+                # Get sprint reference (parent_ref for v2, sprint_id for v1)
+                sprint_id = task_data.get('sprint_id') or task_data.get('parent_ref', '')
+                if not sprint_id:
+                    continue
+
+                # Create minimal task object for progress counting
+                task_type_str = task_data.get('task_type_detail', task_data.get('task_type', 'development'))
+                task_status_str = task_data.get('status', 'not_started')
+
+                task_type_map = {
+                    'development': TaskType.DEVELOPMENT,
+                    'bug': TaskType.DEVELOPMENT,  # Bug fixes count as development work
+                    'testing': TaskType.DEVELOPMENT,  # Testing counts as development work
+                    'documentation': TaskType.DEVELOPMENT,  # Docs count as development work
+                    'completion_gate': TaskType.COMPLETION_GATE,
+                    'production_gate': TaskType.PRODUCTION_GATE,
+                }
+                task_type = task_type_map.get(task_type_str, TaskType.DEVELOPMENT)
+
+                class MockTask:
+                    pass
+                mock_task = MockTask()
+                mock_task.task_type = task_type
+                mock_task.status = TaskStatus(task_status_str)
+                mock_task.deferred = task_data.get('deferred', False)
+
+                if sprint_id not in task_mapping:
+                    task_mapping[sprint_id] = []
+                task_mapping[sprint_id].append(mock_task)
+            except Exception:
+                continue
+
+    return task_mapping
+
+
 def recalculate_all(root_dir: Path, verify: bool = False) -> int:
     """
     Recalculate entire roadmap hierarchy from bottom to top.
@@ -1414,11 +1483,19 @@ def recalculate_all(root_dir: Path, verify: bool = False) -> int:
     print("🔄 Recalculating entire roadmap hierarchy...")
     print()
 
+    # Pre-load all tasks ONCE to build sprint -> tasks mapping (O(n) instead of O(sprints * tasks))
+    if fs.structure_format == "flat":
+        print("   Loading task index...")
+        task_mapping = _preload_all_tasks(fs)
+        print(f"   Indexed {sum(len(t) for t in task_mapping.values())} tasks for {len(task_mapping)} sprints")
+    else:
+        task_mapping = None  # Nested structure doesn't need this optimization
+
     # Step 1: Recalculate all sprints (bottom-up)
     print("📊 Step 1/5: Recalculating sprint progress...")
     sprint_count = 0
     for sprint_id in fs.list_sprints():
-        _update_sprint_progress(fs, sprint_id)
+        _update_sprint_progress(fs, sprint_id, task_mapping=task_mapping)
         sprint_count += 1
     print(f"  ✅ {sprint_count} sprints recalculated")
     print()
@@ -1586,57 +1663,55 @@ def _update_dependent_cache(
         return True
 
 
-def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
-    """Update sprint progress based on task completion."""
+def _update_sprint_progress(fs: FileSystemManager, sprint_id: str, task_mapping: dict = None):
+    """Update sprint progress based on task completion.
+
+    Args:
+        fs: FileSystemManager instance
+        sprint_id: Sprint ULID to update
+        task_mapping: Optional pre-loaded mapping of sprint_id -> [tasks].
+                     If provided, uses this instead of scanning all task files.
+    """
     sprint_path = fs.get_sprint_path(sprint_id)
     if not sprint_path.exists():
         return
 
     sprint = load_sprint(sprint_path)
 
-    # Get tasks for this sprint - method depends on structure
-    if fs.structure_format == "flat":
-        # In flat structure, load tasks from database or filter from all tasks
+    # Get tasks for this sprint
+    if task_mapping is not None:
+        # Use pre-loaded task mapping (O(1) lookup instead of O(n) file scan)
+        tasks = task_mapping.get(sprint_id, [])
+    elif fs.structure_format == "flat":
+        # Fallback: load from files (slow - used when called directly without pre-load)
         tasks_dir = fs.roadmap_root / "tasks"
         if tasks_dir.exists():
             tasks = []
-            # Load all task files and filter by sprint_id (slug)
-            # Sprint has both ULID (sprint.id) and slug (from parent_ref or derived)
             sprint_slug = getattr(sprint, 'slug', None)
             sprint_ulid = sprint.id
             for task_file in tasks_dir.glob("*.yaml"):
                 try:
                     task = load_task(task_file)
-                    # Match by sprint slug or ULID
-                    # Support both v1 (sprint_id) and v2 (parent_ref) formats
                     task_sprint_id = getattr(task, 'sprint_id', None)
                     if task_sprint_id and (task_sprint_id == sprint_slug or task_sprint_id == sprint_ulid):
                         tasks.append(task)
-                except Exception as e:
-                    # Try raw YAML parse for v2 format tasks that fail load_task
+                except Exception:
                     try:
                         import yaml
                         with open(task_file) as f:
                             raw_data = yaml.safe_load(f)
                         task_data = raw_data.get('task', raw_data)
-                        # Check v2 parent_ref field
                         parent_ref = task_data.get('parent_ref', '')
                         if parent_ref == sprint_ulid:
-                            # This is a v2 format task for this sprint
-                            # Create minimal task object for progress counting
                             from vibey.roadmap.models import TaskType
                             task_type_str = task_data.get('task_type_detail', task_data.get('task_type', 'development'))
                             task_status_str = task_data.get('status', 'not_started')
-
-                            # Map task type string to enum
                             task_type_map = {
                                 'development': TaskType.DEVELOPMENT,
                                 'completion_gate': TaskType.COMPLETION_GATE,
                                 'production_gate': TaskType.PRODUCTION_GATE,
                             }
                             task_type = task_type_map.get(task_type_str, TaskType.DEVELOPMENT)
-
-                            # Create a simple mock task for progress counting
                             class MockTask:
                                 pass
                             mock_task = MockTask()
@@ -1664,8 +1739,10 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
     def is_deferred(t):
         return getattr(t, 'deferred', False)
 
-    # Development tasks (exclude deferred from totals)
-    dev_tasks = [t for t in tasks if t.task_type == TaskType.DEVELOPMENT and not is_deferred(t)]
+    # Development tasks include: development, bug, testing, documentation, etc.
+    # Only completion_gate and production_gate are separate categories
+    gate_types = (TaskType.COMPLETION_GATE, TaskType.PRODUCTION_GATE)
+    dev_tasks = [t for t in tasks if t.task_type not in gate_types and not is_deferred(t)]
     dev_total = len(dev_tasks)
     dev_completed = len([t for t in dev_tasks if t.status == TaskStatus.COMPLETED])
 

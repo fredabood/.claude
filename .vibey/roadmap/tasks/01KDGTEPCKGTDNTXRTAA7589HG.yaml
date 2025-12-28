@@ -63,11 +63,11 @@ task:
     - Database correctly reflects YAML file contents after rebuild
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-27T21:11:56.051517+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T01:30:00+00:00'
+  completed: '2025-12-28T02:15:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

@@ -1,35 +1,41 @@
 task:
   id: 01KDJKTRVZS618BM5ZZTQ34432
-  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442V
-  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
-  roadmap_id: vibey-framework-v2
-  task_type: documentation
-  title: Update FILE_REGISTRY.yaml with dependencies
+  name: Update FILE_REGISTRY.yaml with dependencies
   description: Update FILE_REGISTRY.yaml with metadata for new and modified files.
     Include file purpose, primary function, exports, and direct dependencies (imports).
     Cross-reference with existing entries to identify new dependency relationships.
-  status: not_started
-  blocked: false
-  created: '2025-12-28T14:30:00+00:00'
-  started: null
-  completed: null
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KDJKTRVZS618BM5ZZTQ3442V
+  status: completed
+  created_at: '2025-12-28T14:30:00+00:00'
+  started_at: '2025-12-28T19:22:09.039056+00:00'
+  completed_at: '2025-12-28T19:25:00+00:00'
+  updated_at: '2025-12-28T19:25:00+00:00'
+  assigned_agents: []
   priority: medium
-  phase_label: null
+  criteria:
+  - id: deliverable-0
+    description: 'Deliverable: Updated FILE_REGISTRY.yaml'
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-1/outputs/FILE_REGISTRY_V2.yaml
+      all_required: true
+      deliverable_type: other
+    required: true
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: documentation
   estimated_tokens: 3000
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on:
-  - 01KDJKTRVZS618BM5ZZTQ34431
-  depended_on_by: []
-  deliverables:
-  - Updated FILE_REGISTRY.yaml
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

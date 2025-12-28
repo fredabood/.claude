@@ -1,0 +1,88 @@
+file_registry:
+  generated_at: '2025-12-28T14:23:55.976458'
+  version: '2.0'
+  audit_version: comprehensive-audit-v2
+  summary:
+    total_files: 1751
+    total_size_bytes: 23376000
+    total_lines: 752980
+    by_category:
+      core-lib:
+        count: 611
+        size: 8877837
+        lines: 274905
+      documentation:
+        count: 875
+        size: 11398840
+        lines: 388378
+      tests:
+        count: 261
+        size: 3039000
+        lines: 88223
+      scripts:
+        count: 4
+        size: 60323
+        lines: 1474
+    by_subcategory:
+      root: 829
+      roadmap: 112
+      operations: 160
+      adapters: 47
+      mcp: 57
+      cli: 169
+      common: 3
+      services: 47
+      architecture: 20
+      development: 63
+      guides: 46
+      journeys: 6
+      reference: 8
+      walkthroughs: 16
+      unit: 132
+      integration: 32
+      automation: 4
+  dependencies:
+    total_edges: 1097
+    files_with_dependencies: 414
+    most_depended_on:
+    - module: vibey.roadmap.models.ticket
+      count: 33
+    - module: vibey.roadmap.models.ticket.enums
+      count: 30
+    - module: vibey.roadmap.models.ticket.hierarchical
+      count: 30
+    - module: vibey.roadmap.models
+      count: 29
+    - module: vibey.cli.roadmap_lib.filesystem
+      count: 28
+    - module: vibey.adapters.base
+      count: 21
+    - module: vibey.roadmap.serialization
+      count: 19
+    - module: vibey.roadmap.models.ticket.targets
+      count: 18
+    - module: vibey.cli.main
+      count: 16
+    - module: vibey.roadmap.serialization.yaml_loader
+      count: 16
+    - module: vibey.roadmap.models.ticket.completable
+      count: 15
+    - module: vibey.mcp.discovery.workflows
+      count: 15
+    - module: vibey.mcp.discovery.agents
+      count: 15
+    - module: vibey.roadmap.database.connection
+      count: 13
+    - module: vibey.roadmap.models.ticket.artifact_enums
+      count: 13
+    - module: vibey.roadmap.models.common
+      count: 12
+    - module: vibey.operations.roadmap.query
+      count: 12
+    - module: vibey.cli.commands
+      count: 12
+    - module: vibey.roadmap.database.schema
+      count: 10
+    - module: vibey.roadmap.serialization.backend
+      count: 9
+  note: Full file list available in FILE_INVENTORY_V2.yaml

@@ -1,0 +1,193 @@
+dependency_graph:
+  generated_at: '2025-12-28T14:38:51.187824'
+  version: '2.0'
+  audit_version: comprehensive-audit-v2
+  summary:
+    total_files: 752
+    total_edges: 1096
+    files_with_dependencies: 413
+    files_depended_on: 334
+    circular_dependencies_count: 9
+    orphan_modules_count: 93
+    most_depended_on:
+    - file: vibey/roadmap/models/ticket/__init__.py
+      dependent_count: 33
+    - file: vibey/roadmap/models/ticket/enums.py
+      dependent_count: 30
+    - file: vibey/roadmap/models/ticket/hierarchical.py
+      dependent_count: 30
+    - file: vibey/roadmap/models/__init__.py
+      dependent_count: 29
+    - file: vibey/cli/roadmap_lib/filesystem.py
+      dependent_count: 28
+    - file: vibey/adapters/base.py
+      dependent_count: 21
+    - file: vibey/roadmap/serialization/__init__.py
+      dependent_count: 19
+    - file: vibey/roadmap/models/ticket/targets.py
+      dependent_count: 18
+    - file: vibey/cli/main.py
+      dependent_count: 16
+    - file: vibey/roadmap/serialization/yaml_loader.py
+      dependent_count: 16
+    - file: vibey/roadmap/models/ticket/completable.py
+      dependent_count: 15
+    - file: vibey/mcp/discovery/agents.py
+      dependent_count: 15
+    - file: vibey/mcp/discovery/workflows.py
+      dependent_count: 15
+    - file: vibey/roadmap/database/connection.py
+      dependent_count: 13
+    - file: vibey/roadmap/models/ticket/artifact_enums.py
+      dependent_count: 13
+    - file: vibey/roadmap/models/common.py
+      dependent_count: 12
+    - file: vibey/operations/roadmap/query.py
+      dependent_count: 12
+    - file: vibey/cli/commands/__init__.py
+      dependent_count: 12
+    - file: vibey/roadmap/database/schema.py
+      dependent_count: 10
+    - file: vibey/roadmap/serialization/backend.py
+      dependent_count: 9
+    most_dependencies:
+    - file: vibey/cli/commands_legacy.py
+      dependency_count: 49
+    - file: vibey/cli/main.py
+      dependency_count: 40
+    - file: vibey/services/implementation/__init__.py
+      dependency_count: 29
+    - file: vibey/operations/roadmap/update.py
+      dependency_count: 20
+    - file: vibey/operations/git/__init__.py
+      dependency_count: 20
+    - file: vibey/cli/command_modules/__init__.py
+      dependency_count: 15
+    - file: vibey/roadmap/models/ticket/__init__.py
+      dependency_count: 14
+    - file: vibey/cli/commands/__init__.py
+      dependency_count: 14
+    - file: vibey/adapters/__init__.py
+      dependency_count: 14
+    - file: vibey/operations/roadmap/query.py
+      dependency_count: 10
+    - file: vibey/roadmap/models/ticket/hierarchical.py
+      dependency_count: 9
+    - file: tests/roadmap/integration/test_artifact_workflow.py
+      dependency_count: 9
+    - file: vibey/unified/commands/roadmap.py
+      dependency_count: 8
+    - file: vibey/operations/git/hooks/pre_commit.py
+      dependency_count: 8
+    - file: tests/test_package_installation.py
+      dependency_count: 8
+    - file: vibey/roadmap/models/ticket/adapters.py
+      dependency_count: 7
+    - file: tests/roadmap/models/ticket/test_artifact_integration.py
+      dependency_count: 7
+    - file: tests/cli/test_standards_cli.py
+      dependency_count: 7
+    - file: vibey/services/__init__.py
+      dependency_count: 6
+    - file: vibey/services/implementation/loop.py
+      dependency_count: 6
+  circular_dependencies:
+  - cycle:
+    - vibey/cli/config_migrate.py
+    - vibey/cli/config_utils.py
+    - vibey/cli/config_migrate.py
+    length: 3
+  - cycle:
+    - vibey/__init__.py
+    - vibey/cli/main.py
+    - vibey/cli/commands/__init__.py
+    - vibey/cli/commands/session.py
+    - vibey/operations/roadmap/session_manager.py
+    - vibey/__init__.py
+    length: 6
+  - cycle:
+    - vibey/cli/commands/__init__.py
+    - vibey/cli/commands_legacy.py
+    - vibey/cli/commands/__init__.py
+    length: 3
+  - cycle:
+    - vibey/roadmap/models/ticket/hierarchical.py
+    - vibey/roadmap/models/ticket/hierarchical.py
+    length: 2
+  - cycle:
+    - vibey/roadmap/models/ticket/__init__.py
+    - vibey/roadmap/models/ticket/orm.py
+    - vibey/roadmap/models/ticket/__init__.py
+    length: 3
+  - cycle:
+    - vibey/roadmap/models/ticket/__init__.py
+    - vibey/roadmap/models/ticket/repository.py
+    - vibey/roadmap/models/ticket/__init__.py
+    length: 3
+  - cycle:
+    - vibey/operations/git/__init__.py
+    - vibey/operations/git/status_updater.py
+    - vibey/operations/git/__init__.py
+    length: 3
+  - cycle:
+    - vibey/cli/main.py
+    - vibey/operations/docs/cli_introspector.py
+    - vibey/cli/main.py
+    length: 3
+  - cycle:
+    - vibey/cli/main.py
+    - vibey/operations/docs/mcp_introspector.py
+    - vibey/cli/main.py
+    length: 3
+  orphan_modules:
+  - vibey/roadmap/database/migrate_to_v2.py
+  - vibey/roadmap/database/yaml_remediation.py
+  - vibey/roadmap/database/test_triggers.py
+  - vibey/roadmap/database/round_trip_validation.py
+  - vibey/roadmap/database/test_views.py
+  - vibey/roadmap/database/compare_databases.py
+  - vibey/roadmap/database/migrations/add_token_columns.py
+  - vibey/roadmap/database/crud/task.py
+  - vibey/roadmap/database/crud/roadmap.py
+  - vibey/roadmap/database/crud/track.py
+  - vibey/roadmap/database/crud/test_relationships.py
+  - vibey/roadmap/database/crud/sprint.py
+  - vibey/roadmap/database/crud/relationships.py
+  - vibey/roadmap/serialization/v1_to_v2.py
+  - vibey/roadmap/models/standard.py
+  - vibey/roadmap/operations/migrate_to_criteria.py
+  - vibey/roadmap/validation/platform.py
+  - vibey/roadmap/standards/validators/custom_script.py
+  - vibey/roadmap/standards/validators/test_run.py
+  - vibey/roadmap/standards/validators/commit_check.py
+  - vibey/unified/parity.py
+  - vibey/unified/registry.py
+  - vibey/unified/param.py
+  - vibey/unified/types.py
+  - vibey/unified/formatters/base.py
+  - vibey/unified/adapters/click_adapter.py
+  - vibey/mcp/resources/provider.py
+  - vibey/mcp/resources/types.py
+  - vibey/mcp/discovery/discovery.py
+  - vibey/mcp/discovery/generator.py
+  - vibey/mcp/tests/conftest.py
+  - vibey/mcp/prompts/provider.py
+  - vibey/mcp/prompts/types.py
+  - vibey/cli/validate-vibey-config.py
+  - vibey/cli/render-template.py
+  - vibey/cli/manage-project-context.py
+  - vibey/cli/roadmap-summarize.py
+  - vibey/cli/generate-agent.py
+  - vibey/cli/generate-config.py
+  - vibey/cli/roadmap-context.py
+  - vibey/cli/rollback-framework.py
+  - vibey/cli/validate-roadmap-format.py
+  - vibey/cli/update-config.py
+  - vibey/cli/check-version.py
+  - vibey/cli/migrate-dependency-cache.py
+  - vibey/cli/migrate-embedded-tasks.py
+  - vibey/cli/validate-config.py
+  - vibey/cli/roadmap-prepare.py
+  - vibey/cli/analyze-project-roadmap.py
+  - vibey/cli/roadmap_lib/cache_helpers.py
+  note: Full dependency details available on request

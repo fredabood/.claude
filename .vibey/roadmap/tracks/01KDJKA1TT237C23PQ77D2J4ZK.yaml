@@ -13,8 +13,8 @@ track:
     sprints_total: 7
     sprints_completed: 0
     tasks_total: 51
-    tasks_completed: 3
-    completion_percent: 5
+    tasks_completed: 9
+    completion_percent: 17
   sprints:
   - id: 01KDJKTRVZS618BM5ZZTQ3442V
     name: 01KDJKTRVZS618BM5ZZTQ3442V

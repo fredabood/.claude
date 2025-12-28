@@ -1,0 +1,37 @@
+task:
+  id: 01KDJKTRVZS618BM5ZZTQ34430
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442V
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update FILE_INVENTORY.yaml with new entries
+  description: Add all newly discovered files to FILE_INVENTORY.yaml following the
+    established schema. Each entry must include file path, size, last modified date,
+    and initial category placeholder. Preserve existing entries and only add/update
+    changed files.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T14:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJKTRVZS618BM5ZZTQ3442Z
+  depended_on_by: []
+  deliverables:
+  - Updated FILE_INVENTORY.yaml
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

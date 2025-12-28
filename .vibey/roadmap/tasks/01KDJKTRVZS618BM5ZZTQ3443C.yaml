@@ -1,0 +1,36 @@
+task:
+  id: 01KDJKTRVZS618BM5ZZTQ3443C
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442X
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update user journeys with new features
+  description: Review docs/journeys/ files for accuracy. Update JOURNEY_NEW_USER.md,
+    JOURNEY_ACTIVE_DEVELOPER.md, and JOURNEY_PROJECT_LEAD.md to include new features
+    added since Dec 12. Ensure workflow descriptions match current CLI behavior.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T14:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJKTRVZS618BM5ZZTQ34439
+  depended_on_by: []
+  deliverables:
+  - Updated user journey documents
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

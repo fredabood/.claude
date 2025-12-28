@@ -1,21 +1,21 @@
 task:
-  id: 01KDDE9NEKAH3BM9PRFPHNNCNB
+  id: 01KDJKTRVZS618BM5ZZTQ3443B
   sprint_id: 01KDJKTRVZS618BM5ZZTQ3442X
   track_id: 01KDJKA1TT237C23PQ77D2J4ZK
   roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit documentation accuracy and drift
-  description: Check documentation against actual implementation. Verify CLI_REFERENCE.md
-    matches actual commands (run vibey docs check-drift). Verify MCP_REFERENCE.md
-    matches actual tools. Check ADRs for accuracy. Identify documented features that
-    don't exist. Find implemented features missing from docs.
+  task_type: documentation
+  title: Update ADRs for recent architectural decisions
+  description: Review git commits since Dec 12 for architectural changes. Identify
+    decisions that warrant new ADRs or updates to existing ones. Focus on database
+    schema changes, CLI refactoring, directory structure changes, and new features
+    like Implementation Mode.
   status: not_started
   blocked: false
-  created: '2025-12-26T03:15:00+00:00'
+  created: '2025-12-28T14:30:00+00:00'
   started: null
   completed: null
   assigned_agent: null
-  priority: high
+  priority: medium
   phase_label: null
   estimated_tokens: 3000
   actual_tokens: null
@@ -27,7 +27,8 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables: []
+  deliverables:
+  - New or updated ADRs as needed
   commits: []
   metadata:
     last_updated: null

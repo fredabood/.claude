@@ -1,0 +1,38 @@
+task:
+  id: 01KDJKTRVZS618BM5ZZTQ3443F
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix orphan tasks and broken references
+  description: Based on findings from Sprint 2 task 2.5, fix all orphan tasks (tasks
+    with invalid sprint_id) and broken blocked_by/depends_on references. Update
+    .id mapping files if needed. Verify all ULID references resolve to existing
+    entities.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T14:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDDE9NEKAH3BM9PRFPHNNCNC
+  depended_on_by: []
+  deliverables:
+  - Fixed orphan tasks
+  - Fixed broken references
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

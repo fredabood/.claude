@@ -1,12 +1,12 @@
 sprint:
-  id: 01KDC9293X9AMMB8XRXQ7TJB1J
-  name: 'Sprint 2: Data Integrity Validation'
+  id: 01KDJKTRVZS618BM5ZZTQ3442V
+  name: 'Sprint 1: File Inventory Refresh'
   track_id: 01KDJKA1TT237C23PQ77D2J4ZK
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-26T02:45:00+00:00'
+  created: '2025-12-28T14:30:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -29,15 +29,19 @@ sprint:
   depends_on: []
   depended_on_by: []
   plan_file: .vibey/roadmap/context/tracks/comprehensive-audit-v2/TRACK_PLAN.md
-  deliverables: []
-  description: Comprehensive integrity audit across all project dimensions - codebase,
-    git history, roadmap state, unit tests, and documentation. Triggered by discovery
-    that "Unified Architecture Migration" tasks were marked complete but schema v2
-    migration never executed. This audit validates the entire project state before
-    proceeding with Implementation Mode CLI changes that depend on accurate roadmap
-    data.
-  goal: Validate claimed task completions against actual state
-  success_criteria: []
+  deliverables:
+  - Updated FILE_INVENTORY.yaml
+  - Updated FILE_REGISTRY.yaml
+  - Updated FILE_DEPENDENCY_GRAPH.yaml
+  - Delta report of file changes
+  description: Refresh all User Journey Audit file classification outputs. Scan for
+    new files added since Dec 12, classify them by category/subcategory, update dependency
+    graphs, and generate a delta report showing all changes.
+  goal: Update all file inventories to reflect current repository state
+  success_criteria:
+  - All files in repository classified
+  - FILE_INVENTORY.yaml updated with 100% coverage
+  - Delta report generated showing files added/removed/moved
   risks: []
   notes: null
   assigned_agents: []
@@ -48,6 +52,6 @@ sprint:
     last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: null
+    estimated_tokens: 15000
     actual_tokens: null
     agents_used: null

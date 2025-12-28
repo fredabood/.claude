@@ -1,0 +1,36 @@
+task:
+  id: 01KDJKTRVZS618BM5ZZTQ34432
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442V
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update FILE_REGISTRY.yaml with dependencies
+  description: Update FILE_REGISTRY.yaml with metadata for new and modified files.
+    Include file purpose, primary function, exports, and direct dependencies (imports).
+    Cross-reference with existing entries to identify new dependency relationships.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T14:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJKTRVZS618BM5ZZTQ34431
+  depended_on_by: []
+  deliverables:
+  - Updated FILE_REGISTRY.yaml
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

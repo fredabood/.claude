@@ -1,0 +1,36 @@
+task:
+  id: 01KDJKTRVZS618BM5ZZTQ3443G
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update stale documentation files
+  description: Based on findings from Sprint 4, update all documentation files identified
+    as stale or inaccurate. Focus on files not updated by the automated documentation
+    generation (guides, architecture docs, README sections).
+  status: not_started
+  blocked: false
+  created: '2025-12-28T14:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDDE9NEKAH3BM9PRFPHNNCNB
+  depended_on_by: []
+  deliverables:
+  - Updated stale documentation files
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

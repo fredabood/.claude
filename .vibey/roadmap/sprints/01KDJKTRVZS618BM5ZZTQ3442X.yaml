@@ -1,12 +1,12 @@
 sprint:
-  id: 01KDC9293X9AMMB8XRXQ7TJB1J
-  name: 'Sprint 2: Data Integrity Validation'
+  id: 01KDJKTRVZS618BM5ZZTQ3442X
+  name: 'Sprint 4: Documentation Sync'
   track_id: 01KDJKA1TT237C23PQ77D2J4ZK
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-26T02:45:00+00:00'
+  created: '2025-12-28T14:30:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -14,13 +14,13 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 6
+    development_tasks_total: 8
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 6
+    tasks_total: 8
     tasks_completed: 0
     completion_percent: 0
   development_gates: []
@@ -29,17 +29,25 @@ sprint:
   depends_on: []
   depended_on_by: []
   plan_file: .vibey/roadmap/context/tracks/comprehensive-audit-v2/TRACK_PLAN.md
-  deliverables: []
-  description: Comprehensive integrity audit across all project dimensions - codebase,
-    git history, roadmap state, unit tests, and documentation. Triggered by discovery
-    that "Unified Architecture Migration" tasks were marked complete but schema v2
-    migration never executed. This audit validates the entire project state before
-    proceeding with Implementation Mode CLI changes that depend on accurate roadmap
-    data.
-  goal: Validate claimed task completions against actual state
-  success_criteria: []
+  deliverables:
+  - Updated CLI_REFERENCE.md
+  - Updated MCP_REFERENCE.md
+  - Updated ADRs
+  - Updated user journeys
+  - Updated walkthroughs
+  - Updated CLAUDE.md
+  description: Update all documentation to reflect current implementation state. Run
+    drift detection, update reference docs, sync user journeys and walkthroughs, and
+    verify CLAUDE.md accuracy.
+  goal: Eliminate documentation drift and ensure all docs reflect current state
+  success_criteria:
+  - vibey docs check-drift returns 0 errors
+  - All CLI commands documented
+  - All MCP tools documented
+  - User journeys current
+  - CLAUDE.md verified accurate
   risks: []
-  notes: null
+  notes: Task 4.1 moved from original Sprint 33
   assigned_agents: []
   quality_gates: []
   commits: []
@@ -48,6 +56,6 @@ sprint:
     last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: null
+    estimated_tokens: 20000
     actual_tokens: null
     agents_used: null

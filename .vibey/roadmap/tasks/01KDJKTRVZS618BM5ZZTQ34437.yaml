@@ -1,0 +1,40 @@
+task:
+  id: 01KDJKTRVZS618BM5ZZTQ34437
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442W
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Generate codebase health scorecard
+  description: Compile all health metrics into a comprehensive scorecard. Include
+    test coverage percentage, dead code count, static analysis issue counts by severity,
+    untested command/tool counts, and circular dependency count. Establish baseline
+    metrics for future comparison.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T14:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDDE9NEKAH3BM9PRFPHNNCN9
+  - 01KDDE9NEKAH3BM9PRFPHNNCNA
+  - 01KDJKTRVZS618BM5ZZTQ34435
+  - 01KDJKTRVZS618BM5ZZTQ34436
+  depended_on_by: []
+  deliverables:
+  - CODEBASE_HEALTH_SCORECARD.md
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,17 +1,16 @@
 task:
-  id: 01KDDE9NEKAH3BM9PRFPHNNCNB
+  id: 01KDJKTRVZS618BM5ZZTQ3443A
   sprint_id: 01KDJKTRVZS618BM5ZZTQ3442X
   track_id: 01KDJKA1TT237C23PQ77D2J4ZK
   roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit documentation accuracy and drift
-  description: Check documentation against actual implementation. Verify CLI_REFERENCE.md
-    matches actual commands (run vibey docs check-drift). Verify MCP_REFERENCE.md
-    matches actual tools. Check ADRs for accuracy. Identify documented features that
-    don't exist. Find implemented features missing from docs.
+  task_type: documentation
+  title: Update MCP_REFERENCE.md with new/changed tools
+  description: Regenerate MCP_REFERENCE.md using vibey docs generate-mcp command.
+    Review changes since last generation. Add documentation for any new MCP tools
+    added since Dec 12. Update descriptions for tools whose behavior changed.
   status: not_started
   blocked: false
-  created: '2025-12-26T03:15:00+00:00'
+  created: '2025-12-28T14:30:00+00:00'
   started: null
   completed: null
   assigned_agent: null
@@ -25,9 +24,11 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on: []
+  depends_on:
+  - 01KDJKTRVZS618BM5ZZTQ34438
   depended_on_by: []
-  deliverables: []
+  deliverables:
+  - Updated MCP_REFERENCE.md
   commits: []
   metadata:
     last_updated: null

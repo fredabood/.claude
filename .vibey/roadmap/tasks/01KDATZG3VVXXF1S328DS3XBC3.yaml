@@ -1,10 +1,6 @@
 task:
   id: 01KDATZG3VVXXF1S328DS3XBC3
-  sprint_id: 01KDATZAG0PQ8HVFD2SGBC6ESE
-  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: 'CLI: vibey roadmap commands timeout but Python direct calls work'
+  name: 'CLI: vibey roadmap commands timeout but Python direct calls work'
   description: '**Problem:** CLI commands like `vibey roadmap show` and `vibey roadmap
     status`
 
@@ -64,27 +60,33 @@ task:
     - `vibey roadmap show <ULID>` completes within 5 seconds
 
     '
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KDATZAG0PQ8HVFD2SGBC6ESE
   status: completed
-  blocked: false
-  created: '2025-12-25T14:00:00+00:00'
-  started: '2025-12-25T14:17:23.866809+00:00'
-  completed: '2025-12-25T14:31:42.335500+00:00'
-  assigned_agent: null
+  created_at: '2025-12-25T14:00:00+00:00'
+  started_at: '2025-12-28T13:11:36.261544+00:00'
+  completed_at: '2025-12-28T04:45:00+00:00'
+  updated_at: '2025-12-28T13:11:36.261547+00:00'
+  assigned_agents: []
   priority: critical
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 2000
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  started: null
+  completed: null
+  production_ready_at: null
+  deployed_at: null

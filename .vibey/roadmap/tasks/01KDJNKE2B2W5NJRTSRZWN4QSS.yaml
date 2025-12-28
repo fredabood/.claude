@@ -1,0 +1,37 @@
+task:
+  id: 01KDJNKE2B2W5NJRTSRZWN4QSS
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442V
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update VIBEY_FILE_CLASSIFICATION.yaml with new files
+  description: Update the core library file classification to include all new Python
+    files added since Dec 12. The original classified 365 files in vibey/. Apply
+    the established taxonomy (cli, operations, roadmap, mcp, adapters, common, etc.)
+    to new files. Preserve existing classifications and only add/update changed files.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJKTRVZS618BM5ZZTQ34431
+  depended_on_by: []
+  deliverables:
+  - Updated VIBEY_FILE_CLASSIFICATION.yaml
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,41 @@
+task:
+  id: 01KDJNKE2B2W5NJRTSRZWN4QT9
+  sprint_id: 01KDJNKE2B2W5NJRTSRZWN4QSQ
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Generate cross-module dependency analysis
+  description: Generate an updated cross-module dependency analysis showing how modules
+    depend on each other. Create a coupling matrix and identify any circular dependencies
+    or tight coupling issues. Compare with original Dec 12 analysis.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJNKE2B2W5NJRTSRZWN4QT4
+  - 01KDJNKE2B2W5NJRTSRZWN4QT5
+  - 01KDJNKE2B2W5NJRTSRZWN4QT6
+  - 01KDJNKE2B2W5NJRTSRZWN4QT7
+  - 01KDJNKE2B2W5NJRTSRZWN4QT8
+  depended_on_by: []
+  deliverables:
+  - CROSS_MODULE_DEPENDENCY_ANALYSIS.md
+  - Module coupling matrix
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

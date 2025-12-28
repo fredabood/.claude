@@ -2,23 +2,32 @@
 
 ## Overview
 
-This track combines two objectives:
+This track combines three objectives:
 1. **Refresh User Journey Audit outputs** - Update stale file inventories and documentation from Dec 12-19
 2. **Execute Data Integrity Audit** - Validate project state integrity (originally Sprint 33 from CLI Dogfooding)
+3. **Re-audit Module Quality** - Update module-level quality audits for all 7 primary categories
 
 ## Background
 
 The User Journey Audit track (01KC2D0JKVT80AFQ6C1PA8CKJT) completed on Dec 19, 2024 with comprehensive file classification and documentation. Since then, significant development work has made these outputs stale:
-- New files added to codebase
-- File dependencies changed
-- Documentation updated
-- Database schema evolved
+- 141 commits to vibey/ package
+- 320 Python files modified
+- Database grew from 27 to 39 tables
+- New CLI commands and MCP tools added
+- Major refactoring (commands.py split, format standardization)
 
 The Data Integrity Audit (originally Sprint 33) was triggered by discovering "Unified Architecture Migration" tasks marked complete but schema changes never executed.
 
+## Option C: Full Parity Implementation
+
+This plan implements Option C (Full Parity) with User Journey Audit outputs:
+- **7 Sprints** (up from original 5)
+- **52 Tasks** (up from original 30)
+- Adds Sprint 1.5 (Module Quality Re-Audit) and Sprint 6 (Friction & Progress Tracking)
+
 ## Track Structure
 
-### Sprint 1: File Inventory Refresh
+### Sprint 1: File Inventory Refresh (9 tasks)
 **Goal:** Update all User Journey Audit file classification outputs
 
 | Task | Title | Type | Complexity |
@@ -29,8 +38,23 @@ The Data Integrity Audit (originally Sprint 33) was triggered by discovering "Un
 | 1.4 | Update FILE_REGISTRY.yaml with dependencies | documentation | medium |
 | 1.5 | Update FILE_DEPENDENCY_GRAPH.yaml | documentation | complex |
 | 1.6 | Generate delta report (files added/removed/moved) | documentation | simple |
+| 1.7 | Update VIBEY_FILE_CLASSIFICATION.yaml with new files | documentation | medium |
+| 1.8 | Update DOCS and TESTS file classification files | documentation | medium |
+| 1.9 | Verify and update CLASSIFICATION_TAXONOMY.md | documentation | simple |
 
-### Sprint 2: Data Integrity Validation
+### Sprint 1.5: Module Quality Re-Audit (6 tasks) [NEW]
+**Goal:** Update module quality audits to reflect current codebase state
+
+| Task | Title | Type | Complexity |
+|------|-------|------|------------|
+| 1.5.1 | Re-audit CLI module quality (vibey/cli/) | audit | medium |
+| 1.5.2 | Re-audit Operations module quality (vibey/operations/) | audit | medium |
+| 1.5.3 | Re-audit Roadmap module quality (vibey/roadmap/) | audit | complex |
+| 1.5.4 | Re-audit MCP and Adapters modules | audit | medium |
+| 1.5.5 | Re-audit Common and Services modules | audit | medium |
+| 1.5.6 | Generate cross-module dependency analysis | analysis | complex |
+
+### Sprint 2: Data Integrity Validation (8 tasks)
 **Goal:** Validate claimed task completions against actual state
 
 | Task | Title | Type | Complexity |
@@ -41,8 +65,10 @@ The Data Integrity Audit (originally Sprint 33) was triggered by discovering "Un
 | 2.4 | Audit git history against roadmap task claims | research | medium |
 | 2.5 | Audit roadmap state for orphans and broken references | development | medium |
 | 2.6 | Audit track/sprint completion status accuracy | research | medium |
+| 2.7 | Update DATABASE_SCHEMA_DOCUMENTATION.md | documentation | medium |
+| 2.8 | Update FILE_TO_ARTIFACT_MAPPING.yaml | documentation | medium |
 
-### Sprint 3: Codebase Health Analysis
+### Sprint 3: Codebase Health Analysis (7 tasks)
 **Goal:** Assess overall codebase quality and test coverage
 
 | Task | Title | Type | Complexity |
@@ -52,8 +78,10 @@ The Data Integrity Audit (originally Sprint 33) was triggered by discovering "Un
 | 3.3 | Run static analysis (ruff, mypy) and catalog issues | research | simple |
 | 3.4 | Identify untested CLI commands and MCP tools | research | medium |
 | 3.5 | Generate codebase health scorecard | documentation | medium |
+| 3.6 | Update SCRIPTS_FILE_CLASSIFICATION.yaml | documentation | simple |
+| 3.7 | Update dead code report with new file coverage | documentation | medium |
 
-### Sprint 4: Documentation Sync
+### Sprint 4: Documentation Sync (8 tasks)
 **Goal:** Update all documentation to reflect current implementation
 
 | Task | Title | Type | Complexity |
@@ -67,7 +95,7 @@ The Data Integrity Audit (originally Sprint 33) was triggered by discovering "Un
 | 4.7 | Update walkthroughs with current workflows | documentation | medium |
 | 4.8 | Verify CLAUDE.md accuracy against codebase | documentation | simple |
 
-### Sprint 5: Remediation & Reporting
+### Sprint 5: Remediation & Reporting (9 tasks)
 **Goal:** Fix issues found and generate final audit report
 
 | Task | Title | Type | Complexity |
@@ -77,25 +105,48 @@ The Data Integrity Audit (originally Sprint 33) was triggered by discovering "Un
 | 5.3 | Update stale documentation files | documentation | medium |
 | 5.4 | Generate comprehensive audit report | documentation | medium |
 | 5.5 | Create ongoing integrity monitoring recommendations | documentation | simple |
+| 5.6 | Regenerate AUDIT_PROGRESS_TRACKER.yaml | documentation | simple |
+| 5.7 | Update COVERAGE_MATRIX.md with new file counts | documentation | medium |
+| 5.8 | Update QUALITY_METRICS_BASELINE.md | documentation | medium |
+| 5.9 | Generate comprehensive V2 audit summary report | documentation | complex |
+
+### Sprint 6: Friction & Progress Tracking (5 tasks) [NEW]
+**Goal:** Ensure audit outputs remain accurate and maintainable long-term
+
+| Task | Title | Type | Complexity |
+|------|-------|------|------------|
+| 6.1 | Update FRICTION_LOG.md with current pain points | documentation | simple |
+| 6.2 | Validate progress tracking accuracy | validation | medium |
+| 6.3 | Document audit automation recommendations | documentation | medium |
+| 6.4 | Specify monitoring dashboard requirements | documentation | medium |
+| 6.5 | Define audit maintenance cadence and owners | documentation | simple |
 
 ## Deliverables
 
 1. **Updated FILE_INVENTORY.yaml** - Complete file classification
 2. **Updated FILE_REGISTRY.yaml** - File metadata and dependencies
 3. **Updated FILE_DEPENDENCY_GRAPH.yaml** - Import/dependency relationships
-4. **Delta Report** - Changes since last audit (Dec 12-19)
-5. **Data Integrity Report** - Validation findings and remediation
-6. **Codebase Health Scorecard** - Quality metrics and recommendations
-7. **Updated Documentation** - CLI/MCP references, ADRs, user guides
-8. **Final Audit Report** - Comprehensive findings and next steps
+4. **Updated *_FILE_CLASSIFICATION.yaml files** - Category-specific classifications
+5. **Delta Report** - Changes since last audit (Dec 12-19)
+6. **Data Integrity Report** - Validation findings and remediation
+7. **Updated DATABASE_SCHEMA_DOCUMENTATION.md** - Current 39-table schema
+8. **Updated MODULE_QUALITY_AUDIT_*.md files** - All 7 module categories
+9. **CROSS_MODULE_DEPENDENCY_ANALYSIS.md** - Module coupling metrics
+10. **Codebase Health Scorecard** - Quality metrics and recommendations
+11. **Updated Documentation** - CLI/MCP references, ADRs, user guides
+12. **Final Audit Report** - Comprehensive findings and next steps
+13. **AUDIT_AUTOMATION_RECOMMENDATIONS.md** - CI/CD integration
+14. **AUDIT_MAINTENANCE_SCHEDULE.md** - Ongoing maintenance plan
 
 ## Success Criteria
 
 - All file inventories refreshed with 100% coverage
+- All 7 module categories re-audited
 - All completed tasks validated against actual state
 - False completions identified and remediated
 - Documentation drift reduced to <5%
 - Codebase health score established as baseline
+- Audit maintenance process defined and documented
 
 ## Dependencies
 
@@ -108,15 +159,20 @@ The Data Integrity Audit (originally Sprint 33) was triggered by discovering "Un
 
 | Sprint | Tasks | Estimated Tokens |
 |--------|-------|------------------|
-| Sprint 1 | 6 | ~15,000 |
-| Sprint 2 | 6 | ~20,000 |
-| Sprint 3 | 5 | ~15,000 |
+| Sprint 1 | 9 | ~20,000 |
+| Sprint 1.5 | 6 | ~18,000 |
+| Sprint 2 | 8 | ~25,000 |
+| Sprint 3 | 7 | ~17,500 |
 | Sprint 4 | 8 | ~20,000 |
-| Sprint 5 | 5 | ~15,000 |
-| **Total** | **30** | **~85,000** |
+| Sprint 5 | 9 | ~22,500 |
+| Sprint 6 | 5 | ~15,000 |
+| **Total** | **52** | **~138,000** |
 
 ## Notes
 
 - Sprint 2 incorporates the original Sprint 33 tasks from CLI Dogfooding track
-- All sprints can run in parallel for research tasks
+- Sprint 1.5 ensures module-level audits are current before health analysis
+- Sprint 6 ensures sustainable maintenance of audit outputs
+- Research tasks can run in parallel within sprints
 - Remediation (Sprint 5) depends on findings from Sprints 1-4
+- Sprint 6 depends on Sprint 5 completion

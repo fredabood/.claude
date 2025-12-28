@@ -1,0 +1,37 @@
+task:
+  id: 01KDJNKE2B2W5NJRTSRZWN4QST
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442V
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update DOCS and TESTS file classification files
+  description: Update DOCS_FILE_CLASSIFICATION.yaml (originally 187 files) and
+    TESTS_FILE_CLASSIFICATION.yaml (originally 154 files) with any new documentation
+    and test files added since Dec 12. Apply the established subcategory taxonomy.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJKTRVZS618BM5ZZTQ34431
+  depended_on_by: []
+  deliverables:
+  - Updated DOCS_FILE_CLASSIFICATION.yaml
+  - Updated TESTS_FILE_CLASSIFICATION.yaml
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

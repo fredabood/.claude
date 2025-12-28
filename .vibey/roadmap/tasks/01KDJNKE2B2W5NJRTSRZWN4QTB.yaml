@@ -1,0 +1,37 @@
+task:
+  id: 01KDJNKE2B2W5NJRTSRZWN4QTB
+  sprint_id: 01KDJNKE2B2W5NJRTSRZWN4QSR
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: Validate progress tracking accuracy
+  description: Validate that the roadmap progress tracking (track/sprint/task completion
+    percentages) accurately reflects actual state. Compare CLI output with manual
+    verification. Document any discrepancies and their causes.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJNKE2B2W5NJRTSRZWN4QT0
+  depended_on_by: []
+  deliverables:
+  - Progress tracking validation report
+  - List of any discrepancies found
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

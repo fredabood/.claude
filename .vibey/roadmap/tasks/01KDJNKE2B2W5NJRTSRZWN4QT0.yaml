@@ -1,0 +1,35 @@
+task:
+  id: 01KDJNKE2B2W5NJRTSRZWN4QT0
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Regenerate AUDIT_PROGRESS_TRACKER.yaml
+  description: Regenerate the progress tracker with current sprint and task counts.
+    The original tracker covered 28 sprints across 6 phases. Update with current
+    track structure including all new tasks added during this V2 audit.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - Updated AUDIT_PROGRESS_TRACKER.yaml
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

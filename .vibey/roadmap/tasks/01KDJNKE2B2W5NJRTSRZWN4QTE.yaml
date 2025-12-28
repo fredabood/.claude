@@ -1,0 +1,36 @@
+task:
+  id: 01KDJNKE2B2W5NJRTSRZWN4QTE
+  sprint_id: 01KDJNKE2B2W5NJRTSRZWN4QSR
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Define audit maintenance cadence and owners
+  description: Define the ongoing maintenance cadence for audit outputs. Specify which
+    files should be updated weekly, monthly, or quarterly. Assign ownership categories
+    (automated, AI-assisted, manual review). Create an AUDIT_MAINTENANCE_SCHEDULE.md.
+  status: not_started
+  blocked: false
+  created: '2025-12-28T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - 01KDJNKE2B2W5NJRTSRZWN4QTC
+  depended_on_by: []
+  deliverables:
+  - AUDIT_MAINTENANCE_SCHEDULE.md
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

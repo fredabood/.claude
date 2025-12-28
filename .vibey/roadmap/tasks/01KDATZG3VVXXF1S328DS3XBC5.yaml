@@ -57,11 +57,11 @@ task:
     - `echo "y" | vibey roadmap revert <id> --to in_progress` works
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-25T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T04:00:00+00:00'
+  completed: '2025-12-28T04:30:00+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

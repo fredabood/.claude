@@ -7,6 +7,36 @@ from the operations modules (no subprocess calls).
 
 from pathlib import Path
 from typing import Optional
+import sys
+import click
+
+
+def confirm_action(message: str, default: bool = False) -> bool:
+    """
+    Prompt for confirmation, handling both interactive and piped input.
+
+    When stdin is a TTY (interactive terminal), uses click.confirm().
+    When stdin is piped (non-interactive), reads directly from stdin.
+
+    Args:
+        message: The confirmation prompt to display
+        default: Default value if user just presses enter
+
+    Returns:
+        True if user confirmed, False otherwise
+    """
+    if sys.stdin.isatty():
+        # Interactive terminal - use click.confirm for nice UX
+        return click.confirm(message, default=default)
+    else:
+        # Non-interactive (piped input) - read from stdin directly
+        print(f"{message} [y/N]: ", end='', flush=True)
+        try:
+            response = sys.stdin.readline().strip().lower()
+            return response in ('y', 'yes')
+        except (EOFError, KeyboardInterrupt):
+            return default
+
 
 # Import operations modules
 from vibey.operations.roadmap import (
@@ -1086,8 +1116,7 @@ def roadmap_revert_cmd(item_id: str, target_status: str, skip_confirm: bool = Fa
         print(f"   Name: {item_name}")
         print(f"   ID: {item_id}")
         print(f"   Status: {current_status} → {target_status}")
-        confirm = input("\nContinue? [y/N]: ").strip().lower()
-        if confirm not in ('y', 'yes'):
+        if not confirm_action("\nContinue?"):
             print("Cancelled.")
             return 0
 
@@ -1221,8 +1250,7 @@ def bulk_complete_sprint_cmd(sprint_id: str, skip_confirm: bool = False) -> int:
         print(f"⚠️  About to complete {len(tasks_to_complete)} task(s) in sprint '{sprint_name}':")
         for task in tasks_to_complete:
             print(f"   • {task['title']} ({task['status']} → completed)")
-        confirm = input("\nContinue? [y/N]: ").strip().lower()
-        if confirm not in ('y', 'yes'):
+        if not confirm_action("\nContinue?"):
             print("Cancelled.")
             return 0
 
@@ -1960,8 +1988,7 @@ def roadmap_add_context_cmd(
 
     if target.exists():
         print(f"⚠️  File already exists: {target}")
-        response = input("Overwrite? [y/N]: ").strip().lower()
-        if response != 'y':
+        if not confirm_action("Overwrite?"):
             print("Cancelled.")
             return 1
 
@@ -2142,8 +2169,7 @@ def roadmap_repair_cmd(
         print("⚠️  WARNING: Removing broken references is a destructive operation!")
         print("   This will permanently delete invalid task references.")
         print()
-        response = input("Continue? [y/N]: ").strip().lower()
-        if response != 'y':
+        if not confirm_action("Continue?"):
             print("Cancelled.")
             return 1
         print()
@@ -5133,8 +5159,7 @@ def migrate_format_cmd(
         print(f"⚠️  This will modify {len(v1_files)} files.")
         if backup:
             print("   Backups will be created (.v1.bak extension)")
-        response = input("   Continue? [y/N]: ").strip().lower()
-        if response not in ('y', 'yes'):
+        if not confirm_action("   Continue?"):
             print("   Aborted.")
             return 1
 

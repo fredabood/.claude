@@ -2,19 +2,19 @@ track:
   id: 01KCMTJRYBYR1CR69ZAHNFCSGR
   name: Git Submodule Integration
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-12-17T00:15:25.644019+00:00'
   started: '2025-12-17T00:15:25.644019+00:00'
-  completed: '2025-12-28T05:00:00+00:00'
+  completed: null
   estimated_duration: null
   progress:
     sprints_total: 2
-    sprints_completed: 2
+    sprints_completed: 1
     tasks_total: 19
     tasks_completed: 19
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
     name: 'Sprint 1: Research & Design'

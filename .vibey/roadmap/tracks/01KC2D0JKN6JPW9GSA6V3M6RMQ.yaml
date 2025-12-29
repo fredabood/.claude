@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 14
-    sprints_completed: 14
+    sprints_completed: 0
     tasks_total: 120
     tasks_completed: 120
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KC2D0JKN6JPW9GSA6V3M6RMR
     name: Design & Schema

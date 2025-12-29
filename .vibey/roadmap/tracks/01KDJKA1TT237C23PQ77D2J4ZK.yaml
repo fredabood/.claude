@@ -14,7 +14,7 @@ track:
     sprints_completed: 6
     tasks_total: 58
     tasks_completed: 46
-    completion_percent: 79
+    completion_percent: 79.0
   sprints:
   - id: 01KDC9293X9AMMB8XRXQ7TJB1J
     name: 'Sprint 2: Data Integrity Validation'

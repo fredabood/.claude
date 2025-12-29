@@ -10,12 +10,48 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 0
-    sprints_completed: 0
+    sprints_total: 6
+    sprints_completed: 1
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  sprints: []
+  sprints:
+  - id: 01KD63PBP40YZX3EQDJNSDC95K
+    name: 'Sprint 0: Template System Design'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 0
+    started: '2025-12-23T17:15:00+00:00'
+  - id: 01KD63PBP5523GMD4NQGS4MR2K
+    name: 'Sprint 1: Template Data Model Implementation'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KD63PBP648DDTHYM4DTND788
+    name: 'Sprint 2: Template CRUD Operations'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KD63PBP70XXPP3VRZGXP21M2
+    name: 'Sprint 3: Template CLI Commands'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KD63PBP9QFQFTFYQ685TV7KP
+    name: 'Sprint 4: Built-in Templates'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KD63PBPANE81F0QYWSER36N2
+    name: 'Sprint 5: Template Integration'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []

@@ -1,33 +1,34 @@
 task:
   id: 01KDJKTRVZS618BM5ZZTQ3443J
-  name: Create ongoing integrity monitoring recommendations
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create ongoing integrity monitoring recommendations
   description: Document recommendations for ongoing data integrity monitoring. Include
     suggested automated checks (CI/CD), periodic audit schedule, drift detection process,
     and escalation procedures. Consider adding pre-commit hooks or GitHub Actions
     for continuous validation.
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KDJKTRVZS618BM5ZZTQ3442Y
-  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
   status: completed
-  created_at: '2025-12-28T14:30:00+00:00'
-  started_at: null
-  completed_at: '2025-12-29T01:29:00.640711+00:00'
-  updated_at: '2025-12-29T01:29:00.640712+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2025-12-28T14:30:00+00:00'
+  started: null
+  completed: '2025-12-29T01:29:00.640711+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: documentation
+  phase_label: null
   estimated_tokens: 2000
   actual_tokens: null
-  complexity: low
-  phase_label: null
+  complexity: simple
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

@@ -3,7 +3,7 @@
 **Server:** vibey-roadmap
 **Version:** 2.5.0
 
-**Generated:** 2025-12-17T01:56:31.066466+00:00
+**Generated:** 2025-12-29T00:19:51.895947+00:00
 
 This document provides comprehensive reference documentation for the Vibey MCP (Model Context Protocol) server, including all tools, resources, and prompts available for AI assistant integration.
 
@@ -39,40 +39,8 @@ This document provides comprehensive reference documentation for the Vibey MCP (
 | Start task | `vibey roadmap start <id>` | `task_start` |
 | Complete task | `vibey roadmap complete <id>` | `task_complete` |
 | Query task | `vibey roadmap show <id>` | `task_query` |
-| View status | `vibey roadmap status` | `roadmap_status` |
+| List sprints | `vibey roadmap list sprints` | `sprint_list` |
 | Deploy config | `vibey deploy run --platform X` | N/A (CLI only) |
-
----
-
-## Architecture Context
-
-Understanding Vibey's architecture helps AI assistants use MCP tools effectively:
-
-### The Unified Ticket Model
-
-MCP tools operate on Vibey's three-level hierarchy:
-
-- **Tracks** - Major project themes (`vibey_query_track`)
-- **Sprints** - Focused work periods (`sprint_list`, `vibey_refresh_progress`)
-- **Tasks** - Individual work items (`task_start`, `task_complete`, `task_query`)
-
-Progress computation flows upward: completing tasks via `task_complete` automatically updates sprint and track progress.
-
-### Entity Identification
-
-All MCP tools use 26-character ULID identifiers (e.g., `01KC2D0JK9JKQXGQW6MQEB0JZP`):
-- Pass ULIDs to tools like `task_query`, `task_start`, `task_complete`
-- ULIDs are time-sortable and globally unique
-- Use `roadmap_status` or `sprint_list` to discover entity IDs
-
-### MCP Tool Design Principles
-
-- **Structured Input/Output** - All tools accept and return JSON
-- **Idempotent Operations** - Safe to retry failed tool calls
-- **Error Information** - Clear error messages for debugging
-- **Context Preservation** - Tools maintain conversation context
-
-For complete architecture details, see [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md).
 
 ---
 

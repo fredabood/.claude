@@ -14,7 +14,7 @@ track:
     sprints_completed: 0
     tasks_total: 83
     tasks_completed: 14
-    completion_percent: 17.0
+    completion_percent: 16
   sprints:
   - id: 01KC2D0JKG48M2973YX4EGG3PT
     name: 'Audit: aider-port'

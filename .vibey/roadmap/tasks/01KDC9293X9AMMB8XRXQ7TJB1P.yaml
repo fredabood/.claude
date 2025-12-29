@@ -1,34 +1,33 @@
 task:
   id: 01KDC9293X9AMMB8XRXQ7TJB1P
-  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
-  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
-  roadmap_id: vibey-framework-v2
-  task_type: documentation
-  title: Generate comprehensive data integrity audit report
+  name: Generate comprehensive data integrity audit report
   description: Compile findings from all audit tasks into a structured report. Sections
     for each audit dimension - roadmap status, git history, codebase health, test
     coverage, documentation accuracy. Include severity ratings, root cause analysis,
     and prioritized remediation plan. Output as markdown in .vibey/roadmap/context/.
-  status: not_started
-  blocked: false
-  created: '2025-12-26T02:45:00+00:00'
-  started: null
-  completed: null
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KDJKTRVZS618BM5ZZTQ3442Y
+  sprint_id: 01KDJKTRVZS618BM5ZZTQ3442Y
+  status: completed
+  created_at: '2025-12-26T02:45:00+00:00'
+  started_at: null
+  completed_at: '2025-12-29T01:25:47.621056+00:00'
+  updated_at: '2025-12-29T01:25:47.621057+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: documentation
   estimated_tokens: 2000
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

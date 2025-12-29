@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 5
-    sprints_completed: 0
+    sprints_completed: 5
     tasks_total: 21
     tasks_completed: 21
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: 01KC7H29E0Z5BC7HK1CK222153
     name: Task Extraction

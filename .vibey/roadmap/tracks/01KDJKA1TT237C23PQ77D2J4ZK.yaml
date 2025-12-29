@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 8
-    sprints_completed: 5
+    sprints_completed: 6
     tasks_total: 58
-    tasks_completed: 41
-    completion_percent: 71.0
+    tasks_completed: 46
+    completion_percent: 79
   sprints:
   - id: 01KDC9293X9AMMB8XRXQ7TJB1J
     name: 'Sprint 2: Data Integrity Validation'
@@ -42,7 +42,7 @@ track:
     started: '2025-12-28T22:00:00+00:00'
   - id: 01KDJKTRVZS618BM5ZZTQ3442Y
     name: 'Sprint 5: Remediation & Reporting'
-    status: in_progress
+    status: completed
     estimated_duration: null
     tasks_count: 8
     started: '2025-12-28T22:25:00+00:00'

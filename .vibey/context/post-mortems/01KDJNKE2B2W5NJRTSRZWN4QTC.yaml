@@ -1,0 +1,48 @@
+post_mortem:
+  task_id: 01KDJNKE2B2W5NJRTSRZWN4QTC
+  task_name: Document audit automation recommendations
+  sprint_id: 01KDJNKE2B2W5NJRTSRZWN4QSR
+  track_id: 01KDJKA1TT237C23PQ77D2J4ZK
+
+  execution:
+    started: '2025-12-29T16:10:00+00:00'
+    completed: '2025-12-29T16:25:00+00:00'
+    duration_minutes: 15
+    status: completed
+
+  summary: |
+    Created comprehensive automation recommendations covering:
+    - Classification of automatable vs manual-only outputs (60%/25%/15% split)
+    - CI/CD integration proposals (pre-commit, GitHub Actions, scheduled)
+    - Sample automation scripts for file inventory, progress validation, drift detection
+    - Implementation priority in 3 phases
+
+  deliverables:
+    - path: .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-6/AUTOMATION_RECOMMENDATIONS.md
+      description: Comprehensive automation recommendations with scripts and CI/CD config
+
+  key_findings:
+    - 60% of audit maintenance is fully automatable
+    - 25% is semi-automatable with human review
+    - 15% requires human judgment (friction analysis, priorities)
+    - Pre-commit hooks can catch most drift immediately
+
+  recommendations:
+    - Start with pre-commit YAML validation (quick win)
+    - Implement file inventory generator next
+    - Set up scheduled weekly audit refresh
+
+  implementation_estimate:
+    phase_1_hours: 5  # Quick wins
+    phase_2_hours: 10  # Core automation
+    phase_3_hours: 32  # Advanced features
+    total_hours: 47
+
+  lessons_learned:
+    - Many audit outputs are just "scan and summarize" operations
+    - CI/CD integration is crucial for catching drift early
+    - Some judgment-based outputs can use structured templates
+
+  next_steps:
+    - Specify monitoring dashboard requirements (Task 4)
+    - These automation recommendations inform dashboard metrics

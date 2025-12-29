@@ -54,10 +54,10 @@ track:
     started: '2025-12-28T19:57:19+00:00'
   - id: 01KDJNKE2B2W5NJRTSRZWN4QSR
     name: 'Sprint 6: Friction & Progress Tracking'
-    status: not_started
+    status: in_progress
     estimated_duration: null
     tasks_count: 5
-    started: null
+    started: '2025-12-29T15:14:30.692078+00:00'
   - id: 01KDJVATAXPPTMVV24CF3E5JXT
     name: 'Sprint 7: Final Synchronization'
     status: not_started

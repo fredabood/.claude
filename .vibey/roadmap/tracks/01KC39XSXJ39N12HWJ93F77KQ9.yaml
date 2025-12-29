@@ -10,10 +10,10 @@ track:
   completed: '2025-12-26T02:57:10.296758+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 32
+    sprints_total: 33
     sprints_completed: 31
-    tasks_total: 153
-    tasks_completed: 152
+    tasks_total: 154
+    tasks_completed: 153
     completion_percent: 99
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
@@ -208,6 +208,12 @@ track:
     estimated_duration: null
     tasks_count: 1
     started: null
+  - id: dogfooding-bugs-33
+    name: 'Sprint 35: Missing Typing Imports in git_commands'
+    status: in_progress
+    estimated_duration: null
+    tasks_count: 0
+    started: '2025-12-29T14:57:43.979687+00:00'
   dependencies: []
   blocks: []
   blocked_by: []

@@ -10,7 +10,7 @@ Task: git-integration-2-task-003 (git hooks management)
 import sys
 import json
 import shutil
-from typing import Optional
+from typing import Optional, List, Dict, Any
 from pathlib import Path
 from datetime import datetime
 

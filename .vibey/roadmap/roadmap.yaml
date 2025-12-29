@@ -16,10 +16,10 @@ roadmap:
   progress:
     tracks_total: 53
     tracks_completed: 27
-    sprints_total: 282
+    sprints_total: 283
     sprints_completed: 195
-    tasks_total: 1872
-    tasks_completed: 1476
+    tasks_total: 1873
+    tasks_completed: 1477
     completion_percent: 78
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -228,7 +228,7 @@ roadmap:
     priority: high
   - id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
     name: Ticket Template System
-    status: in_progress
+    status: not_started
     priority: high
   - id: 01KDJKA1TT237C23PQ77D2J4ZK
     name: Comprehensive Repository Audit V2

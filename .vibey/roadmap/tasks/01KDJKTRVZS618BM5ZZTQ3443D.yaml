@@ -9,7 +9,7 @@ task:
     WALKTHROUGH_ACTIVE_DEVELOPER.md, and WALKTHROUGH_CONTRIBUTOR.md to reflect current
     CLI commands and workflows. Fix any outdated command examples.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
   started: '2025-12-28T22:12:00+00:00'
   completed: '2025-12-28T22:15:00+00:00'
@@ -25,10 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJKTRVZS618BM5ZZTQ34439
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-4/outputs/WALKTHROUGH_AUDIT.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

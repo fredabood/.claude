@@ -22,25 +22,21 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 1
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Fix for start command YAML format corruption
+  deliverables: []
   description: 'Bug discovered during Comprehensive Audit V2 Sprint 1 execution: The
     `vibey roadmap start` command converts V1 format YAML files to V2 format, which
     breaks the database loader. The loader expects V1 format with track_id/sprint_id
     but gets V2 format with parent_ref/format_version. Sprint and task files become
     unloadable after being started.'
   goal: Fix start command to preserve V1 YAML format
-  success_criteria:
-  - Start command preserves V1 format YAML structure
-  - Database loader can load started sprints and tasks
-  - No format conversion occurs during start operation
+  success_criteria: []
   risks: []
   notes: 'Discovered by: Comprehensive Audit V2, Sprint 1 execution. Workaround: Manually
     revert YAML to V1 format after start command corrupts it.'
@@ -52,6 +48,6 @@ sprint:
     last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: 5000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

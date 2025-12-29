@@ -10,7 +10,7 @@ task:
     new/updated ADRs, user journey files, walkthrough files, and audit context documentation.
     Apply the established classification taxonomy.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T18:00:00+00:00'
   started: null
   completed: null
@@ -26,12 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJVATAXPPTMVV24CF3E5JXV
-  depended_on_by:
-  - 01KDJVATAXPPTMVV24CF3E5JXX
-  deliverables:
-  - Updated DOCS_FILE_CLASSIFICATION.yaml
-  - Classification delta report
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

@@ -10,7 +10,7 @@ task:
     files vs total files. Compare with the Sprint 5 version to document the delta
     caused by audit-created files.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T18:00:00+00:00'
   started: null
   completed: null
@@ -26,12 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJVATAXPPTMVV24CF3E5JXW
-  depended_on_by:
-  - 01KDJVATAXPPTMVV24CF3E5JXY
-  deliverables:
-  - Final COVERAGE_MATRIX.md
-  - Coverage delta since Sprint 5
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

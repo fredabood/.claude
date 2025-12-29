@@ -27,9 +27,7 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Updated FRICTION_LOG.md
-  - Pain point severity matrix
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

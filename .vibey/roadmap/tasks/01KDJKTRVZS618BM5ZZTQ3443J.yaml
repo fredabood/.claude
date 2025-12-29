@@ -6,11 +6,11 @@ task:
   task_type: documentation
   title: Create ongoing integrity monitoring recommendations
   description: Document recommendations for ongoing data integrity monitoring. Include
-    suggested automated checks (CI/CD), periodic audit schedule, drift detection
-    process, and escalation procedures. Consider adding pre-commit hooks or GitHub
-    Actions for continuous validation.
+    suggested automated checks (CI/CD), periodic audit schedule, drift detection process,
+    and escalation procedures. Consider adding pre-commit hooks or GitHub Actions
+    for continuous validation.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
   started: null
   completed: null
@@ -26,10 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDC9293X9AMMB8XRXQ7TJB1P
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - INTEGRITY_MONITORING_RECOMMENDATIONS.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

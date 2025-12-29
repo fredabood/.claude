@@ -7,8 +7,8 @@ task:
   title: Update DATABASE_SCHEMA_DOCUMENTATION.md
   description: The database schema has grown from 27 tables to 39 tables and from
     21 views to 25 views since Dec 12. Update DATABASE_SCHEMA_DOCUMENTATION.md to
-    reflect the current schema. Document all new tables, views, and any trigger
-    changes. Include schema version information.
+    reflect the current schema. Document all new tables, views, and any trigger changes.
+    Include schema version information.
   status: completed
   blocked: false
   created: '2025-12-28T15:00:00+00:00'
@@ -27,8 +27,7 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-2/outputs/DATABASE_SCHEMA_DOCUMENTATION_V2.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

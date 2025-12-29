@@ -9,7 +9,7 @@ task:
     test coverage percentage, linting scores, type checking status, documentation
     coverage, and code complexity metrics. Compare with original Dec 12 baseline.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: null
   completed: null
@@ -25,11 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QSZ
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - Updated QUALITY_METRICS_BASELINE.md
-  - Before/after comparison table
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

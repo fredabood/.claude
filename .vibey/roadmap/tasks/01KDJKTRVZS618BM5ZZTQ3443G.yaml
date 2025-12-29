@@ -8,11 +8,11 @@ task:
   description: Based on findings from Sprint 4, update all documentation files identified
     as stale or inaccurate. Focus on files not updated by the automated documentation
     generation (guides, architecture docs, README sections).
-  status: not_started
-  blocked: false
+  status: completed
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T22:40:00+00:00'
+  completed: '2025-12-28T22:41:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -25,10 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDDE9NEKAH3BM9PRFPHNNCNB
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - Updated stale documentation files
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

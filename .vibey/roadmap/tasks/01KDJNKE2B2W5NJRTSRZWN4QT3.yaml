@@ -7,11 +7,11 @@ task:
   title: Generate comprehensive V2 audit summary report
   description: Generate a comprehensive summary report comparing the original User
     Journey Audit (Dec 12-16) findings with the V2 audit updates. Document what changed,
-    what was added, what gaps were filled, and recommendations for ongoing audit
-    maintenance. This task was moved from Sprint 5 to Sprint 7 to ensure it includes
-    Sprint 6 findings and final synchronized file counts.
+    what was added, what gaps were filled, and recommendations for ongoing audit maintenance.
+    This task was moved from Sprint 5 to Sprint 7 to ensure it includes Sprint 6 findings
+    and final synchronized file counts.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: null
   completed: null
@@ -27,12 +27,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJVATAXPPTMVV24CF3E5JXZ
-  depended_on_by:
-  - 01KDJVB8QJ0T9P34MV6M7VEE9V
-  deliverables:
-  - COMPREHENSIVE_AUDIT_V2_SUMMARY.md
-  - Recommendations for audit maintenance cadence
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

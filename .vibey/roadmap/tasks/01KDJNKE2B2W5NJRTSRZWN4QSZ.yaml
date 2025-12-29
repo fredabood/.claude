@@ -10,7 +10,7 @@ task:
     code introduced and verify previously flagged dead code has been addressed or
     is intentionally retained.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: '2025-12-28T21:50:00+00:00'
   completed: '2025-12-28T21:52:00+00:00'
@@ -26,10 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QSY
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-3/outputs/DEAD_CODE_AUDIT.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

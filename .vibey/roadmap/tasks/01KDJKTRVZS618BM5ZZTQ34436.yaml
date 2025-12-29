@@ -10,7 +10,7 @@ task:
     no corresponding tests. Prioritize by usage frequency and criticality. Generate
     list of tests to add.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
   started: '2025-12-28T21:35:00+00:00'
   completed: '2025-12-28T21:40:00+00:00'
@@ -26,10 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDDE9NEKAH3BM9PRFPHNNCNA
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-3/outputs/CLI_MCP_COVERAGE_AUDIT.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

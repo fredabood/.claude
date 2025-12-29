@@ -10,7 +10,7 @@ task:
     removed, moved, renamed), category-wise breakdown of changes, significant new
     modules or features added, and files that may need documentation updates.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
   started: '2025-12-28T14:50:00+00:00'
   completed: '2025-12-28T14:55:00+00:00'
@@ -26,10 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJKTRVZS618BM5ZZTQ34433
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-1/outputs/DELTA_REPORT.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

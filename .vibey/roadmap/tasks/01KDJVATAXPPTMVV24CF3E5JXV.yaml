@@ -26,11 +26,8 @@ task:
   blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - 01KDJVATAXPPTMVV24CF3E5JXW
-  deliverables:
-  - Updated FILE_INVENTORY.yaml with all audit files
-  - List of files added since Sprint 1
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

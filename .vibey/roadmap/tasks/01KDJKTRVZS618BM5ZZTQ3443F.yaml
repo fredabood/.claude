@@ -6,14 +6,13 @@ task:
   task_type: development
   title: Fix orphan tasks and broken references
   description: Based on findings from Sprint 2 task 2.5, fix all orphan tasks (tasks
-    with invalid sprint_id) and broken blocked_by/depends_on references. Update
-    .id mapping files if needed. Verify all ULID references resolve to existing
-    entities.
-  status: not_started
-  blocked: false
+    with invalid sprint_id) and broken blocked_by/depends_on references. Update .id
+    mapping files if needed. Verify all ULID references resolve to existing entities.
+  status: completed
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T22:35:00+00:00'
+  completed: '2025-12-28T22:36:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -26,11 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDDE9NEKAH3BM9PRFPHNNCNC
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - Fixed orphan tasks
-  - Fixed broken references
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

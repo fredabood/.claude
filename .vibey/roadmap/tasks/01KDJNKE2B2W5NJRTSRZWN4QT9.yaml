@@ -9,7 +9,7 @@ task:
     depend on each other. Create a coupling matrix and identify any circular dependencies
     or tight coupling issues. Compare with original Dec 12 analysis.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: '2025-12-28T20:10:00+00:00'
   completed: '2025-12-28T20:15:00+00:00'
@@ -25,14 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QT4
-  - 01KDJNKE2B2W5NJRTSRZWN4QT5
-  - 01KDJNKE2B2W5NJRTSRZWN4QT6
-  - 01KDJNKE2B2W5NJRTSRZWN4QT7
-  - 01KDJNKE2B2W5NJRTSRZWN4QT8
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-1.5/outputs/CROSS_MODULE_DEPENDENCY_ANALYSIS.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

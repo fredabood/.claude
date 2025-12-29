@@ -10,7 +10,7 @@ task:
     coverage, linting scores, type checking status, and code complexity that resulted
     from Sprint 5 remediation work.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T18:00:00+00:00'
   started: null
   completed: null
@@ -26,12 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJVATAXPPTMVV24CF3E5JXX
-  depended_on_by:
-  - 01KDJVATAXPPTMVV24CF3E5JXZ
-  deliverables:
-  - Final QUALITY_METRICS_BASELINE.md
-  - Metrics delta since Sprint 5
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

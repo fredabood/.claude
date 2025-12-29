@@ -2,12 +2,12 @@ track:
   id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
   name: Ticket Template System
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-12-23T17:15:00+00:00'
   started: '2025-12-23T17:15:00+00:00'
-  completed: '2025-12-23T22:57:07.542974+00:00'
+  completed: null
   estimated_duration: null
   progress:
     sprints_total: 0

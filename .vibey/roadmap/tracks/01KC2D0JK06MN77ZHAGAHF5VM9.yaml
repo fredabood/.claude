@@ -14,7 +14,7 @@ track:
     sprints_completed: 0
     tasks_total: 12
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   sprints:
   - id: 01KC2D0JK06MN77ZHAGAHF5VMA
     name: Homebrew Formula & Tap Setup

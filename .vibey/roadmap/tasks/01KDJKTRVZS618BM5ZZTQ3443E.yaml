@@ -9,7 +9,7 @@ task:
     statistics (CLI commands count, MCP tools count, database tables count). Check
     that code patterns and examples are current. Update any stale sections.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
   started: '2025-12-28T22:15:00+00:00'
   completed: '2025-12-28T22:18:00+00:00'
@@ -25,12 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJKTRVZS618BM5ZZTQ34439
-  - 01KDJKTRVZS618BM5ZZTQ3443A
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - CLAUDE.md (updated statistics)
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-4/outputs/CLAUDE_MD_AUDIT.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

@@ -10,7 +10,7 @@ task:
     Documentation (guides, references, architecture), Tests, Scripts, Config, Framework
     (.vibey), and Roadmap-Data. Assign primary and secondary categories where applicable.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
   started: '2025-12-28T19:00:00+00:00'
   completed: '2025-12-28T19:05:00+00:00'
@@ -26,10 +26,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJKTRVZS618BM5ZZTQ34430
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-1/outputs/NEW_FILE_CLASSIFICATIONS.yaml
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

@@ -9,7 +9,7 @@ task:
     and views. Map new Python files to the database artifacts they create, query,
     or modify. Update ARTIFACT_RELATIONSHIP_MODEL.md if entity relationships changed.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: '2025-12-28T21:05:00+00:00'
   completed: '2025-12-28T21:05:00+00:00'
@@ -25,10 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QSW
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-2/outputs/FILE_TO_ARTIFACT_MAPPING_V2.yaml
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

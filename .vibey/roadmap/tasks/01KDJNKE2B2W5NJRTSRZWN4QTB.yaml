@@ -9,7 +9,7 @@ task:
     percentages) accurately reflects actual state. Compare CLI output with manual
     verification. Document any discrepancies and their causes.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: null
   completed: null
@@ -25,11 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QT0
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - Progress tracking validation report
-  - List of any discrepancies found
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

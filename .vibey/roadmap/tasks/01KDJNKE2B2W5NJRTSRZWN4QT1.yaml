@@ -9,7 +9,7 @@ task:
     Original showed 99.4% coverage (720/724 files). Recalculate with current file
     counts (likely 800+ files now). Identify any new unclassified files.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: null
   completed: null
@@ -25,13 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QSS
-  - 01KDJNKE2B2W5NJRTSRZWN4QST
-  - 01KDJNKE2B2W5NJRTSRZWN4QSY
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - Updated COVERAGE_MATRIX.md
-  - Current coverage percentage
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

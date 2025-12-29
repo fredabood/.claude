@@ -5,11 +5,11 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Update DOCS and TESTS file classification files
-  description: Update DOCS_FILE_CLASSIFICATION.yaml (originally 187 files) and
-    TESTS_FILE_CLASSIFICATION.yaml (originally 154 files) with any new documentation
-    and test files added since Dec 12. Apply the established subcategory taxonomy.
+  description: Update DOCS_FILE_CLASSIFICATION.yaml (originally 187 files) and TESTS_FILE_CLASSIFICATION.yaml
+    (originally 154 files) with any new documentation and test files added since Dec
+    12. Apply the established subcategory taxonomy.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: '2025-12-28T15:10:00+00:00'
   completed: '2025-12-28T15:15:00+00:00'
@@ -25,11 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJKTRVZS618BM5ZZTQ34431
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-1/outputs/DOCS_FILE_CLASSIFICATION_V2.yaml
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-1/outputs/TESTS_FILE_CLASSIFICATION_V2.yaml
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

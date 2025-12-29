@@ -9,7 +9,7 @@ task:
     counts including Sprint 7 itself. Update completion percentages and ensure all
     8 sprints (1, 1.5, 2, 3, 4, 5, 6, 7) and 58 tasks are accurately reflected.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T18:00:00+00:00'
   started: null
   completed: null
@@ -25,11 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJVATAXPPTMVV24CF3E5JXY
-  depended_on_by:
-  - 01KDJNKE2B2W5NJRTSRZWN4QT3
-  deliverables:
-  - Final AUDIT_PROGRESS_TRACKER.yaml
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

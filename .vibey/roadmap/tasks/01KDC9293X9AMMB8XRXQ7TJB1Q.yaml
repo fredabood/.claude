@@ -8,11 +8,11 @@ task:
   description: Based on audit report, revert falsely-completed tasks to appropriate
     status (not_started or in_progress). Update affected sprint and track statuses.
     Document root cause of false completions to prevent recurrence.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-26T02:45:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-28T22:25:00+00:00'
+  completed: '2025-12-28T22:28:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

@@ -14,35 +14,27 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 7
-    development_tasks_completed: 7
+    development_tasks_total: 0
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 7
-    tasks_completed: 7
-    completion_percent: 100
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  plan_file: .vibey/roadmap/context/tracks/comprehensive-audit-v2/TRACK_PLAN.md
-  deliverables:
-  - Dead code analysis report
-  - Test coverage report
-  - Static analysis issues catalog
-  - Codebase health scorecard
+  plan_file: null
+  deliverables: []
   description: Assess overall codebase quality, identify dead code and orphaned files,
     measure test coverage, and run static analysis tools. Generate a health scorecard
     establishing baseline metrics for ongoing monitoring.
   goal: Assess overall codebase quality and establish health baseline
-  success_criteria:
-  - Dead code analysis complete with vulture
-  - Test coverage measured with pytest-cov
-  - Static analysis run with ruff and mypy
-  - Health scorecard generated with baseline metrics
+  success_criteria: []
   risks: []
   notes: Tasks 3.1 and 3.2 moved from original Sprint 33
   assigned_agents: []
@@ -53,6 +45,6 @@ sprint:
     last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: 15000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

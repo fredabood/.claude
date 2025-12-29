@@ -26,8 +26,7 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - .vibey/roadmap/context/tracks/comprehensive-audit-v2/sprints/sprint-4/outputs/DOCUMENTATION_DRIFT_REPORT.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

@@ -9,7 +9,7 @@ task:
     Review changes since last generation. Add documentation for any new MCP tools
     added since Dec 12. Update descriptions for tools whose behavior changed.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T14:30:00+00:00'
   started: '2025-12-28T22:00:00+00:00'
   completed: '2025-12-28T22:02:00+00:00'
@@ -25,10 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJKTRVZS618BM5ZZTQ34438
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - docs/reference/MCP_REFERENCE.md
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

@@ -14,34 +14,27 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 9
-    development_tasks_completed: 9
+    development_tasks_total: 0
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 9
-    tasks_completed: 9
-    completion_percent: 100
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  plan_file: .vibey/roadmap/context/tracks/comprehensive-audit-v2/TRACK_PLAN.md
-  deliverables:
-  - Updated FILE_INVENTORY.yaml
-  - Updated FILE_REGISTRY.yaml
-  - Updated FILE_DEPENDENCY_GRAPH.yaml
-  - Delta report of file changes
+  plan_file: null
+  deliverables: []
   description: Refresh all User Journey Audit file classification outputs. Scan for
     new files added since Dec 12, classify them by category/subcategory, update dependency
     graphs, and generate a delta report showing all changes.
   goal: Update all file inventories to reflect current repository state
-  success_criteria:
-  - All files in repository classified
-  - FILE_INVENTORY.yaml updated with 100% coverage
-  - Delta report generated showing files added/removed/moved
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []
@@ -52,6 +45,6 @@ sprint:
     last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: 15000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

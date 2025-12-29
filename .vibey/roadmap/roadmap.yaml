@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 52
-    tracks_completed: 30
-    sprints_total: 267
-    sprints_completed: 189
-    tasks_total: 1813
-    tasks_completed: 1430
-    completion_percent: 78
+    tracks_total: 53
+    tracks_completed: 2
+    sprints_total: 293
+    sprints_completed: 10
+    tasks_total: 1872
+    tasks_completed: 1471
+    completion_percent: 79.0
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -228,7 +228,11 @@ roadmap:
     priority: high
   - id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
     name: Ticket Template System
-    status: production_ready
+    status: in_progress
+    priority: high
+  - id: 01KDJKA1TT237C23PQ77D2J4ZK
+    name: Comprehensive Repository Audit V2
+    status: in_progress
     priority: high
   dependencies: []
   blocked_by: []

@@ -14,38 +14,27 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 8
-    development_tasks_completed: 8
+    development_tasks_total: 0
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 8
-    tasks_completed: 8
-    completion_percent: 100
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  plan_file: .vibey/roadmap/context/tracks/comprehensive-audit-v2/TRACK_PLAN.md
-  deliverables:
-  - Updated CLI_REFERENCE.md
-  - Updated MCP_REFERENCE.md
-  - Updated ADRs
-  - Updated user journeys
-  - Updated walkthroughs
-  - Updated CLAUDE.md
+  plan_file: null
+  deliverables: []
   description: Update all documentation to reflect current implementation state. Run
     drift detection, update reference docs, sync user journeys and walkthroughs, and
     verify CLAUDE.md accuracy.
   goal: Eliminate documentation drift and ensure all docs reflect current state
-  success_criteria:
-  - vibey docs check-drift returns 0 errors
-  - All CLI commands documented
-  - All MCP tools documented
-  - User journeys current
-  - CLAUDE.md verified accurate
+  success_criteria: []
   risks: []
   notes: Task 4.1 moved from original Sprint 33
   assigned_agents: []
@@ -56,6 +45,6 @@ sprint:
     last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: 20000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

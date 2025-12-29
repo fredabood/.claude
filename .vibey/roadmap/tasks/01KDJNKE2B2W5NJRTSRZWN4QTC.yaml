@@ -9,7 +9,7 @@ task:
     which audit outputs can be auto-generated (file counts, classification, dependencies)
     vs require manual review. Propose CI/CD checks for audit drift detection.
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-12-28T15:00:00+00:00'
   started: null
   completed: null
@@ -25,11 +25,13 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - 01KDJNKE2B2W5NJRTSRZWN4QT3
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - AUDIT_AUTOMATION_RECOMMENDATIONS.md
-  - Proposed CI/CD checks
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

@@ -1,0 +1,10 @@
+post_mortem:
+  ticket_id: 01KDJNKE2B2W5NJRTSRZWN4QT0
+  completed_at: '2025-12-29T01:29:11.731757+00:00'
+  duration_hours: null
+  summary: Completed with 0 commits
+  artifacts_changed: []
+  commits: []
+  key_decisions: []
+  lessons_learned: []
+  follow_up_items: []

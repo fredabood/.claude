@@ -1,7 +1,7 @@
 sprint:
   id: 01KFY20HAWVNND7YWGQWJVZ4AS
   name: SQLAlchemy Import Fix
-  track_id: dogfooding-bugs
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
@@ -41,7 +41,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2026-01-26T21:05:32.002518+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

@@ -1,6 +1,10 @@
 task:
   id: 01KFXKFAKEGN24FMN8Y1QFZFSV
-  name: Audit Context System
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Context System
   description: "Document context system for remote context assembly.\n\nMETHODOLOGY:\n\
     1. Document context file management:\n   - .vibey/context/ directory structure\n\
     \   - Context file formats (Markdown, YAML)\n   - Context file lifecycle\n   -\
@@ -19,78 +23,27 @@ task:
     \ - MCP context\n- .vibey/context/*.md - Context files\n\nSUCCESS CRITERIA:\n\
     - Context system documented\n- Token estimation understood\n- Remote assembly\
     \ designed\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T16:51:29.436325+00:00'
-  started_at: '2026-01-26T22:41:59.862932+00:00'
-  completed_at: '2026-01-26T22:46:38.533376+00:00'
-  updated_at: '2026-01-26T22:46:38.533380+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2026-01-26T16:51:29.436325+00:00'
+  started: '2026-01-26T22:41:59.862932+00:00'
+  completed: '2026-01-26T22:46:38.533376+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'F4: Cross-Cutting'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'F4: Cross-Cutting'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T23:15:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T23:15:00+00:00'
-      implementation_status: Fully Implemented
-      total_lines: 4709
-      context_operations:
-        agent_context: 462 lines
-        readers: 666 lines (caching)
-        writers: 1152 lines (persistence/indexing)
-        models: 676 lines (Pydantic 3-phase)
-        token_budget: 478 lines
-        freshness: 350 lines
-      token_estimation:
-        default_max: 100000 tokens
-        reserved: 10000 tokens (AI responses)
-        method: Heuristic (~4 chars/token), optional tiktoken
-        budget_allocation:
-          plan: 20%
-          runtime: 15%
-          artifacts: 50%
-      context_sources:
-        priority_order:
-        - Current task context (highest)
-        - Sprint plan
-        - Recent sessions (limit 5)
-        - Recent decisions (limit 10)
-        - Project discovery
-        - Command history (limit 10)
-      distance_based_loading:
-        distance_0: FULL context (~30KB)
-        distance_1: SUMMARY context (~20KB)
-        distance_2_plus: MINIMAL context (~5KB)
-        reduction: 80-90% context reduction achieved
-      three_phase_model:
-        plan: Goals, approach, constraints, artifact refs
-        runtime: Active files, decisions, discoveries, blockers
-        post_mortem: Summary, files changed, lessons, follow-ups
-      delivery_mechanisms:
-        mcp_tools: 5 context tools
-        cli_commands: init, list, show, archive, clean, export, search
-        formatting: Markdown for Claude, compact format available
-      key_files:
-      - vibey/operations/context/ (4,709 lines)
-      - vibey/cli/commands/context.py (674 lines)
-      - .vibey/context/ (storage directory)
-      success_criteria_met:
-      - 'Context system documented: YES'
-      - 'Token estimation understood: YES'
-      - 'Remote assembly designed: YES'

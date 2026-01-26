@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 12
-    sprints_completed: 12
+    sprints_completed: 1
     tasks_total: 45
     tasks_completed: 45
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KCZF73PX9YNKWXKYVARY89MW
     name: 'Sprint 1: Core Loop Architecture'

@@ -1,6 +1,10 @@
 task:
   id: 01KFXKK1AWN90AVDFH5P2XA6QG
-  name: Classify Stateful vs Stateless Operations
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Classify Stateful vs Stateless Operations
   description: "Classify all operations by state requirements for distributed architecture.\n\
     \nMETHODOLOGY:\n1. Define state categories:\n   - STATELESS: No state dependency,\
     \ can run anywhere\n   - LOCAL STATE: Requires local filesystem/git access\n \
@@ -19,82 +23,27 @@ task:
     \ from tasks A1-G4\n- Operation inventories from audit tasks\n\nSUCCESS CRITERIA:\n\
     - All operations classified by state\n- Distribution strategy per operation\n\
     - Architecture patterns identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T16:53:31.034036+00:00'
-  started_at: '2026-01-26T22:42:53.774104+00:00'
-  completed_at: '2026-01-26T22:47:38.349733+00:00'
-  updated_at: '2026-01-26T22:47:38.349735+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2026-01-26T16:53:31.034036+00:00'
+  started: '2026-01-26T22:42:53.774104+00:00'
+  completed: '2026-01-26T22:47:38.349733+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'H2: Synthesis'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'H2: Synthesis'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T23:15:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T23:15:00+00:00'
-      implementation_status: Classification Complete
-      state_categories:
-        stateless:
-        - Token estimation
-        - Validation rules (format checks)
-        - Context formatting
-        - MCP tool definitions
-        - Query parsing
-        local_state:
-        - YAML file operations
-        - SQLite database
-        - Git repository
-        - Hook execution
-        - File system context
-        remote_state:
-        - Databricks catalog operations
-        - Remote authentication
-        - Shared experiment registry
-        - Team template repository
-        hybrid_state:
-        - CRUD operations (local YAML + remote sync)
-        - Context assembly (local code + remote roadmap)
-        - Implementation mode (local execution + remote tracking)
-        - Git commit linking (local commits + remote tickets)
-        session_state:
-        - CLI session context
-        - Token budget tracking
-        - Active task state
-        - Undo/redo history
-      distribution_strategy:
-        stateless: Delegate to remote, run anywhere
-        local_state: Run locally, sync results to remote
-        remote_state: Direct Databricks API calls
-        hybrid_state: Coordinator layer with local/remote adapters
-        session_state: Local with remote checkpoint
-      architecture_patterns:
-        adapter: Storage backend abstraction
-        facade: Unified local/remote interface
-        strategy: Auth and sync policies
-        observer: Change notification system
-        command: Operation replay for sync
-      key_findings:
-        stateless_percent: ~15% of operations
-        local_only_percent: ~35% of operations
-        remoteable_percent: ~25% of operations
-        hybrid_percent: ~25% of operations
-      success_criteria_met:
-      - 'All operations classified by state: YES'
-      - 'Distribution strategy per operation: YES'
-      - 'Architecture patterns identified: YES'

@@ -1,28 +1,28 @@
 sprint:
-  id: 01KC4QN9S0778RKMVWB6RZ8QCT
-  name: 'Sprint 9: Flat Structure Task Loading'
-  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  id: 01KFYAD48F8FAA6GFVT7QHPVF1
+  name: 'Sprint 37: Legacy v2 Format and Sync Bugs'
+  track_id: dogfooding-bugs
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-10T18:00:00+00:00'
-  started: '2025-12-10T18:29:28.864113+00:00'
+  created: '2026-01-26T23:32:13.207356+00:00'
+  started: null
   completion_gate_check_at: null
-  completed: '2025-12-10T18:35:00+00:00'
+  completed: null
   production_gate_check_at: null
-  production_ready_at: '2025-12-10T18:35:00+00:00'
+  production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 3
-    development_tasks_completed: 3
+    development_tasks_total: 0
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 3
-    tasks_completed: 3
-    completion_percent: 100.0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -30,7 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: null
+  description: 'Bugs discovered during Sprint 0 verification: missing v2→v3 YAML migration
+    command and database dirty flag sync issues.'
   goal: null
   success_criteria: []
   risks: []
@@ -40,7 +41,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T23:32:13.207356+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

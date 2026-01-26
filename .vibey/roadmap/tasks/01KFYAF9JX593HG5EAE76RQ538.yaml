@@ -1,0 +1,34 @@
+task:
+  id: 01KFYAF9JX593HG5EAE76RQ538
+  sprint_id: 01KFYAD48F8FAA6GFVT7QHPVF1
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add v2→v3 YAML format migration command
+  description: The migrate-format command only handles v1→v2. Files in v2 format (with
+    parent_ref, name, created_at fields) cannot be automatically migrated to v3 format
+    (sprint_id, title, created). Need a new migration command or extend existing one.
+  status: not_started
+  blocked: false
+  created: '2026-01-26T23:33:25.874232+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

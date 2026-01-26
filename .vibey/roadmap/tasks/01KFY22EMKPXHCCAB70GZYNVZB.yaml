@@ -1,7 +1,7 @@
 task:
   id: 01KFY22EMKPXHCCAB70GZYNVZB
-  sprint_id: dogfooding-bugs-36
-  track_id: dogfooding-bugs
+  sprint_id: 01KFY20HAWVNND7YWGQWJVZ4AS
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: infrastructure
   title: Fix SQLAlchemy ModuleNotFoundError outside venv
@@ -30,6 +30,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2026-01-26T21:06:36.227471+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

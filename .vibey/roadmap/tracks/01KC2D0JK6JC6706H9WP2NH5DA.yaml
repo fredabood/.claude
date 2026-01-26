@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 6
-    sprints_completed: 6
+    sprints_completed: 0
     tasks_total: 63
     tasks_completed: 63
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KC2D0JK6JC6706H9WP2NH5DB
     name: Integration Architecture & Design

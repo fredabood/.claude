@@ -1,6 +1,10 @@
 task:
   id: 01KFXKH86CHSJQMWVEDWMTG9X0
-  name: Create Feature Parity Matrix
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create Feature Parity Matrix
   description: "Create comprehensive feature parity matrix for remote mode planning.\n\
     \nMETHODOLOGY:\n1. Compile feature inventory from prior tasks:\n   - CLI commands\
     \ (from D1)\n   - MCP tools (from D4)\n   - Operations (from C1)\n   - Implementation\
@@ -19,77 +23,27 @@ task:
     \ Complete feature inventories from audit tasks\n\nSUCCESS CRITERIA:\n- Every\
     \ Vibey feature classified\n- Remote requirements documented per feature\n- Effort\
     \ estimates provided\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T16:52:32.524018+00:00'
-  started_at: '2026-01-26T22:42:00.734738+00:00'
-  completed_at: '2026-01-26T22:47:37.740359+00:00'
-  updated_at: '2026-01-26T22:47:37.740362+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2026-01-26T16:52:32.524018+00:00'
+  started: '2026-01-26T22:42:00.734738+00:00'
+  completed: '2026-01-26T22:47:37.740359+00:00'
+  assigned_agent: null
   priority: critical
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'H1: Synthesis'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'H1: Synthesis'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T23:15:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T23:15:00+00:00'
-      implementation_status: Synthesis Complete
-      feature_categories:
-        direct_port:
-        - MCP read operations (query tools)
-        - Context formatting/delivery
-        - Token estimation
-        - Validation rules (stateless checks)
-        needs_adaptation:
-        - CRUD operations (hybrid YAML+remote)
-        - Git operations (local repo + remote roadmap)
-        - CLI state management (session handling)
-        - Hook system (local validation)
-        new_implementation:
-        - Remote roadmap API client
-        - Databricks Unity Catalog integration
-        - Remote authentication flow
-        - Distributed experiment tracking
-        not_applicable:
-        - Local YAML file operations
-        - SQLite query cache (replaced by remote)
-        - Git hooks (local development only)
-      effort_estimates:
-        small: Direct port operations, stateless queries
-        medium: CRUD adaptation, context hybrid loading
-        large: Git integration, implementation mode
-        xl: Full remote backend, auth system
-      critical_path:
-      - Remote CRUD API
-      - Authentication/authorization
-      - Context assembly for remote
-      - MCP server remote mode
-      quick_wins:
-      - MCP query tools (stateless)
-      - Token estimation (no changes)
-      - Validation rules (portable)
-      - Context formatting (portable)
-      patterns_identified:
-      - Adapter pattern for storage backend
-      - Strategy pattern for auth
-      - Facade for unified local/remote API
-      - Observer for sync notifications
-      success_criteria_met:
-      - 'Every Vibey feature classified: YES'
-      - 'Remote requirements documented per feature: YES'
-      - 'Effort estimates provided: YES'

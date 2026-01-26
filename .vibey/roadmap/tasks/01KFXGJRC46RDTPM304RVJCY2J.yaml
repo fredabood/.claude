@@ -1,0 +1,48 @@
+task:
+  id: 01KFXGJRC46RDTPM304RVJCY2J
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Task Selection Algorithm
+  description: "Document task selection algorithm for remote scheduling design.\n\n\
+    METHODOLOGY:\n1. Document selection criteria:\n   - Task status (not_started,\
+    \ not blocked)\n   - Dependency satisfaction\n   - Priority scoring\n   - Complexity\
+    \ factors\n   - Agent compatibility\n2. Analyze scoring algorithm:\n   - Priority\
+    \ weight\n   - Age/creation time factor\n   - Dependency depth factor\n   - Estimated\
+    \ token cost factor\n   - Custom scoring hooks\n3. Document readiness checks:\n\
+    \   - Dependency completion check\n   - Blocking relationship check\n   - Resource\
+    \ availability check\n   - Agent availability check\n4. Map selection flow:\n\
+    \   - Candidate enumeration\n   - Filtering by eligibility\n   - Scoring and ranking\n\
+    \   - Final selection\n   - Tie-breaking rules\n5. Document selection modes:\n\
+    \   - Next task selection\n   - Batch selection for parallelism\n   - Sprint-scoped\
+    \ selection\n   - Track-scoped selection\n6. Remote scheduling considerations:\n\
+    \   - Distributed task selection\n   - Race condition prevention\n   - Work stealing\
+    \ patterns\n   - Load balancing\n\nINPUT FILES:\n- vibey/operations/implement/selector.py\
+    \ - Selection logic\n- vibey/operations/roadmap/queries.py - Task queries\n- vibey/roadmap/models/task.py\
+    \ - Task model\n\nSUCCESS CRITERIA:\n- Selection algorithm fully documented\n\
+    - Scoring formula documented\n- Remote scheduling strategy defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:00:56.034393+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'E2: Advanced'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

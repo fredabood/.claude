@@ -1,0 +1,48 @@
+task:
+  id: 01KFXK9WT5Y777YMCX3VZ77V72
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Roadmap CRUD Operations
+  description: "Document CRUD operations layer for remote mode interface design.\n\
+    \nMETHODOLOGY:\n1. Inventory all CRUD operations by entity:\n   - Roadmap: create,\
+    \ read, update, delete, list\n   - Track: create, read, update, delete, list,\
+    \ reorder\n   - Sprint: create, read, update, delete, list, reorder\n   - Task:\
+    \ create, read, update, delete, list, move, assign\n2. Document each operation:\n\
+    \   - Function signature and parameters\n   - Input validation performed\n   -\
+    \ Storage operations (YAML + SQLite)\n   - Return values and error types\n   -\
+    \ Side effects (cascades, rollups)\n3. Analyze operation patterns:\n   - Single\
+    \ entity operations\n   - Batch operations\n   - Transactional operations\n  \
+    \ - Query operations (filters, sorting)\n4. Document operation interfaces:\n \
+    \  - Python function APIs\n   - CLI command mappings\n   - MCP tool mappings\n\
+    5. Map to remote mode:\n   - Operations requiring local state\n   - Operations\
+    \ delegable to remote\n   - Hybrid operations (local + remote)\n   - Interface\
+    \ abstraction opportunities\n\nINPUT FILES:\n- vibey/operations/roadmap/*.py -\
+    \ All operation modules\n- vibey/cli/commands/roadmap/*.py - CLI wrappers\n- vibey/mcp/tools/*.py\
+    \ - MCP tool implementations\n\nSUCCESS CRITERIA:\n- Complete operation inventory\n\
+    - All operation signatures documented\n- Remote mode interface requirements defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:48:31.485748+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'C1: Operations'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

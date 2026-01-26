@@ -1,0 +1,47 @@
+task:
+  id: 01KFXGP643VEBH931RT7RQ195H
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Progress and Completion Flow
+  description: "Document progress and completion flow for remote monitoring design.\n\
+    \nMETHODOLOGY:\n1. Document progress tracking:\n   - Task start events\n   - In-progress\
+    \ updates\n   - Completion events\n   - Failure events\n   - Token usage tracking\n\
+    2. Map feedback loop:\n   - Executor → Status update → Display\n   - Agent output\
+    \ → Result parsing\n   - Status change → Roadmap update\n   - Roadmap update →\
+    \ Display refresh\n3. Document completion criteria:\n   - What defines task completion\n\
+    \   - Partial completion handling\n   - Failure vs incomplete\n   - Retry logic\n\
+    4. Analyze result handling:\n   - Agent output parsing\n   - Deliverable verification\n\
+    \   - Commit linking\n   - Artifact storage\n5. Document display components:\n\
+    \   - Progress indicators\n   - Status messages\n   - Error display\n   - Summary\
+    \ reports\n6. Remote monitoring:\n   - Real-time progress streaming\n   - Remote\
+    \ dashboard updates\n   - Notification delivery\n   - Log aggregation\n\nINPUT\
+    \ FILES:\n- vibey/operations/implement/progress.py - Progress tracking\n- vibey/operations/implement/display.py\
+    \ - Display logic\n- vibey/operations/roadmap/status.py - Status updates\n\nSUCCESS\
+    \ CRITERIA:\n- Progress tracking documented\n- Feedback loop mapped\n- Remote\
+    \ monitoring designed\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:02:48.447498+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'E4: Advanced'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

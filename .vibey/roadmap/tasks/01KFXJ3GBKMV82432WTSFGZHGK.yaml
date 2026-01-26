@@ -1,0 +1,51 @@
+task:
+  id: 01KFXJ3GBKMV82432WTSFGZHGK
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Platform-Specific Configurations
+  description: "Document platform-specific configurations for remote compatibility\
+    \ analysis.\n\nMETHODOLOGY:\n1. Document each platform's configuration:\n   -\
+    \ Cursor: .cursor/rules, settings.json\n   - Copilot: .github/copilot-instructions.md\n\
+    \   - Claude Code: CLAUDE.md, .claude/\n   - VS Code: .vscode/settings.json\n\
+    \   - Goose: .goose/ configuration\n   - Gemini: Gemini-specific config\n   -\
+    \ Aider: .aider configuration\n   - Continue: .continue/ directory\n   - Windsurf:\
+    \ Windsurf configuration\n   - JetBrains: .idea/ settings\n   - Replit: .replit\
+    \ configuration\n   - Amazon Q: Q-specific config\n   - Cody: Sourcegraph Cody\
+    \ config\n2. Analyze configuration capabilities:\n   - Supported features per\
+    \ platform\n   - Configuration syntax/format\n   - Dynamic vs static configuration\n\
+    \   - MCP support level\n3. Identify platform constraints:\n   - File location\
+    \ requirements\n   - Format limitations\n   - Feature restrictions\n   - Authentication\
+    \ methods\n4. Document MCP compatibility:\n   - MCP-enabled platforms\n   - Tool\
+    \ exposure differences\n   - Resource availability\n5. Remote mode constraints:\n\
+    \   - Platforms that can connect to remote\n   - Local-only platforms\n   - Hybrid\
+    \ operation needs\n   - Configuration sync requirements\n\nINPUT FILES:\n- vibey/adapters/*.py\
+    \ - Platform adapters\n- docs/reference/platforms/*.md - Platform documentation\n\
+    - .vibey/config/platforms/*.yaml - Platform configs\n\nSUCCESS CRITERIA:\n- All\
+    \ 13 platforms documented\n- Configuration formats cataloged\n- Remote constraints\
+    \ identified\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:27:33.442426+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: 'F2: Cross-Cutting'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

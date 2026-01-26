@@ -1,0 +1,49 @@
+task:
+  id: 01KFXKFAKEGN24FMN8Y1QFZFSV
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Context System
+  description: "Document context system for remote context assembly.\n\nMETHODOLOGY:\n\
+    1. Document context file management:\n   - .vibey/context/ directory structure\n\
+    \   - Context file formats (Markdown, YAML)\n   - Context file lifecycle\n   -\
+    \ Context file templates\n2. Analyze token estimation:\n   - Token counting methods\n\
+    \   - Model-specific tokenizers\n   - Estimation accuracy\n   - Budget management\n\
+    3. Document context assembly:\n   - Context source prioritization\n   - Context\
+    \ concatenation\n   - Context truncation strategies\n   - Dynamic context updates\n\
+    4. Map context sources:\n   - Roadmap context (tasks, sprints, tracks)\n   - Codebase\
+    \ context (files, structure)\n   - Configuration context (settings)\n   - History\
+    \ context (past executions)\n   - User context (preferences)\n5. Document context\
+    \ delivery:\n   - Context formatting for agents\n   - Context embedding in prompts\n\
+    \   - Context file references\n   - Context caching\n6. Remote context assembly:\n\
+    \   - Remote roadmap context fetching\n   - Local codebase context\n   - Hybrid\
+    \ context building\n   - Context synchronization\n   - Token budget distribution\n\
+    \nINPUT FILES:\n- vibey/operations/context/*.py - Context operations\n- vibey/mcp/context/*.py\
+    \ - MCP context\n- .vibey/context/*.md - Context files\n\nSUCCESS CRITERIA:\n\
+    - Context system documented\n- Token estimation understood\n- Remote assembly\
+    \ designed\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:51:29.436325+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: 'F4: Cross-Cutting'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,46 @@
+task:
+  id: 01KFXGQX7B3EFC7DWKJCSC4RHN
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Agent Integration Points
+  description: "Document agent integration for remote agent orchestration.\n\nMETHODOLOGY:\n\
+    1. Document supported agents:\n   - Claude Code integration\n   - Other AI agent\
+    \ support\n   - Agent capability differences\n   - Agent selection criteria\n\
+    2. Map invocation patterns:\n   - Agent initialization\n   - Context passing\n\
+    \   - Tool exposure (MCP)\n   - Session management\n3. Document response handling:\n\
+    \   - Output parsing\n   - Result extraction\n   - Artifact collection\n   - Status\
+    \ determination\n4. Analyze error recovery:\n   - Timeout handling\n   - Rate\
+    \ limit handling\n   - API error handling\n   - Retry strategies\n   - Graceful\
+    \ degradation\n5. Document agent configuration:\n   - Model selection\n   - Temperature\
+    \ settings\n   - Token limits\n   - Tool permissions\n6. Remote orchestration:\n\
+    \   - Databricks-hosted agents\n   - Agent pool management\n   - Cross-agent coordination\n\
+    \   - Cost optimization\n\nINPUT FILES:\n- vibey/operations/implement/agent.py\
+    \ - Agent interface\n- vibey/adapters/*.py - Platform adapters\n- vibey/mcp/server.py\
+    \ - Tool exposure\n\nSUCCESS CRITERIA:\n- Agent integration documented\n- Invocation\
+    \ patterns mapped\n- Remote orchestration designed\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:03:44.892676+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'E5: Advanced'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,48 @@
+task:
+  id: 01KFXJB0QW9HFRV9GTSTVH4Z5G
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Review Ticket Template System Design
+  description: "Review ticket template system design for remote template sharing.\n\
+    \nMETHODOLOGY:\n1. Review existing track documentation:\n   - Locate Ticket Template\
+    \ System track\n   - Review sprint plans and task descriptions\n   - Identify\
+    \ architectural decisions made\n2. Document template data model:\n   - Template\
+    \ structure (fields, types)\n   - Template metadata\n   - Template versioning\n\
+    \   - Template inheritance\n3. Analyze variable substitution:\n   - Variable syntax\n\
+    \   - Supported variable types\n   - Default values\n   - Validation rules\n \
+    \  - Dynamic variables\n4. Document instantiation flow:\n   - Template selection\n\
+    \   - Variable collection\n   - Entity creation\n   - Post-instantiation hooks\n\
+    5. Map template storage:\n   - Local template storage\n   - Template organization\n\
+    \   - Template discovery\n   - Template sharing\n6. Remote environment considerations:\n\
+    \   - Template repository in Databricks\n   - Team template sharing\n   - Template\
+    \ sync between local/remote\n   - Template access control\n   - Version management\n\
+    \nINPUT FILES:\n- .vibey/roadmap/tracks/ - Template System track\n- docs/architecture/\
+    \ - Template designs\n- .vibey/templates/ - Any existing templates\n\nSUCCESS\
+    \ CRITERIA:\n- Template data model documented\n- Instantiation flow understood\n\
+    - Remote sharing requirements identified\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:31:39.657565+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: 'G4: Planned Features'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

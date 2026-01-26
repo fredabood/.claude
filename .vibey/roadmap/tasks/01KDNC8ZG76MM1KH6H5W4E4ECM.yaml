@@ -4,15 +4,20 @@ task:
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
-  name: Fix database rebuild NoneType error
   title: Fix database rebuild NoneType error
-  description: |
-    Database rebuild fails with "argument of type 'NoneType' is not iterable" during
+  description: 'Database rebuild fails with "argument of type ''NoneType'' is not
+    iterable" during
+
     "Loading roadmap data from YAML..." phase. This prevents all roadmap data from
+
     being loaded into SQLite, resulting in 0 tracks, 0 sprints, 0 tasks in database.
 
+
     Error occurs in vibey/cli/commands_legacy.py around the _load_roadmap_to_db call.
+
     Likely a field somewhere is None when code expects an iterable (list/dict).
+
+    '
   status: not_started
   blocked: false
   created: '2025-12-29T15:40:20+00:00'

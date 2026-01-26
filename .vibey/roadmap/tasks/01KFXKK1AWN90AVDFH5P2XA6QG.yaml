@@ -1,0 +1,49 @@
+task:
+  id: 01KFXKK1AWN90AVDFH5P2XA6QG
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Classify Stateful vs Stateless Operations
+  description: "Classify all operations by state requirements for distributed architecture.\n\
+    \nMETHODOLOGY:\n1. Define state categories:\n   - STATELESS: No state dependency,\
+    \ can run anywhere\n   - LOCAL STATE: Requires local filesystem/git access\n \
+    \  - REMOTE STATE: Requires remote database/API access\n   - HYBRID STATE: Requires\
+    \ both local and remote state\n   - SESSION STATE: Requires transient session\
+    \ state\n2. Compile operation inventory:\n   - CRUD operations (from C1)\n   -\
+    \ CLI commands (from D1)\n   - MCP tools (from D4)\n   - Implementation Mode operations\
+    \ (from E1-E5)\n   - Git operations (from F3)\n3. Analyze each operation:\n  \
+    \ - What state does it read?\n   - What state does it write?\n   - Can state be\
+    \ passed as parameters?\n   - Can operation be delegated?\n4. Create classification\
+    \ matrix:\n   - Operation name\n   - State reads (list of state types)\n   - State\
+    \ writes (list of state types)\n   - Classification\n   - Distribution strategy\n\
+    5. Identify architecture patterns:\n   - Stateless operations → Remote delegable\n\
+    \   - Local state → Must run locally\n   - Remote state → Must access Databricks\n\
+    \   - Hybrid → Requires coordination layer\n\nINPUT FILES:\n- All deliverables\
+    \ from tasks A1-G4\n- Operation inventories from audit tasks\n\nSUCCESS CRITERIA:\n\
+    - All operations classified by state\n- Distribution strategy per operation\n\
+    - Architecture patterns identified\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:53:31.034036+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'H2: Synthesis'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

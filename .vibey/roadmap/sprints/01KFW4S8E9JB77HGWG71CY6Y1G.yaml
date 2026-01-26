@@ -1,0 +1,51 @@
+sprint:
+  id: 01KFW4S8E9JB77HGWG71CY6Y1G
+  name: 'Sprint 5: API & Communication Protocol Design'
+  track_id: databricks-integration
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2026-01-26T03:15:30.379342+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: Design the API layer and communication protocols between local Vibey
+    CLI and remote Databricks services. Define REST/gRPC endpoints, authentication
+    flows, request/response schemas, error handling, and retry strategies. Consider
+    Databricks Apps and Model Serving as hosting options.
+  goal: Complete API specification and communication protocol for local-remote interaction
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2026-01-26T03:15:30.379342+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

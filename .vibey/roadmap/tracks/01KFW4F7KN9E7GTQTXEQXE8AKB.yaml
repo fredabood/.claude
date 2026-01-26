@@ -1,0 +1,125 @@
+track:
+  id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  name: Databricks Platform Integration
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2026-01-26T03:10:01.846023+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 15
+    sprints_completed: 0
+    tasks_total: 34
+    tasks_completed: 0
+    completion_percent: 0.0
+  sprints:
+  - id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    name: 'Sprint 0: Vibey Application Audit'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 34
+    started: null
+  - id: 01KFW4JK2TAVZY2E2KFK4MK2WE
+    name: 'Sprint 1: Databricks Platform Research'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW4M5V9W95VCXC6JBJM8Z2R
+    name: 'Sprint 2: Integration Gap Analysis'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW4P0Y6HWW1C2Z36Y3SKCTS
+    name: 'Sprint 3: Remote Mode Architecture Design'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW4QN83YY2KTYWY10MVF950
+    name: 'Sprint 4: Data Model & Storage Design'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW4S8E9JB77HGWG71CY6Y1G
+    name: 'Sprint 5: API & Communication Protocol Design'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW4V6AMYGCDCRVNYV7B32FR
+    name: 'Sprint 6: Databricks Client SDK'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW4WX58YEJH2CSR5W5AP4DD
+    name: 'Sprint 7: Remote Storage Backend'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW4YHQ436R9C6N0DS7EMYTG
+    name: 'Sprint 8: Bidirectional Sync Engine'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW50DQEJG809WYHAJ0ZJMZQ
+    name: 'Sprint 9: CLI Remote Mode Commands'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW523XMF45ZHA386AKV7MRV
+    name: 'Sprint 10: MCP Remote Tools'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW53SE0NHKCWXHVTQW1ZBQ8
+    name: 'Sprint 11: Authentication & Security'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW55N5HX605G0KF8QRS9N7X
+    name: 'Sprint 12: Local-Remote Handoff & Mode Switching'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW57AHFEDMVAVVYHEAS697J
+    name: 'Sprint 13: Testing & Validation'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: 01KFW59129XY836JQQK37HVQRQ
+    name: 'Sprint 14: Documentation & Release'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

@@ -1,0 +1,51 @@
+sprint:
+  id: 01KFW50DQEJG809WYHAJ0ZJMZQ
+  name: 'Sprint 9: CLI Remote Mode Commands'
+  track_id: databricks-integration
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2026-01-26T03:19:25.168473+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: Extend CLI commands to support remote mode. Add --remote flag or VIBEY_MODE
+    environment variable to switch modes. Implement remote versions of all roadmap
+    commands (status, show, start, complete, create-*, update, etc.). Ensure consistent
+    UX between local and remote modes.
+  goal: All CLI commands work in remote mode with feature parity to local mode
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2026-01-26T03:19:25.168473+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

@@ -1,0 +1,49 @@
+task:
+  id: 01KFXJSRVTPSW628BH5MA5Q8EG
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit CLI Command Groups
+  description: "Document all CLI commands for remote mode command planning.\n\nMETHODOLOGY:\n\
+    1. Extract complete command inventory:\n   - Use: vibey --help (recursive)\n \
+    \  - Document all 203 commands by group\n   - Note command hierarchies (group\
+    \ → subgroup → command)\n2. Document each command group:\n   - roadmap: Track/Sprint/Task\
+    \ management\n   - deploy: Platform deployment\n   - docs: Documentation generation\n\
+    \   - config: Configuration management\n   - db: Database operations\n   - mcp:\
+    \ MCP server control\n3. Analyze command dependencies:\n   - Local filesystem\
+    \ requirements\n   - Database requirements\n   - Git repository requirements\n\
+    \   - Configuration file requirements\n4. Classify commands by remote viability:\n\
+    \   - Local-only: Must run locally (git operations)\n   - Remote-delegable: Can\
+    \ run against remote backend\n   - Hybrid: Need both local and remote\n   - Remote-only:\
+    \ Only make sense in remote context\n5. Identify remote mode variants needed:\n\
+    \   - Commands requiring new parameters\n   - Commands needing mode switching\n\
+    \   - New commands for remote operations\n\nINPUT FILES:\n- vibey/cli/commands/*.py\
+    \ - All CLI modules\n- vibey/cli/main.py - Command registration\n- docs/reference/CLI_REFERENCE.md\
+    \ - Existing documentation\n\nSUCCESS CRITERIA:\n- All 203 commands documented\
+    \ by group\n- Each command classified by remote viability\n- Remote variant requirements\
+    \ identified\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:39:43.039180+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'D1: Interfaces'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

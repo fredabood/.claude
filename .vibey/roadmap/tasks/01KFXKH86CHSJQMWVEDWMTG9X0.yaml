@@ -1,0 +1,49 @@
+task:
+  id: 01KFXKH86CHSJQMWVEDWMTG9X0
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Create Feature Parity Matrix
+  description: "Create comprehensive feature parity matrix for remote mode planning.\n\
+    \nMETHODOLOGY:\n1. Compile feature inventory from prior tasks:\n   - CLI commands\
+    \ (from D1)\n   - MCP tools (from D4)\n   - Operations (from C1)\n   - Implementation\
+    \ Mode features (from E1-E5)\n   - Platform adapters (from F1-F2)\n2. Define classification\
+    \ categories:\n   - DIRECT PORT: Feature works as-is with remote backend\n   -\
+    \ NEEDS ADAPTATION: Feature requires modification for remote\n   - NEW IMPLEMENTATION:\
+    \ Feature requires complete rewrite\n   - NOT APPLICABLE: Feature doesn't apply\
+    \ to remote mode\n   - REMOTE ONLY: New feature for remote mode\n3. Create matrix\
+    \ structure:\n   - Feature name\n   - Current implementation location\n   - Classification\n\
+    \   - Remote mode requirements\n   - Effort estimate (S/M/L/XL)\n   - Dependencies\n\
+    \   - Priority for remote mode\n4. Classify each feature:\n   - Analyze state\
+    \ dependencies\n   - Analyze communication needs\n   - Analyze data access patterns\n\
+    \   - Determine classification\n5. Identify patterns:\n   - Common adaptation\
+    \ patterns\n   - Reusable abstractions\n   - Critical path features\n   - Quick\
+    \ wins vs heavy lifts\n\nINPUT FILES:\n- All deliverables from tasks A1-G4\n-\
+    \ Complete feature inventories from audit tasks\n\nSUCCESS CRITERIA:\n- Every\
+    \ Vibey feature classified\n- Remote requirements documented per feature\n- Effort\
+    \ estimates provided\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:52:32.524018+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: 'H1: Synthesis'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

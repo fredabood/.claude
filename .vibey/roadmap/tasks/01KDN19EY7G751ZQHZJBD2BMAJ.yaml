@@ -1,7 +1,7 @@
 task:
   id: 01KDN19EY7G751ZQHZJBD2BMAJ
-  sprint_id: dogfooding-bugs-33
-  track_id: dogfooding-bugs
+  sprint_id: 01KDN9TYGKRXDAEG75G606SK5M
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix Sprint 0 not showing in status sprint list
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-29T12:28:23.712242+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

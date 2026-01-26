@@ -1,0 +1,51 @@
+sprint:
+  id: 01KFW4JK2TAVZY2E2KFK4MK2WE
+  name: 'Sprint 1: Databricks Platform Research'
+  track_id: databricks-integration
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2026-01-26T03:11:51.899123+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: 'Deep research into Databricks platform capabilities including: REST
+    APIs, SDKs (Python, CLI), Unity Catalog, Delta Lake, Databricks Apps, Model Serving,
+    Workflows, Repos, Secrets, SCIM, SQL Warehouses, and AI/ML features. Document
+    all potential integration points for Vibey.'
+  goal: Comprehensive understanding of all Databricks integration points and capabilities
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2026-01-26T03:11:51.899123+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

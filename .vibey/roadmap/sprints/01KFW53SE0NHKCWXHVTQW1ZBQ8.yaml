@@ -1,0 +1,51 @@
+sprint:
+  id: 01KFW53SE0NHKCWXHVTQW1ZBQ8
+  name: 'Sprint 11: Authentication & Security'
+  track_id: databricks-integration
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2026-01-26T03:21:15.459436+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: Implement comprehensive authentication and security for remote mode.
+    Support Databricks OAuth, PAT tokens, and service principals. Implement RBAC for
+    roadmap access control. Integrate with Unity Catalog permissions. Add credential
+    storage using Databricks Secrets. Implement audit logging for compliance.
+  goal: Secure authentication and authorization for remote mode operations
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2026-01-26T03:21:15.459436+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

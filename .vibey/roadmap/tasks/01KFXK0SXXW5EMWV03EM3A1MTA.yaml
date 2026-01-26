@@ -1,0 +1,48 @@
+task:
+  id: 01KFXK0SXXW5EMWV03EM3A1MTA
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit MCP Resources and Prompts
+  description: "Document MCP resources and prompts for remote content serving.\n\n\
+    METHODOLOGY:\n1. Document MCP Resources (8 total):\n   - Workflow templates\n\
+    \   - Handoff templates\n   - Context files\n   - Configuration resources\n  \
+    \ - List URI patterns and content types\n   - Document dynamic vs static resources\n\
+    2. Document MCP Prompts (4 total):\n   - Quality gate prompts\n   - Security review\
+    \ prompts\n   - Testing prompts\n   - Any other prompt types\n   - Document prompt\
+    \ parameters\n   - Document prompt generation logic\n3. Analyze resource content\
+    \ sources:\n   - File-based resources (YAML, Markdown)\n   - Database-driven resources\n\
+    \   - Generated/computed resources\n   - Static vs dynamic content\n4. Document\
+    \ resource lifecycle:\n   - Resource discovery (list)\n   - Resource retrieval\
+    \ (read)\n   - Resource caching\n   - Resource updates\n5. Map to remote mode:\n\
+    \   - Resources that can be served from remote\n   - Resources requiring local\
+    \ generation\n   - Caching strategies for remote resources\n   - Template customization\
+    \ in remote mode\n\nINPUT FILES:\n- vibey/mcp/resources/*.py - Resource implementations\n\
+    - vibey/mcp/prompts/*.py - Prompt implementations\n- .vibey/templates/*.yaml -\
+    \ Template files\n\nSUCCESS CRITERIA:\n- All 8 resources documented\n- All 4 prompts\
+    \ documented\n- Remote serving strategy defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:43:33.585986+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: 'D5: Interfaces'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

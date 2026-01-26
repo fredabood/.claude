@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 1
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -30,7 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Fix database rebuild failure with "argument of type 'NoneType' is not iterable" error that prevents loading roadmap data from YAML
+  description: Fix database rebuild failure with "argument of type 'NoneType' is not
+    iterable" error that prevents loading roadmap data from YAML
   goal: Database rebuild completes successfully
   success_criteria: []
   risks: []

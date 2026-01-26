@@ -10,7 +10,7 @@ task:
     coverage, linting scores, type checking status, and code complexity that resulted
     from Sprint 5 remediation work.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T18:00:00+00:00'
   started: '2025-12-29T16:40:00+00:00'
   completed: '2025-12-29T16:50:00+00:00'

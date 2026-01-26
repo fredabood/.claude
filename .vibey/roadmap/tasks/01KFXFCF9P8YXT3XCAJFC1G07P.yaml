@@ -1,0 +1,46 @@
+task:
+  id: 01KFXFCF9P8YXT3XCAJFC1G07P
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit ULID Identifier System
+  description: "Document ULID identifier system for remote ID management.\n\nMETHODOLOGY:\n\
+    1. Document ULID structure:\n   - 48-bit timestamp (millisecond precision)\n \
+    \  - 80-bit randomness\n   - 26-character Crockford Base32 encoding\n   - Lexicographic\
+    \ sortability\n2. Document ULID usage in Vibey:\n   - Entity ID generation\n \
+    \  - File naming convention\n   - URL-safe identifiers\n   - Human-readable slug\
+    \ generation\n3. Analyze generation patterns:\n   - Where are ULIDs generated?\n\
+    \   - Library used (python-ulid, ulid-py, etc.)\n   - Collision risk assessment\n\
+    4. Document ID-based operations:\n   - ID parsing and validation\n   - Timestamp\
+    \ extraction\n   - ID comparison/sorting\n   - ID-based file lookup\n5. Map to\
+    \ remote mode:\n   - Distributed ID generation\n   - ID conflict prevention\n\
+    \   - Cross-system ID references\n   - Legacy ID migration (if any)\n\nINPUT FILES:\n\
+    - vibey/common/identifiers.py - ULID utilities\n- vibey/roadmap/models/*.py -\
+    \ ID field definitions\n- ADR-0001 for ULID rationale\n\nSUCCESS CRITERIA:\n-\
+    \ ULID structure and usage documented\n- All ID operations inventoried\n- Remote\
+    \ ID strategy defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:40:01.608021+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: 'B6: Core Data Model'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

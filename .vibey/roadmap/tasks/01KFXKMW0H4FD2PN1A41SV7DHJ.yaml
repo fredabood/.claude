@@ -1,0 +1,52 @@
+task:
+  id: 01KFXKMW0H4FD2PN1A41SV7DHJ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Write Audit Summary Document
+  description: "Consolidate all audit findings into design phase input document.\n\
+    \nMETHODOLOGY:\n1. Gather all deliverables from Phase A-H tasks:\n   - Foundation\
+    \ deliverables (YAML, SQLite, Sync docs)\n   - Core Data Model deliverables (Schema,\
+    \ Relationships, etc.)\n   - Operations deliverables (CRUD, Validation docs)\n\
+    \   - Interfaces deliverables (CLI, MCP docs)\n   - Advanced deliverables (Implementation\
+    \ Mode docs)\n   - Cross-Cutting deliverables (Adapters, Git, Context)\n   - Planned\
+    \ Features deliverables (Visualization, PM, A/B, Templates)\n   - Synthesis deliverables\
+    \ (Feature Matrix, State Classification)\n2. Structure summary document:\n   -\
+    \ Executive Summary\n   - Vibey Architecture Overview\n   - Component-by-Component\
+    \ Analysis\n   - Remote Mode Requirements\n   - Feature Parity Assessment\n  \
+    \ - Recommended Architecture\n   - Risk Assessment\n   - Implementation Priorities\n\
+    3. Synthesize key findings:\n   - Critical remote mode requirements\n   - Major\
+    \ architectural decisions needed\n   - Technical debt to address\n   - Integration\
+    \ challenges\n4. Create design phase input:\n   - Clear requirements for Sprint\
+    \ 3-5\n   - Open questions to resolve\n   - Recommended design approach\n   -\
+    \ Success criteria for design\n5. Quality assurance:\n   - Cross-reference all\
+    \ audit tasks\n   - Verify completeness\n   - Identify any gaps\n   - Get stakeholder\
+    \ review\n\nINPUT FILES:\n- All deliverables from tasks A1-H2\n- Feature Parity\
+    \ Matrix (H1)\n- State Classification Matrix (H2)\n\nSUCCESS CRITERIA:\n- All\
+    \ audit findings consolidated\n- Clear design requirements documented\n- Document\
+    \ ready for Sprint 3-5 input\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:54:31.124307+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: 'H3: Synthesis'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

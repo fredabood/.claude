@@ -1,0 +1,49 @@
+task:
+  id: 01KFXGMFE93MX4W5BTF0C9XSJM
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Execution Context Management
+  description: "Document execution context management for remote context building.\n\
+    \nMETHODOLOGY:\n1. Document context components:\n   - Task context (description,\
+    \ deliverables, etc.)\n   - Sprint context (goals, related tasks)\n   - Track\
+    \ context (objectives, progress)\n   - Roadmap context (overall vision)\n   -\
+    \ Codebase context (relevant files)\n2. Map context sources:\n   - Roadmap YAML/database\n\
+    \   - Git repository state\n   - Configuration files\n   - Previous execution\
+    \ history\n   - External references\n3. Document context assembly:\n   - Which\
+    \ context is included when\n   - Context prioritization\n   - Token budget management\n\
+    \   - Context truncation rules\n4. Analyze context formatting:\n   - Markdown\
+    \ formatting\n   - Structured data formatting\n   - Context templates\n   - Agent-specific\
+    \ formatting\n5. Document context delivery:\n   - How context reaches agents\n\
+    \   - Context caching\n   - Context refresh triggers\n   - Partial context updates\n\
+    6. Remote context considerations:\n   - Context from remote roadmap\n   - Local\
+    \ codebase context\n   - Hybrid context assembly\n   - Context synchronization\n\
+    \nINPUT FILES:\n- vibey/operations/implement/context.py - Context builder\n- vibey/mcp/context/*.py\
+    \ - MCP context management\n- .vibey/context/*.md - Context templates\n\nSUCCESS\
+    \ CRITERIA:\n- All context sources documented\n- Context assembly flow documented\n\
+    - Remote context strategy defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:01:52.447373+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'E3: Advanced'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,50 @@
+task:
+  id: 01KFXJ1SYHM4D0B2Y4H3M80FSZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Platform Adapter Architecture
+  description: "Document platform adapter architecture for remote deployment design.\n\
+    \nMETHODOLOGY:\n1. Document adapter interface:\n   - Base adapter class/protocol\n\
+    \   - Required methods (deploy, validate, etc.)\n   - Optional extension points\n\
+    \   - Return types and error handling\n2. Inventory all platform adapters:\n \
+    \  - Claude Code adapter\n   - Cursor adapter\n   - Copilot adapter\n   - VS Code\
+    \ adapter\n   - Goose adapter\n   - Gemini adapter\n   - Aider adapter\n   - Continue\
+    \ adapter\n   - Windsurf adapter\n   - JetBrains adapter\n   - Replit adapter\n\
+    3. Document configuration patterns:\n   - Configuration file formats\n   - Template\
+    \ expansion\n   - Variable substitution\n   - Platform-specific overrides\n4.\
+    \ Map deployment mechanisms:\n   - Configuration file generation\n   - File placement\
+    \ logic\n   - Validation checks\n   - Rollback capabilities\n5. Document CLI/MCP\
+    \ integration:\n   - How CLI exposes adapters\n   - How MCP uses adapters\n  \
+    \ - Adapter discovery\n   - Dynamic loading\n6. Remote deployment considerations:\n\
+    \   - Remote configuration generation\n   - Databricks workspace deployment\n\
+    \   - Cross-platform coordination\n\nINPUT FILES:\n- vibey/adapters/*.py - All\
+    \ adapter implementations\n- vibey/adapters/base.py - Base adapter interface\n\
+    - vibey/cli/commands/deploy/*.py - Deploy commands\n\nSUCCESS CRITERIA:\n- Adapter\
+    \ interface documented\n- All 11 adapters inventoried\n- Remote deployment strategy\
+    \ defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:26:37.707366+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'F1: Cross-Cutting'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

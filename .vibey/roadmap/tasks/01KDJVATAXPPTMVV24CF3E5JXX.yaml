@@ -10,7 +10,7 @@ task:
     files vs total files. Compare with the Sprint 5 version to document the delta
     caused by audit-created files.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T18:00:00+00:00'
   started: '2025-12-29T16:25:00+00:00'
   completed: '2025-12-29T16:35:00+00:00'

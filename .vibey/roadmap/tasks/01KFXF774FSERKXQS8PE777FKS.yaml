@@ -1,0 +1,49 @@
+task:
+  id: 01KFXF774FSERKXQS8PE777FKS
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Status State Machine
+  description: "Document status state machine for all entity types.\n\nMETHODOLOGY:\n\
+    1. Document all status values by entity type:\n   - Task statuses (not_started,\
+    \ in_progress, completed, blocked, wont_do)\n   - Sprint statuses (not_started,\
+    \ in_progress, completed)\n   - Track statuses (not_started, in_progress, completed)\n\
+    \   - Any additional statuses (archived, deprecated, etc.)\n2. Map valid state\
+    \ transitions:\n   - Create state transition diagram for each entity\n   - Document\
+    \ allowed transitions\n   - Document forbidden transitions\n   - Identify one-way\
+    \ transitions (terminal states)\n3. Document transition triggers:\n   - User-initiated\
+    \ transitions (CLI commands)\n   - Automatic transitions (dependency completion)\n\
+    \   - Rollup transitions (sprint completes when all tasks complete)\n4. Document\
+    \ validation rules:\n   - Pre-transition validation\n   - Post-transition side\
+    \ effects\n   - Timestamp updates (started, completed)\n5. Map to remote mode:\n\
+    \   - State synchronization requirements\n   - Conflict resolution for concurrent\
+    \ updates\n   - Optimistic locking considerations\n\nINPUT FILES:\n- vibey/roadmap/models/enums.py\
+    \ - Status enums\n- vibey/operations/roadmap/status.py - Status change operations\n\
+    - vibey/operations/roadmap/transitions.py - Transition logic\n\nSUCCESS CRITERIA:\n\
+    - All statuses documented for all entity types\n- State transition diagrams complete\n\
+    - Remote sync considerations documented\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:37:09.384796+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'B3: Core Data Model'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

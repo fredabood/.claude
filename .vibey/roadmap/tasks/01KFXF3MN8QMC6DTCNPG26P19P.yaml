@@ -1,0 +1,47 @@
+task:
+  id: 01KFXF3MN8QMC6DTCNPG26P19P
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Data Model Schema
+  description: "Document complete data model schema for Delta Lake replication planning.\n\
+    \nMETHODOLOGY:\n1. Extract entity schemas from Python models:\n   - vibey/roadmap/models/roadmap.py\
+    \ - Roadmap entity\n   - vibey/roadmap/models/track.py - Track entity\n   - vibey/roadmap/models/sprint.py\
+    \ - Sprint entity\n   - vibey/roadmap/models/task.py - Task entity\n2. Document\
+    \ each entity comprehensively:\n   - All fields with data types\n   - Required\
+    \ vs optional fields\n   - Default values\n   - Validation constraints\n   - Computed/derived\
+    \ fields\n3. Map field types to Delta Lake equivalents:\n   - String fields →\
+    \ STRING\n   - DateTime fields → TIMESTAMP\n   - Boolean fields → BOOLEAN\n  \
+    \ - List fields → ARRAY\n   - Nested objects → STRUCT\n4. Document enum types:\n\
+    \   - Status values\n   - Priority levels\n   - Task types\n   - Complexity levels\n\
+    5. Identify schema evolution considerations:\n   - Fields that may be added in\
+    \ future\n   - Nullable vs non-nullable decisions\n\nINPUT FILES:\n- vibey/roadmap/models/*.py\
+    \ - All model definitions\n- vibey/roadmap/models/enums.py - Enum definitions\n\
+    - .vibey/roadmap/**/*.yaml - Example data for validation\n\nSUCCESS CRITERIA:\n\
+    - All 4 entity types fully documented\n- All fields mapped to Delta Lake types\n\
+    - All enums documented with valid values\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:35:12.130743+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'B1: Core Data Model'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

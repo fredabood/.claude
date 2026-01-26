@@ -1,32 +1,33 @@
 task:
   id: 01KDNA1ST7TBJ3762G2ZQS11DY
-  name: Add missing List, Dict, Any imports to git_commands.py
+  sprint_id: 01KDN9TYGKRXDAEG75G606SK5M
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add missing List, Dict, Any imports to git_commands.py
   description: Fix NameError at line 3489 where List[Dict[str, Any]] was used without
     importing List, Dict, Any from typing module
-  format_version: v2
-  ticket_type: task
-  sprint_id: 01KDN9TYGKRXDAEG75G606SK5M
   status: completed
-  created_at: '2025-12-29T15:01:34.598119+00:00'
-  started_at: '2025-12-29T15:05:16.248869+00:00'
-  completed_at: '2025-12-29T15:05:33.942290+00:00'
-  updated_at: '2025-12-29T15:05:33.942293+00:00'
-  assigned_agents:
-  - unassigned
+  blocked: false
+  created: '2025-12-29T15:01:34.598119+00:00'
+  started: '2025-12-29T15:05:16.248869+00:00'
+  completed: '2025-12-29T15:05:33.942290+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: low
-  phase_label: null
+  complexity: simple
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-12-29T15:01:34.598119+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

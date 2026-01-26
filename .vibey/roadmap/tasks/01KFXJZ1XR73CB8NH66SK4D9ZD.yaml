@@ -1,0 +1,48 @@
+task:
+  id: 01KFXJZ1XR73CB8NH66SK4D9ZD
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit MCP Tools
+  description: "Document all MCP tools for remote tool routing design.\n\nMETHODOLOGY:\n\
+    1. Extract complete tool inventory:\n   - Use MCP server introspection\n   - Document\
+    \ all 80 tools by category\n   - Review MCP_REFERENCE.md for existing docs\n2.\
+    \ Document each tool:\n   - Tool name and description\n   - Input parameters (types,\
+    \ required/optional)\n   - Output format and schema\n   - Side effects (state\
+    \ modifications)\n   - Error conditions and handling\n3. Classify tools by operation\
+    \ type:\n   - Read-only: Query tools, no state change\n   - Mutating: Create,\
+    \ update, delete operations\n   - Hybrid: Read with side effects (e.g., logging)\n\
+    4. Analyze state dependencies:\n   - Tools requiring local filesystem\n   - Tools\
+    \ requiring database\n   - Tools requiring git operations\n   - Tools with no\
+    \ state dependency\n5. Map to remote mode:\n   - Tools that can delegate to remote\n\
+    \   - Tools requiring local execution\n   - Tools needing hybrid execution\n \
+    \  - New remote-specific tools needed\n\nINPUT FILES:\n- vibey/mcp/tools/*.py\
+    \ - All tool implementations\n- vibey/mcp/server.py - Tool registration\n- docs/reference/MCP_REFERENCE.md\
+    \ - Existing documentation\n\nSUCCESS CRITERIA:\n- All 80 tools documented with\
+    \ signatures\n- Tools classified by mutation/state\n- Remote routing strategy\
+    \ defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:42:36.227446+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'D4: Interfaces'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

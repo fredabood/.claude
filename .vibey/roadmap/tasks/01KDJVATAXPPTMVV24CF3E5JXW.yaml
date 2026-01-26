@@ -10,7 +10,7 @@ task:
     new/updated ADRs, user journey files, walkthrough files, and audit context documentation.
     Apply the established classification taxonomy.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-28T18:00:00+00:00'
   started: '2025-12-29T16:10:00+00:00'
   completed: '2025-12-29T16:20:00+00:00'

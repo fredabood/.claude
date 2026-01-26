@@ -1,0 +1,48 @@
+task:
+  id: 01KFXJVERN4135W7BR2DHSC979
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit CLI State Management
+  description: "Document CLI state management for remote state design.\n\nMETHODOLOGY:\n\
+    1. Map configuration state:\n   - .vibey/config/ directory structure\n   - Global\
+    \ vs project configuration\n   - Configuration file formats\n   - Configuration\
+    \ precedence rules\n2. Document context state:\n   - Current roadmap context\n\
+    \   - Active track/sprint/task context\n   - Working directory context\n   - Git\
+    \ repository context\n3. Analyze session state:\n   - State that persists across\
+    \ commands\n   - State that resets per command\n   - Cached state for performance\n\
+    \   - User preferences and settings\n4. Document state initialization:\n   - How\
+    \ context is loaded on CLI start\n   - Lazy vs eager loading patterns\n   - State\
+    \ validation on load\n   - Default values when state missing\n5. Map state dependencies:\n\
+    \   - Which commands require which state\n   - State propagation between commands\n\
+    \   - State modification patterns\n6. Remote state considerations:\n   - State\
+    \ that must remain local\n   - State that should sync to remote\n   - State caching\
+    \ strategies\n   - Offline state handling\n\nINPUT FILES:\n- vibey/cli/context.py\
+    \ - CLI context management\n- vibey/common/config.py - Configuration handling\n\
+    - .vibey/config/*.yaml - Configuration files\n\nSUCCESS CRITERIA:\n- All state\
+    \ types documented\n- State flow diagrams complete\n- Remote state strategy defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:40:38.276798+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'D2: Interfaces'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

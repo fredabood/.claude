@@ -1,0 +1,48 @@
+task:
+  id: 01KFXFAQBPQARFTKCJYYR7QXZF
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Progress Rollup Logic
+  description: "Document progress rollup logic for remote aggregation design.\n\n\
+    METHODOLOGY:\n1. Document progress calculation at each level:\n   - Task: Binary\
+    \ (0% or 100%) or weighted?\n   - Sprint: Sum of task completions / total tasks\n\
+    \   - Track: Sum of sprint completions / total sprints\n   - Roadmap: Sum of track\
+    \ completions / total tracks\n2. Identify weighting factors:\n   - Are all tasks\
+    \ equal weight?\n   - Do complexity/priority affect weight?\n   - Token estimation\
+    \ influence\n3. Map recalculation triggers:\n   - Task status change\n   - Task\
+    \ creation/deletion\n   - Sprint reorganization\n   - Explicit refresh command\n\
+    4. Document progress storage:\n   - Cached in database vs computed on-demand\n\
+    \   - Stored in YAML vs computed from children\n   - Stale progress handling\n\
+    5. Analyze rollup algorithms:\n   - Bottom-up aggregation\n   - Trigger-based\
+    \ updates\n   - Batch recalculation\n6. Map to remote mode:\n   - Distributed\
+    \ aggregation\n   - Eventual consistency for progress\n   - Real-time vs batch\
+    \ updates\n\nINPUT FILES:\n- vibey/operations/roadmap/progress.py - Progress calculations\n\
+    - vibey/roadmap/models/*.py - Progress fields\n- Database views for progress queries\n\
+    \nSUCCESS CRITERIA:\n- Progress formula documented for each level\n- Recalculation\
+    \ triggers identified\n- Remote aggregation strategy defined\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:39:04.332051+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: 'B5: Core Data Model'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

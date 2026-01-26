@@ -1,0 +1,47 @@
+task:
+  id: 01KFXKDJ24EZF2KBVJYP3EWYM0
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit Git Integration
+  description: "Document git integration for remote repository coordination.\n\nMETHODOLOGY:\n\
+    1. Document commit linking:\n   - How tasks link to commits\n   - Commit hash\
+    \ storage\n   - Commit message patterns\n   - Multi-commit tasks\n2. Analyze hook\
+    \ installation:\n   - Pre-commit hooks\n   - Post-commit hooks\n   - Commit-msg\
+    \ hooks\n   - Hook templates\n   - Installation mechanism\n3. Document git operations:\n\
+    \   - Status checking\n   - Diff analysis\n   - Branch detection\n   - Remote\
+    \ operations\n   - Repository discovery\n4. Map branch management:\n   - Branch\
+    \ naming conventions\n   - Feature branch handling\n   - Main branch protection\n\
+    \   - Branch-task associations\n5. Analyze git state dependencies:\n   - Operations\
+    \ requiring clean state\n   - Operations safe during changes\n   - Conflict handling\n\
+    6. Remote repository coordination:\n   - Local repo ↔ remote roadmap sync\n  \
+    \ - Commit notification to remote\n   - Databricks Repos integration\n   - Git\
+    \ credential handling\n\nINPUT FILES:\n- vibey/cli/commands/git_commands.py -\
+    \ Git CLI commands\n- vibey/operations/git/*.py - Git operations\n- .git/hooks/\
+    \ - Hook scripts\n\nSUCCESS CRITERIA:\n- All git operations documented\n- Hook\
+    \ system documented\n- Remote coordination designed\n"
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:50:31.550324+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: 'F3: Cross-Cutting'
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

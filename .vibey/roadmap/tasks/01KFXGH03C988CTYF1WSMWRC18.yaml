@@ -1,10 +1,6 @@
 task:
   id: 01KFXGH03C988CTYF1WSMWRC18
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit Implementation Mode Architecture
+  name: Audit Implementation Mode Architecture
   description: "Document Implementation Mode architecture for remote execution design.\n\
     \nMETHODOLOGY:\n1. Document core components:\n   - Executor: Task execution orchestrator\n\
     \   - Loop: Main execution cycle controller\n   - Selector: Task selection logic\n\
@@ -23,27 +19,115 @@ task:
     \ - Main executor\n- vibey/operations/implement/selector.py - Task selector\n\n\
     SUCCESS CRITERIA:\n- All components documented with responsibilities\n- Component\
     \ interaction diagrams complete\n- Remote execution architecture designed\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T15:59:58.716225+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T15:59:58.716225+00:00'
+  started_at: '2026-01-26T21:40:20.808617+00:00'
+  completed_at: '2026-01-26T21:42:46.710384+00:00'
+  updated_at: '2026-01-26T21:42:46.710390+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: 'E1: Advanced'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'E1: Advanced'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T21:58:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T21:58:00+00:00'
+      core_components:
+        ImplementationLoop:
+          purpose: Main execution orchestrator
+          responsibilities: Signal handling, task sequencing, state persistence, regression
+            detection
+          state: LoopState (session_id, progress counters, task_results)
+        TaskSelector:
+          purpose: Task prioritization and selection
+          responsibilities: Query eligible tasks, apply priority ordering, dependency
+            checking
+          state: Stateless (reads from SQLite)
+        ClaudeTaskExecutor:
+          purpose: Execute tasks via Claude agent subprocess
+          responsibilities: Context building, subprocess spawning, output streaming,
+            result parsing
+          state: Stateless (spawns isolated processes)
+        TaskContextBuilder:
+          purpose: Assemble execution context
+          responsibilities: Build system prompt, extract acceptance criteria, identify
+            files
+          state: Stateless
+        ProgressDisplay:
+          purpose: Terminal UI for status
+          responsibilities: Show progress, task notifications, summaries, time estimation
+          state: Stateless (reads from LoopState)
+      component_interactions:
+        initialization: CLI → create components → load state → create loop → run
+        main_loop: Check stop → get task → capture snapshot → execute → handle result
+          → detect regressions → save state → loop
+        shutdown: Signal received → set flag → cancel task → wait/kill → save state
+          → restore handlers
+      execution_modes:
+        single_task: --ticket <ULID> (task + descendants)
+        sprint: --sprint <ULID> (DEPRECATED)
+        track: --track <ULID> (DEPRECATED)
+        full_roadmap: --all-tickets (requires confirmation)
+        continuous: Via scope_ulid in config
+        dry_run: --dry-run (preview only)
+        background: --background (detached process)
+      configuration:
+        limits:
+          max_tasks_per_session: 10
+          max_tokens_per_session: 100000
+          max_tokens_per_task: 25000
+          timeout_per_task: 600
+        retry:
+          max_retries: 2
+          retry_on:
+          - timeout
+          - rate_limit
+          skip_on:
+          - syntax_error
+          - import_error
+        selection:
+          priority_order:
+          - critical
+          - high
+          - medium
+          - low
+          prefer_smaller_tasks: true
+        agent:
+          model: claude-sonnet-4
+          dangerously_skip_permissions: true
+      remote_execution_implications:
+        stateless_components: TaskSelector, ClaudeTaskExecutor, TaskContextBuilder,
+          ProgressDisplay
+        stateful_components: ImplementationLoop, LoopState, RegressionDetector
+        sync_strategy:
+        - Central state service for LoopState
+        - Task queue from TaskSelector
+        - Result aggregation for parallel agents
+        - File conflict resolution
+      key_files:
+      - vibey/services/implementation/loop.py (ImplementationLoop)
+      - vibey/services/implementation/selector.py (TaskSelector)
+      - vibey/services/implementation/executor.py (ClaudeTaskExecutor)
+      - vibey/services/implementation/state.py (LoopState)
+      - vibey/services/implementation/display.py (ProgressDisplay)
+      - vibey/services/implementation/config.py (ImplementConfig)
+      success_criteria_met:
+      - All components documented with responsibilities: true
+      - Component interaction diagrams complete: true
+      - Remote execution architecture designed: true

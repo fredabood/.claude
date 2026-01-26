@@ -1,10 +1,6 @@
 task:
   id: 01KFXJX5ZCCCTFTDGYJ27BTV5H
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit CLI Output Formats
+  name: Audit CLI Output Formats
   description: "Document CLI output formats for remote display context support.\n\n\
     METHODOLOGY:\n1. Inventory output formats:\n   - Table format (default for lists)\n\
     \   - JSON format (--json flag)\n   - YAML format (--yaml flag)\n   - Plain text\
@@ -22,26 +18,29 @@ task:
     \ utilities\n- vibey/cli/commands/*.py - Command output patterns\n\nSUCCESS CRITERIA:\n\
     - All output formats documented\n- Formatting patterns cataloged\n- Remote display\
     \ requirements identified\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:41:34.838696+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: in_progress
+  created_at: '2026-01-26T16:41:34.838696+00:00'
+  started_at: '2026-01-26T22:05:16.503239+00:00'
+  completed_at: null
+  updated_at: '2026-01-26T22:05:16.503240+00:00'
+  assigned_agents:
+  - unassigned
   priority: medium
-  phase_label: 'D3: Interfaces'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: low
+  phase_label: 'D3: Interfaces'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

@@ -1,10 +1,6 @@
 task:
   id: 01KFXJSRVTPSW628BH5MA5Q8EG
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit CLI Command Groups
+  name: Audit CLI Command Groups
   description: "Document all CLI commands for remote mode command planning.\n\nMETHODOLOGY:\n\
     1. Extract complete command inventory:\n   - Use: vibey --help (recursive)\n \
     \  - Document all 203 commands by group\n   - Note command hierarchies (group\
@@ -23,26 +19,29 @@ task:
     \ - Existing documentation\n\nSUCCESS CRITERIA:\n- All 203 commands documented\
     \ by group\n- Each command classified by remote viability\n- Remote variant requirements\
     \ identified\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:39:43.039180+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: in_progress
+  created_at: '2026-01-26T16:39:43.039180+00:00'
+  started_at: '2026-01-26T22:04:24.769030+00:00'
+  completed_at: null
+  updated_at: '2026-01-26T22:04:24.769030+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: 'D1: Interfaces'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'D1: Interfaces'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

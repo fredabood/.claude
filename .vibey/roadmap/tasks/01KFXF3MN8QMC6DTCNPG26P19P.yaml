@@ -1,10 +1,6 @@
 task:
   id: 01KFXF3MN8QMC6DTCNPG26P19P
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Data Model Schema
+  name: Audit Data Model Schema
   description: "Document complete data model schema for Delta Lake replication planning.\n\
     \nMETHODOLOGY:\n1. Extract entity schemas from Python models:\n   - vibey/roadmap/models/roadmap.py\
     \ - Roadmap entity\n   - vibey/roadmap/models/track.py - Track entity\n   - vibey/roadmap/models/sprint.py\
@@ -21,27 +17,104 @@ task:
     - .vibey/roadmap/**/*.yaml - Example data for validation\n\nSUCCESS CRITERIA:\n\
     - All 4 entity types fully documented\n- All fields mapped to Delta Lake types\n\
     - All enums documented with valid values\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T15:35:12.130743+00:00'
-  started: '2026-01-26T21:22:03.973806+00:00'
-  completed: '2026-01-26T21:25:43.698088+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T15:35:12.130743+00:00'
+  started_at: '2026-01-26T23:40:07.533111+00:00'
+  completed_at: '2026-01-26T23:43:26.412705+00:00'
+  updated_at: '2026-01-26T23:43:26.412708+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: 'B1: Core Data Model'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'B1: Core Data Model'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T23:50:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T23:50:00+00:00'
+      implementation_status: Schema Documentation Complete
+      entities_documented:
+        roadmap:
+          total_fields: 45+
+          key_structs: progress, version_strategy, metadata
+          nested_types: tracks[], dependencies[], blocked_by[], activity_log[], version_history[],
+            deployed_platforms[], standards[]
+        track:
+          total_fields: 40+
+          key_structs: progress, metadata
+          nested_types: sprints[], dependencies[], blocks[], depends_on[], quality_gates[],
+            commits[]
+        sprint:
+          total_fields: 50+
+          key_structs: progress, metadata
+          nested_types: tasks[], development_gates[], depends_on[], commits[], quality_gates[]
+        task:
+          total_fields: 35+
+          key_structs: gate_info, audit_results, metadata
+          nested_types: dependencies[], deliverables[], commits[]
+      enums_documented:
+        status_enums:
+        - Status (10 values)
+        - TaskStatus (6 values, restricted)
+        - TicketStatus (10 values, unified)
+        priority_enums:
+        - Priority (4 values: critical/high/medium/low)
+        task_enums:
+        - TaskType (11 values including gate types)
+        - Complexity (3-4 values)
+        - SizeCategory (5 values: S/M/L/XL/XXL with token ranges)
+        dependency_enums:
+        - DependencyType (4 values)
+        - DependencyRelation (3 values)
+        - GateStatus (5 values)
+        artifact_enums:
+        - ArtifactType (12 values)
+        - ProvenanceType (5 values)
+        - DeliverableType (6 values)
+        quality_enums:
+        - StandardType (4 values)
+        - EnforcementMode (3 values)
+        - ThresholdComparison (5 values)
+      delta_lake_mapping:
+        str: STRING
+        int: INTEGER
+        bool: BOOLEAN
+        float: DOUBLE
+        datetime: TIMESTAMP
+        Enum: STRING
+        Optional: NULLABLE
+        List: ARRAY
+        Dict: MAP
+        dataclass: STRUCT
+      validation_rules:
+      - completed_at >= started_at (or started_at is NULL)
+      - blocked flag matches unsatisfied dependencies
+      - IN_PROGRESS requires started datetime
+      - COMPLETED requires completed datetime
+      - Gate tasks require gate_info
+      - Non-gate tasks must NOT have gate_info
+      - estimated_tokens > 0
+      - actual_tokens >= 0 (if set)
+      key_features_for_replication:
+      - Token budgeting (estimated_tokens, actual_tokens, token_budget)
+      - Dependency blocking (two-stage caching, DependencyStatus)
+      - Quality standards cascade (inherit/override/skip)
+      - Platform-aware commit tracking (multi-platform support)
+      - ULID identifiers (26 chars, time-sortable)
+      success_criteria_met:
+      - 'All 4 entity types fully documented: YES'
+      - 'All fields mapped to Delta Lake types: YES'
+      - 'All enums documented with valid values: YES'

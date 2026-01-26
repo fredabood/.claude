@@ -1,10 +1,6 @@
 task:
   id: 01KFXGP643VEBH931RT7RQ195H
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit Progress and Completion Flow
+  name: Audit Progress and Completion Flow
   description: "Document progress and completion flow for remote monitoring design.\n\
     \nMETHODOLOGY:\n1. Document progress tracking:\n   - Task start events\n   - In-progress\
     \ updates\n   - Completion events\n   - Failure events\n   - Token usage tracking\n\
@@ -21,27 +17,68 @@ task:
     \ - Display logic\n- vibey/operations/roadmap/status.py - Status updates\n\nSUCCESS\
     \ CRITERIA:\n- Progress tracking documented\n- Feedback loop mapped\n- Remote\
     \ monitoring designed\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:02:48.447498+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:02:48.447498+00:00'
+  started_at: '2026-01-26T21:48:15.024336+00:00'
+  completed_at: '2026-01-26T21:50:50.630105+00:00'
+  updated_at: '2026-01-26T21:50:50.630106+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: 'E4: Advanced'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'E4: Advanced'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T22:18:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T22:18:00+00:00'
+      progress_tracking:
+        per_task: TaskResult (tokens_input/output, timing, commits, success)
+        per_session: LoopState (counters, cumulative tokens, current_task, status)
+        persistence: YAML at .vibey/implementation/state.yaml
+      completion_detection:
+        method: HierarchicalTicket.can_transition_to(COMPLETED)
+        checks_criteria: CompletableTarget, FileExistsTarget, TestPassesTarget, etc.
+        deferred_handling: Excludes deferred children from blocking
+        scope_checker: ScopeCompletionChecker reloads ticket for fresh state
+      post_completion_actions:
+      - state.complete_task() - updates counters and records
+      - CheckpointManager - optional git tags
+      - RegressionDetector - compare pre/post snapshots
+      - ScopeCompletionChecker - check if scope complete → stop loop
+      - Auto-save state to YAML
+      - Auto-progress ticket through statuses
+      error_handling:
+        classification: TRANSIENT (retry) vs PERMANENT (skip) vs FATAL (stop)
+        transient_errors: TimeoutError, ConnectionError, rate limits, 5xx
+        permanent_errors: Auth/validation errors (401, 403, 404)
+        retry_mechanism: Up to 3 retries per task
+        blocking: Skip and mark as blocked on permanent errors
+      remote_monitoring:
+        current_state: Local state persistence only
+        proposed_sync: Push YAML + commits to remote after completion
+        conflict_resolution: Last-write-wins with timestamps
+        resume_support: Load state from remote if local missing
+      key_files:
+      - vibey/services/implementation/state.py (LoopState)
+      - vibey/services/implementation/completion.py (ScopeCompletionChecker)
+      - vibey/services/implementation/loop.py (main loop)
+      - vibey/services/implementation/recovery.py (ErrorRecovery)
+      success_criteria_met:
+      - Progress tracking documented: true
+      - Feedback loop mapped: true
+      - Remote monitoring designed: true

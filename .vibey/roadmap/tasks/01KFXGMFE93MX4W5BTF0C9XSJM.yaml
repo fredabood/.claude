@@ -1,10 +1,6 @@
 task:
   id: 01KFXGMFE93MX4W5BTF0C9XSJM
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit Execution Context Management
+  name: Audit Execution Context Management
   description: "Document execution context management for remote context building.\n\
     \nMETHODOLOGY:\n1. Document context components:\n   - Task context (description,\
     \ deliverables, etc.)\n   - Sprint context (goals, related tasks)\n   - Track\
@@ -23,27 +19,81 @@ task:
     \ - MCP context management\n- .vibey/context/*.md - Context templates\n\nSUCCESS\
     \ CRITERIA:\n- All context sources documented\n- Context assembly flow documented\n\
     - Remote context strategy defined\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:01:52.447373+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:01:52.447373+00:00'
+  started_at: '2026-01-26T21:45:42.121902+00:00'
+  completed_at: '2026-01-26T21:48:07.849446+00:00'
+  updated_at: '2026-01-26T21:48:07.849448+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: 'E3: Advanced'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'E3: Advanced'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T22:12:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T22:12:00+00:00'
+      context_components:
+        task_context: TaskContextBuilder - description, acceptance criteria, relevant
+          files, plan
+        sprint_context: SprintContextWriter - goals, artifacts, plan markdown
+        track_context: Objectives, progress, related sprints
+        roadmap_context: Overall vision, track goals, task hierarchies
+        codebase_context: Project type, languages, file structure, dependencies
+        three_phase_v2:
+          plan_context: Pre-work planning with artifact refs, goals, constraints
+          runtime_context: Active session state, decisions, blockers, checkpoints
+          post_mortem_context: Completion summary, files changed, lessons learned
+      context_sources:
+      - Roadmap YAML/database (HierarchicalTicket models)
+      - Git repository state (commits, branches, changes)
+      - Configuration files (.vibey/context/config.yaml)
+      - Execution history (.vibey/context/commands/)
+      - External references (plan artifacts, ADRs)
+      context_assembly:
+        hierarchical_loading:
+          distance_0: FULL context (~30KB) - complete sprint plan, architecture
+          distance_1: SUMMARY context (~20KB) - task summary, key decisions
+          distance_2_plus: MINIMAL context (~5KB) - ID, title, status only
+          reduction: 80-90% context reduction via BFS distance calculation
+        token_budget: 100K-150K default, component tracking, truncation rules
+      context_formatting:
+        markdown: Headers, bold, bullets, code blocks
+        structured: YAML storage, JSON API, dataclass serialization
+        templates: Zero-drift generation for GEMINI.md, CONTINUE.md
+        agent_specific: Gemini, Continue, Cursor formatting
+      context_delivery:
+        direct_loading: CLI commands with context manager
+        mcp_integration: vibey_associate_artifact, vibey_get_ticket_artifacts tools
+        generated_configs: GEMINI.md, CONTINUE.md with checksums
+        caching: TTL-based (5min), LRU (100 entries), invalidation on write
+      remote_considerations:
+        local_context: Fast filesystem access, full context
+        remote_delivery: Generated files deployed to adapters
+        hybrid_assembly: Local reference + dependencies + distance-based loading
+        freshness_levels: fresh (24h), stale (72h), outdated (>72h)
+      key_files:
+      - vibey/services/implementation/context.py (TaskContextBuilder)
+      - vibey/operations/context/writers.py (context writers)
+      - vibey/operations/context/readers.py (cached readers)
+      - vibey/roadmap/context_loader.py (hierarchical loader)
+      - vibey/mcp/tools/context_tools.py (MCP tools)
+      success_criteria_met:
+      - All context sources documented: true
+      - Context assembly flow documented: true
+      - Remote context strategy defined: true

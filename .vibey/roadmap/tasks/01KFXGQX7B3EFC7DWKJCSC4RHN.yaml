@@ -1,10 +1,6 @@
 task:
   id: 01KFXGQX7B3EFC7DWKJCSC4RHN
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit Agent Integration Points
+  name: Audit Agent Integration Points
   description: "Document agent integration for remote agent orchestration.\n\nMETHODOLOGY:\n\
     1. Document supported agents:\n   - Claude Code integration\n   - Other AI agent\
     \ support\n   - Agent capability differences\n   - Agent selection criteria\n\
@@ -20,27 +16,65 @@ task:
     \ - Agent interface\n- vibey/adapters/*.py - Platform adapters\n- vibey/mcp/server.py\
     \ - Tool exposure\n\nSUCCESS CRITERIA:\n- Agent integration documented\n- Invocation\
     \ patterns mapped\n- Remote orchestration designed\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:03:44.892676+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:03:44.892676+00:00'
+  started_at: '2026-01-26T21:49:06.947356+00:00'
+  completed_at: '2026-01-26T21:53:25.350406+00:00'
+  updated_at: '2026-01-26T21:53:25.350409+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: 'E5: Advanced'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'E5: Advanced'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T22:18:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T22:18:00+00:00'
+      supported_agents:
+        platforms: 11 (Claude, Goose, Aider, Cursor, VS Code, Copilot, Continue, Windsurf,
+          Cody, JetBrains, Replit)
+        primary: Claude Code via CLI subprocess
+        secondary: Platform-specific adapters via MCP
+      integration_mechanisms:
+        mcp: VibeyMCPServer with 46+ tools via stdio
+        cli_subprocess: ClaudeTaskExecutor spawns agent process
+        adapters: PlatformAdapter base class with deploy/context generation
+      agent_configuration:
+        system_config: .vibey/config/ YAML files
+        context_files: CLAUDE.md, .cursorrules, .goosehints per platform
+        mcp_config: .mcp.json with server definition
+        dynamic_discovery: Frontmatter parsing from agents/*.md
+      output_handling:
+        token_parsing: 'Regex for "tokens: N, N" patterns'
+        commit_detection: 7-40 char hex strings in output
+        error_extraction: Pattern matching for "error:", "failed:", etc.
+        result_object: ExecutionResult (success, tokens, commits, error)
+      remote_orchestration:
+        current: CLI subprocess (local or SSH)
+        parallel: AgentSpawner for concurrent execution
+        state: LoopState with checkpoint/resume
+        graceful_shutdown: SIGTERM → wait → SIGKILL
+      key_files:
+      - vibey/mcp/server.py (MCP server)
+      - vibey/services/implementation/executor.py (ClaudeTaskExecutor)
+      - vibey/adapters/*/adapter.py (platform adapters)
+      - vibey/services/implementation/spawner.py (parallel execution)
+      success_criteria_met:
+      - 'Agent integration documented: YES'
+      - 'Invocation patterns mapped: YES'
+      - 'Remote orchestration designed: YES'

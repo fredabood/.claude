@@ -1,10 +1,6 @@
 task:
   id: 01KFXF3MN8QMC6DTCNPG26P19P
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit Data Model Schema
+  name: Audit Data Model Schema
   description: "Document complete data model schema for Delta Lake replication planning.\n\
     \nMETHODOLOGY:\n1. Extract entity schemas from Python models:\n   - vibey/roadmap/models/roadmap.py\
     \ - Roadmap entity\n   - vibey/roadmap/models/track.py - Track entity\n   - vibey/roadmap/models/sprint.py\
@@ -21,27 +17,77 @@ task:
     - .vibey/roadmap/**/*.yaml - Example data for validation\n\nSUCCESS CRITERIA:\n\
     - All 4 entity types fully documented\n- All fields mapped to Delta Lake types\n\
     - All enums documented with valid values\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T15:35:12.130743+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T15:35:12.130743+00:00'
+  started_at: '2026-01-26T21:22:03.973806+00:00'
+  completed_at: '2026-01-26T21:25:43.698088+00:00'
+  updated_at: '2026-01-26T21:25:43.698091+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: 'B1: Core Data Model'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'B1: Core Data Model'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T21:55:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T21:55:00+00:00'
+      entity_schemas_documented:
+        roadmap:
+          core_fields: 10
+          nested_structs: 3 (version_strategy, progress, metadata)
+          array_fields: 7 (tracks, activity_log, dependencies, etc.)
+        track:
+          core_fields: 10
+          nested_structs: 2 (progress, metadata)
+          array_fields: 12 (sprints, dependencies, quality_gates, etc.)
+        sprint:
+          core_fields: 14 (includes 8 timestamp fields)
+          nested_structs: 2 (progress, metadata)
+          array_fields: 13 (tasks, development_gates, commits, etc.)
+        task:
+          core_fields: 17
+          nested_structs: 3 (metadata, gate_info, audit_results)
+          array_fields: 7 (dependencies, deliverables, commits, etc.)
+      enum_types_documented:
+      - Status (10 values)
+      - TaskStatus (6 values - restricted)
+      - Priority (4 values)
+      - TaskType (11 values)
+      - Complexity (3 values)
+      - SizeCategory (5 values - token-based)
+      - GateStatus (5 values)
+      - DependencyType (4 values)
+      - DeliverableType (5 values)
+      - ActivityType (15+ values)
+      - VersionBumpTrigger (4 values)
+      - StandardType (4 values)
+      delta_lake_mapping:
+        types_mapped: STRING, INTEGER, DOUBLE, BOOLEAN, TIMESTAMP, ARRAY, STRUCT,
+          MAP
+        complete_ddl: Provided for all 4 tables
+        partitioning: _created_date, roadmap_id recommended
+      validation_rules:
+      - Status transitions (progression order)
+      - Blocked flag consistency
+      - Progress count validation
+      - Gate task requirements
+      - Token validation (>0 for estimated)
+      success_criteria_met:
+      - All 4 entity types documented: true
+      - All fields mapped to Delta Lake: true
+      - All enums documented: true

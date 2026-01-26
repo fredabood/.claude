@@ -14,7 +14,7 @@ track:
     sprints_completed: 0
     tasks_total: 34
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   sprints:
   - id: 01KFW4GZHDNGAHCZYBGPFF51FZ
     name: 'Sprint 0: Vibey Application Audit'

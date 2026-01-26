@@ -1,7 +1,7 @@
 sprint:
   id: 01KFYAD48F8FAA6GFVT7QHPVF1
   name: 'Sprint 37: Legacy v2 Format and Sync Bugs'
-  track_id: dogfooding-bugs
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
@@ -14,13 +14,13 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 0
+    development_tasks_total: 2
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
+    tasks_total: 2
     tasks_completed: 0
     completion_percent: 0
   development_gates: []
@@ -41,7 +41,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2026-01-26T23:32:13.207356+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

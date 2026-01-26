@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 26
-    sprints_completed: 0
+    sprints_completed: 26
     tasks_total: 201
     tasks_completed: 201
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: 01KC81GRE03CSJ06K7K481K3XA
     name: 'Phase 1.1: File Inventory & Classification'

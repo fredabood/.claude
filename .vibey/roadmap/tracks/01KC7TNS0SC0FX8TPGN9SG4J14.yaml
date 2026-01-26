@@ -14,7 +14,7 @@ track:
     sprints_completed: 0
     tasks_total: 239
     tasks_completed: 127
-    completion_percent: 53.0
+    completion_percent: 53
   sprints:
   - id: 01KC7TNS0SC0FX8TPGN9SG4J15
     name: Claude Code Integration

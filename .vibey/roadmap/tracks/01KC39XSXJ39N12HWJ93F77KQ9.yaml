@@ -10,11 +10,11 @@ track:
   completed: '2025-12-26T02:57:10.296758+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 35
-    sprints_completed: 4
+    sprints_total: 36
+    sprints_completed: 32
     tasks_total: 158
     tasks_completed: 153
-    completion_percent: 97.0
+    completion_percent: 96
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -226,6 +226,12 @@ track:
     estimated_duration: null
     tasks_count: 1
     started: '2025-12-29T15:40:20+00:00'
+  - id: dogfooding-bugs-36
+    name: SQLAlchemy Import Fix
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []

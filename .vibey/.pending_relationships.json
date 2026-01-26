@@ -2,2612 +2,3092 @@
   "ticket_commit_links": [],
   "commit_artifact_changes": [
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/activity_log/2025-12.jsonl",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap.db",
       "change_type": "modified",
-      "lines_added": 8,
+      "lines_added": 0,
       "lines_removed": 0,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/roadmap.yaml",
       "change_type": "modified",
-      "lines_added": 6,
-      "lines_removed": 6,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 14,
+      "lines_removed": 10,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/.id",
       "change_type": "modified",
-      "lines_added": 1,
+      "lines_added": 15,
       "lines_removed": 0,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK06MN77ZHAGAHF5VMA.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK1877YN6T0673VB24S.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK2A3KNMQVJDACN1X8Y.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK2A3KNMQVJDACN1X9C.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK325ABWVR9FQD5ZNQ0.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK325ABWVR9FQD5ZNQ6.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK325ABWVR9FQD5ZNQD.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK325ABWVR9FQD5ZNQJ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK325ABWVR9FQD5ZNQQ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK325ABWVR9FQD5ZNQX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK49XGJV84YRRHEASKD.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK49XGJV84YRRHEASKX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK49XGJV84YRRHEASMH.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK49XGJV84YRRHEASMT.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK5Y3BX5008PVANFCHF.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK6JC6706H9WP2NH5DB.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK6JC6706H9WP2NH5DK.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK6JC6706H9WP2NH5DX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK6JC6706H9WP2NH5E9.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK7READW9KAK1HBX4AW.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK7READW9KAK1HBX4B2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK8CHXNPPB2V3M632BM.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK8CHXNPPB2V3M632C2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK8CHXNPPB2V3M632CB.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK9JKQXGQW6MQEB0JZ9.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK9JKQXGQW6MQEB0JZF.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK9JKQXGQW6MQEB0K06.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JK9JKQXGQW6MQEB0K0F.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKA23EJA1W712Y5S6ZJ.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKA23EJA1W712Y5S704.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKA23EJA1W712Y5S70H.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKA23EJA1W712Y5S70M.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKB120S3ZRAGX1K83MJ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKB120S3ZRAGX1K83MR.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKB120S3ZRAGX1K83MY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKB120S3ZRAGX1K83N4.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKB120S3ZRAGX1K83NA.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKB120S3ZRAGX1K83NK.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKB120S3ZRAGX1K83NV.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKCJCWQ76VRQJWBGQXQ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKCJCWQ76VRQJWBGQXY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKDQPXAYGH93V9Z82XJ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKDQPXAYGH93V9Z82XR.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKDQPXAYGH93V9Z82XZ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKDQPXAYGH93V9Z82Y6.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKDQPXAYGH93V9Z82YD.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKDQPXAYGH93V9Z82YK.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKENPQ0HZ928FFP0ZQJ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKENPQ0HZ928FFP0ZQM.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKENPQ0HZ928FFP0ZR2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKENPQ0HZ928FFP0ZRA.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKENPQ0HZ928FFP0ZRG.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKENPQ0HZ928FFP0ZRQ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKENPQ0HZ928FFP0ZS0.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKFNSS8J3691657050E.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKFNSS8J3691657050P.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKFNSS8J3691657050W.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKFNSS8J36916570512.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKFNSS8J36916570519.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKFNSS8J3691657051G.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKG48M2973YX4EGG3PM.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKG48M2973YX4EGG3PT.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKG48M2973YX4EGG3PY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKG48M2973YX4EGG3Q1.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKG48M2973YX4EGG3Q5.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCY8.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCYB.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCYF.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCYJ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCYP.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCYT.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCYX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCZ2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKH5PSS831V3PVFSCZ6.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB55.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB5A.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB5E.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB5M.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB5R.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB5T.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB5X.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKJEKCQR9C1BQ4TQB62.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822Q3.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822Q5.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822Q9.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822QE.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822QK.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822QQ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822QV.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKKVMZ8ZJNGPHV822QY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKM9HQR5VHRQ5SX5EQY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKM9HQR5VHRQ5SX5ER8.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKM9HQR5VHRQ5SX5ERJ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKM9HQR5VHRQ5SX5ERW.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKM9HQR5VHRQ5SX5ES6.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKN6JPW9GSA6V3M6RMH.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKN6JPW9GSA6V3M6RMR.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKN6JPW9GSA6V3M6RMZ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKN6JPW9GSA6V3M6RN9.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKN6JPW9GSA6V3M6RNF.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKN6JPW9GSA6V3M6RNR.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKPDR7R8DCYQ1VYXQ3M.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKPDR7R8DCYQ1VYXQ40.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKPDR7R8DCYQ1VYXQ48.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKPDR7R8DCYQ1VYXQ4G.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKQZAZ8WPMH066ZZCD6.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKQZAZ8WPMH066ZZCDA.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKQZAZ8WPMH066ZZCDX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKQZAZ8WPMH066ZZCE6.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKRGBQDPFWNXWNXV5ZK.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKRGBQDPFWNXWNXV5ZX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKRGBQDPFWNXWNXV606.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKRGBQDPFWNXWNXV60E.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKSA4C3QG7P7YGCG36M.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKSA4C3QG7P7YGCG36Z.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKSA4C3QG7P7YGCG378.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKSA4C3QG7P7YGCG37K.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKTE7Z4HCNHST8ZVW42.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKTE7Z4HCNHST8ZVW4D.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKTE7Z4HCNHST8ZVW4S.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKTE7Z4HCNHST8ZVW50.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKVT80AFQ6C1PA8CKJ7.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKVT80AFQ6C1PA8CKJD.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKVT80AFQ6C1PA8CKJK.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKWWW8WMS7PPGDQ42HC.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKXPS17WN2TC0K8NG65.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKXPS17WN2TC0K8NG6C.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKXPS17WN2TC0K8NG6K.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKXPS17WN2TC0K8NG6S.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKXPS17WN2TC0K8NG71.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC2D0JKY8WC5NT15KN5SW9Y6.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC3AD75P4TW2MAWDWJC4YCMB.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC3AD76EK6TBPW0GEJD0P4M0.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC3AD77W9RD0RMA3S9N41EMF.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC3AD78WY4Q2GB43KYWKKPYF.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC3AD79BX8XBJY4R19NAF04A.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC3AD79XYWMC7HAGR0GPKV0A.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC3AD7AEV9GYXG873QF4QEK3.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC4P55YG0C05YSWXR2YCS3C4.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC4QN9S0778RKMVWB6RZ8QCT.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC4ZWAGDKBH0NK3X0SDN6YXN.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7H29E0Z5BC7HK1CK222153.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7H29E0Z5BC7HK1CK222154.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7H29E0Z5BC7HK1CK222155.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7H29E0Z5BC7HK1CK222156.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7H29E0Z5BC7HK1CK222157.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J15.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J16.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J17.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J18.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J19.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1A.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1B.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1C.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1D.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1E.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1F.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1G.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC7TNS0SC0FX8TPGN9SG4J1H.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE03CSJ06K7K481K3XA.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE03CSJ06K7K481K3XJ.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE1XT9ZBCFTDRHW72Z7.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE1XT9ZBCFTDRHW72ZF.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE23T0KSHR4ZCES476M.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE23T0KSHR4ZCES476W.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE3GXVPVSCMD19FC4YQ.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE3GXVPVSCMD19FC4YZ.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE3GXVPVSCMD19FC4Z7.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE4ZAJR0ZP9RCQCJ79Z.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE4ZAJR0ZP9RCQCJ7A7.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE5RYQCQFWQD4GSC5TR.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE5RYQCQFWQD4GSC5V0.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE6NHSPP7X34M5MT21Y.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE6NHSPP7X34M5MT225.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE6NHSPP7X34M5MT22D.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE7HFXA9J6FYFM7H3BW.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC81GRE7HFXA9J6FYFM7H3C4.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC8DN270VNW5CP8F8Q9QA4WB.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC8DT64AT78E0YHCBA2YE919.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC8FG9CH36XTDCKYZPPEEQ93.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC8N9MCJ9FDF1X23BY7CA7E2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KC9J5GNH6NZDW61996R79M38.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCAH8XENHWJDQSEGJNRY5B4G.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCAK59GA2ENQ572HQVFXCRKK.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCAKBBCJGHQ1J5NF24HYTM0T.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCAKC833MGED5PY2M45T5ZDY.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCAKDB2DXPYDQ2VYT7332EGF.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCAKE58ZSR92X1EPF90FGFSF.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCC74TQ2KB6CD81FJ7SJ709N.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCEWQQQA930VK1J282TC9XGS.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCH6XCTG0KQ4SCTBDQ4WQWAJ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCHHQT5TR65D02YPGK4N5WQP.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCJ3VKAZFNRQPV73ND0QZD62.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCJ5KBC53DKH35F09SZS3W9S.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMQCNPM0H28BW0WQ02PDESG.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTKTGB41SQCSNG893TXB3B.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTKWCX621JWPZZ99DG2M2G.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTKY772B0Y6N5ANXZP1CZH.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTMW1Y64VTVEZ7TEJG1R56.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTMXX4RRDQWNM4SKBPD95N.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTMZQF4CD2GCV1GCJB8KKE.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTXFCYYQM97JBH3ST8ZK7V.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTXH8QFZ64GD4CK7TSDY06.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTXK2X59MAT3YPMXP8E8BE.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTXMWJHPFH7J96KHHZTPB4.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTY4ACHZQ53CH90J7ZSAAV.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTY669JGT3WYPZB78ATWBT.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCMTYK3KX9Q8B1ZS5Z4MRV7Q.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCPKBMW8FPY2ZXC9GW06Z7ZG.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCPTCV2GCHCXB2E354DY4EZA.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCPWXMWN4YYZJYT773SWE934.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCQ9YHQTF48H5T09FNERDZG5.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCS5N87479C1CM0V1TDR527R.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCVMA0EQTVNHR3A98Q96DEDW.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCW0K1ZY2CEDMN5YY8JATEY4.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ3BPN1TC8QJVG8AVPX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ40Y43H4ZGH9KTTBH0.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ40Y43H4ZGH9KTTBH7.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ40Y43H4ZGH9KTTBHD.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ5MGHF8E9MEM2737T4.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ62WMFNTC3YTNT7DQ2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ62WMFNTC3YTNT7DQ8.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ62WMFNTC3YTNT7DQE.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ768HTSN9458MK07NY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ768HTSN9458MK07P3.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCWDNDQ768HTSN9458MK07P8.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCY39YJW8A3YDNTFJY5KMDGP.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCY7Y5263TVP5F4323X9GD9X.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCYA0G5135Z8B8ENFD841B0R.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCYA0G5135Z8B8ENFD841B0S.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCYA0G5135Z8B8ENFD841B0T.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCYA0G5135Z8B8ENFD841B0V.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89MW.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89MX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89MY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89MZ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89N0.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89NG.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89NP.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89NQ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89NR.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89P2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KCZF73PX9YNKWXKYVARY89P7.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KD43809NC3FPJJ179MAZRKCK.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KD61F3J5VZDD8K1DH94WFKR9.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KD61SFTK19VKWVWSX2A6RVRG.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KD61V2H333T9GZ4M2NY85K3P.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KD61XJ5Z1XMJM3AGTGWHPJQX.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KD620GZH9ZNQDZHYAV14BS8P.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KD63PBP5523GMD4NQGS4MR2K.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDATZAG0PQ8HVFD2SGBC6ESE.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R84RNNZDF8GW8C9J77J.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R89REHB1SA2MMKPX89N.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R8DABXRM0D3D4M5PGAP.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R8JW13RAQGFS0Y6Z3A7.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R8PM6X9KCJX5X6M4TNB.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R8TN9EBABCBR2XW34JZ.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R8YQNMTN2D941F7SND8.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R92ZN4HA9B85VBFZDH9.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R97ANFGP0CCWZWFQ6KY.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R9BZ2F8Q9GJ19VQ1EPW.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R9F5NRXC0AM1ASJVX12.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R9KB5PA8TTMRG1VEW75.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC65R9RJFA9NJDPYPN01GRH.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC7N5Z0XCP55GSH21S73K7Z.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDC9293X9AMMB8XRXQ7TJB1J.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDDJ3VXTPSGN8YJ6QNY8MZ7B.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDG3ACB3V6H4E916V9A1T7Z1.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDJKTRVZS618BM5ZZTQ3442V.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDJKTRVZS618BM5ZZTQ3442W.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDJKTRVZS618BM5ZZTQ3442X.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDJKTRVZS618BM5ZZTQ3442Y.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDJNKE2B2W5NJRTSRZWN4QSQ.yaml",
       "change_type": "modified",
       "lines_added": 5,
       "lines_removed": 5,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDJNKE2B2W5NJRTSRZWN4QSR.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDJVATAXPPTMVV24CF3E5JXT.yaml",
       "change_type": "modified",
-      "lines_added": 2,
-      "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 5,
+      "lines_removed": 5,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/sprints/01KDK2J6JWZ7XRCNP8NRP9DMA2.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/sprints/01KDN184D7R9X8D0G8XKFCSN53.yaml",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KDN9TYGKRXDAEG75G606SK5M.yaml",
       "change_type": "modified",
-      "lines_added": 49,
-      "lines_removed": 0,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 4,
+      "lines_removed": 4,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/tasks/.id",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KDNC8ZG76MM1KH6H5W4E4ECK.yaml",
       "change_type": "modified",
       "lines_added": 3,
+      "lines_removed": 2,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4GZHDNGAHCZYBGPFF51FZ.yaml",
+      "change_type": "modified",
+      "lines_added": 52,
       "lines_removed": 0,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/tasks/01KDC9293X9AMMB8XRXQ7TJB1P.yaml",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4JK2TAVZY2E2KFK4MK2WE.yaml",
       "change_type": "modified",
-      "lines_added": 18,
-      "lines_removed": 17,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/tasks/01KDJKTRVZS618BM5ZZTQ3443J.yaml",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4M5V9W95VCXC6JBJM8Z2R.yaml",
+      "change_type": "modified",
+      "lines_added": 52,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4P0Y6HWW1C2Z36Y3SKCTS.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4QN83YY2KTYWY10MVF950.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4S8E9JB77HGWG71CY6Y1G.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4V6AMYGCDCRVNYV7B32FR.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4WX58YEJH2CSR5W5AP4DD.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW4YHQ436R9C6N0DS7EMYTG.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW50DQEJG809WYHAJ0ZJMZQ.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW523XMF45ZHA386AKV7MRV.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW53SE0NHKCWXHVTQW1ZBQ8.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW55N5HX605G0KF8QRS9N7X.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW57AHFEDMVAVVYHEAS697J.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/sprints/01KFW59129XY836JQQK37HVQRQ.yaml",
+      "change_type": "modified",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/.id",
+      "change_type": "modified",
+      "lines_added": 34,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QT3.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QTA.yaml",
       "change_type": "modified",
       "lines_added": 19,
-      "lines_removed": 18,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_removed": 20,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QT0.yaml",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QTB.yaml",
       "change_type": "modified",
-      "lines_added": 19,
-      "lines_removed": 18,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QT1.yaml",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QTC.yaml",
       "change_type": "modified",
-      "lines_added": 18,
-      "lines_removed": 17,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QT2.yaml",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QTD.yaml",
       "change_type": "modified",
-      "lines_added": 18,
-      "lines_removed": 17,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJNKE2B2W5NJRTSRZWN4QTE.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJVATAXPPTMVV24CF3E5JXW.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJVATAXPPTMVV24CF3E5JXX.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJVATAXPPTMVV24CF3E5JXY.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJVATAXPPTMVV24CF3E5JXZ.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDJVB8QJ0T9P34MV6M7VEE9V.yaml",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tasks/01KDN194XPWXDEMRQJXYZX1TT6.yaml",
-      "change_type": "added",
-      "lines_added": 34,
-      "lines_removed": 0,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "change_type": "modified",
+      "lines_added": 3,
+      "lines_removed": 3,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tasks/01KDN199X2G3CQ3ZFBFDM2TSJS.yaml",
-      "change_type": "added",
-      "lines_added": 34,
-      "lines_removed": 0,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "change_type": "modified",
+      "lines_added": 3,
+      "lines_removed": 3,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tasks/01KDN19EY7G751ZQHZJBD2BMAJ.yaml",
-      "change_type": "added",
-      "lines_added": 34,
-      "lines_removed": 0,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "change_type": "modified",
+      "lines_added": 3,
+      "lines_removed": 3,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDNA1ST7TBJ3762G2ZQS11DY.yaml",
+      "change_type": "modified",
+      "lines_added": 20,
+      "lines_removed": 19,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KDNC8ZG76MM1KH6H5W4E4ECM.yaml",
+      "change_type": "modified",
+      "lines_added": 8,
+      "lines_removed": 3,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXF1TJG5RD5FHTA9PDX2HMV.yaml",
+      "change_type": "added",
+      "lines_added": 45,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXF3MN8QMC6DTCNPG26P19P.yaml",
+      "change_type": "added",
+      "lines_added": 47,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXF5B3HGQD72EQQAXM7P91Z.yaml",
+      "change_type": "added",
+      "lines_added": 47,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXF774FSERKXQS8PE777FKS.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXF8Z78A5B8QCFB5C04PKDG.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXFAQBPQARFTKCJYYR7QXZF.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXFCF9P8YXT3XCAJFC1G07P.yaml",
+      "change_type": "added",
+      "lines_added": 46,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXGH03C988CTYF1WSMWRC18.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXGJRC46RDTPM304RVJCY2J.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXGMFE93MX4W5BTF0C9XSJM.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXGP643VEBH931RT7RQ195H.yaml",
+      "change_type": "added",
+      "lines_added": 47,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXGQX7B3EFC7DWKJCSC4RHN.yaml",
+      "change_type": "added",
+      "lines_added": 46,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJ1SYHM4D0B2Y4H3M80FSZ.yaml",
+      "change_type": "added",
+      "lines_added": 50,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJ3GBKMV82432WTSFGZHGK.yaml",
+      "change_type": "added",
+      "lines_added": 51,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJ5D7NTJC1TD14A2QSXW5J.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJ78XKT55N2AN8K5P7JY8E.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJ95JGNAG1RN6022NZVETK.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJB0QW9HFRV9GTSTVH4Z5G.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJSRVTPSW628BH5MA5Q8EG.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJVERN4135W7BR2DHSC979.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJX5ZCCCTFTDGYJ27BTV5H.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXJZ1XR73CB8NH66SK4D9ZD.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXK0SXXW5EMWV03EM3A1MTA.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXK2HSTDRM3X3BEWMZVHH3H.yaml",
+      "change_type": "added",
+      "lines_added": 46,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXK4EAC57CVJ5VPHR01WWVJ.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXK66B4KF2W8NWRC1EYNCCY.yaml",
+      "change_type": "added",
+      "lines_added": 47,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXK7YSK51M9WCRV2RAA44J0.yaml",
+      "change_type": "added",
+      "lines_added": 46,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXK9WT5Y777YMCX3VZ77V72.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXKBNRTTGDAQXM20EM4024T.yaml",
+      "change_type": "added",
+      "lines_added": 48,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXKDJ24EZF2KBVJYP3EWYM0.yaml",
+      "change_type": "added",
+      "lines_added": 47,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXKFAKEGN24FMN8Y1QFZFSV.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXKH86CHSJQMWVEDWMTG9X0.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXKK1AWN90AVDFH5P2XA6QG.yaml",
+      "change_type": "added",
+      "lines_added": 49,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tasks/01KFXKMW0H4FD2PN1A41SV7DHJ.yaml",
+      "change_type": "added",
+      "lines_added": 52,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tracks/.id",
+      "change_type": "modified",
+      "lines_added": 1,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK06MN77ZHAGAHF5VM9.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK2A3KNMQVJDACN1X8X.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK325ABWVR9FQD5ZNPZ.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK325ABWVR9FQD5ZNQW.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK49XGJV84YRRHEASMG.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK6JC6706H9WP2NH5DA.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK8CHXNPPB2V3M632BK.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK8CHXNPPB2V3M632CA.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JK9JKQXGQW6MQEB0K05.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKA23EJA1W712Y5S703.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKA23EJA1W712Y5S70G.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKB120S3ZRAGX1K83MQ.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKB120S3ZRAGX1K83NT.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKDQPXAYGH93V9Z82XH.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKDQPXAYGH93V9Z82Y5.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKFNSS8J3691657050V.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKG48M2973YX4EGG3PS.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKKVMZ8ZJNGPHV822QX.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKN6JPW9GSA6V3M6RMQ.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKRGBQDPFWNXWNXV5ZW.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKSA4C3QG7P7YGCG37J.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKTE7Z4HCNHST8ZVW4R.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKVT80AFQ6C1PA8CKJT.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC2D0JKWWW8WMS7PPGDQ42HB.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC39XSXJ39N12HWJ93F77KQ9.yaml",
       "change_type": "modified",
-      "lines_added": 2,
-      "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 19,
+      "lines_removed": 7,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC7H29E0Z5BC7HK1CK222152.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KC7TNS0SC0FX8TPGN9SG4J14.yaml",
       "change_type": "modified",
       "lines_added": 1,
       "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCMTJ9J0Y74KDQKGVCM7HS0R.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCMTJKFKDJX7BWERZJ7SFJ96.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCMTJN9G9ZZBFMEDD36RYZ2B.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCMTJQ3JRRW6CZFC4E63W8D6.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCMTJRYBYR1CR69ZAHNFCSGR.yaml",
       "change_type": "modified",
-      "lines_added": 4,
-      "lines_removed": 4,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 2,
+      "lines_removed": 2,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCVE6BV6W7FMHB2TPPBCF2EN.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCYA0G5135Z8B8ENFD841B0Q.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KCZF73PX9YNKWXKYVARY89MV.yaml",
       "change_type": "modified",
-      "lines_added": 4,
-      "lines_removed": 4,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 2,
+      "lines_removed": 2,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KD617KB2XD77QC428SZ2Q5RW.yaml",
       "change_type": "modified",
       "lines_added": 2,
       "lines_removed": 2,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     },
     {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
-      "artifact_id": "path:.vibey/roadmap/tracks/01KD63P4NHSQJ9ZVYGR6MR9JW9.yaml",
-      "change_type": "modified",
-      "lines_added": 39,
-      "lines_removed": 3,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
-    },
-    {
-      "commit_sha": "ca78bfb07e0d3dd1c5ae25acc7ee34278d79c320",
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
       "artifact_id": "path:.vibey/roadmap/tracks/01KDJKA1TT237C23PQ77D2J4ZK.yaml",
       "change_type": "modified",
-      "lines_added": 1,
-      "lines_removed": 1,
-      "recorded_at": "2025-12-29T12:29:24.524310+00:00"
+      "lines_added": 5,
+      "lines_removed": 5,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
+    },
+    {
+      "commit_sha": "6983378b8e78c486a46c962699bbe63a730f02f6",
+      "artifact_id": "path:.vibey/roadmap/tracks/01KFW4F7KN9E7GTQTXEQXE8AKB.yaml",
+      "change_type": "added",
+      "lines_added": 125,
+      "lines_removed": 0,
+      "recorded_at": "2026-01-26T20:56:38.126055+00:00"
     }
   ],
   "ticket_artifact_associations": []

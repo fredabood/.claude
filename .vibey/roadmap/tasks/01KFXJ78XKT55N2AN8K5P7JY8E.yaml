@@ -1,10 +1,6 @@
 task:
   id: 01KFXJ78XKT55N2AN8K5P7JY8E
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Review PM Tool Integrations Architecture
+  name: Review PM Tool Integrations Architecture
   description: "Review PM tool integrations design for remote sync architecture.\n\
     \nMETHODOLOGY:\n1. Review existing track documentation:\n   - Locate PM Tool Integrations\
     \ track\n   - Review sprint plans and task descriptions\n   - Identify architectural\
@@ -23,27 +19,87 @@ task:
     \ track\n- docs/architecture/ - Integration designs\n- Any existing adapter prototypes\n\
     \nSUCCESS CRITERIA:\n- Planned integrations documented\n- Sync patterns understood\n\
     - Remote implications identified\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:29:36.936964+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:29:36.936964+00:00'
+  started_at: '2026-01-26T21:58:46.265865+00:00'
+  completed_at: '2026-01-26T22:03:59.678609+00:00'
+  updated_at: '2026-01-26T22:03:59.678613+00:00'
+  assigned_agents:
+  - unassigned
   priority: medium
-  phase_label: 'G2: Planned Features'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'G2: Planned Features'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T22:35:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T22:35:00+00:00'
+      pm_adapter_framework:
+        location: vibey/adapters/pm/
+        status: Framework designed and implemented, awaiting adapter implementations
+        base_class: TicketAdapter (384 lines) in base.py
+        required_methods:
+        - list_projects() - Get all top-level items
+        - get_ticket(id) - Get single ticket
+        - list_children(parent_id) - Get direct children
+        - search_tickets(filters) - Filtered search
+        - create_ticket(ticket) - Create new
+        - update_ticket(ticket) - Update existing
+        - update_status(id, status) - Status only
+        - delete_ticket(id) - Delete ticket
+        - map_to_generic(native) - Convert to Ticket
+        - map_from_generic(ticket) - Convert from Ticket
+      generic_ticket_model:
+        location: vibey/core/ticket.py
+        hierarchy_types: PROJECT, WORKSTREAM, ITERATION, WORK_ITEM
+        status_types: NOT_STARTED, IN_PROGRESS, BLOCKED, COMPLETED, CANCELLED
+      sync_patterns:
+        import: External PM Tool -> TicketAdapter -> Generic Ticket -> Vibey Storage
+        export: Vibey Storage -> Generic Ticket -> TicketAdapter -> External PM Tool
+        bidirectional: detect_conflicts() + conflict_resolution (local_wins/remote_wins/manual/merge)
+        incremental: external_id field enables tracking across systems
+      entity_mapping:
+        vibey_roadmap: PROJECT
+        vibey_track: WORKSTREAM
+        vibey_sprint: ITERATION
+        vibey_task: WORK_ITEM
+      pm_capabilities:
+        rate_limits: requests_per_minute, requests_per_hour
+        features: sprints, bidirectional_sync, webhooks, attachments, comments
+        limits: max_description_length, max_title_length, max_labels
+      planned_adapters:
+      - VibeyAdapter - Native Vibey roadmap
+      - JiraAdapter - Atlassian Jira
+      - GitHubAdapter - GitHub Issues
+      - TrelloAdapter - Trello boards
+      - AsanaAdapter - Asana projects
+      current_gaps:
+      - No actual adapter implementations yet
+      - Remote Databricks sync not designed in detail
+      - Credential management system not implemented
+      - Webhook integration not implemented
+      key_files:
+      - vibey/adapters/pm/base.py (TicketAdapter base)
+      - vibey/adapters/pm/types.py (SyncDirection, SyncResult, PMCapabilities)
+      - vibey/adapters/pm/registry.py (PMAdapterRegistry)
+      - vibey/core/ticket.py (Generic Ticket model)
+      - vibey/services/ticket_service.py (Service facade)
+      - docs/development/ADAPTER_DEVELOPMENT_GUIDE.md (677 lines)
+      success_criteria_met:
+      - 'Planned integrations documented: YES'
+      - 'Sync patterns understood: YES'
+      - 'Remote implications identified: YES'

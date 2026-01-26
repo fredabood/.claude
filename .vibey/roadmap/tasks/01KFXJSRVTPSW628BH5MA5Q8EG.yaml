@@ -22,11 +22,11 @@ task:
   format_version: v2
   ticket_type: task
   parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: in_progress
+  status: completed
   created_at: '2026-01-26T16:39:43.039180+00:00'
   started_at: '2026-01-26T22:04:24.769030+00:00'
-  completed_at: null
-  updated_at: '2026-01-26T22:04:24.769030+00:00'
+  completed_at: '2026-01-26T22:25:51.997721+00:00'
+  updated_at: '2026-01-26T22:25:51.997724+00:00'
   assigned_agents:
   - unassigned
   priority: high
@@ -43,6 +43,64 @@ task:
   gate_info: null
   audit_results: null
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T22:50:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T22:50:00+00:00'
+      command_inventory:
+        total_commands: ~203
+        main_groups: 19
+        command_files: 15 in vibey/cli/commands/
+        roadmap_commands: 26 in vibey/cli/roadmap_commands/
+      command_groups:
+      - 'roadmap: Track/Sprint/Task management (~40 subcommands)'
+      - 'deploy: Platform deployment (list, run)'
+      - 'docs: Documentation generation (generate-cli, generate-mcp, check-drift)'
+      - 'config: Configuration management (show, set, migrate)'
+      - 'artifact: File-based entity management'
+      - 'audit: Codebase analysis'
+      - 'auth: Key management for signing'
+      - 'content: Agents, workflows, templates'
+      - 'context: Session and decision context'
+      - 'discover: Project analysis'
+      - 'export: Platform-specific export'
+      - 'git: Git history analysis'
+      - 'implement: Implementation mode execution'
+      - 'parity: CLI/MCP consistency checking'
+      - 'planned: Planning criteria workflow'
+      - 'session: AI coding sessions'
+      - 'submodule: Git submodule integration'
+      - 'validate: Asset validation'
+      remote_viability_classification:
+        local_only:
+        - git (requires local repo)
+        - deploy (filesystem operations)
+        - docs generate (writes local files)
+        - submodule (git operations)
+        - auth (local key management)
+        remote_delegable:
+        - roadmap status/show/list/find
+        - roadmap start/complete
+        - implement (could delegate to remote executor)
+        - context show (read-only)
+        hybrid:
+        - context (roadmap data + local files)
+        - planned (checks local + roadmap state)
+        - deploy --platform (generate local, sync remote)
+        remote_only:
+        - Remote status monitoring (new)
+        - Remote session management (new)
+      registration_pattern:
+        framework: Click decorators (@click.group, @click.command)
+        entry_point: vibey/cli/main.py
+        modular_loading: Commands imported from vibey/cli/commands/
+      key_files:
+      - vibey/cli/main.py (main entry, 19 command groups)
+      - vibey/cli/commands/*.py (15 command modules)
+      - vibey/cli/roadmap_commands/*.py (26 roadmap subcommands)
+      - docs/reference/CLI_REFERENCE.md (203 commands documented)
+      success_criteria_met:
+      - 'All 203 commands documented by group: YES'
+      - 'Each command classified by remote viability: YES'
+      - 'Remote variant requirements identified: YES'

@@ -1,10 +1,6 @@
 task:
   id: 01KFXK0SXXW5EMWV03EM3A1MTA
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: research
-  title: Audit MCP Resources and Prompts
+  name: Audit MCP Resources and Prompts
   description: "Document MCP resources and prompts for remote content serving.\n\n\
     METHODOLOGY:\n1. Document MCP Resources (8 total):\n   - Workflow templates\n\
     \   - Handoff templates\n   - Context files\n   - Configuration resources\n  \
@@ -22,27 +18,70 @@ task:
     - vibey/mcp/prompts/*.py - Prompt implementations\n- .vibey/templates/*.yaml -\
     \ Template files\n\nSUCCESS CRITERIA:\n- All 8 resources documented\n- All 4 prompts\
     \ documented\n- Remote serving strategy defined\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:43:33.585986+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:43:33.585986+00:00'
+  started_at: '2026-01-26T22:27:10.324909+00:00'
+  completed_at: '2026-01-26T22:30:53.952563+00:00'
+  updated_at: '2026-01-26T22:30:53.952567+00:00'
+  assigned_agents:
+  - unassigned
   priority: medium
-  phase_label: 'D5: Interfaces'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: research
   estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: low
+  phase_label: 'D5: Interfaces'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-26T22:55:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-26T22:55:00+00:00'
+      resource_types:
+        workflows: WorkflowResourceProvider - 4 URI patterns (content, steps, metadata,
+          quality-gates)
+        handoffs: HandoffResourceProvider - 4 URI patterns (template, variables, metadata,
+          rendered)
+        uri_scheme: vibey://workflows/{id}[/subresource] and vibey://handoffs/{id}[/subresource]
+        mime_types: Markdown, JSON, Markdown+Jinja2
+      resource_architecture:
+        manager: ResourceManager in vibey/mcp/resources/manager.py (lazy initialization)
+        providers: Abstract ResourceProvider base class
+        caching: In-memory with invalidation support
+        async_io: All read operations async for remote access
+      prompt_templates:
+        quality_gate_check: gate_type, threshold, file_path, severity
+        security_scan: target, focus
+        test_coverage: target, coverage_type
+        doc_check: target, doc_type
+        provider: QualityGatePromptProvider (517 lines)
+        checklists: 10-item checklists per gate type
+      prompt_architecture:
+        manager: PromptManager in vibey/mcp/prompts/manager.py
+        message_format: User message (task) + Assistant message (acknowledgment)
+        prefix: vibey_ namespace
+      content_delivery:
+        sources: vibey/content/workflows/, vibey/content/templates/handoffs/
+        format: Markdown with YAML frontmatter
+        jinja2: Template rendering with variable schema generation
+        caching: In-memory with TTL support from discovery systems
+      key_files:
+      - vibey/mcp/resources/manager.py (orchestration)
+      - vibey/mcp/resources/workflows.py (384 lines)
+      - vibey/mcp/resources/handoffs.py (551 lines)
+      - vibey/mcp/prompts/manager.py (211 lines)
+      - vibey/mcp/prompts/quality_gates.py (517 lines)
+      success_criteria_met:
+      - 'All 8 resources documented: YES'
+      - 'All 4 prompts documented: YES'
+      - 'Remote serving strategy defined: YES'

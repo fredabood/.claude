@@ -1,6 +1,10 @@
 task:
   id: 01KFXJZ1XR73CB8NH66SK4D9ZD
-  name: Audit MCP Tools
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit MCP Tools
   description: "Document all MCP tools for remote tool routing design.\n\nMETHODOLOGY:\n\
     1. Extract complete tool inventory:\n   - Use MCP server introspection\n   - Document\
     \ all 80 tools by category\n   - Review MCP_REFERENCE.md for existing docs\n2.\
@@ -18,77 +22,27 @@ task:
     \ - Existing documentation\n\nSUCCESS CRITERIA:\n- All 80 tools documented with\
     \ signatures\n- Tools classified by mutation/state\n- Remote routing strategy\
     \ defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T16:42:36.227446+00:00'
-  started_at: '2026-01-26T22:26:19.571800+00:00'
-  completed_at: '2026-01-26T22:29:44.794242+00:00'
-  updated_at: '2026-01-26T22:29:44.794242+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:42:36.227446+00:00'
+  started: '2026-01-26T22:26:19.571800+00:00'
+  completed: '2026-01-26T22:29:44.794242+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'D4: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'D4: Interfaces'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T22:55:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T22:55:00+00:00'
-      tool_inventory:
-        static_tools: 48
-        dynamic_tools: Variable (agents/workflows/handoffs)
-        tool_modules: 7 in vibey/mcp/tools/
-      tool_categories:
-        task_tools: 3 (start_task, complete_task, query_task)
-        sprint_tools: 4 (start_sprint, complete_sprint, refresh_progress, query_sprint)
-        query_tools: 5 (query_track, list_blockers, list_dependencies, roadmap_status,
-          query_standards)
-        content_tools: 7 (list, show, search, create, update, delete, validate)
-        context_tools: 5 (associate_artifact, get_ticket_artifacts, get_ticket_commits,
-          get_artifact_history, log_runtime_file)
-        token_tools: 10 (query, update, estimation tools)
-        submodule_tools: 14 (discovery, push-down, dependency tools)
-      discovery_mechanism:
-        class: ToolDiscovery
-        location: vibey/mcp/discovery/
-        caching: TTL 60 seconds with hash-based invalidation
-        sources: agents.py, workflows.py, handoffs.py
-        parser: FrontmatterParser for YAML extraction
-        generator: ToolGenerator for MCP schema conversion
-      remote_compatible:
-        all_query_tools: YES (delegate to RoadmapAdapter)
-        all_status_tools: YES (read-only operations)
-        mutating_tools: YES (via adapter pattern)
-        local_only: vibey_log_runtime_file (local filesystem), submodule_tools (git
-          operations)
-      adapter_pattern:
-        class: RoadmapAdapter
-        location: vibey/mcp/adapters/roadmap_adapter.py
-        purpose: Delegates to vibey.operations.roadmap (single source of truth)
-        benefit: Ensures CLI/MCP parity
-      key_files:
-      - vibey/mcp/tools/task_tools.py
-      - vibey/mcp/tools/sprint_tools.py
-      - vibey/mcp/tools/query_tools.py
-      - vibey/mcp/tools/content_tools.py
-      - vibey/mcp/tools/context_tools.py
-      - vibey/mcp/tools/token_tools.py
-      - vibey/mcp/tools/submodule_tools.py
-      - vibey/mcp/discovery/discovery.py
-      success_criteria_met:
-      - 'All 80 tools documented: YES (48 static + dynamic)'
-      - 'Tools classified by mutation/state: YES'
-      - 'Remote routing strategy defined: YES'

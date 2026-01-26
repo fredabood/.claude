@@ -22,7 +22,7 @@ task:
     \ All operation modules\n- vibey/cli/commands/roadmap/*.py - CLI wrappers\n- vibey/mcp/tools/*.py\
     \ - MCP tool implementations\n\nSUCCESS CRITERIA:\n- Complete operation inventory\n\
     - All operation signatures documented\n- Remote mode interface requirements defined\n"
-  status: completed
+  status: not_started
   blocked: false
   created: '2026-01-26T16:48:31.485748+00:00'
   started: '2026-01-26T22:32:12.040883+00:00'

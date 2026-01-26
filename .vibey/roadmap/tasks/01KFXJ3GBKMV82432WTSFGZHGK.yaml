@@ -1,6 +1,10 @@
 task:
   id: 01KFXJ3GBKMV82432WTSFGZHGK
-  name: Audit Platform-Specific Configurations
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Platform-Specific Configurations
   description: "Document platform-specific configurations for remote compatibility\
     \ analysis.\n\nMETHODOLOGY:\n1. Document each platform's configuration:\n   -\
     \ Cursor: .cursor/rules, settings.json\n   - Copilot: .github/copilot-instructions.md\n\
@@ -21,85 +25,27 @@ task:
     - .vibey/config/platforms/*.yaml - Platform configs\n\nSUCCESS CRITERIA:\n- All\
     \ 13 platforms documented\n- Configuration formats cataloged\n- Remote constraints\
     \ identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T16:27:33.442426+00:00'
-  started_at: '2026-01-26T21:54:56.752987+00:00'
-  completed_at: '2026-01-26T21:57:45.751323+00:00'
-  updated_at: '2026-01-26T21:57:45.751326+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:27:33.442426+00:00'
+  started: '2026-01-26T21:54:56.752987+00:00'
+  completed: '2026-01-26T21:57:45.751323+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'F2: Cross-Cutting'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'F2: Cross-Cutting'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T22:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T22:30:00+00:00'
-      platforms_documented:
-        total: 12
-        list:
-        - Claude Code (.claude/) - CLAUDE.md + .mcp.json
-        - Cursor (.cursor/) - mcp.json + .cursorrules
-        - Copilot (.github/) - copilot-instructions.md
-        - VS Code (.vscode/) - mcp.json
-        - Continue.dev (.continue/) - .continuerc.yaml
-        - Windsurf (.windsurf/) - mcp_config.json
-        - JetBrains (.idea/ai/) - mcp-servers.json
-        - Cody Enterprise (.cody/) - mcp.json
-        - Amazon Q (.amazonq/) - mcp.json
-        - Replit (.replit-vibey/) - mcp.json
-        - Aider (.aider/) - aider.conf.yml
-        - Goose (.goose/) - .goosehints
-      config_formats:
-        json_mcp: 6 platforms (Cursor, VS Code, Windsurf, JetBrains, Cody, Amazon
-          Q, Replit)
-        yaml: 2 platforms (Continue.dev, Aider)
-        markdown: 12 platforms (context files for all)
-        text: 1 platform (Cursor .cursorrules)
-      mcp_support:
-        native_mcp: Cursor, VS Code, Continue.dev, JetBrains, Replit, Amazon Q
-        via_adapter: Claude Code, Windsurf, Copilot, Cody
-        no_mcp: Aider, Goose
-        percentage: 83% with MCP support
-      remote_capable:
-        fully_remote: Replit, Amazon Q Console
-        remote_enabled: VS Code (Codespaces/SSH), JetBrains (Gateway), Continue.dev,
-          Copilot
-        local_only: Aider, Goose, Claude Code, Cursor, Windsurf
-        hybrid_capable: VS Code, JetBrains, Continue.dev, Copilot
-      mcp_schema_variants:
-        claude_desktop_compatible: Claude Code, Windsurf, Cody, Amazon Q, Replit
-        vscode_format: VS Code
-        jetbrains_array: JetBrains IDEs
-        continue_yaml: Continue.dev
-      zero_drift_architecture:
-        checksums: .checksums.json in each deployment directory
-        markers: VIBEY_FRAMEWORK_MANAGED in generated files
-        regeneration: All outputs idempotent, safe to regenerate
-      key_files:
-      - vibey/adapters/base.py (PlatformAdapter ABC)
-      - vibey/adapters/registry.py (AdapterRegistry)
-      - vibey/adapters/cursor/adapter.py (385 lines)
-      - vibey/adapters/vscode/adapter.py (326 lines)
-      - vibey/adapters/copilot/adapter.py (426 lines)
-      - vibey/adapters/continuedev/adapter.py
-      - vibey/adapters/jetbrains/adapter.py
-      success_criteria_met:
-      - 'All 13 platforms documented: YES (12 found + Gemini in dev)'
-      - 'Configuration formats cataloged: YES'
-      - 'Remote constraints identified: YES'

@@ -1,6 +1,10 @@
 task:
   id: 01KFXFCF9P8YXT3XCAJFC1G07P
-  name: Audit ULID Identifier System
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit ULID Identifier System
   description: "Document ULID identifier system for remote ID management.\n\nMETHODOLOGY:\n\
     1. Document ULID structure:\n   - 48-bit timestamp (millisecond precision)\n \
     \  - 80-bit randomness\n   - 26-character Crockford Base32 encoding\n   - Lexicographic\
@@ -16,84 +20,27 @@ task:
     \ ID field definitions\n- ADR-0001 for ULID rationale\n\nSUCCESS CRITERIA:\n-\
     \ ULID structure and usage documented\n- All ID operations inventoried\n- Remote\
     \ ID strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T15:40:01.608021+00:00'
-  started_at: '2026-01-26T21:37:13.075375+00:00'
-  completed_at: '2026-01-26T21:40:01.716628+00:00'
-  updated_at: '2026-01-26T21:40:01.716631+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:40:01.608021+00:00'
+  started: '2026-01-26T21:37:13.075375+00:00'
+  completed: '2026-01-26T21:40:01.716628+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'B6: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
-  complexity: low
-  phase_label: 'B6: Core Data Model'
+  complexity: simple
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T21:52:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T21:52:00+00:00'
-      ulid_structure:
-        total_length: 26 characters
-        timestamp_bits: 48 (millisecond precision, ~280 year span)
-        random_bits: 80 (2^80 collision-free per millisecond)
-        encoding: Crockford Base32 (excludes I, L, O, U)
-        properties:
-        - Lexicographically sortable
-        - URL/filename safe
-        - Case-insensitive
-        - Decentralized generation
-      usage_patterns:
-        yaml_files: Raw ULID as id field (26 chars)
-        code_references: Prefixed format (type_ULID, 32-33 chars)
-        file_naming: .vibey/roadmap/{entity_type}/{ULID}.yaml
-        slug_mapping: Bidirectional via .id mapping files
-      generation:
-        library: python-ulid 3.0.0+
-        functions:
-        - generate_track_id() → track_{ULID}
-        - generate_sprint_id() → sprint_{ULID}
-        - generate_task_id() → task_{ULID}
-        - generate_id_from_timestamp() for migration
-        collision_risk: ~0 (2^80 random space per ms)
-      id_operations:
-        validation:
-        - is_valid_id() - format check with prefix
-        - is_raw_ulid() - 26 char ULID check
-        - is_ulid_format() - distinguish from slugs
-        extraction:
-        - extract_timestamp() - creation datetime
-        - extract_prefix() - entity type
-        comparison:
-        - compare_ids_by_timestamp() - chronological
-        - Lexicographic sort = time sort
-        lookup:
-        - Slug → ULID via .id mapping
-        - ULID → file path (direct calculation)
-      remote_mode_implications:
-        distributed_generation: NO coordination needed
-        conflict_prevention: 2^80 random space (collision ~0)
-        cross_system_refs: ULIDs globally unique
-        offline_support: Generate without network
-        git_merge: Conflict-free ID generation
-      key_files:
-      - vibey/roadmap/id_generator.py (generation/validation)
-      - vibey/roadmap/identity/id_file.py (slug↔ULID mapping)
-      - vibey/cli/roadmap_lib/filesystem.py (file lookup)
-      - docs/architecture/adr/0001-ulid-identifiers.md (rationale)
-      success_criteria_met:
-      - ULID structure and usage documented: true
-      - All ID operations inventoried: true
-      - Remote ID strategy defined: true

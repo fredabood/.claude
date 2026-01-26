@@ -1,6 +1,10 @@
 task:
   id: 01KFXJX5ZCCCTFTDGYJ27BTV5H
-  name: Audit CLI Output Formats
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit CLI Output Formats
   description: "Document CLI output formats for remote display context support.\n\n\
     METHODOLOGY:\n1. Inventory output formats:\n   - Table format (default for lists)\n\
     \   - JSON format (--json flag)\n   - YAML format (--yaml flag)\n   - Plain text\
@@ -18,71 +22,27 @@ task:
     \ utilities\n- vibey/cli/commands/*.py - Command output patterns\n\nSUCCESS CRITERIA:\n\
     - All output formats documented\n- Formatting patterns cataloged\n- Remote display\
     \ requirements identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T16:41:34.838696+00:00'
-  started_at: '2026-01-26T22:05:16.503239+00:00'
-  completed_at: '2026-01-26T22:24:19.952748+00:00'
-  updated_at: '2026-01-26T22:24:19.952751+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:41:34.838696+00:00'
+  started: '2026-01-26T22:05:16.503239+00:00'
+  completed: '2026-01-26T22:24:19.952748+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'D3: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
-  complexity: low
-  phase_label: 'D3: Interfaces'
+  complexity: simple
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T22:45:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T22:45:00+00:00'
-      supported_formats:
-      - JSON (--json flag) - fully structured, machine-parseable
-      - YAML (--yaml flag) - human-readable structured
-      - CSV (--csv flag) - tabular, spreadsheet-friendly
-      - Table (default) - ANSI-colored ASCII tables
-      - Plain text (NO_COLOR env) - emoji-based indicators
-      format_flags:
-        global: --json, --yaml, --csv, --format text|json|yaml|csv
-        color_control: --plain, NO_COLOR environment variable
-        auto_detection: TTY detection via sys.stdout.isatty()
-      rich_library_usage:
-        direct_rich: config_migrate.py, main.py, deploy.py (limited)
-        custom_formatting: vibey/cli/roadmap_lib/formatting.py (ANSI-based)
-        functions: colorize(), progress_bar(), table(), tree(), status_indicator()
-      output_patterns:
-        list_commands: Table default, --json for array of objects
-        show_commands: Detailed text with headers, --json for single object
-        status_commands: Multi-section with emoji icons, --json for complete status
-        search_commands: Categorized results with status indicators
-      error_formatting:
-        handler: vibey/cli/error_handler.py (@handle_cli_errors decorator)
-        renderer: CLIErrorRenderer in vibey/common/renderers.py
-        features: Severity markers, suggestions, hints, quick fix commands
-        exit_codes: 0=success, 1=general, 2=config, 3=validation, 4=not_found, 5=blocked
-      remote_compatible_formats:
-        best: JSON (fully parseable, no terminal codes, easy DataFrame transform)
-        good: YAML (human-readable for notebooks)
-        tabular: CSV (spreadsheet import)
-        avoid: ANSI-colored output (renders as raw codes in notebooks)
-      key_files:
-      - vibey/cli/formatters.py (Rich-based formatters)
-      - vibey/cli/roadmap_lib/formatting.py (ANSI utilities)
-      - vibey/cli/roadmap_commands/status.py (format support)
-      - vibey/cli/error_handler.py (error handling)
-      - vibey/common/renderers.py (error renderers)
-      success_criteria_met:
-      - 'All output formats documented: YES'
-      - 'Formatting patterns cataloged: YES'
-      - 'Remote display requirements identified: YES'

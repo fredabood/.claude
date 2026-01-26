@@ -1,6 +1,10 @@
 task:
   id: 01KFXF5B3HGQD72EQQAXM7P91Z
-  name: Audit Entity Relationships
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Entity Relationships
   description: "Document entity relationships and hierarchy for remote storage design.\n\
     \nMETHODOLOGY:\n1. Map hierarchical relationships:\n   - Roadmap → Track (one-to-many)\n\
     \   - Track → Sprint (one-to-many)\n   - Sprint → Task (one-to-many)\n   - Document\
@@ -17,83 +21,27 @@ task:
     \ - Traversal operations\n- .vibey/roadmap/roadmap.db - SQLite schema\n\nSUCCESS\
     \ CRITERIA:\n- Complete relationship diagram\n- All cross-references documented\n\
     - Delta Lake relationship strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T15:36:07.903440+00:00'
-  started_at: '2026-01-26T21:26:12.311912+00:00'
-  completed_at: '2026-01-26T21:29:00.581877+00:00'
-  updated_at: '2026-01-26T21:29:00.581880+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:36:07.903440+00:00'
+  started: '2026-01-26T21:26:12.311912+00:00'
+  completed: '2026-01-26T21:29:00.581877+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'B2: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'B2: Core Data Model'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T21:35:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T21:35:00+00:00'
-      hierarchical_relationships:
-        roadmap_to_track: one-to-many (roadmap_id FK)
-        track_to_sprint: one-to-many (track_id FK, CASCADE delete)
-        sprint_to_task: one-to-many (sprint_id FK, CASCADE delete)
-        parent_id_storage: All children store parent + grandparent IDs for fast lookup
-      cross_entity_references:
-        dependency_system:
-          tables: entity_blocked_by, entity_blocks, entity_depends_on
-          fields: depends_on (List[DependencyStatus]), depended_on_by (List[str])
-          status_check: is_satisfied() using status progression order
-        triangle_model:
-          tables: ticket_commit_links, ticket_artifact_associations, commit_artifact_changes
-          signals: file_overlap, message_ref, manual
-          confidence: aggregate_confidence score
-        agent_assignments:
-          task: assigned_agent (1:1)
-          track: assigned_agents (1:N)
-      storage_patterns:
-        yaml:
-        - Flat files with embedded parent IDs
-        - Dependencies as object arrays
-        - Commits and artifacts embedded
-        sqlite:
-        - Foreign keys with CASCADE
-        - Junction tables for many-to-many
-        - 78 indexes for efficient lookups
-      relationship_traversal:
-        parent_lookup: Direct ID field access or FK join
-        child_enumeration: Glob + filter (YAML) or indexed FK query (SQLite)
-        dependency_chain: BFS traversal with status propagation
-        recursive_queries: Transitive closure via track_id denormalization
-      delta_lake_strategy:
-        foreign_keys: Denormalized IDs (current pattern works)
-        junction_tables: Separate relationship tables
-        joins: Multi-table joins for ancestry chain
-        denormalization_options:
-        - Wide table with flattened hierarchy
-        - Nested JSON structures
-        - Columnar grouping for performance
-      key_relationship_tables:
-      - entity_blocked_by (blocking relationships)
-      - entity_blocks (forward index)
-      - entity_depends_on (soft dependencies)
-      - ticket_commit_links (triangle model)
-      - ticket_artifact_associations (triangle model)
-      - commit_artifact_changes (triangle model)
-      - assigned_agents (agent assignments)
-      success_criteria_met:
-      - Complete relationship diagram: true
-      - All cross-references documented: true
-      - Delta Lake relationship strategy defined: true

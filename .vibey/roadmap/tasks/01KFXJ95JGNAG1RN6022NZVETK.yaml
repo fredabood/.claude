@@ -22,7 +22,7 @@ task:
     \ - Experiment designs\n- Any existing experiment configuration\n\nSUCCESS CRITERIA:\n\
     - Framework design documented\n- Metrics system understood\n- Distributed requirements\
     \ identified\n"
-  status: completed
+  status: not_started
   blocked: false
   created: '2026-01-26T16:30:39.060890+00:00'
   started: '2026-01-26T22:31:20.901043+00:00'

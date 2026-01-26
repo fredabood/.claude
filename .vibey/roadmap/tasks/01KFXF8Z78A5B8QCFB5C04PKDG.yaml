@@ -1,6 +1,10 @@
 task:
   id: 01KFXF8Z78A5B8QCFB5C04PKDG
-  name: Audit Dependency System
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Dependency System
   description: "Document dependency system for critical path and remote sync planning.\n\
     \nMETHODOLOGY:\n1. Document dependency fields:\n   - depends_on: List of task\
     \ IDs this task depends on\n   - blocked_by: List of task IDs blocking this task\n\
@@ -19,87 +23,27 @@ task:
     \ - Dependency operations\n- vibey/operations/roadmap/validation.py - Validation\
     \ rules\n\nSUCCESS CRITERIA:\n- All dependency fields documented\n- Dependency\
     \ resolution algorithm understood\n- Remote sync strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T15:38:06.859241+00:00'
-  started_at: '2026-01-26T21:32:01.550310+00:00'
-  completed_at: '2026-01-26T21:34:29.146196+00:00'
-  updated_at: '2026-01-26T21:34:29.146199+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:38:06.859241+00:00'
+  started: '2026-01-26T21:32:01.550310+00:00'
+  completed: '2026-01-26T21:34:29.146196+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'B4: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'B4: Core Data Model'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T21:45:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T21:45:00+00:00'
-      dependency_fields:
-        depends_on: List[DependencyStatus] - cached blocking status (primary)
-        blocked_by: List[TaskBlocker] - DEPRECATED (legacy)
-        depended_on_by: List[str] - reverse index of dependents
-        blocks: List[TaskDependency] - forward index of what this blocks
-        blocked: bool - computed from depends_on
-      unified_criterion_model:
-        mechanism: Dependencies are Criteria with CompletableTarget
-        key_field: blocks_transition_to determines what status is guarded
-        semantics:
-          IN_PROGRESS: Dependency (blocks starting work)
-          COMPLETED: Success criterion (must be met to complete)
-          PRODUCTION_READY: Production gate (must pass before deploy)
-      dependency_semantics:
-        depends_on_meaning: Has Criterion with CompletableTarget blocking IN_PROGRESS
-        blocked_computation: any(not dep.is_satisfied() for dep in depends_on)
-        satisfaction_check: current_status >= required_status (using progression order)
-      validation:
-        circular_detection:
-        - Database: Recursive CTE with max_depth=20
-        - Graph: NetworkX find_cycle() with CriterionDependencyGraph
-        cross_entity: Supported (task→sprint, sprint→track, etc.)
-        invalid_refs: Validated on load, pre-commit hook
-      blocked_propagation:
-        becomes_blocked: ANY dependency in depends_on unsatisfied
-        becomes_unblocked: Dependency blocker reaches required_status
-        cascading: Forward via depended_on_by reverse index
-      resolution_algorithm:
-        topological_sort: NetworkX for execution order
-        critical_path: Longest chain via nx.ancestors/descendants
-        parallel_tasks: Same topo level with no interdependencies
-      database_tables:
-      - entity_blocks (blocker→blocked)
-      - entity_blocked_by (inverse, for queries)
-      - entity_depends_on (soft dependencies)
-      remote_sync_implications:
-        challenges:
-        - Stale dependency status
-        - Concurrent status changes
-        - Out-of-order updates
-        solutions:
-        - last_checked timestamp on DependencyStatus
-        - Periodic background sync
-        - Conservative blocking (uncertain = unsatisfied)
-        - Force refresh via db rebuild
-      key_files:
-      - vibey/roadmap/models/common.py (DependencyStatus)
-      - vibey/roadmap/models/ticket/completable.py (Criterion)
-      - vibey/roadmap/models/ticket/targets.py (CompletableTarget)
-      - vibey/roadmap/database/crud/relationships.py (CRUD)
-      - vibey/services/implementation/dependency_graph.py (graph analysis)
-      success_criteria_met:
-      - All dependency fields documented: true
-      - Dependency resolution algorithm understood: true
-      - Remote sync strategy defined: true

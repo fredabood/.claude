@@ -1,6 +1,10 @@
 task:
   id: 01KFXJVERN4135W7BR2DHSC979
-  name: Audit CLI State Management
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit CLI State Management
   description: "Document CLI state management for remote state design.\n\nMETHODOLOGY:\n\
     1. Map configuration state:\n   - .vibey/config/ directory structure\n   - Global\
     \ vs project configuration\n   - Configuration file formats\n   - Configuration\
@@ -18,77 +22,27 @@ task:
     \ - CLI context management\n- vibey/common/config.py - Configuration handling\n\
     - .vibey/config/*.yaml - Configuration files\n\nSUCCESS CRITERIA:\n- All state\
     \ types documented\n- State flow diagrams complete\n- Remote state strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T16:40:38.276798+00:00'
-  started_at: '2026-01-26T22:05:15.728547+00:00'
-  completed_at: '2026-01-26T22:24:19.517581+00:00'
-  updated_at: '2026-01-26T22:24:19.517584+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:40:38.276798+00:00'
+  started: '2026-01-26T22:05:15.728547+00:00'
+  completed: '2026-01-26T22:24:19.517581+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'D2: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'D2: Interfaces'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T22:45:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T22:45:00+00:00'
-      config_locations:
-        modular: .vibey/config/ (project.yaml, framework.yaml, agents.yaml, quality-gates.yaml,
-          git.yaml)
-        legacy: .claude/project-config.yaml (deprecated, fallback)
-        precedence: Modular preferred, legacy fallback with deprecation warning
-      context_loading:
-        loader: ContextLoader in vibey/operations/roadmap/context.py
-        modes: minimal (distance>2), summary (distance 2), full (distance 1)
-        max_dependency_distance: configurable (default 2)
-        three_phase_model: plans/, runtime/, post-mortems/ directories
-      caching_patterns:
-        roadmap_cache: vibey/cli/roadmap_lib/cache.py (RoadmapCache)
-        indexes: _task_index, _sprint_index, _track_index (lazy-loaded)
-        disk_cache: .vibey/.cache/ (indexes.json, mtimes.json)
-        context_cache: TTL 300s (5 min), max 100 entries LRU
-        performance: Task lookup <5ms, load all <10ms
-      session_management:
-        manager: vibey/operations/roadmap/session_manager.py
-        storage: Dual YAML + SQLite
-        states: ACTIVE, PAUSED, COMPLETED, ABANDONED
-        tracks: duration, events, decisions, commits
-      state_dependencies:
-        config_to_context: Framework settings determine context strategy
-        git_to_deps: Branch info affects graph versioning
-        yaml_to_cache: mtime tracking for staleness detection
-      remote_state_candidates:
-        sync_candidates:
-        - Session data (completed sessions for analytics)
-        - Context snapshots (plans, runtime, post-mortems)
-        - Activity logs (.vibey/roadmap/activity_log/)
-        - User preferences (agents.yaml, framework.yaml)
-        local_only:
-        - Disk cache indexes (regenerable)
-        - Migration markers (.vibey/.migration-declined)
-        - In-memory caches (ephemeral)
-      key_files:
-      - vibey/config/loader.py (ConfigLoader with fallback)
-      - vibey/operations/roadmap/context.py (ContextLoader)
-      - vibey/cli/roadmap_lib/cache.py (RoadmapCache)
-      - vibey/operations/roadmap/session_manager.py (SessionManager)
-      - vibey/operations/context/readers.py (TTL cache)
-      success_criteria_met:
-      - 'All state types documented: YES'
-      - 'State flow complete: YES'
-      - 'Remote state strategy defined: YES'

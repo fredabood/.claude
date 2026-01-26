@@ -1,6 +1,10 @@
 task:
   id: 01KFXK7YSK51M9WCRV2RAA44J0
-  name: Audit Dual Storage Sync Mechanism
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Dual Storage Sync Mechanism
   description: "Document the dual storage synchronization mechanism to inform remote\
     \ sync design.\n\nMETHODOLOGY:\n1. Document sync architecture:\n   - Which storage\
     \ is source of truth (YAML)\n   - How database is rebuilt from YAML\n   - When\
@@ -16,78 +20,27 @@ task:
     \ vibey/operations/roadmap/db/*.py - Sync operations\n- vibey/operations/roadmap/reconciliation.py\
     \ - Reconciliation logic\n\nSUCCESS CRITERIA:\n- Complete sync flow documentation\n\
     - Conflict resolution strategy documented\n- Remote sync requirements identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T16:47:27.960899+00:00'
-  started_at: '2026-01-26T21:17:06.706062+00:00'
-  completed_at: '2026-01-26T21:21:19.079392+00:00'
-  updated_at: '2026-01-26T21:21:19.079394+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:47:27.960899+00:00'
+  started: '2026-01-26T21:17:06.706062+00:00'
+  completed: '2026-01-26T21:21:19.079392+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'A4: Foundation'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'A4: Foundation'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T21:45:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T21:45:00+00:00'
-      sync_architecture:
-        source_of_truth: YAML files in .vibey/roadmap/
-        query_cache: SQLite database (.vibey/roadmap.db)
-        sync_direction: One-way YAML -> DB (rebuild)
-        sync_tables: yaml_checksums, database_state, sync_conflicts
-      rebuild_process:
-        trigger: vibey roadmap db rebuild
-        steps:
-        - Safety check (is_dirty flag)
-        - Backup creation (.db.bak)
-        - Database deletion and reinitialization
-        - Schema creation (25 tables, 21 views, 40 triggers)
-        - YAML file scanning and FK validation
-        - Progress counter recalculation
-      conflict_detection:
-        mechanisms:
-        - Modification time comparison (mtime)
-        - Checksum tracking (SHA-256)
-        - Dirty flag (database_state.is_dirty)
-        conflict_states:
-        - IN_SYNC: DB matches YAML
-        - DB_AHEAD: DB has uncommitted changes
-        - YAML_AHEAD: YAML modified externally
-        - CONFLICT: Both changed independently
-      remote_sync_requirements:
-        current_limitations:
-        - No bidirectional sync
-        - Manual conflict resolution only
-        - No offline support
-        - Full rebuild only (no incremental)
-        required_for_remote:
-        - Operation journal with vector clocks
-        - 3-way merge algorithm
-        - CRDT data structures
-        - Offline operation queuing
-        - Incremental entity-level sync
-      implementation_phases:
-      - Phase 1: Local infrastructure (vector clocks, operation journal)
-      - Phase 2: Network foundation (HTTP/gRPC API)
-      - Phase 3: Conflict resolution (3-way merge, CRDT)
-      - Phase 4: Offline support (queue + replay)
-      - Phase 5: Testing and hardening
-      success_criteria_met:
-      - Complete sync flow documentation: true
-      - Conflict resolution strategy documented: true
-      - Remote sync requirements identified: true

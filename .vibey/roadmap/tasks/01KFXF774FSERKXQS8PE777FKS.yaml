@@ -1,6 +1,10 @@
 task:
   id: 01KFXF774FSERKXQS8PE777FKS
-  name: Audit Status State Machine
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Status State Machine
   description: "Document status state machine for all entity types.\n\nMETHODOLOGY:\n\
     1. Document all status values by entity type:\n   - Task statuses (not_started,\
     \ in_progress, completed, blocked, wont_do)\n   - Sprint statuses (not_started,\
@@ -19,116 +23,27 @@ task:
     - vibey/operations/roadmap/transitions.py - Transition logic\n\nSUCCESS CRITERIA:\n\
     - All statuses documented for all entity types\n- State transition diagrams complete\n\
     - Remote sync considerations documented\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T15:37:09.384796+00:00'
-  started_at: '2026-01-26T21:29:06.670232+00:00'
-  completed_at: '2026-01-26T21:31:54.737728+00:00'
-  updated_at: '2026-01-26T21:31:54.737731+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:37:09.384796+00:00'
+  started: '2026-01-26T21:29:06.670232+00:00'
+  completed: '2026-01-26T21:31:54.737728+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'B3: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'B3: Core Data Model'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T21:40:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T21:40:00+00:00'
-      status_values:
-        unified_ticket_status:
-          total_values: 10
-          values:
-          - NOT_STARTED (initial)
-          - IN_PROGRESS (active)
-          - PAUSED (suspended, resumable)
-          - COMPLETION_GATE_CHECK (quality validation)
-          - COMPLETED (work done)
-          - PRODUCTION_GATE_CHECK (pre-deploy)
-          - PRODUCTION_READY (ready for deploy)
-          - DEPLOYED (terminal)
-          - WONT_DO (terminal - cancelled)
-          - SUPERSEDED (terminal - replaced)
-        task_restricted_set:
-          values:
-          - NOT_STARTED
-          - IN_PROGRESS
-          - PAUSED
-          - COMPLETION_GATE_CHECK
-          - COMPLETED
-          - WONT_DO
-          note: Tasks cannot reach PRODUCTION_* or DEPLOYED states
-        gate_status:
-          values:
-          - NOT_STARTED
-          - IN_PROGRESS
-          - PASSED
-          - FAILED
-          - BLOCKED
-      state_transitions:
-        progression_order: NOT_STARTED → IN_PROGRESS → PAUSED → COMPLETION_GATE_CHECK
-          → COMPLETED → PRODUCTION_GATE_CHECK → PRODUCTION_READY → DEPLOYED
-        terminal_states:
-        - WONT_DO
-        - SUPERSEDED
-        - DEPLOYED
-        special_transitions:
-        - PAUSED → IN_PROGRESS (resume - only backward transition allowed)
-        - ANY_NON_TERMINAL → WONT_DO (cancel)
-        - ANY_NON_TERMINAL → SUPERSEDED (merge)
-        forbidden:
-        - FROM terminal states
-        - Backward progression (except PAUSED → IN_PROGRESS)
-        - Skipping intermediate gates
-      transition_triggers:
-        user_initiated:
-        - vibey roadmap start → IN_PROGRESS
-        - vibey roadmap complete → COMPLETED
-        - vibey roadmap pause → PAUSED
-        - vibey roadmap resume → IN_PROGRESS
-        - vibey roadmap cancel → WONT_DO
-        automatic:
-        - all_start_criteria_met → IN_PROGRESS
-        - all_completion_criteria_met → COMPLETED
-        rollup:
-        - Parent auto-starts when child starts (propagate_up)
-        - Parent completion requires all children complete (except deferred)
-      validation_rules:
-        pre_transition:
-        - Criterion-based blocking via blocks_transition_to
-        - Dependency satisfaction check
-        - Deferred children exemption
-        post_transition:
-        - Timestamp updates (started_at, completed_at)
-        - Activity log entry
-        - YAML save then SQLite cache update
-      remote_sync_considerations:
-        current_approach: YAML source of truth + SQLite cache
-        conflict_resolution: Last write wins (no explicit locking)
-        sync_recovery: vibey roadmap db rebuild
-        recommended_for_remote:
-        - Git-based sync with external merge
-        - Optimistic locking via version field
-      key_files:
-      - vibey/roadmap/models/ticket/enums.py (TicketStatus, GateStatus)
-      - vibey/roadmap/models/ticket/ticket.py (start(), complete())
-      - vibey/roadmap/models/ticket/completable.py (can_transition_to())
-      - vibey/operations/roadmap/transitions.py (TransitionBlockedError)
-      - vibey/operations/roadmap/status_manager.py (auto-progression)
-      success_criteria_met:
-      - All statuses documented for all entity types: true
-      - State transition diagrams complete: true
-      - Remote sync considerations documented: true

@@ -1,6 +1,10 @@
 task:
   id: 01KFXK4EAC57CVJ5VPHR01WWVJ
-  name: Audit YAML Storage Backend
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit YAML Storage Backend
   description: "Document YAML file structure, serialization patterns, and file operations\
     \ for remote mode planning.\n\nMETHODOLOGY:\n1. Analyze YAML file organization:\n\
     \   - .vibey/roadmap/tracks/*.yaml structure\n   - .vibey/roadmap/sprints/*.yaml\
@@ -18,70 +22,27 @@ task:
     \ - File operations\n- .vibey/roadmap/**/*.yaml - Example data files\n\nSUCCESS\
     \ CRITERIA:\n- Complete YAML schema documentation for all entity types\n- File\
     \ operation inventory with read/write patterns\n- Remote storage translation recommendations\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T16:45:32.786842+00:00'
-  started_at: '2026-01-26T21:08:33.005292+00:00'
-  completed_at: '2026-01-26T21:12:07.582532+00:00'
-  updated_at: '2026-01-26T21:12:07.582535+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:45:32.786842+00:00'
+  started: '2026-01-26T21:08:33.005292+00:00'
+  completed: '2026-01-26T21:12:07.582532+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'A2: Foundation'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'A2: Foundation'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T21:25:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T21:25:00+00:00'
-      yaml_file_organization:
-        structure: flat directory (ADR-0002)
-        entity_counts:
-          tracks: 54
-          sprints: 312
-          tasks: 1912
-        directory_reduction: 98% vs hierarchical
-        naming: ULID-based filenames (26-char, time-sortable)
-      serialization_patterns:
-        loader_module: vibey/roadmap/serialization/yaml_loader.py
-        dumper_module: vibey/roadmap/serialization/yaml_dumper.py
-        format_version: v2
-        key_functions:
-        - load_roadmap, load_track, load_sprint, load_task
-        - save_roadmap, save_track, save_sprint, save_task
-      entity_schemas:
-        roadmap: id, name, version, status, progress, tracks, metadata
-        track: id, name, roadmap_id, status, progress, sprints, dependencies
-        sprint: id, name, track_id, status, progress, tasks, quality_gates
-        task: id, title, sprint_id, status, task_type, gate_info, commits
-      file_operations:
-        read: load single, load all, search by status
-        write: create, update, delete
-        batch: migrations, bulk updates, rebuild
-      databricks_mapping:
-        recommended: Delta Lake tables
-        partitioning: by status or created_date
-        schema: Unity Catalog vibey_roadmap schema
-        sync_strategy: checksums for change detection
-      recommendations:
-      - Keep YAML as git-tracked source of truth
-      - Use Databricks as operational cache
-      - Implement bidirectional sync with conflict resolution
-      - Archive historical YAML to Databricks volumes
-      success_criteria_met:
-      - Complete YAML schema documentation: true
-      - File operation inventory: true
-      - Remote storage translation recommendations: true

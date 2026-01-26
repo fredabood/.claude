@@ -1,6 +1,10 @@
 task:
   id: 01KFXFAQBPQARFTKCJYYR7QXZF
-  name: Audit Progress Rollup Logic
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Progress Rollup Logic
   description: "Document progress rollup logic for remote aggregation design.\n\n\
     METHODOLOGY:\n1. Document progress calculation at each level:\n   - Task: Binary\
     \ (0% or 100%) or weighted?\n   - Sprint: Sum of task completions / total tasks\n\
@@ -18,84 +22,27 @@ task:
     - vibey/roadmap/models/*.py - Progress fields\n- Database views for progress queries\n\
     \nSUCCESS CRITERIA:\n- Progress formula documented for each level\n- Recalculation\
     \ triggers identified\n- Remote aggregation strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T15:39:04.332051+00:00'
-  started_at: '2026-01-26T21:34:35.112805+00:00'
-  completed_at: '2026-01-26T21:37:07.164945+00:00'
-  updated_at: '2026-01-26T21:37:07.164948+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T15:39:04.332051+00:00'
+  started: '2026-01-26T21:34:35.112805+00:00'
+  completed: '2026-01-26T21:37:07.164945+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'B5: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'B5: Core Data Model'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T21:48:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T21:48:00+00:00'
-      progress_formulas:
-        task: Binary (completed or not, no partial progress)
-        sprint: tasks_completed / tasks_total * 100 (with 3 task types)
-        track: sum(sprint.tasks_completed) / sum(sprint.tasks_total) * 100
-        roadmap: sum(track.tasks_completed) / sum(track.tasks_total) * 100
-      task_types_tracked:
-      - development_tasks (main work)
-      - completion_gate_tasks (quality gates)
-      - production_gate_tasks (deploy gates)
-      weighting:
-        model: Equal weight - all tasks count as 1
-        complexity_influence: NO - does not affect progress
-        priority_influence: NO - does not affect progress
-        token_influence: NO - tokens for planning/budgeting only
-      recalculation_triggers:
-        automatic:
-        - Task status change (update depends_on cache)
-        - Sprint auto-start (first task completes)
-        - Track auto-complete (all sprints complete)
-        explicit:
-        - vibey roadmap progress --refresh-progress
-        - vibey roadmap db rebuild
-        - vibey roadmap start/complete <id>
-      storage:
-        source_of_truth: YAML files (version controlled)
-        query_cache: SQLite database (21 computed views)
-        progress_views:
-        - v_sprint_progress
-        - v_track_progress
-        - v_roadmap_progress
-        stale_detection: integrity_audit module compares declared vs computed
-      rollup_algorithms:
-        pattern: Bottom-up aggregation
-        level_1: Task → Sprint (count by status)
-        level_2: Sprint → Track (sum sprint counters)
-        level_3: Track → Roadmap (sum track counters)
-        batch_rebuild: vibey roadmap db rebuild
-      remote_mode_implications:
-        current_state: No explicit remote mode implemented
-        eventual_consistency: Supported via git sync + db rebuild
-        distributed_aggregation: Each agent has local SQLite cache
-        sync_mechanism: Git pull/push + explicit rebuild
-      key_files:
-      - vibey/roadmap/models/sprint.py (SprintProgress dataclass)
-      - vibey/roadmap/models/track.py (TrackProgress dataclass)
-      - vibey/roadmap/database/views.py (SQL progress views)
-      - vibey/database/integrity_audit.py (drift detection)
-      - vibey/cli/roadmap_lib/status.py (auto-progression)
-      success_criteria_met:
-      - Progress formula documented for each level: true
-      - Recalculation triggers identified: true
-      - Remote aggregation strategy defined: true

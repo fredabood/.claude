@@ -1,6 +1,10 @@
 task:
   id: 01KFXGJRC46RDTPM304RVJCY2J
-  name: Audit Task Selection Algorithm
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Task Selection Algorithm
   description: "Document task selection algorithm for remote scheduling design.\n\n\
     METHODOLOGY:\n1. Document selection criteria:\n   - Task status (not_started,\
     \ not blocked)\n   - Dependency satisfaction\n   - Priority scoring\n   - Complexity\
@@ -18,88 +22,27 @@ task:
     \ - Selection logic\n- vibey/operations/roadmap/queries.py - Task queries\n- vibey/roadmap/models/task.py\
     \ - Task model\n\nSUCCESS CRITERIA:\n- Selection algorithm fully documented\n\
     - Scoring formula documented\n- Remote scheduling strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
-  created_at: '2026-01-26T16:00:56.034393+00:00'
-  started_at: '2026-01-26T21:42:52.736631+00:00'
-  completed_at: '2026-01-26T21:45:18.011544+00:00'
-  updated_at: '2026-01-26T21:45:18.011550+00:00'
-  assigned_agents:
-  - unassigned
+  status: not_started
+  blocked: false
+  created: '2026-01-26T16:00:56.034393+00:00'
+  started: '2026-01-26T21:42:52.736631+00:00'
+  completed: '2026-01-26T21:45:18.011544+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: research
+  phase_label: 'E2: Advanced'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'E2: Advanced'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T22:05:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T22:05:00+00:00'
-      selection_criteria:
-        required_conditions:
-        - status == 'not_started'
-        - blocked == False (explicit flag)
-        - All entity_blocked_by entries have blocker.status == 'completed'
-        - is_planned == True (planning criteria satisfied)
-        planning_criteria:
-        - YAML file exists (required)
-        - Context files exist (optional)
-        - Manual approval (optional)
-        - Token estimates set (optional)
-      scoring_algorithm:
-        primary_sort: priority (critical=0, high=1, medium=2, low=3, null=4)
-        secondary_sort: created ASC (oldest first)
-        no_factors_for: dependency_depth, token_cost, agent_compatibility
-        custom_hooks: None implemented
-      readiness_checks:
-        dependency_completion: SQL NOT EXISTS subquery on entity_blocked_by
-        blocking_flag: WHERE blocked = 0
-        planning_status: check_planned_status() with permissive default
-        agent_availability: Not implemented
-      selection_flow:
-        candidate_enumeration: _query_candidate_tasks() from SQLite
-        filtering: Loop with _is_task_planned() check
-        scoring: Done in SQL via ORDER BY
-        final_selection: First planned candidate returned
-        tie_breaking: Oldest task within same priority wins
-      selection_modes:
-        single_task: get_next_task(scope_ulid) → Optional[HierarchicalTicket]
-        batch_selection: get_all_executable(limit=100) → List[HierarchicalTicket]
-        scoped: track_id or sprint_id filters (legacy) or scope_ulid (preferred)
-      remote_scheduling_considerations:
-        current_state: Single-process SQLite only
-        race_prevention: Would need pessimistic/optimistic locking
-        work_stealing: Could use task claiming mechanism
-        load_balancing: Not implemented (could use estimated_tokens)
-        distributed_deps: Would need async polling or event-driven updates
-      key_sql_query: 'SELECT ... FROM tasks t
-
-        WHERE status = ''not_started'' AND blocked = 0
-
-        AND NOT EXISTS (blocker check)
-
-        ORDER BY priority_case ASC, created ASC
-
-        LIMIT ?
-
-        '
-      key_files:
-      - vibey/services/implementation/selector.py (TaskSelector class)
-      - vibey/roadmap/criteria/planned.py (planning check)
-      - vibey/services/implementation/dependency_graph.py (dependency analysis)
-      success_criteria_met:
-      - Selection algorithm fully documented: true
-      - Scoring formula documented: true
-      - Remote scheduling strategy defined: true

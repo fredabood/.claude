@@ -1,10 +1,6 @@
 task:
   id: 01KFXJ78XKT55N2AN8K5P7JY8E
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Review PM Tool Integrations Architecture
+  name: Review PM Tool Integrations Architecture
   description: "Review PM tool integrations design for remote sync architecture.\n\
     \nMETHODOLOGY:\n1. Review existing track documentation:\n   - Locate PM Tool Integrations\
     \ track\n   - Review sprint plans and task descriptions\n   - Identify architectural\
@@ -23,27 +19,114 @@ task:
     \ track\n- docs/architecture/ - Integration designs\n- Any existing adapter prototypes\n\
     \nSUCCESS CRITERIA:\n- Planned integrations documented\n- Sync patterns understood\n\
     - Remote implications identified\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:29:36.936964+00:00'
-  started: '2026-01-26T21:58:46.265865+00:00'
-  completed: '2026-01-26T22:03:59.678609+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:29:36.936964+00:00'
+  started_at: '2026-01-27T00:45:00.007651+00:00'
+  completed_at: '2026-01-27T00:48:26.118323+00:00'
+  updated_at: '2026-01-27T00:48:26.118326+00:00'
+  assigned_agents: []
   priority: medium
-  phase_label: 'G2: Planned Features'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'G2: Planned Features'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T01:20:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T01:20:00+00:00'
+      implementation_status: PM Tool Integrations Architecture Review Complete
+      track_info:
+        id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+        name: PM Tool Integrations
+        status: in_progress
+        completion: 13%
+        sprints_total: 11
+        sprints_completed: 1
+        tasks_total: 52
+        tasks_completed: 7
+      core_architecture:
+        generic_ticket_model: vibey/core/ticket.py
+        ticket_adapter_abc: vibey/adapters/pm/base.py
+        registry: vibey/adapters/pm/registry.py
+        sync_types: vibey/adapters/pm/types.py
+        service_layer: vibey/services/ticket_service.py
+      ticket_model_fields:
+      - id, external_id, source_adapter
+      - hierarchy_type (PROJECT, WORKSTREAM, ITERATION, WORK_ITEM)
+      - name, description, status, priority
+      - parent_id, children_ids
+      - timestamps (created_at, started_at, completed_at)
+      - criteria (Completable Pattern)
+      - metadata (tool-specific extensions)
+      adapter_methods:
+        read_operations:
+        - list_projects() -> List[Ticket]
+        - get_ticket(id) -> Ticket
+        - list_children(parent_id) -> List[Ticket]
+        - search_tickets(**filters) -> List[Ticket]
+        write_operations:
+        - create_ticket(ticket) -> Ticket
+        - update_ticket(ticket) -> Ticket
+        - update_status(id, status) -> Ticket
+        - delete_ticket(id) -> bool
+        sync_operations:
+        - sync(direction, conflict_resolution) -> SyncResult
+        - detect_conflicts(other_adapter) -> List[Dict]
+        mapping:
+        - map_to_generic(native_item) -> Ticket
+        - map_from_generic(ticket) -> Any
+      sync_patterns:
+        import: External -> map_to_generic() -> Ticket -> Vibey
+        export: Vibey -> Ticket -> map_from_generic() -> External
+        bidirectional: Two-way with conflict detection and resolution
+      conflict_resolution:
+        strategies:
+        - LOCAL_WINS (Vibey precedence)
+        - REMOTE_WINS (External precedence)
+        - MANUAL (User decides)
+        - MERGE (Auto-merge non-conflicting)
+        detection: Field-level, timestamp, status, deletion conflicts
+      planned_integrations:
+        sprint_1_complete:
+        - Core abstractions (production-ready)
+        - TicketAdapter ABC
+        - PMAdapterRegistry with @pm_adapter decorator
+        - Sync types and capabilities
+        not_started:
+        - 'Sprint 2: VibeyAdapter'
+        - 'Sprint 3: CLI Refactor'
+        - 'Sprint 4-5: JiraAdapter + Jira Sync'
+        - 'Sprint 6: GitHubAdapter'
+        - 'Sprint 7: TrelloAdapter'
+        - 'Sprint 8: AsanaAdapter'
+        - 'Sprint 9: ConfluenceAdapter'
+        - 'Sprint 10: Integration & Polish'
+      hierarchy_mapping:
+        project: Roadmap/Project/Repository/Board
+        workstream: Track/Epic/Milestone/List
+        iteration: Sprint (not all tools support)
+        work_item: Task/Issue/Card
+      design_principles:
+      - Vibey is just one adapter (not special case)
+      - Tool-agnostic abstractions
+      - Unified status values (5 universal statuses)
+      - Extensible via metadata dict
+      - Lazy adapter loading
+      - Singleton registry
+      success_criteria_met:
+      - 'Planned integrations documented: YES'
+      - 'Sync patterns understood: YES'
+      - 'Remote implications identified: YES'

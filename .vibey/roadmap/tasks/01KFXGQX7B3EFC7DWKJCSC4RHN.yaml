@@ -1,10 +1,6 @@
 task:
   id: 01KFXGQX7B3EFC7DWKJCSC4RHN
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Agent Integration Points
+  name: Audit Agent Integration Points
   description: "Document agent integration for remote agent orchestration.\n\nMETHODOLOGY:\n\
     1. Document supported agents:\n   - Claude Code integration\n   - Other AI agent\
     \ support\n   - Agent capability differences\n   - Agent selection criteria\n\
@@ -20,27 +16,110 @@ task:
     \ - Agent interface\n- vibey/adapters/*.py - Platform adapters\n- vibey/mcp/server.py\
     \ - Tool exposure\n\nSUCCESS CRITERIA:\n- Agent integration documented\n- Invocation\
     \ patterns mapped\n- Remote orchestration designed\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:03:44.892676+00:00'
-  started: '2026-01-26T21:49:06.947356+00:00'
-  completed: '2026-01-26T21:53:25.350406+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:03:44.892676+00:00'
+  started_at: '2026-01-27T00:28:14.989818+00:00'
+  completed_at: '2026-01-27T00:32:42.223532+00:00'
+  updated_at: '2026-01-27T00:32:42.223536+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: 'E5: Advanced'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'E5: Advanced'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T00:50:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T00:50:00+00:00'
+      implementation_status: Agent Integration Points Documentation Complete
+      mcp_server:
+        location: vibey/mcp/server.py
+        sdk: FastMCP (Model Context Protocol SDK)
+        transport: stdio (standard input/output)
+        tool_count: 80+ tools exposed
+        tool_categories:
+        - Roadmap CRUD (create, read, update, delete)
+        - Task execution (start, complete, block)
+        - Query operations (list, search, filter)
+        - Content management (context, plans, post-mortems)
+        - Progress tracking (status, metrics)
+        registration_pattern: '@mcp.tool() decorator'
+        initialization: create_mcp_server() factory function
+      platform_adapters:
+        location: vibey/adapters/
+        count: 14 adapters
+        supported_platforms:
+        - claude_code (Claude Code CLI)
+        - goose (Goose AI)
+        - cursor (Cursor IDE)
+        - copilot (GitHub Copilot)
+        - vscode (VS Code)
+        - gemini (Google Gemini)
+        - aider (Aider CLI)
+        - continue_dev (Continue IDE)
+        - windsurf (Windsurf)
+        - cline (Cline)
+        - roo (Roo)
+        - amp (Amp)
+        - augment (Augment)
+        - zed (Zed IDE)
+        base_class: BaseAdapter
+        unified_architecture: Zero-drift guarantee via shared templates
+      agent_invocation:
+        claude_code_cli: claude --print --dangerously-skip-permissions
+        context_passing: System prompt with task description, criteria, files
+        tool_exposure: MCP tools auto-discovered by compatible agents
+        session_management: Single-shot execution per task
+      discovery_system:
+        location: vibey/discovery/
+        discovers:
+        - Agents (from markdown documentation)
+        - Workflows (from workflow definitions)
+        - Handoffs (agent-to-agent transitions)
+        source_format: Markdown files with structured sections
+      response_handling:
+        output_parsing: Raw text from agent stdout
+        result_extraction: Task completion detection
+        artifact_collection: Git diff analysis for changes
+        status_determination: Success/failure based on exit code
+      error_recovery:
+        timeout_handling: Configurable timeout per task
+        rate_limit_handling: Retry with exponential backoff
+        api_error_handling: Log and mark task failed
+        retry_strategies: Configurable retry count
+        graceful_degradation: Skip task, continue with next
+      agent_configuration:
+        model_selection: Via adapter configuration
+        temperature_settings: Adapter-specific defaults
+        token_limits: Configurable per task/sprint
+        tool_permissions: MCP tool filtering available
+      pm_adapter_system:
+        location: vibey/adapters/pm/
+        purpose: Project management tool integration
+        supported:
+        - jira (Jira)
+        - github_issues (GitHub Issues)
+        - linear (Linear)
+        sync_direction: Bidirectional (import/export)
+      remote_orchestration_considerations:
+        databricks_hosted: Possible via API endpoints
+        agent_pool: Multiple executors with shared queue
+        cross_agent_coordination: Event-driven task distribution
+        cost_optimization: Model selection based on task complexity
+      success_criteria_met:
+      - 'Agent integration documented: YES'
+      - 'Invocation patterns mapped: YES'
+      - 'Remote orchestration designed: YES'

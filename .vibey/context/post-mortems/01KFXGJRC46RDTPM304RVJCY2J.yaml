@@ -1,6 +1,6 @@
 post_mortem:
   ticket_id: 01KFXGJRC46RDTPM304RVJCY2J
-  completed_at: '2026-01-26T21:45:18.025491+00:00'
+  completed_at: '2026-01-27T00:20:16.221599+00:00'
   duration_hours: null
   summary: Completed with 0 commits
   artifacts_changed: []

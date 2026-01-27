@@ -1,10 +1,6 @@
 task:
   id: 01KFXK9WT5Y777YMCX3VZ77V72
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Roadmap CRUD Operations
+  name: Audit Roadmap CRUD Operations
   description: "Document CRUD operations layer for remote mode interface design.\n\
     \nMETHODOLOGY:\n1. Inventory all CRUD operations by entity:\n   - Roadmap: create,\
     \ read, update, delete, list\n   - Track: create, read, update, delete, list,\
@@ -22,27 +18,70 @@ task:
     \ All operation modules\n- vibey/cli/commands/roadmap/*.py - CLI wrappers\n- vibey/mcp/tools/*.py\
     \ - MCP tool implementations\n\nSUCCESS CRITERIA:\n- Complete operation inventory\n\
     - All operation signatures documented\n- Remote mode interface requirements defined\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:48:31.485748+00:00'
-  started: '2026-01-26T22:32:12.040883+00:00'
-  completed: '2026-01-26T22:38:57.320248+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:48:31.485748+00:00'
+  started_at: '2026-01-27T02:30:56.099412+00:00'
+  completed_at: '2026-01-27T02:33:51.576608+00:00'
+  updated_at: '2026-01-27T02:33:51.576611+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: 'C1: Operations'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'C1: Operations'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T02:45:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T02:45:00+00:00'
+      implementation_status: Roadmap CRUD Operations Audit Complete
+      operation_inventory:
+        query_operations: 25 functions
+        update_operations: 27 functions
+        mcp_tools: 11 defined
+        mcp_adapter_methods: 16
+        entity_types: 4 (Roadmap, Track, Sprint, Task)
+      operations_by_entity:
+        roadmap: init, query_summary, refresh_progress
+        track: create, query_details, complete_track
+        sprint: create, query_details, start, complete
+        task: create, query_details, start, complete, assign
+      interface_mappings:
+        python_api: vibey/operations/roadmap/ (query.py, update.py, transitions.py)
+        cli_commands: vibey/cli/command_modules/roadmap.py
+        mcp_adapter: vibey/mcp/adapters/roadmap_adapter.py
+        mcp_tools: task_tools.py, sprint_tools.py, query_tools.py
+      operation_patterns:
+        read: Backend-agnostic (YAML or SQLite)
+        write: YAML first + SQLite sync
+        transition: Criteria-based validation
+        refresh: Progress recalculation cascade
+      validation_layers:
+        id_format: ULID (26 chars) or legacy format
+        status_transition: can_transition_to() with blocking reasons
+        commit_evidence: Optional validation before completion
+        standards_enforcement: BLOCKING, WARNING, AUDIT levels
+      storage_flow:
+        source_of_truth: YAML files
+        query_cache: SQLite database
+        sync_direction: YAML → SQLite via rebuild
+      remote_mode_mapping:
+        delegable: All query operations, status reads
+        local_required: File creation, git operations
+        hybrid: Status transitions (validate local, execute remote)
+      success_criteria_met:
+      - 'Complete operation inventory: YES'
+      - 'All operation signatures documented: YES'
+      - 'Remote mode interface requirements: YES'

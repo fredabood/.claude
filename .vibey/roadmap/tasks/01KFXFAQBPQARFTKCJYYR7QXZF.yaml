@@ -1,10 +1,6 @@
 task:
   id: 01KFXFAQBPQARFTKCJYYR7QXZF
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Progress Rollup Logic
+  name: Audit Progress Rollup Logic
   description: "Document progress rollup logic for remote aggregation design.\n\n\
     METHODOLOGY:\n1. Document progress calculation at each level:\n   - Task: Binary\
     \ (0% or 100%) or weighted?\n   - Sprint: Sum of task completions / total tasks\n\
@@ -22,27 +18,111 @@ task:
     - vibey/roadmap/models/*.py - Progress fields\n- Database views for progress queries\n\
     \nSUCCESS CRITERIA:\n- Progress formula documented for each level\n- Recalculation\
     \ triggers identified\n- Remote aggregation strategy defined\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T15:39:04.332051+00:00'
-  started: '2026-01-26T21:34:35.112805+00:00'
-  completed: '2026-01-26T21:37:07.164945+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T15:39:04.332051+00:00'
+  started_at: '2026-01-26T23:57:24.497638+00:00'
+  completed_at: '2026-01-27T00:00:19.302237+00:00'
+  updated_at: '2026-01-27T00:00:19.302240+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: 'B5: Core Data Model'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'B5: Core Data Model'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T00:20:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T00:20:00+00:00'
+      implementation_status: Progress Rollup Logic Documentation Complete
+      progress_calculation_by_level:
+        task:
+          model: Binary (0% or 100%)
+          completion_criteria: TaskStatus.COMPLETED
+          weighting: None - all tasks equal regardless of tokens
+          deferred_handling: Excluded from totals
+        sprint:
+          formula: (tasks_completed / tasks_total) * 100
+          task_types:
+          - development_tasks
+          - completion_gate_tasks
+          - production_gate_tasks
+          data_structure: SprintProgress with 8 fields
+        track:
+          formula: Sum of sprint.progress.tasks_completed / Sum of sprint.progress.tasks_total
+          sprint_completion_statuses: COMPLETED, PRODUCTION_GATE_CHECK, PRODUCTION_READY,
+            DEPLOYED
+          data_structure: TrackProgress with 5 fields
+        roadmap:
+          formula: Sum of track.progress.tasks_completed / Sum of track.progress.tasks_total
+          track_completion_statuses: COMPLETED, PRODUCTION_READY, DEPLOYED
+          data_structure: Progress with 7 fields
+      weighting_factors:
+        token_weighting: NOT IMPLEMENTED (equal weight for all tasks)
+        complexity_weighting: NOT IMPLEMENTED
+        priority_weighting: NOT IMPLEMENTED
+        model: Pure count-based (1K-token task = 100K-token task in progress)
+      recalculation_triggers:
+        explicit_commands:
+        - vibey roadmap refresh-progress (sprints only)
+        - vibey roadmap recalculate-all (full hierarchy)
+        automatic_cascade:
+        - Task status change triggers _update_sprint_progress()
+        - Sprint update triggers _update_track_progress()
+        - Track update triggers _update_roadmap_progress()
+        full_recalc_steps:
+        - 1. Pre-load task index (O(n) single pass)
+        - 2. Recalculate all sprint progress
+        - 3. Recalculate all track progress
+        - 4. Recalculate roadmap progress
+        - 5. Refresh dependency caches
+        - 6. Verify consistency (optional)
+      progress_storage:
+        yaml:
+          role: Source of truth
+          fields_stored: Full progress objects embedded in entity YAML
+          update_method: Computed and written by operations
+        sqlite:
+          role: Computed on-demand for queries
+          views:
+          - v_sprint_progress (from tasks table)
+          - v_track_progress (from v_sprint_progress)
+          - v_roadmap_progress (from v_track_progress)
+          regenerable: True (via vibey roadmap db rebuild)
+        staleness_handling:
+          validation: validate_progress_counters() checks mismatches
+          repair: vibey roadmap recalculate-all
+      rollup_algorithm:
+        pattern: Bottom-up aggregation
+        optimization: Pre-loaded task index prevents O(sprints × tasks) file I/O
+        cascade_chain: Task → Sprint → Track → Roadmap
+        deferred_exclusion: Deferred tasks excluded from all progress totals
+      remote_aggregation_considerations:
+        eventual_consistency: Progress can lag behind actual task status
+        sync_strategy: Full recalculation after sync to ensure consistency
+        incremental_updates: Cascade chain supports incremental propagation
+        conflict_resolution: Last-write-wins for progress values
+      key_implementation_files:
+        operations:
+        - vibey/operations/roadmap/update.py (lines 1666-1912)
+        - _update_sprint_progress() line 1666
+        - _update_track_progress() line 1795
+        - _update_roadmap_progress() line 1856
+        database_views:
+        - vibey/roadmap/database/views.py (lines 34-166)
+      success_criteria_met:
+      - 'Progress formula documented for each level: YES'
+      - 'Recalculation triggers identified: YES'
+      - 'Remote aggregation strategy defined: YES'

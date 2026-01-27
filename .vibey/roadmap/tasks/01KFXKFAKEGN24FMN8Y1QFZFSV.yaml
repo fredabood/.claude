@@ -1,10 +1,6 @@
 task:
   id: 01KFXKFAKEGN24FMN8Y1QFZFSV
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Context System
+  name: Audit Context System
   description: "Document context system for remote context assembly.\n\nMETHODOLOGY:\n\
     1. Document context file management:\n   - .vibey/context/ directory structure\n\
     \   - Context file formats (Markdown, YAML)\n   - Context file lifecycle\n   -\
@@ -23,27 +19,63 @@ task:
     \ - MCP context\n- .vibey/context/*.md - Context files\n\nSUCCESS CRITERIA:\n\
     - Context system documented\n- Token estimation understood\n- Remote assembly\
     \ designed\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:51:29.436325+00:00'
-  started: '2026-01-26T22:41:59.862932+00:00'
-  completed: '2026-01-26T22:46:38.533376+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:51:29.436325+00:00'
+  started_at: '2026-01-27T02:39:42.413299+00:00'
+  completed_at: '2026-01-27T02:42:12.521449+00:00'
+  updated_at: '2026-01-27T02:42:12.521452+00:00'
+  assigned_agents: []
   priority: medium
-  phase_label: 'F4: Cross-Cutting'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'F4: Cross-Cutting'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T03:00:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T03:00:00+00:00'
+      implementation_status: Context System Audit Complete
+      context_file_management:
+        directory: .vibey/roadmap/context/
+        subdirs: plans/, runtime/, post-mortems/
+        formats: YAML (metadata), Markdown (artifacts)
+        lifecycle: plan → runtime → post-mortem
+      token_estimation:
+        heuristic: ~4 characters per token
+        max_tokens: 100,000 (configurable)
+        reserved_tokens: 10,000 for AI response
+        budget_allocation: plan 20%, runtime 15%, artifacts 50%
+      three_phase_context:
+        plan_context: Goals, approach, artifact refs, pre-work planning
+        runtime_context: Session state, decisions, discoveries, blockers
+        post_mortem: Completion summary, lessons learned, follow-ups
+      context_sources:
+        foundation: CLAUDE.md, session state, git state
+        task: Active task, sprint, sprint plan, track
+        reference: Configuration, decisions, recent sessions
+        extended: Sprint history, track context, codebase search
+      context_assembly:
+        prioritization: Required → recent → smaller token cost
+        caching: In-memory LRU with 5-minute TTL
+        freshness: FRESH (<24h), STALE (<72h), OUTDATED (>72h)
+      remote_assembly:
+        task_context_builder: Assembles execution context for agents
+        mcp_tools: associate_artifact, get_ticket_commits, log_runtime_file
+        triangle_model: Bidirectional ticket ↔ artifacts/commits queries
+      success_criteria_met:
+      - 'Context system documented: YES'
+      - 'Token estimation understood: YES'
+      - 'Remote assembly designed: YES'

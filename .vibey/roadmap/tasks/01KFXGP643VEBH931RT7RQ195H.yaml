@@ -1,10 +1,6 @@
 task:
   id: 01KFXGP643VEBH931RT7RQ195H
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Progress and Completion Flow
+  name: Audit Progress and Completion Flow
   description: "Document progress and completion flow for remote monitoring design.\n\
     \nMETHODOLOGY:\n1. Document progress tracking:\n   - Task start events\n   - In-progress\
     \ updates\n   - Completion events\n   - Failure events\n   - Token usage tracking\n\
@@ -21,27 +17,86 @@ task:
     \ - Display logic\n- vibey/operations/roadmap/status.py - Status updates\n\nSUCCESS\
     \ CRITERIA:\n- Progress tracking documented\n- Feedback loop mapped\n- Remote\
     \ monitoring designed\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:02:48.447498+00:00'
-  started: '2026-01-26T21:48:15.024336+00:00'
-  completed: '2026-01-26T21:50:50.630105+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:02:48.447498+00:00'
+  started_at: '2026-01-27T00:24:36.469059+00:00'
+  completed_at: '2026-01-27T00:27:51.341763+00:00'
+  updated_at: '2026-01-27T00:27:51.341766+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: 'E4: Advanced'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'E4: Advanced'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T00:45:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T00:45:00+00:00'
+      implementation_status: Progress and Completion Flow Documentation Complete
+      completion_flow:
+        cli_entry: vibey roadmap complete <item-id>
+        unified_function: complete_item() in transitions.py
+        status_transitions: NOT_STARTED → IN_PROGRESS → COMPLETED
+        exit_codes: 0 (success), 1 (error/blocked)
+      complete_task_function:
+        location: vibey/operations/roadmap/update.py
+        steps:
+        - Parse task ID (ULID or legacy)
+        - Load task from YAML
+        - Criteria-based validation (can_transition_to)
+        - Optional commit evidence check
+        - Standards enforcement
+        - Status update + timestamp
+        - Persistence (YAML + SQLite)
+        - Dependency updates (depended_on_by)
+        - Progress cascade
+        - Post-mortem generation
+      progress_cascade:
+        task_completion: Updates sprint progress counters
+        sprint_completion: Updates track progress aggregates
+        track_completion: Updates roadmap progress aggregates
+        optimization: Task preloading for O(1) sprint lookups
+      progress_structure:
+        sprint: tasks_total, tasks_completed, completion_percent (by task type)
+        track: sprints_total, sprints_completed + task aggregates
+        roadmap: tracks_total, tracks_completed + sprint/task aggregates
+      post_mortem_generation:
+        location: vibey/operations/context/post_mortem.py
+        trigger: auto on task completion
+        captures: duration, commits, artifacts_changed, decisions, lessons
+        storage: '".vibey/context/post-mortems/{ticket_id}.yaml"'
+        error_handling: Non-blocking (task completes even if post-mortem fails)
+      database_sync:
+        yaml_to_sqlite: _sync_task_to_db, _sync_sprint_to_db, etc.
+        dirty_flag: Marks database for rebuild when YAML modified
+        rebuild: vibey roadmap db rebuild restores from YAML
+      audit_trail:
+        location: .vibey/roadmap/audit-trail.yaml
+        logs: timestamp, object_type, object_id, old_status, new_status, reason
+        cli_changes: .vibey/.cli-changes.json for pre-commit hooks
+      validation_system:
+        criteria_based: can_transition_to() with blocking reasons
+        standards_enforcement: Configurable with override mechanism
+        commit_evidence: Advisory warning if no commits
+      remote_monitoring_considerations:
+        real_time_progress: WebSocket streaming of status changes
+        dashboard_updates: Push progress cascade to remote
+        notification_delivery: Event-driven status notifications
+        log_aggregation: Centralized audit trail collection
+      success_criteria_met:
+      - 'Progress tracking documented: YES'
+      - 'Feedback loop mapped: YES'
+      - 'Remote monitoring designed: YES'

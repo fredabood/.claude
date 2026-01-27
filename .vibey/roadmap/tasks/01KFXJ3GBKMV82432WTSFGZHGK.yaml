@@ -1,10 +1,6 @@
 task:
   id: 01KFXJ3GBKMV82432WTSFGZHGK
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Platform-Specific Configurations
+  name: Audit Platform-Specific Configurations
   description: "Document platform-specific configurations for remote compatibility\
     \ analysis.\n\nMETHODOLOGY:\n1. Document each platform's configuration:\n   -\
     \ Cursor: .cursor/rules, settings.json\n   - Copilot: .github/copilot-instructions.md\n\
@@ -25,27 +21,170 @@ task:
     - .vibey/config/platforms/*.yaml - Platform configs\n\nSUCCESS CRITERIA:\n- All\
     \ 13 platforms documented\n- Configuration formats cataloged\n- Remote constraints\
     \ identified\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:27:33.442426+00:00'
-  started: '2026-01-26T21:54:56.752987+00:00'
-  completed: '2026-01-26T21:57:45.751323+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:27:33.442426+00:00'
+  started_at: '2026-01-27T00:37:23.720385+00:00'
+  completed_at: '2026-01-27T00:40:03.211583+00:00'
+  updated_at: '2026-01-27T00:40:03.211587+00:00'
+  assigned_agents: []
   priority: medium
-  phase_label: 'F2: Cross-Cutting'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'F2: Cross-Cutting'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T01:00:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T01:00:00+00:00'
+      implementation_status: Platform-Specific Configurations Documentation Complete
+      platforms_documented: 13
+      platform_configurations:
+        claude_code:
+          directory: .claude/
+          files:
+          - CLAUDE.md
+          - .mcp.json (root)
+          format: Markdown + JSON
+          mcp_support: true
+        goose:
+          directory: .goose/
+          files:
+          - .goosehints (root)
+          format: Markdown
+          mcp_support: false
+        aider:
+          directory: .aider/
+          files:
+          - aider.conf.yml
+          - .generated
+          - agents/
+          - workflows/
+          - hooks/
+          format: YAML + Markdown + Python
+          mcp_support: false
+        cursor:
+          directory: .cursor/
+          files:
+          - mcp.json
+          - CURSOR.md
+          - .cursorrules (root)
+          format: JSON + Markdown
+          mcp_support: Yes (Nov 2024)
+        vscode:
+          directory: .vscode/
+          files:
+          - mcp.json
+          - VSCODE.md
+          format: JSON + Markdown
+          mcp_support: Yes (GA July 2025)
+        continue:
+          directory: .continue/
+          files:
+          - .continuerc.yaml
+          - CONTINUE.md
+          format: YAML + Markdown
+          mcp_support: Yes (Dec 2024)
+        gemini:
+          directory: .gemini/
+          files:
+          - gemini-extension.json
+          - settings.json
+          - commands/*.toml
+          - GEMINI.md
+          format: JSON + TOML + Markdown
+          mcp_support: true
+        windsurf:
+          directory: .windsurf/
+          files:
+          - mcp_config.json
+          - WINDSURF.md
+          format: JSON + Markdown
+          mcp_support: true
+        copilot:
+          directory: .github/
+          files:
+          - copilot-instructions.md
+          - COPILOT.md
+          - agents/*.md
+          format: Markdown
+          mcp_support: Conditional (CLI/VS Code)
+        cody:
+          directory: .cody/
+          files:
+          - mcp.json
+          - CODY.md
+          format: JSON + Markdown
+          mcp_support: Yes (OpenCtx)
+        jetbrains:
+          directory: .idea/ai/
+          files:
+          - mcp-servers.json
+          - JETBRAINS.md
+          format: JSON + Markdown
+          mcp_support: true
+        amazonq:
+          directory: .amazonq/
+          files:
+          - mcp.json
+          - AMAZONQ.md
+          format: JSON + Markdown
+          mcp_support: Yes (GA Apr 2025)
+        replit:
+          directory: .replit-vibey/
+          files:
+          - mcp.json
+          - REPLIT.md
+          format: JSON + Markdown
+          mcp_support: Yes (native)
+      mcp_config_schemas:
+        claude_desktop_format: mcpServers key (Claude, Cursor, Windsurf, Cody, Amazon
+          Q, Replit)
+        vscode_format: servers key (VS Code only)
+        jetbrains_format: servers array with enabled flag
+      authentication_methods:
+        none:
+        - claude-code
+        - goose
+        - cursor
+        - continue
+        - gemini
+        - windsurf
+        - replit
+        api_keys:
+        - aider
+        github_oauth:
+        - copilot
+        subscription:
+        - cody
+        - jetbrains
+        aws_credentials:
+        - amazonq
+      drift_detection:
+        file: .checksums.json
+        validation_command: vibey deploy --platform <platform> --validate
+        purpose: CI/CD enforcement of zero-drift guarantee
+      remote_constraints:
+        mcp_enabled: 11 platforms (all except Goose and Aider)
+        local_only:
+        - goose
+        - aider
+        hybrid:
+        - copilot
+        sync_requirements: Checksum validation on deploy
+      success_criteria_met:
+      - 'All 13 platforms documented: YES'
+      - 'Configuration formats cataloged: YES'
+      - 'Remote constraints identified: YES'

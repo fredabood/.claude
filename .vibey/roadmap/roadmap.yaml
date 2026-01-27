@@ -17,9 +17,9 @@ roadmap:
     tracks_total: 54
     tracks_completed: 30
     sprints_total: 302
-    sprints_completed: 197
+    sprints_completed: 198
     tasks_total: 1914
-    tasks_completed: 1522
+    tasks_completed: 1523
     completion_percent: 79
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -236,7 +236,7 @@ roadmap:
     priority: high
   - id: 01KFW4F7KN9E7GTQTXEQXE8AKB
     name: Databricks Platform Integration
-    status: not_started
+    status: in_progress
     priority: high
   dependencies: []
   blocked_by: []

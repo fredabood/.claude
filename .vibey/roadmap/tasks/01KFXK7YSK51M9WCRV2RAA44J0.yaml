@@ -1,10 +1,6 @@
 task:
   id: 01KFXK7YSK51M9WCRV2RAA44J0
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit Dual Storage Sync Mechanism
+  name: Audit Dual Storage Sync Mechanism
   description: "Document the dual storage synchronization mechanism to inform remote\
     \ sync design.\n\nMETHODOLOGY:\n1. Document sync architecture:\n   - Which storage\
     \ is source of truth (YAML)\n   - How database is rebuilt from YAML\n   - When\
@@ -20,27 +16,84 @@ task:
     \ vibey/operations/roadmap/db/*.py - Sync operations\n- vibey/operations/roadmap/reconciliation.py\
     \ - Reconciliation logic\n\nSUCCESS CRITERIA:\n- Complete sync flow documentation\n\
     - Conflict resolution strategy documented\n- Remote sync requirements identified\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:47:27.960899+00:00'
-  started: '2026-01-26T21:17:06.706062+00:00'
-  completed: '2026-01-26T21:21:19.079392+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:47:27.960899+00:00'
+  started_at: '2026-01-27T02:27:09.255189+00:00'
+  completed_at: '2026-01-27T02:30:38.190605+00:00'
+  updated_at: '2026-01-27T02:30:38.190609+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: 'A4: Foundation'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'A4: Foundation'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T02:40:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T02:40:00+00:00'
+      implementation_status: Dual Storage Sync Mechanism Audit Complete
+      sync_architecture:
+        source_of_truth: YAML files (.vibey/roadmap/)
+        query_cache: SQLite (.vibey/roadmap.db)
+        design: YAML-first, SQLite-cache architecture
+      sync_operations:
+        rebuild: YAML → SQLite (recreates database)
+        dump: SQLite → YAML (exports changes)
+        auto_sync: mtime-based detection via check_sync_needed()
+      rebuild_process:
+        phases:
+        - Phase 1: Load tracks from tracks/*.yaml
+        - Phase 2: Load sprints from sprints/*.yaml
+        - Phase 3: Load tasks from tasks/*.yaml
+        features:
+        - Backup before rebuild
+        - Strict mode (abort on error) or lenient (skip invalid)
+        - Error tracking for skipped files
+      conflict_detection:
+        mechanism: SHA-256 checksum comparison
+        tracking_table: yaml_checksums
+        conflict_types:
+        - yaml_modified
+        - db_modified
+        - both_modified
+        - file_deleted
+        - integrity_error
+        dirty_flag: database_state.is_dirty
+      reconciliation:
+        issues_detected:
+        - Null completed dates on completed tasks
+        - Completed sprint with incomplete tasks
+        - Completed track with incomplete sprints
+        execution_modes: dry-run, fix, verbose
+      sync_triggers:
+        user_initiated:
+        - vibey roadmap db rebuild
+        - vibey roadmap db dump
+        automatic: mtime-based lazy sync before operations
+        post_operation: Progress recalculation via recalculate_all()
+      validation_layers:
+        fast: YAML syntax, schema compliance
+        advanced: Circular deps, orphans, referential integrity
+        round_trip: YAML → SQLite → YAML cycle verification
+      remote_sync_requirements:
+        bidirectional: Support both push and pull
+        conflict_resolution: Last-write-wins or manual merge
+        offline_transitions: Queue changes, sync on reconnect
+        eventual_consistency: Accept temporary divergence
+      success_criteria_met:
+      - 'Complete sync flow documentation: YES'
+      - 'Conflict resolution strategy documented: YES'
+      - 'Remote sync requirements identified: YES'

@@ -1,10 +1,6 @@
 task:
   id: 01KFXK0SXXW5EMWV03EM3A1MTA
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Audit MCP Resources and Prompts
+  name: Audit MCP Resources and Prompts
   description: "Document MCP resources and prompts for remote content serving.\n\n\
     METHODOLOGY:\n1. Document MCP Resources (8 total):\n   - Workflow templates\n\
     \   - Handoff templates\n   - Context files\n   - Configuration resources\n  \
@@ -22,27 +18,95 @@ task:
     - vibey/mcp/prompts/*.py - Prompt implementations\n- .vibey/templates/*.yaml -\
     \ Template files\n\nSUCCESS CRITERIA:\n- All 8 resources documented\n- All 4 prompts\
     \ documented\n- Remote serving strategy defined\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:43:33.585986+00:00'
-  started: '2026-01-26T22:27:10.324909+00:00'
-  completed: '2026-01-26T22:30:53.952563+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:43:33.585986+00:00'
+  started_at: '2026-01-27T02:15:04.616937+00:00'
+  completed_at: '2026-01-27T02:17:49.130110+00:00'
+  updated_at: '2026-01-27T02:17:49.130114+00:00'
+  assigned_agents: []
   priority: medium
-  phase_label: 'D5: Interfaces'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: low
+  phase_label: 'D5: Interfaces'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T02:20:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T02:20:00+00:00'
+      implementation_status: MCP Resources and Prompts Audit Complete
+      mcp_resources:
+        total_templates: 8
+        providers: 2
+        uri_scheme: vibey://
+        workflow_resources:
+          count: 4
+          uri_patterns:
+          - vibey://workflows/{workflow_id}
+          - vibey://workflows/{workflow_id}/steps
+          - vibey://workflows/{workflow_id}/metadata
+          - vibey://workflows/{workflow_id}/quality-gates
+          source: vibey/content/workflows/ (15 .md files)
+          content_type: YAML frontmatter + Markdown
+        handoff_resources:
+          count: 4
+          uri_patterns:
+          - vibey://handoffs/{handoff_id}
+          - vibey://handoffs/{handoff_id}/variables
+          - vibey://handoffs/{handoff_id}/metadata
+          - vibey://handoffs/{handoff_id}/rendered
+          source: vibey/content/templates/handoffs/ (23 .md files)
+          content_type: YAML frontmatter + Jinja2 template
+      mcp_prompts:
+        total_prompts: 4
+        providers: 1
+        prefix: vibey_
+        prompts:
+        - name: vibey_quality_gate_check
+          description: Comprehensive quality gate check
+          gate_types: security, testing, logging, documentation, performance, all
+        - name: vibey_security_scan
+          description: Quick security vulnerability scan
+          focus_areas: injection, auth, secrets, dependencies
+        - name: vibey_test_coverage
+          description: Test coverage analysis
+          coverage_types: line, branch, function, all
+        - name: vibey_doc_check
+          description: Documentation completeness check
+          doc_types: docstrings, readme, api, all
+      content_sources:
+        file_based: YAML frontmatter + Markdown (workflows, handoffs)
+        database_driven: None currently
+        generated_computed:
+        - Workflow steps/metadata JSON
+        - Handoff variables JSON Schema
+        - Rendered Jinja2 templates
+        - Dynamic prompt messages
+      remote_serving_strategy:
+        delegable:
+        - All resource reads (list, read)
+        - Prompt generation
+        - Template rendering
+        local_required:
+        - File discovery (initial scan)
+        - Cache invalidation (file modification checks)
+        caching_strategy:
+        - Resource templates cached in memory
+        - 60-second TTL for tool discovery
+        - File modification hash for invalidation
+      success_criteria_met:
+      - 'All 8 resources documented: YES'
+      - 'All 4 prompts documented: YES'
+      - 'Remote serving strategy defined: YES'

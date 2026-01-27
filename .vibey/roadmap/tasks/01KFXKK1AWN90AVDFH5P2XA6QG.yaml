@@ -1,10 +1,6 @@
 task:
   id: 01KFXKK1AWN90AVDFH5P2XA6QG
-  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Classify Stateful vs Stateless Operations
+  name: Classify Stateful vs Stateless Operations
   description: "Classify all operations by state requirements for distributed architecture.\n\
     \nMETHODOLOGY:\n1. Define state categories:\n   - STATELESS: No state dependency,\
     \ can run anywhere\n   - LOCAL STATE: Requires local filesystem/git access\n \
@@ -23,27 +19,91 @@ task:
     \ from tasks A1-G4\n- Operation inventories from audit tasks\n\nSUCCESS CRITERIA:\n\
     - All operations classified by state\n- Distribution strategy per operation\n\
     - Architecture patterns identified\n"
-  status: not_started
-  blocked: false
-  created: '2026-01-26T16:53:31.034036+00:00'
-  started: '2026-01-26T22:42:53.774104+00:00'
-  completed: '2026-01-26T22:47:38.349733+00:00'
-  assigned_agent: null
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  status: completed
+  created_at: '2026-01-26T16:53:31.034036+00:00'
+  started_at: '2026-01-27T02:43:56.549045+00:00'
+  completed_at: '2026-01-27T02:45:16.206070+00:00'
+  updated_at: '2026-01-27T02:45:16.206073+00:00'
+  assigned_agents: []
   priority: high
-  phase_label: 'H2: Synthesis'
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: 'H2: Synthesis'
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
-    last_updated: null
+    last_updated: '2026-01-27T03:10:00+00:00'
     token_efficiency: null
     duration_hours: null
+    post_mortem:
+      completed_at: '2026-01-27T03:10:00+00:00'
+      implementation_status: Stateful vs Stateless Classification Complete
+      state_categories:
+        stateless: No state dependency, can run anywhere
+        local_state: Requires local filesystem/git access
+        remote_state: Requires remote database/API access
+        hybrid_state: Requires both local and remote
+        session_state: Transient in-memory state
+      classification_by_component:
+        stateless_operations:
+        - Token estimation (~4 chars/token heuristic)
+        - Commit message parsing (text input only)
+        - YAML serialization (data → YAML text)
+        - Validation rules (schema checking)
+        - Progress percentage calculation
+        local_state_operations:
+        - YAML file read/write (.vibey/roadmap/)
+        - SQLite database operations (.vibey/roadmap.db)
+        - Git commands (status, log, diff, hooks)
+        - Context file management (.vibey/context/)
+        - Pre-commit hooks
+        remote_state_operations:
+        - Delta Lake table read/write
+        - Unity Catalog metadata
+        - Remote roadmap queries
+        - Databricks API calls
+        - Authentication tokens
+        hybrid_state_operations:
+        - Task completion (local YAML + remote sync)
+        - Progress refresh (local calc + remote update)
+        - Conflict resolution (compare local/remote)
+        - Context assembly (local files + remote roadmap)
+        session_state_operations:
+        - Token usage tracking (in-memory)
+        - Context cache (LRU, 5-min TTL)
+        - Active file tracking
+        - Runtime decisions/discoveries
+      distribution_strategy:
+        remote_delegable:
+        - All query operations (read-only)
+        - Token estimation
+        - Validation (with data passed)
+        - Progress calculation
+        local_only:
+        - Git operations (require .git)
+        - File watching
+        - Pre-commit hooks
+        - SQLite cache rebuild
+        coordination_required:
+        - Status transitions (optimistic locking)
+        - Conflict detection (checksum comparison)
+        - Bidirectional sync (YAML ↔ Delta Lake)
+      architecture_patterns:
+        adapter_pattern: RoadmapAdapter abstracts local vs remote
+        proxy_pattern: Local MCP proxy to remote API
+        cache_pattern: Local SQLite caches remote data
+        queue_pattern: Offline changes queued for sync
+      success_criteria_met:
+      - 'All operations classified by state: YES'
+      - 'Distribution strategy per operation: YES'
+      - 'Architecture patterns identified: YES'

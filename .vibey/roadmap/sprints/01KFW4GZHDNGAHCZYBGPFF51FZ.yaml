@@ -3,7 +3,7 @@ sprint:
   name: 'Sprint 0: Vibey Application Audit'
   track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: not_started
   blocked: false
   blocked_reason: null
   created: '2026-01-26T21:51:14.423685+00:00'
@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 34
-    development_tasks_completed: 34
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 34
-    tasks_completed: 34
-    completion_percent: 100
+    tasks_completed: 0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []

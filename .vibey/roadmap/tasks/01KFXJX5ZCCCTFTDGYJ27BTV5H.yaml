@@ -21,7 +21,7 @@ task:
   format_version: v2
   ticket_type: task
   parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
-  status: completed
+  status: not_started
   created_at: '2026-01-26T16:41:34.838696+00:00'
   started_at: '2026-01-27T02:08:52.867568+00:00'
   completed_at: '2026-01-27T02:11:03.428788+00:00'

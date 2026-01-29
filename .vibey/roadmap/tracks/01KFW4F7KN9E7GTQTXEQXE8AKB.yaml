@@ -11,14 +11,14 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 15
-    sprints_completed: 1
+    sprints_completed: 0
     tasks_total: 34
-    tasks_completed: 34
-    completion_percent: 100
+    tasks_completed: 0
+    completion_percent: 0
   sprints:
   - id: 01KFW4GZHDNGAHCZYBGPFF51FZ
     name: 01KFW4GZHDNGAHCZYBGPFF51FZ
-    status: completed
+    status: not_started
     estimated_duration: null
     tasks_count: null
     started: null

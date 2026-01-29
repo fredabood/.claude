@@ -5,24 +5,53 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Audit Implementation Mode Architecture
-  description: "Document Implementation Mode architecture for remote execution design.\n\
-    \nMETHODOLOGY:\n1. Document core components:\n   - Executor: Task execution orchestrator\n\
-    \   - Loop: Main execution cycle controller\n   - Selector: Task selection logic\n\
-    \   - Display: Progress and status UI\n2. Map component responsibilities:\n  \
-    \ - What each component does\n   - What state each component manages\n   - What\
-    \ interfaces each exposes\n   - How errors are handled\n3. Document component\
-    \ interactions:\n   - Initialization sequence\n   - Main loop flow\n   - Task\
-    \ execution sequence\n   - Completion and cleanup\n4. Analyze execution modes:\n\
-    \   - Single task execution\n   - Sprint execution\n   - Track execution\n   -\
-    \ Continuous mode\n5. Document configuration options:\n   - Token limits\n   -\
-    \ Timeout settings\n   - Parallelism settings\n   - Agent selection\n6. Map to\
-    \ remote execution:\n   - Components that can run remotely\n   - State synchronization\
-    \ needs\n   - Remote display/monitoring\n   - Distributed execution possibilities\n\
-    \nINPUT FILES:\n- vibey/cli/commands/implement/*.py - Implementation mode CLI\n\
-    - vibey/operations/implement/*.py - Execution logic\n- vibey/operations/implement/executor.py\
-    \ - Main executor\n- vibey/operations/implement/selector.py - Task selector\n\n\
-    SUCCESS CRITERIA:\n- All components documented with responsibilities\n- Component\
-    \ interaction diagrams complete\n- Remote execution architecture designed\n"
+  description: "Document Implementation Mode architecture for remote execution design.\n\n\
+    DELIVERABLE:\nFile: .vibey/audit/sprint-0/advanced/E1-implementation-mode.md\n\n\
+    REQUIRED SECTIONS:\n1. Executive Summary\n2. Core Components Table:\n\
+    \   | Component | File | Responsibility | State Managed |\n\
+    3. Component Responsibilities Table:\n\
+    \   | Component | Does | Interfaces | Error Handling |\n\
+    4. Component Interaction Diagram (ASCII)\n\
+    5. Execution Sequence Table:\n\
+    \   | Phase | Components | Actions | State Changes |\n\
+    6. Execution Modes Table:\n\
+    \   | Mode | Scope | Entry Point | Termination |\n\
+    7. Configuration Options Table:\n\
+    \   | Option | Type | Default | Purpose |\n\
+    8. Remote Execution Architecture Table:\n\
+    \   | Component | Local/Remote | Sync Needs | Design Notes |\n\
+    9. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Document core components:\n\
+    \   - Executor: Task execution orchestrator\n\
+    \   - Loop: Main execution cycle controller\n\
+    \   - Selector: Task selection logic\n   - Display: Progress and status UI\n\
+    2. Map component responsibilities:\n\
+    \   - What each component does\n   - What state each component manages\n\
+    \   - What interfaces each exposes\n   - How errors are handled\n\
+    3. Document component interactions:\n\
+    \   - Initialization sequence\n   - Main loop flow\n\
+    \   - Task execution sequence\n   - Completion and cleanup\n\
+    4. Analyze execution modes:\n\
+    \   - Single task execution\n   - Sprint execution\n\
+    \   - Track execution\n   - Continuous mode\n\
+    5. Document configuration options:\n\
+    \   - Token limits\n   - Timeout settings\n\
+    \   - Parallelism settings\n   - Agent selection\n\
+    6. Map to remote execution:\n\
+    \   - Components that can run remotely\n   - State synchronization needs\n\
+    \   - Remote display/monitoring\n   - Distributed execution possibilities\n\n\
+    INPUT FILES:\n- vibey/cli/commands/implement/*.py - Implementation mode CLI\n\
+    - vibey/operations/implement/*.py - Execution logic\n\
+    - vibey/operations/implement/executor.py - Main executor\n\
+    - vibey/operations/implement/selector.py - Task selector\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] All core components documented with files\n\
+    - [ ] ASCII component interaction diagram included\n\
+    - [ ] >= 4 execution modes documented\n\
+    - [ ] Remote execution architecture addresses all components\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - Implementation mode ready for remote execution design\n"
   status: not_started
   blocked: false
   created: '2026-01-26T15:59:58.716225+00:00'

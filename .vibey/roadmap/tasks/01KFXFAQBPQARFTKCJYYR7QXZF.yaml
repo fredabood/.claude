@@ -6,22 +6,51 @@ task:
   task_type: development
   title: Audit Progress Rollup Logic
   description: "Document progress rollup logic for remote aggregation design.\n\n\
-    METHODOLOGY:\n1. Document progress calculation at each level:\n   - Task: Binary\
-    \ (0% or 100%) or weighted?\n   - Sprint: Sum of task completions / total tasks\n\
-    \   - Track: Sum of sprint completions / total sprints\n   - Roadmap: Sum of track\
-    \ completions / total tracks\n2. Identify weighting factors:\n   - Are all tasks\
-    \ equal weight?\n   - Do complexity/priority affect weight?\n   - Token estimation\
-    \ influence\n3. Map recalculation triggers:\n   - Task status change\n   - Task\
-    \ creation/deletion\n   - Sprint reorganization\n   - Explicit refresh command\n\
-    4. Document progress storage:\n   - Cached in database vs computed on-demand\n\
-    \   - Stored in YAML vs computed from children\n   - Stale progress handling\n\
-    5. Analyze rollup algorithms:\n   - Bottom-up aggregation\n   - Trigger-based\
-    \ updates\n   - Batch recalculation\n6. Map to remote mode:\n   - Distributed\
-    \ aggregation\n   - Eventual consistency for progress\n   - Real-time vs batch\
-    \ updates\n\nINPUT FILES:\n- vibey/operations/roadmap/progress.py - Progress calculations\n\
-    - vibey/roadmap/models/*.py - Progress fields\n- Database views for progress queries\n\
-    \nSUCCESS CRITERIA:\n- Progress formula documented for each level\n- Recalculation\
-    \ triggers identified\n- Remote aggregation strategy defined\n"
+    DELIVERABLE:\nFile: .vibey/audit/sprint-0/core-data/B5-progress-rollup.md\n\n\
+    REQUIRED SECTIONS:\n1. Executive Summary\n2. Progress Calculation Table:\n\
+    \   | Level | Formula | Weighting | Example |\n\
+    3. Weighting Factors Table:\n\
+    \   | Factor | Applied To | Weight Impact | Configuration |\n\
+    4. Recalculation Triggers Table:\n\
+    \   | Trigger | Event | Scope | Timing |\n\
+    5. Progress Storage Table:\n\
+    \   | Level | Storage Location | Cache Strategy | Staleness Handling |\n\
+    6. Rollup Algorithm (flowchart/pseudocode)\n\
+    7. Remote Aggregation Strategy Table:\n\
+    \   | Pattern | Consistency | Latency | Trade-offs |\n\
+    8. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Document progress calculation at each level:\n\
+    \   - Task: Binary (0% or 100%) or weighted?\n\
+    \   - Sprint: Sum of task completions / total tasks\n\
+    \   - Track: Sum of sprint completions / total sprints\n\
+    \   - Roadmap: Sum of track completions / total tracks\n\
+    2. Identify weighting factors:\n\
+    \   - Are all tasks equal weight?\n   - Do complexity/priority affect weight?\n\
+    \   - Token estimation influence\n\
+    3. Map recalculation triggers:\n\
+    \   - Task status change\n   - Task creation/deletion\n\
+    \   - Sprint reorganization\n   - Explicit refresh command\n\
+    4. Document progress storage:\n\
+    \   - Cached in database vs computed on-demand\n\
+    \   - Stored in YAML vs computed from children\n\
+    \   - Stale progress handling\n\
+    5. Analyze rollup algorithms:\n\
+    \   - Bottom-up aggregation\n   - Trigger-based updates\n\
+    \   - Batch recalculation\n\
+    6. Map to remote mode:\n\
+    \   - Distributed aggregation\n   - Eventual consistency for progress\n\
+    \   - Real-time vs batch updates\n\n\
+    INPUT FILES:\n- vibey/operations/roadmap/progress.py - Progress calculations\n\
+    - vibey/roadmap/models/*.py - Progress fields\n\
+    - Database views for progress queries\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Progress formula documented for all 4 levels\n\
+    - [ ] >= 4 recalculation triggers identified\n\
+    - [ ] Rollup algorithm includes pseudocode or flowchart\n\
+    - [ ] Remote aggregation strategy addresses eventual consistency\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - Progress rollup ready for distributed implementation\n"
   status: not_started
   blocked: false
   created: '2026-01-26T15:39:04.332051+00:00'

@@ -5,24 +5,53 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Audit Status State Machine
-  description: "Document status state machine for all entity types.\n\nMETHODOLOGY:\n\
-    1. Document all status values by entity type:\n   - Task statuses (not_started,\
-    \ in_progress, completed, blocked, wont_do)\n   - Sprint statuses (not_started,\
-    \ in_progress, completed)\n   - Track statuses (not_started, in_progress, completed)\n\
-    \   - Any additional statuses (archived, deprecated, etc.)\n2. Map valid state\
-    \ transitions:\n   - Create state transition diagram for each entity\n   - Document\
-    \ allowed transitions\n   - Document forbidden transitions\n   - Identify one-way\
-    \ transitions (terminal states)\n3. Document transition triggers:\n   - User-initiated\
-    \ transitions (CLI commands)\n   - Automatic transitions (dependency completion)\n\
-    \   - Rollup transitions (sprint completes when all tasks complete)\n4. Document\
-    \ validation rules:\n   - Pre-transition validation\n   - Post-transition side\
-    \ effects\n   - Timestamp updates (started, completed)\n5. Map to remote mode:\n\
-    \   - State synchronization requirements\n   - Conflict resolution for concurrent\
-    \ updates\n   - Optimistic locking considerations\n\nINPUT FILES:\n- vibey/roadmap/models/enums.py\
-    \ - Status enums\n- vibey/operations/roadmap/status.py - Status change operations\n\
-    - vibey/operations/roadmap/transitions.py - Transition logic\n\nSUCCESS CRITERIA:\n\
-    - All statuses documented for all entity types\n- State transition diagrams complete\n\
-    - Remote sync considerations documented\n"
+  description: "Document status state machine for all entity types.\n\n\
+    DELIVERABLE:\nFile: .vibey/audit/sprint-0/core-data/B3-status-state-machine.md\n\n\
+    REQUIRED SECTIONS:\n1. Executive Summary\n2. Task Status Values Table:\n\
+    \   | Status | Description | Terminal | Allowed From |\n\
+    3. Sprint Status Values Table:\n\
+    \   | Status | Description | Terminal | Allowed From |\n\
+    4. Track Status Values Table:\n\
+    \   | Status | Description | Terminal | Allowed From |\n\
+    5. State Transition Diagram (ASCII) - for each entity type\n\
+    6. Transition Triggers Table:\n\
+    \   | Entity | Transition | Trigger Type | Command/Event |\n\
+    7. Validation Rules Table:\n\
+    \   | Transition | Pre-Validation | Post-Effects | Timestamp Updates |\n\
+    8. Remote Sync Strategy Table:\n\
+    \   | Scenario | Conflict Type | Resolution Strategy | Locking |\n\
+    9. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Document all status values by entity type:\n\
+    \   - Task statuses (not_started, in_progress, completed, blocked, wont_do)\n\
+    \   - Sprint statuses (not_started, in_progress, completed)\n\
+    \   - Track statuses (not_started, in_progress, completed)\n\
+    \   - Any additional statuses (archived, deprecated, etc.)\n\
+    2. Map valid state transitions:\n\
+    \   - Create state transition diagram for each entity\n\
+    \   - Document allowed transitions\n   - Document forbidden transitions\n\
+    \   - Identify one-way transitions (terminal states)\n\
+    3. Document transition triggers:\n\
+    \   - User-initiated transitions (CLI commands)\n\
+    \   - Automatic transitions (dependency completion)\n\
+    \   - Rollup transitions (sprint completes when all tasks complete)\n\
+    4. Document validation rules:\n\
+    \   - Pre-transition validation\n   - Post-transition side effects\n\
+    \   - Timestamp updates (started, completed)\n\
+    5. Map to remote mode:\n\
+    \   - State synchronization requirements\n\
+    \   - Conflict resolution for concurrent updates\n\
+    \   - Optimistic locking considerations\n\n\
+    INPUT FILES:\n- vibey/roadmap/models/enums.py - Status enums\n\
+    - vibey/operations/roadmap/status.py - Status change operations\n\
+    - vibey/operations/roadmap/transitions.py - Transition logic\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] All 3 entity types have status tables\n\
+    - [ ] ASCII state diagrams included for each entity\n\
+    - [ ] >= 5 transition triggers documented\n\
+    - [ ] Remote conflict resolution strategy defined\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - State machine ready for distributed sync design\n"
   status: not_started
   blocked: false
   created: '2026-01-26T15:37:09.384796+00:00'

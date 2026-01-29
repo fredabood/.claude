@@ -6,19 +6,41 @@ task:
   task_type: development
   title: Review Existing Audit Artifacts
   description: "Leverage Comprehensive Audit V2 outputs as a baseline for Databricks\
-    \ integration planning.\n\nMETHODOLOGY:\n1. Locate and read all audit artifacts\
-    \ from past tracks:\n   - docs/architecture/adr/ - Architecture Decision Records\n\
+    \ integration planning.\n\nDELIVERABLE:\nFile: .vibey/audit/sprint-0/foundation/A1-existing-artifacts.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. ADR Inventory Table:\n\
+    \   | ADR | Title | Status | Remote Relevance |\n\
+    3. Past Audit Tracks Table:\n\
+    \   | Track | Purpose | Key Outputs | Reusable Findings |\n\
+    4. Reusable Documentation Table:\n\
+    \   | Document | Location | Content Type | Applicability |\n\
+    5. Gap Analysis Table:\n\
+    \   | Component | Last Audited | Changes Since | Fresh Analysis Needed |\n\
+    6. Databricks-Specific Concerns Table:\n\
+    \   | Concern | Existing Coverage | Gap | Priority |\n\
+    7. Baseline Synthesis\n\
+    8. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Locate and read all audit artifacts from past tracks:\n\
+    \   - docs/architecture/adr/ - Architecture Decision Records\n\
     \   - Past audit track outputs (User Journey Audit, Comprehensive Audit V2)\n\
-    \   - Module health scorecards and file inventories\n2. Create inventory of reusable\
-    \ findings:\n   - File structure documentation\n   - Module dependency maps\n\
-    \   - API surface documentation\n3. Identify gaps requiring fresh analysis:\n\
-    \   - Components not covered in past audits\n   - Areas that changed since last\
-    \ audit\n   - Databricks-specific concerns not previously addressed\n4. Create\
-    \ baseline document synthesizing reusable information\n\nINPUT FILES:\n- docs/architecture/adr/*.md\n\
-    - .vibey/roadmap/tracks/ (past audit tracks)\n- Any existing audit reports in\
-    \ docs/\n\nSUCCESS CRITERIA:\n- Complete inventory of reusable audit artifacts\n\
-    - Gap analysis document identifying fresh work needed\n- Baseline document ready\
-    \ for subsequent audit tasks\n"
+    \   - Module health scorecards and file inventories\n\
+    2. Create inventory of reusable findings:\n\
+    \   - File structure documentation\n   - Module dependency maps\n\
+    \   - API surface documentation\n\
+    3. Identify gaps requiring fresh analysis:\n\
+    \   - Components not covered in past audits\n\
+    \   - Areas that changed since last audit\n\
+    \   - Databricks-specific concerns not previously addressed\n\
+    4. Create baseline document synthesizing reusable information\n\n\
+    INPUT FILES:\n- docs/architecture/adr/*.md\n\
+    - .vibey/roadmap/tracks/ (past audit tracks)\n\
+    - Any existing audit reports in docs/\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] ADR inventory table lists all ADRs in docs/architecture/adr/\n\
+    - [ ] Gap analysis table identifies >= 3 components needing fresh analysis\n\
+    - [ ] Databricks-specific concerns identified\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - Baseline document ready for subsequent audit tasks\n"
   status: not_started
   blocked: false
   created: '2026-01-26T15:34:12.603143+00:00'

@@ -5,21 +5,47 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Audit ULID Identifier System
-  description: "Document ULID identifier system for remote ID management.\n\nMETHODOLOGY:\n\
-    1. Document ULID structure:\n   - 48-bit timestamp (millisecond precision)\n \
-    \  - 80-bit randomness\n   - 26-character Crockford Base32 encoding\n   - Lexicographic\
-    \ sortability\n2. Document ULID usage in Vibey:\n   - Entity ID generation\n \
-    \  - File naming convention\n   - URL-safe identifiers\n   - Human-readable slug\
-    \ generation\n3. Analyze generation patterns:\n   - Where are ULIDs generated?\n\
-    \   - Library used (python-ulid, ulid-py, etc.)\n   - Collision risk assessment\n\
-    4. Document ID-based operations:\n   - ID parsing and validation\n   - Timestamp\
-    \ extraction\n   - ID comparison/sorting\n   - ID-based file lookup\n5. Map to\
-    \ remote mode:\n   - Distributed ID generation\n   - ID conflict prevention\n\
-    \   - Cross-system ID references\n   - Legacy ID migration (if any)\n\nINPUT FILES:\n\
-    - vibey/common/identifiers.py - ULID utilities\n- vibey/roadmap/models/*.py -\
-    \ ID field definitions\n- ADR-0001 for ULID rationale\n\nSUCCESS CRITERIA:\n-\
-    \ ULID structure and usage documented\n- All ID operations inventoried\n- Remote\
-    \ ID strategy defined\n"
+  description: "Document ULID identifier system for remote ID management.\n\n\
+    DELIVERABLE:\nFile: .vibey/audit/sprint-0/core-data/B6-ulid-system.md\n\n\
+    REQUIRED SECTIONS:\n1. Executive Summary\n2. ULID Structure Table:\n\
+    \   | Component | Bits | Purpose | Example |\n\
+    3. ULID Usage Table:\n\
+    \   | Use Case | Format | Location | Example |\n\
+    4. Generation Patterns Table:\n\
+    \   | Location | Library | Trigger | Collision Risk |\n\
+    5. ID Operations Table:\n\
+    \   | Operation | Function | Input | Output | Use Case |\n\
+    6. Remote ID Strategy Table:\n\
+    \   | Scenario | Challenge | Strategy | Implementation |\n\
+    7. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Document ULID structure:\n\
+    \   - 48-bit timestamp (millisecond precision)\n\
+    \   - 80-bit randomness\n   - 26-character Crockford Base32 encoding\n\
+    \   - Lexicographic sortability\n\
+    2. Document ULID usage in Vibey:\n\
+    \   - Entity ID generation\n   - File naming convention\n\
+    \   - URL-safe identifiers\n   - Human-readable slug generation\n\
+    3. Analyze generation patterns:\n\
+    \   - Where are ULIDs generated?\n\
+    \   - Library used (python-ulid, ulid-py, etc.)\n\
+    \   - Collision risk assessment\n\
+    4. Document ID-based operations:\n\
+    \   - ID parsing and validation\n   - Timestamp extraction\n\
+    \   - ID comparison/sorting\n   - ID-based file lookup\n\
+    5. Map to remote mode:\n\
+    \   - Distributed ID generation\n   - ID conflict prevention\n\
+    \   - Cross-system ID references\n   - Legacy ID migration (if any)\n\n\
+    INPUT FILES:\n- vibey/common/identifiers.py - ULID utilities\n\
+    - vibey/roadmap/models/*.py - ID field definitions\n\
+    - ADR-0001 for ULID rationale\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] ULID structure fully documented with bit layout\n\
+    - [ ] >= 4 ULID usage patterns documented\n\
+    - [ ] ID generation locations identified with library info\n\
+    - [ ] Remote ID strategy addresses distributed generation\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - ULID system ready for cross-system ID management\n"
   status: not_started
   blocked: false
   created: '2026-01-26T15:40:01.608021+00:00'

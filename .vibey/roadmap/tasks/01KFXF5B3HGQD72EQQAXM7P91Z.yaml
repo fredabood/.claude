@@ -5,22 +5,47 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Audit Entity Relationships
-  description: "Document entity relationships and hierarchy for remote storage design.\n\
-    \nMETHODOLOGY:\n1. Map hierarchical relationships:\n   - Roadmap → Track (one-to-many)\n\
-    \   - Track → Sprint (one-to-many)\n   - Sprint → Task (one-to-many)\n   - Document\
-    \ parent ID fields (track_id, sprint_id, etc.)\n2. Document cross-entity references:\n\
+  description: "Document entity relationships and hierarchy for remote storage design.\n\n\
+    DELIVERABLE:\nFile: .vibey/audit/sprint-0/core-data/B2-entity-relationships.md\n\n\
+    REQUIRED SECTIONS:\n1. Executive Summary\n2. Hierarchical Relationships Table:\n\
+    \   | Parent | Child | FK Field | Cascade Behavior | Cardinality |\n\
+    3. Cross-Entity References Table:\n\
+    \   | Reference Type | Source Entity | Target Entity | Field Name | Purpose |\n\
+    4. Relationship Diagram (ASCII)\n5. YAML Storage Patterns Table:\n\
+    \   | Relationship | Storage Method | Example | Pros/Cons |\n\
+    6. SQLite Storage Patterns Table:\n\
+    \   | Relationship | Table/Column | Constraint | Index |\n\
+    7. Traversal Operations Table:\n\
+    \   | Operation | Direction | Query Pattern | Use Case |\n\
+    8. Delta Lake Relationship Strategy Table:\n\
+    \   | Relationship | Delta Pattern | JOIN Strategy | Denormalization |\n\
+    9. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Map hierarchical relationships:\n\
+    \   - Roadmap -> Track (one-to-many)\n   - Track -> Sprint (one-to-many)\n\
+    \   - Sprint -> Task (one-to-many)\n   - Document parent ID fields (track_id, sprint_id, etc.)\n\
+    2. Document cross-entity references:\n\
     \   - Task dependencies (depends_on, blocked_by)\n   - Task blocking relationships\n\
-    \   - Git commit references\n   - Agent assignment references\n3. Analyze relationship\
-    \ storage patterns:\n   - In YAML: embedded IDs vs nested structures\n   - In\
-    \ SQLite: foreign keys, junction tables\n   - Orphan handling (entity without\
-    \ parent)\n4. Document relationship traversal:\n   - Parent lookup queries\n \
-    \  - Child enumeration queries\n   - Dependency chain resolution\n   - Recursive\
-    \ queries (all tasks in track)\n5. Map to Delta Lake relationships:\n   - Foreign\
-    \ key alternatives\n   - JOIN patterns for hierarchies\n   - Denormalization options\n\
-    \nINPUT FILES:\n- vibey/roadmap/models/*.py - Model relationships\n- vibey/operations/roadmap/*.py\
-    \ - Traversal operations\n- .vibey/roadmap/roadmap.db - SQLite schema\n\nSUCCESS\
-    \ CRITERIA:\n- Complete relationship diagram\n- All cross-references documented\n\
-    - Delta Lake relationship strategy defined\n"
+    \   - Git commit references\n   - Agent assignment references\n\
+    3. Analyze relationship storage patterns:\n\
+    \   - In YAML: embedded IDs vs nested structures\n\
+    \   - In SQLite: foreign keys, junction tables\n\
+    \   - Orphan handling (entity without parent)\n\
+    4. Document relationship traversal:\n\
+    \   - Parent lookup queries\n   - Child enumeration queries\n\
+    \   - Dependency chain resolution\n   - Recursive queries (all tasks in track)\n\
+    5. Map to Delta Lake relationships:\n\
+    \   - Foreign key alternatives\n   - JOIN patterns for hierarchies\n   - Denormalization options\n\n\
+    INPUT FILES:\n- vibey/roadmap/models/*.py - Model relationships\n\
+    - vibey/operations/roadmap/*.py - Traversal operations\n\
+    - .vibey/roadmap/roadmap.db - SQLite schema\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Hierarchical table shows all 4 entity levels\n\
+    - [ ] Cross-entity table has >= 5 reference types\n\
+    - [ ] ASCII relationship diagram included\n\
+    - [ ] Delta Lake strategy addresses JOINs and denormalization\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - Relationship strategy ready for Delta Lake design\n"
   status: not_started
   blocked: false
   created: '2026-01-26T15:36:07.903440+00:00'

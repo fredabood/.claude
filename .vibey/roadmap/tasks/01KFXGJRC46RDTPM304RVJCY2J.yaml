@@ -6,22 +6,50 @@ task:
   task_type: development
   title: Audit Task Selection Algorithm
   description: "Document task selection algorithm for remote scheduling design.\n\n\
-    METHODOLOGY:\n1. Document selection criteria:\n   - Task status (not_started,\
-    \ not blocked)\n   - Dependency satisfaction\n   - Priority scoring\n   - Complexity\
-    \ factors\n   - Agent compatibility\n2. Analyze scoring algorithm:\n   - Priority\
-    \ weight\n   - Age/creation time factor\n   - Dependency depth factor\n   - Estimated\
-    \ token cost factor\n   - Custom scoring hooks\n3. Document readiness checks:\n\
-    \   - Dependency completion check\n   - Blocking relationship check\n   - Resource\
-    \ availability check\n   - Agent availability check\n4. Map selection flow:\n\
-    \   - Candidate enumeration\n   - Filtering by eligibility\n   - Scoring and ranking\n\
-    \   - Final selection\n   - Tie-breaking rules\n5. Document selection modes:\n\
-    \   - Next task selection\n   - Batch selection for parallelism\n   - Sprint-scoped\
-    \ selection\n   - Track-scoped selection\n6. Remote scheduling considerations:\n\
-    \   - Distributed task selection\n   - Race condition prevention\n   - Work stealing\
-    \ patterns\n   - Load balancing\n\nINPUT FILES:\n- vibey/operations/implement/selector.py\
-    \ - Selection logic\n- vibey/operations/roadmap/queries.py - Task queries\n- vibey/roadmap/models/task.py\
-    \ - Task model\n\nSUCCESS CRITERIA:\n- Selection algorithm fully documented\n\
-    - Scoring formula documented\n- Remote scheduling strategy defined\n"
+    DELIVERABLE:\nFile: .vibey/audit/sprint-0/advanced/E2-task-selection.md\n\n\
+    REQUIRED SECTIONS:\n1. Executive Summary\n2. Selection Criteria Table:\n\
+    \   | Criterion | Check | Weight | Disqualifying |\n\
+    3. Scoring Algorithm Table:\n\
+    \   | Factor | Formula | Weight | Range |\n\
+    4. Readiness Checks Table:\n\
+    \   | Check | Condition | Failure Action | Priority |\n\
+    5. Selection Flow Diagram (ASCII)\n\
+    6. Selection Modes Table:\n\
+    \   | Mode | Scope | Batch Size | Use Case |\n\
+    7. Remote Scheduling Strategy Table:\n\
+    \   | Challenge | Pattern | Implementation | Trade-offs |\n\
+    8. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Document selection criteria:\n\
+    \   - Task status (not_started, not blocked)\n\
+    \   - Dependency satisfaction\n   - Priority scoring\n\
+    \   - Complexity factors\n   - Agent compatibility\n\
+    2. Analyze scoring algorithm:\n\
+    \   - Priority weight\n   - Age/creation time factor\n\
+    \   - Dependency depth factor\n   - Estimated token cost factor\n\
+    \   - Custom scoring hooks\n\
+    3. Document readiness checks:\n\
+    \   - Dependency completion check\n   - Blocking relationship check\n\
+    \   - Resource availability check\n   - Agent availability check\n\
+    4. Map selection flow:\n\
+    \   - Candidate enumeration\n   - Filtering by eligibility\n\
+    \   - Scoring and ranking\n   - Final selection\n   - Tie-breaking rules\n\
+    5. Document selection modes:\n\
+    \   - Next task selection\n   - Batch selection for parallelism\n\
+    \   - Sprint-scoped selection\n   - Track-scoped selection\n\
+    6. Remote scheduling considerations:\n\
+    \   - Distributed task selection\n   - Race condition prevention\n\
+    \   - Work stealing patterns\n   - Load balancing\n\n\
+    INPUT FILES:\n- vibey/operations/implement/selector.py - Selection logic\n\
+    - vibey/operations/roadmap/queries.py - Task queries\n\
+    - vibey/roadmap/models/task.py - Task model\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] >= 5 selection criteria documented\n\
+    - [ ] Scoring formula documented with weights\n\
+    - [ ] ASCII selection flow diagram included\n\
+    - [ ] Remote scheduling addresses race conditions\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - Task selection ready for distributed scheduling\n"
   status: not_started
   blocked: false
   created: '2026-01-26T16:00:56.034393+00:00'

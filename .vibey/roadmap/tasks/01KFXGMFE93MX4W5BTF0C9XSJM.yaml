@@ -5,24 +5,55 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Audit Execution Context Management
-  description: "Document execution context management for remote context building.\n\
-    \nMETHODOLOGY:\n1. Document context components:\n   - Task context (description,\
-    \ deliverables, etc.)\n   - Sprint context (goals, related tasks)\n   - Track\
-    \ context (objectives, progress)\n   - Roadmap context (overall vision)\n   -\
-    \ Codebase context (relevant files)\n2. Map context sources:\n   - Roadmap YAML/database\n\
-    \   - Git repository state\n   - Configuration files\n   - Previous execution\
-    \ history\n   - External references\n3. Document context assembly:\n   - Which\
-    \ context is included when\n   - Context prioritization\n   - Token budget management\n\
-    \   - Context truncation rules\n4. Analyze context formatting:\n   - Markdown\
-    \ formatting\n   - Structured data formatting\n   - Context templates\n   - Agent-specific\
-    \ formatting\n5. Document context delivery:\n   - How context reaches agents\n\
-    \   - Context caching\n   - Context refresh triggers\n   - Partial context updates\n\
-    6. Remote context considerations:\n   - Context from remote roadmap\n   - Local\
-    \ codebase context\n   - Hybrid context assembly\n   - Context synchronization\n\
-    \nINPUT FILES:\n- vibey/operations/implement/context.py - Context builder\n- vibey/mcp/context/*.py\
-    \ - MCP context management\n- .vibey/context/*.md - Context templates\n\nSUCCESS\
-    \ CRITERIA:\n- All context sources documented\n- Context assembly flow documented\n\
-    - Remote context strategy defined\n"
+  description: "Document execution context management for remote context building.\n\n\
+    DELIVERABLE:\nFile: .vibey/audit/sprint-0/advanced/E3-execution-context.md\n\n\
+    REQUIRED SECTIONS:\n1. Executive Summary\n2. Context Components Table:\n\
+    \   | Component | Content | Source | Token Budget |\n\
+    3. Context Sources Table:\n\
+    \   | Source | Type | Priority | Refresh Trigger |\n\
+    4. Context Assembly Flow (ASCII diagram)\n\
+    5. Context Prioritization Table:\n\
+    \   | Priority | Context Type | Include When | Truncation Rule |\n\
+    6. Context Formatting Table:\n\
+    \   | Format | Template | Agent Compatibility | Example |\n\
+    7. Context Delivery Table:\n\
+    \   | Delivery Method | Caching | Refresh | Partial Updates |\n\
+    8. Remote Context Strategy Table:\n\
+    \   | Context Type | Local/Remote | Assembly | Sync Method |\n\
+    9. Verification Checklist\n\n\
+    METHODOLOGY:\n1. Document context components:\n\
+    \   - Task context (description, deliverables, etc.)\n\
+    \   - Sprint context (goals, related tasks)\n\
+    \   - Track context (objectives, progress)\n\
+    \   - Roadmap context (overall vision)\n\
+    \   - Codebase context (relevant files)\n\
+    2. Map context sources:\n\
+    \   - Roadmap YAML/database\n   - Git repository state\n\
+    \   - Configuration files\n   - Previous execution history\n\
+    \   - External references\n\
+    3. Document context assembly:\n\
+    \   - Which context is included when\n   - Context prioritization\n\
+    \   - Token budget management\n   - Context truncation rules\n\
+    4. Analyze context formatting:\n\
+    \   - Markdown formatting\n   - Structured data formatting\n\
+    \   - Context templates\n   - Agent-specific formatting\n\
+    5. Document context delivery:\n\
+    \   - How context reaches agents\n   - Context caching\n\
+    \   - Context refresh triggers\n   - Partial context updates\n\
+    6. Remote context considerations:\n\
+    \   - Context from remote roadmap\n   - Local codebase context\n\
+    \   - Hybrid context assembly\n   - Context synchronization\n\n\
+    INPUT FILES:\n- vibey/operations/implement/context.py - Context builder\n\
+    - vibey/mcp/context/*.py - MCP context management\n\
+    - .vibey/context/*.md - Context templates\n\n\
+    VERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] All 5 context components documented\n\
+    - [ ] >= 5 context sources documented\n\
+    - [ ] ASCII context assembly diagram included\n\
+    - [ ] Remote context strategy addresses hybrid assembly\n\n\
+    SUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n\
+    - Execution context ready for remote context building\n"
   status: not_started
   blocked: false
   created: '2026-01-26T16:01:52.447373+00:00'

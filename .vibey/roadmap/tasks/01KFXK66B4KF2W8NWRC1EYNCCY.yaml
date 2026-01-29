@@ -1,98 +1,63 @@
 task:
   id: 01KFXK66B4KF2W8NWRC1EYNCCY
-  name: Audit SQLite Storage Backend
-  description: "Document SQLite database architecture to inform Delta Lake table design\
-    \ for remote mode.\n\nMETHODOLOGY:\n1. Extract and document database schema:\n\
-    \   - Run: sqlite3 .vibey/roadmap/roadmap.db \".schema\"\n   - Document all 33\
-    \ tables with columns, types, constraints\n   - Document all 13 views with their\
-    \ queries\n   - Document all 40 triggers with their logic\n2. Analyze table relationships:\n\
-    \   - Foreign key constraints\n   - Join patterns in views\n   - Cascade behaviors\n\
-    3. Document query patterns:\n   - Common SELECT patterns\n   - Index usage\n \
-    \  - Aggregation queries (progress rollup)\n4. Map to Delta Lake design:\n   -\
-    \ Table-by-table translation considerations\n   - View equivalent in Databricks\
-    \ SQL\n   - Trigger alternatives (Databricks workflows, streaming)\n5. Identify\
-    \ SQLite-specific features:\n   - Features without Delta Lake equivalent\n   -\
-    \ Performance considerations\n   - Transaction semantics differences\n\nINPUT\
-    \ FILES:\n- .vibey/roadmap/roadmap.db - SQLite database\n- vibey/operations/roadmap/db/*.py\
-    \ - Database operations\n- vibey/roadmap/models/*.py - ORM models if present\n\
-    \nSUCCESS CRITERIA:\n- Complete schema documentation (33 tables, 13 views, 40\
-    \ triggers)\n- Query pattern inventory\n- Delta Lake translation guide with recommendations\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit SQLite Storage Backend
+  description: "Document SQLite database architecture to inform Delta Lake table design for remote mode.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/foundation/A3-sqlite-storage.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Tables Inventory Table:\n\
+    \   | Table Name | Columns | Primary Key | Foreign Keys | Purpose |\n\
+    3. Views Inventory Table:\n\
+    \   | View Name | Base Tables | Purpose | SQL Summary |\n\
+    4. Triggers Inventory Table:\n\
+    \   | Trigger Name | Table | Event | Purpose |\n\
+    5. Table Relationships Diagram (ASCII)\n\
+    6. Query Patterns Table:\n\
+    \   | Pattern | Usage | Index Used | Performance |\n\
+    7. Delta Lake Translation Table:\n\
+    \   | SQLite Feature | Delta Lake Equivalent | Notes | Recommendation |\n\
+    8. SQLite-Specific Features Table:\n\
+    \   | Feature | Used In | Delta Alternative | Migration Strategy |\n\
+    9. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Extract database schema (sqlite3 .schema command)\n\
+    2. Document all 33 tables with columns, types, constraints\n\
+    3. Document all 13 views with their queries\n\
+    4. Document all 40 triggers with their logic\n\
+    5. Analyze table relationships and query patterns\n\
+    6. Map to Delta Lake design (tables, views, trigger alternatives)\n\
+    \nINPUT FILES:\n- .vibey/roadmap/roadmap.db - SQLite database\n\
+    - vibey/roadmap/database/*.py - Database operations\n\
+    - vibey/roadmap/models/*.py - ORM models if present\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Tables inventory lists all 33 tables\n\
+    - [ ] Views inventory lists all 13 views\n\
+    - [ ] Triggers inventory lists all 40 triggers\n\
+    - [ ] Delta Lake translation provides recommendations\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- SQLite schema ready for Delta Lake translation\n"
   status: not_started
-  created_at: '2026-01-26T16:46:30.153389+00:00'
-  started_at: '2026-01-27T02:24:20.217903+00:00'
-  completed_at: '2026-01-27T02:26:53.995892+00:00'
-  updated_at: '2026-01-27T02:26:53.995896+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:46:30.153389+00:00'
+  started: '2026-01-27T02:24:20.217903+00:00'
+  completed: '2026-01-27T02:26:53.995892+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'A3: Foundation'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'A3: Foundation'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:35:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:35:00+00:00'
-      implementation_status: SQLite Storage Backend Audit Complete
-      database_schema:
-        schema_versions:
-        - v1.0.0 (Legacy - 33 tables)
-        - v2.0.0 (Unified - tickets + criteria tables)
-        core_tables:
-        - roadmaps (top-level)
-        - tracks (strategic initiatives)
-        - sprints (time-bounded work units)
-        - tasks (individual work items)
-        relationship_tables:
-        - external_dependencies (polymorphic owner)
-        - entity_blocks (blocker → blocked)
-        - entity_blocked_by (blocked relationships)
-        - entity_depends_on (soft dependencies)
-        quality_tables:
-        - quality_gates (track/sprint level)
-        - development_gates (sprint-specific)
-        triangle_model_tables:
-        - ticket_commit_links (composite PK)
-        - ticket_artifact_associations (provenance)
-        - commit_artifact_changes (modifications)
-        indexes: 80+
-        views: 21+
-        triggers: 40+
-      table_relationships:
-        hierarchy: roadmaps → tracks → sprints → tasks (CASCADE)
-        polymorphic: owner_type + owner_id pattern
-        foreign_keys: Enabled via PRAGMA foreign_keys = ON
-      query_patterns:
-        progress_aggregation: v_sprint_progress, v_track_progress, v_roadmap_progress
-        blocking_queries: v_blocked_entities, v_unblocked_tasks
-        dependency_graph: Recursive CTE (depth < 10)
-        criteria_evaluation: GROUP BY completable + blocks_transition_to
-      database_operations:
-        connection: Thread-local pooling with WAL mode
-        pragmas: foreign_keys=ON, journal_mode=WAL, busy_timeout=5000
-        initialization: create_schema() in schema.py
-        sync: YAML → SQLite rebuild, checksum tracking
-      delta_lake_translation:
-        tables: Direct mapping (same columns)
-        views: Databricks SQL equivalents
-        triggers: Databricks workflows or streaming
-        differences:
-        - No trigger support (use workflows)
-        - Different locking semantics
-        - ACID via Delta transactions
-      success_criteria_met:
-      - 'Schema documented (tables, views, triggers): YES'
-      - 'Query pattern inventory: YES'
-      - 'Delta Lake translation guide: YES'

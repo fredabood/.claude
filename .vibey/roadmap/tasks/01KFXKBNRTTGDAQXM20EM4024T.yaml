@@ -1,84 +1,62 @@
 task:
   id: 01KFXKBNRTTGDAQXM20EM4024T
-  name: Audit Validation and Reconciliation System
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Validation and Reconciliation System
   description: "Document validation and reconciliation for remote consistency design.\n\
-    \nMETHODOLOGY:\n1. Document validation rules:\n   - Field-level validation (types,\
-    \ formats, ranges)\n   - Entity-level validation (required fields, constraints)\n\
-    \   - Cross-entity validation (references exist, no orphans)\n   - Business rule\
-    \ validation (state transitions, dependencies)\n2. Inventory integrity checks:\n\
-    \   - YAML schema validation\n   - Database constraint checks\n   - Cross-storage\
-    \ consistency checks\n   - Referential integrity verification\n3. Document reconciliation\
-    \ processes:\n   - YAML-to-SQLite reconciliation\n   - Conflict detection algorithms\n\
-    \   - Conflict resolution strategies\n   - Reconciliation triggers and scheduling\n\
-    4. Document repair operations:\n   - Orphan entity cleanup\n   - Broken reference\
-    \ repair\n   - Status inconsistency repair\n   - Progress recalculation\n5. Map\
-    \ to remote mode:\n   - Local-remote consistency validation\n   - Distributed\
-    \ conflict resolution\n   - Eventually consistent reconciliation\n   - Offline\
-    \ change queuing\n\nINPUT FILES:\n- vibey/operations/roadmap/validation.py - Validation\
-    \ logic\n- vibey/operations/roadmap/reconciliation.py - Reconciliation\n- vibey/operations/roadmap/repair.py\
-    \ - Repair operations\n\nSUCCESS CRITERIA:\n- All validation rules documented\n\
-    - Reconciliation algorithms understood\n- Remote consistency strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/operations/C2-validation-reconciliation.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Validation Rules Table:\n\
+    \   | Level | Rule | Applies To | Error Type | Example |\n\
+    3. Integrity Checks Table:\n\
+    \   | Check | Type | Frequency | Recovery |\n\
+    4. Reconciliation Process Table:\n\
+    \   | Step | Detection | Resolution | Trigger |\n\
+    5. Repair Operations Table:\n\
+    \   | Operation | Problem | Fix | Side Effects |\n\
+    6. Validation Flow Diagram (ASCII)\n\
+    7. Remote Consistency Strategy:\n\
+    \   | Scenario | Validation | Conflict Resolution | Consistency Model |\n\
+    8. Offline Queue Strategy:\n\
+    \   | Change Type | Queue Format | Sync Order | Conflict Risk |\n\
+    9. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Document validation rules (field, entity, cross-entity, business)\n\
+    2. Inventory integrity checks (YAML, database, cross-storage, referential)\n\
+    3. Document reconciliation processes (detection, resolution, triggers)\n\
+    4. Document repair operations (orphans, references, status, progress)\n\
+    5. Map to remote mode (consistency, distributed conflict, offline queuing)\n\
+    \nINPUT FILES:\n- vibey/operations/roadmap/validation.py - Validation logic\n\
+    - vibey/operations/roadmap/reconciliation.py - Reconciliation\n\
+    - vibey/operations/roadmap/repair.py - Repair operations\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Validation rules table covers all 4 levels\n\
+    - [ ] Integrity checks table lists >= 4 check types\n\
+    - [ ] ASCII validation flow diagram present\n\
+    - [ ] Remote consistency strategy addresses offline scenarios\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- Validation system ready for remote consistency design\n"
   status: not_started
-  created_at: '2026-01-26T16:49:29.796581+00:00'
-  started_at: '2026-01-27T02:34:18.267859+00:00'
-  completed_at: '2026-01-27T02:36:51.960750+00:00'
-  updated_at: '2026-01-27T02:36:51.960753+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:49:29.796581+00:00'
+  started: '2026-01-27T02:34:18.267859+00:00'
+  completed: '2026-01-27T02:36:51.960750+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'C2: Operations'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'C2: Operations'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:50:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:50:00+00:00'
-      implementation_status: Validation and Reconciliation System Audit Complete
-      validation_rules:
-        field_level: YAML syntax, type validation, enum values
-        entity_level: Required fields, constraints per entity type
-        cross_entity: References exist, no orphans, bidirectional consistency
-        business_rules: State transitions, dependency satisfaction
-      validation_profiles:
-        quick: Syntax only (~0.6s)
-        standard: Syntax + schema (~0.6s)
-        thorough: Full + git integration (~2s)
-        advanced: Circular deps, orphans, broken refs (~120s)
-      integrity_checks:
-        yaml_schema: Flat structure validation, root key verification
-        database_constraints: Activity log verification, SHA256 hashing
-        cross_storage: mtime comparison, sync status detection
-      reconciliation:
-        detection: Null dates, incomplete children, status mismatches
-        modes: dry-run (preview), fix (apply), verbose (detailed)
-        sync: check_sync_needed(), ensure_synced(), progress recalculation
-      repair_operations:
-        progress_counters: Auto-fix sprint/track counts
-        broken_references: Remove invalid IDs with confirmation
-        batch_repair: auto_repair_all() orchestration
-      remote_consistency_strategy:
-        local_remote: Eventual consistency with conflict detection
-        conflict_resolution: Last-write-wins or manual merge
-        offline_queueing: Queue changes for later sync
-      key_modules:
-      - vibey/operations/roadmap/validate.py
-      - vibey/operations/roadmap/advanced_validator.py
-      - vibey/operations/roadmap/auto_repair.py
-      - vibey/operations/roadmap/verification.py
-      success_criteria_met:
-      - 'All validation rules documented: YES'
-      - 'Reconciliation algorithms understood: YES'
-      - 'Remote consistency strategy defined: YES'

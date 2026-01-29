@@ -1,76 +1,64 @@
 task:
   id: 01KFXKDJ24EZF2KBVJYP3EWYM0
-  name: Audit Git Integration
-  description: "Document git integration for remote repository coordination.\n\nMETHODOLOGY:\n\
-    1. Document commit linking:\n   - How tasks link to commits\n   - Commit hash\
-    \ storage\n   - Commit message patterns\n   - Multi-commit tasks\n2. Analyze hook\
-    \ installation:\n   - Pre-commit hooks\n   - Post-commit hooks\n   - Commit-msg\
-    \ hooks\n   - Hook templates\n   - Installation mechanism\n3. Document git operations:\n\
-    \   - Status checking\n   - Diff analysis\n   - Branch detection\n   - Remote\
-    \ operations\n   - Repository discovery\n4. Map branch management:\n   - Branch\
-    \ naming conventions\n   - Feature branch handling\n   - Main branch protection\n\
-    \   - Branch-task associations\n5. Analyze git state dependencies:\n   - Operations\
-    \ requiring clean state\n   - Operations safe during changes\n   - Conflict handling\n\
-    6. Remote repository coordination:\n   - Local repo ↔ remote roadmap sync\n  \
-    \ - Commit notification to remote\n   - Databricks Repos integration\n   - Git\
-    \ credential handling\n\nINPUT FILES:\n- vibey/cli/commands/git_commands.py -\
-    \ Git CLI commands\n- vibey/operations/git/*.py - Git operations\n- .git/hooks/\
-    \ - Hook scripts\n\nSUCCESS CRITERIA:\n- All git operations documented\n- Hook\
-    \ system documented\n- Remote coordination designed\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Git Integration
+  description: "Document git integration for remote repository coordination.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/cross-cutting/F3-git-integration.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Commit Linking Table:\n\
+    \   | Aspect | Implementation | Storage | Example |\n\
+    3. Git Hooks Table:\n\
+    \   | Hook | Type | Purpose | Installation |\n\
+    4. Git Operations Table:\n\
+    \   | Operation | Function | Parameters | State Required |\n\
+    5. Branch Management Table:\n\
+    \   | Pattern | Convention | Task Association | Protection |\n\
+    6. Git State Dependencies Table:\n\
+    \   | Operation | Clean Required | Safe During Changes | Conflict Handling |\n\
+    7. Remote Coordination Strategy:\n\
+    \   | Flow | Local Action | Remote Notification | Databricks Integration |\n\
+    8. Credential Management Table:\n\
+    \   | Context | Method | Storage | Security |\n\
+    9. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Document commit linking (task-commit association, hash storage)\n\
+    2. Analyze hook installation (pre-commit, post-commit, commit-msg)\n\
+    3. Document git operations (status, diff, branch, remote)\n\
+    4. Map branch management (naming, features, protection, associations)\n\
+    5. Analyze git state dependencies (clean state, conflict handling)\n\
+    6. Design remote coordination (sync, notifications, Databricks Repos)\n\
+    \nINPUT FILES:\n- vibey/cli/commands/git_commands.py - Git CLI commands\n\
+    - vibey/operations/git/*.py - Git operations\n\
+    - .git/hooks/ - Hook scripts\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Git hooks table lists >= 3 hook types\n\
+    - [ ] Git operations table lists >= 5 operations\n\
+    - [ ] Branch management documents naming conventions\n\
+    - [ ] Remote coordination addresses Databricks Repos\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- Git integration ready for remote coordination design\n"
   status: not_started
-  created_at: '2026-01-26T16:50:31.550324+00:00'
-  started_at: '2026-01-27T02:37:08.104064+00:00'
-  completed_at: '2026-01-27T02:39:23.290760+00:00'
-  updated_at: '2026-01-27T02:39:23.290763+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:50:31.550324+00:00'
+  started: '2026-01-27T02:37:08.104064+00:00'
+  completed: '2026-01-27T02:39:23.290760+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'F3: Cross-Cutting'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'F3: Cross-Cutting'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:55:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:55:00+00:00'
-      implementation_status: Git Integration Audit Complete
-      git_operations:
-        commit_analysis: GitLogAnalyzer parses history for roadmap refs
-        task_tracking: CommitParser extracts task IDs from messages
-        velocity: VelocityCalculator computes sprint metrics
-        contributor: Activity metrics per contributor
-      commit_tracking:
-        reference_types: TASK_REFERENCE, COMPLETION_CLAIM
-        message_formats: conventional, footer, bracket, inline
-        database_table: ticket_commit_links
-        status_updates: TaskStatusUpdater applies changes
-      triangle_model:
-        ticket_commit_links: Tickets to commits with confidence
-        ticket_artifact_associations: Tickets to files with provenance
-        commit_artifact_changes: Commits to file modifications
-        mcp_tools: associate_artifact, get_ticket_commits, log_runtime_file
-      hooks:
-        pre_commit: Validates files before commit
-        commit_msg: Validates message format
-        post_merge: Rebuilds SQLite
-        pre_push: Verifies activity log entries
-      remote_mode_classification:
-        local_required: GitPrimarySync, MergeChecker, BranchLinker, hooks
-        remote_capable: CommitParser (stateless), CI integration, mode detection
-        hybrid: Velocity calculation, context tools with fallback
-      success_criteria_met:
-      - 'All git operations documented: YES'
-      - 'Hook system documented: YES'
-      - 'Remote coordination designed: YES'

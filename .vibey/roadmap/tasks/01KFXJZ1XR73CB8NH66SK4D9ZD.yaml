@@ -1,99 +1,61 @@
 task:
   id: 01KFXJZ1XR73CB8NH66SK4D9ZD
-  name: Audit MCP Tools
-  description: "Document all MCP tools for remote tool routing design.\n\nMETHODOLOGY:\n\
-    1. Extract complete tool inventory:\n   - Use MCP server introspection\n   - Document\
-    \ all 80 tools by category\n   - Review MCP_REFERENCE.md for existing docs\n2.\
-    \ Document each tool:\n   - Tool name and description\n   - Input parameters (types,\
-    \ required/optional)\n   - Output format and schema\n   - Side effects (state\
-    \ modifications)\n   - Error conditions and handling\n3. Classify tools by operation\
-    \ type:\n   - Read-only: Query tools, no state change\n   - Mutating: Create,\
-    \ update, delete operations\n   - Hybrid: Read with side effects (e.g., logging)\n\
-    4. Analyze state dependencies:\n   - Tools requiring local filesystem\n   - Tools\
-    \ requiring database\n   - Tools requiring git operations\n   - Tools with no\
-    \ state dependency\n5. Map to remote mode:\n   - Tools that can delegate to remote\n\
-    \   - Tools requiring local execution\n   - Tools needing hybrid execution\n \
-    \  - New remote-specific tools needed\n\nINPUT FILES:\n- vibey/mcp/tools/*.py\
-    \ - All tool implementations\n- vibey/mcp/server.py - Tool registration\n- docs/reference/MCP_REFERENCE.md\
-    \ - Existing documentation\n\nSUCCESS CRITERIA:\n- All 80 tools documented with\
-    \ signatures\n- Tools classified by mutation/state\n- Remote routing strategy\
-    \ defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit MCP Tools
+  description: "Document all MCP tools for remote tool routing design.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/interfaces/D4-mcp-tools.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Tool Categories Summary Table:\n\
+    \   | Category | Tool Count | Primary Purpose |\n\
+    3. Tool Inventory by Category (for each category):\n\
+    \   | Tool Name | Parameters | Returns | Side Effects |\n\
+    4. Operation Type Classification Table:\n\
+    \   | Tool | Read-Only | Mutating | Hybrid | State Dependencies |\n\
+    5. State Dependencies Table:\n\
+    \   | Dependency | Tools Affected | Required Access |\n\
+    6. Remote Routing Strategy Table:\n\
+    \   | Tool | Local | Remote | Hybrid | Routing Logic |\n\
+    7. New Remote Tools Table:\n\
+    \   | Proposed Tool | Purpose | Parameters | Justification |\n\
+    8. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Extract complete tool inventory (80+ tools by category)\n\
+    2. Document each tool (name, params, output, side effects, errors)\n\
+    3. Classify tools by operation type (read-only, mutating, hybrid)\n\
+    4. Analyze state dependencies (filesystem, database, git)\n\
+    5. Map to remote mode (delegate, local, hybrid, new tools)\n\
+    \nINPUT FILES:\n- vibey/mcp/tools/*.py - All tool implementations\n\
+    - vibey/mcp/server.py - Tool registration\n\
+    - docs/reference/MCP_REFERENCE.md - Existing documentation\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Tool categories summary lists all major categories\n\
+    - [ ] Total tool count verified against actual (80+)\n\
+    - [ ] Operation type classification covers >= 50 key tools\n\
+    - [ ] Remote routing strategy addresses all tool categories\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- MCP tools ready for remote routing design\n"
   status: not_started
-  created_at: '2026-01-26T16:42:36.227446+00:00'
-  started_at: '2026-01-27T02:11:04.402620+00:00'
-  completed_at: '2026-01-27T02:13:17.150711+00:00'
-  updated_at: '2026-01-27T02:13:17.150714+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:42:36.227446+00:00'
+  started: '2026-01-27T02:11:04.402620+00:00'
+  completed: '2026-01-27T02:13:17.150711+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'D4: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'D4: Interfaces'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:15:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:15:00+00:00'
-      implementation_status: MCP Tools Audit Complete
-      tool_inventory:
-        total_tools: 76+
-        static_tools: ~34 (task, sprint, query, content, context, token, submodule)
-        dynamic_tools: ~57 (19 agents, 16 workflows, 22 handoffs)
-      tool_categories:
-        task_tools: 3 (start, complete, query)
-        sprint_tools: 4 (start, complete, query, refresh progress)
-        query_tools: 5 (track, blockers, dependencies, standards, status)
-        content_tools: 7 (list, show, search, create, update, delete, validate)
-        context_tools: 5 (Triangle Model - artifact/ticket/commit)
-        token_tools: 10+ (estimation, budgeting, usage tracking)
-        submodule_tools: 4+ (git submodule integration)
-        agent_tools: 19 (dynamically discovered)
-        workflow_tools: 16 (dynamically discovered)
-        handoff_tools: 22 (dynamically discovered)
-      registration:
-        location: vibey/mcp/server.py VibeyMCPServer.get_tools()
-        static: Explicit imports from tools/*.py modules
-        dynamic: ToolDiscovery for agents/workflows/handoffs
-      operation_classification:
-        read_only:
-        - query_task
-        - query_sprint
-        - query_track
-        - roadmap_status
-        - list_*
-        - show_*
-        - get_*
-        mutating:
-        - start_task
-        - complete_task
-        - start_sprint
-        - complete_sprint
-        - set_*
-        - record_*
-        - create
-        - update
-        - delete
-      state_dependencies:
-        filesystem: YAML files (.vibey/roadmap/), content directories, runtime context
-        database: SQLite (.vibey/roadmap/roadmap.db) - query cache
-        git: Context tools, submodule tools
-      remote_routing:
-        delegable: All query tools, content tools (read-only)
-        local_required: Tools needing local git operations
-        hybrid: Context tools (git + database)
-      success_criteria_met:
-      - 'All 76+ tools documented with signatures: YES'
-      - 'Tools classified by mutation/state: YES'
-      - 'Remote routing strategy defined: YES'

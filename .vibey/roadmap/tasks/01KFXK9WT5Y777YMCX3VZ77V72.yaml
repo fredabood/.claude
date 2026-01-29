@@ -1,87 +1,61 @@
 task:
   id: 01KFXK9WT5Y777YMCX3VZ77V72
-  name: Audit Roadmap CRUD Operations
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Roadmap CRUD Operations
   description: "Document CRUD operations layer for remote mode interface design.\n\
-    \nMETHODOLOGY:\n1. Inventory all CRUD operations by entity:\n   - Roadmap: create,\
-    \ read, update, delete, list\n   - Track: create, read, update, delete, list,\
-    \ reorder\n   - Sprint: create, read, update, delete, list, reorder\n   - Task:\
-    \ create, read, update, delete, list, move, assign\n2. Document each operation:\n\
-    \   - Function signature and parameters\n   - Input validation performed\n   -\
-    \ Storage operations (YAML + SQLite)\n   - Return values and error types\n   -\
-    \ Side effects (cascades, rollups)\n3. Analyze operation patterns:\n   - Single\
-    \ entity operations\n   - Batch operations\n   - Transactional operations\n  \
-    \ - Query operations (filters, sorting)\n4. Document operation interfaces:\n \
-    \  - Python function APIs\n   - CLI command mappings\n   - MCP tool mappings\n\
-    5. Map to remote mode:\n   - Operations requiring local state\n   - Operations\
-    \ delegable to remote\n   - Hybrid operations (local + remote)\n   - Interface\
-    \ abstraction opportunities\n\nINPUT FILES:\n- vibey/operations/roadmap/*.py -\
-    \ All operation modules\n- vibey/cli/commands/roadmap/*.py - CLI wrappers\n- vibey/mcp/tools/*.py\
-    \ - MCP tool implementations\n\nSUCCESS CRITERIA:\n- Complete operation inventory\n\
-    - All operation signatures documented\n- Remote mode interface requirements defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/operations/C1-crud-operations.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Operations Inventory by Entity:\n\
+    \   | Entity | Operation | Function | CLI Command | MCP Tool |\n\
+    3. Operation Signatures Table (for each entity):\n\
+    \   | Operation | Parameters | Returns | Validation | Side Effects |\n\
+    4. Operation Patterns Table:\n\
+    \   | Pattern | Operations | Transaction | Batch Support |\n\
+    5. Interface Mapping Table:\n\
+    \   | Python Function | CLI Command | MCP Tool | Parity |\n\
+    6. Remote Mode Classification Table:\n\
+    \   | Operation | Local State | Remote Delegable | Hybrid | Notes |\n\
+    7. Interface Abstraction Recommendations:\n\
+    \   | Abstraction | Purpose | Operations Affected | Implementation |\n\
+    8. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Inventory all CRUD operations by entity (Roadmap, Track, Sprint, Task)\n\
+    2. Document each operation (signature, validation, storage, returns, side effects)\n\
+    3. Analyze operation patterns (single, batch, transactional, query)\n\
+    4. Document operation interfaces (Python, CLI, MCP)\n\
+    5. Map to remote mode (local, delegable, hybrid, abstraction)\n\
+    \nINPUT FILES:\n- vibey/operations/roadmap/*.py - All operation modules\n\
+    - vibey/cli/commands/roadmap/*.py - CLI wrappers\n\
+    - vibey/mcp/tools/*.py - MCP tool implementations\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Operations inventory covers all 4 entity types\n\
+    - [ ] Operation signatures documented for >= 20 operations\n\
+    - [ ] Interface mapping shows CLI/MCP parity\n\
+    - [ ] Remote mode classification addresses all major operations\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- CRUD operations ready for remote interface design\n"
   status: not_started
-  created_at: '2026-01-26T16:48:31.485748+00:00'
-  started_at: '2026-01-27T02:30:56.099412+00:00'
-  completed_at: '2026-01-27T02:33:51.576608+00:00'
-  updated_at: '2026-01-27T02:33:51.576611+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:48:31.485748+00:00'
+  started: '2026-01-27T02:30:56.099412+00:00'
+  completed: '2026-01-27T02:33:51.576608+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'C1: Operations'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'C1: Operations'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:45:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:45:00+00:00'
-      implementation_status: Roadmap CRUD Operations Audit Complete
-      operation_inventory:
-        query_operations: 25 functions
-        update_operations: 27 functions
-        mcp_tools: 11 defined
-        mcp_adapter_methods: 16
-        entity_types: 4 (Roadmap, Track, Sprint, Task)
-      operations_by_entity:
-        roadmap: init, query_summary, refresh_progress
-        track: create, query_details, complete_track
-        sprint: create, query_details, start, complete
-        task: create, query_details, start, complete, assign
-      interface_mappings:
-        python_api: vibey/operations/roadmap/ (query.py, update.py, transitions.py)
-        cli_commands: vibey/cli/command_modules/roadmap.py
-        mcp_adapter: vibey/mcp/adapters/roadmap_adapter.py
-        mcp_tools: task_tools.py, sprint_tools.py, query_tools.py
-      operation_patterns:
-        read: Backend-agnostic (YAML or SQLite)
-        write: YAML first + SQLite sync
-        transition: Criteria-based validation
-        refresh: Progress recalculation cascade
-      validation_layers:
-        id_format: ULID (26 chars) or legacy format
-        status_transition: can_transition_to() with blocking reasons
-        commit_evidence: Optional validation before completion
-        standards_enforcement: BLOCKING, WARNING, AUDIT levels
-      storage_flow:
-        source_of_truth: YAML files
-        query_cache: SQLite database
-        sync_direction: YAML → SQLite via rebuild
-      remote_mode_mapping:
-        delegable: All query operations, status reads
-        local_required: File creation, git operations
-        hybrid: Status transitions (validate local, execute remote)
-      success_criteria_met:
-      - 'Complete operation inventory: YES'
-      - 'All operation signatures documented: YES'
-      - 'Remote mode interface requirements: YES'

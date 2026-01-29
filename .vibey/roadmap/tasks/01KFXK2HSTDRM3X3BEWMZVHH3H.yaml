@@ -1,106 +1,61 @@
 task:
   id: 01KFXK2HSTDRM3X3BEWMZVHH3H
-  name: Audit MCP Server Architecture
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit MCP Server Architecture
   description: "Document MCP server architecture for remote backend integration.\n\
-    \nMETHODOLOGY:\n1. Document server lifecycle:\n   - Server initialization\n  \
-    \ - Capability negotiation\n   - Connection handling\n   - Graceful shutdown\n\
-    \   - Error recovery\n2. Document transport mechanisms:\n   - stdio transport\
-    \ (default)\n   - SSE transport (if implemented)\n   - HTTP transport options\n\
-    \   - WebSocket considerations\n3. Analyze server state management:\n   - Server-level\
-    \ state\n   - Connection-level state\n   - Request-level state\n   - State persistence\n\
-    4. Document protocol compliance:\n   - MCP protocol version\n   - Required capabilities\n\
-    \   - Optional capabilities\n   - Extension points\n5. Map to remote backend:\n\
-    \   - Server as local proxy to Databricks\n   - Direct Databricks MCP server\n\
-    \   - Hybrid architecture options\n   - Authentication flow\n   - Request routing\
-    \ logic\n\nINPUT FILES:\n- vibey/mcp/server.py - Main server implementation\n\
-    - vibey/mcp/transport/*.py - Transport implementations\n- MCP protocol specification\n\
-    \nSUCCESS CRITERIA:\n- Server lifecycle documented\n- Transport mechanisms documented\n\
-    - Remote backend architecture designed\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/interfaces/D6-mcp-server.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Server Lifecycle Table:\n\
+    \   | Phase | Actions | Error Handling | Recovery |\n\
+    3. Transport Mechanisms Table:\n\
+    \   | Transport | Protocol | Use Case | Status |\n\
+    4. Server State Management Table:\n\
+    \   | State Level | Scope | Persistence | Contents |\n\
+    5. Protocol Compliance Table:\n\
+    \   | Capability | Required | Implemented | Notes |\n\
+    6. Server Architecture Diagram (ASCII)\n\
+    7. Remote Backend Strategy:\n\
+    \   | Architecture | Description | Pros | Cons | Recommendation |\n\
+    8. Authentication Flow Diagram (ASCII)\n\
+    9. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Document server lifecycle (init, negotiation, connection, shutdown)\n\
+    2. Document transport mechanisms (stdio, SSE, HTTP, WebSocket)\n\
+    3. Analyze server state management (server, connection, request level)\n\
+    4. Document protocol compliance (version, capabilities, extensions)\n\
+    5. Map to remote backend (proxy, direct, hybrid, auth, routing)\n\
+    \nINPUT FILES:\n- vibey/mcp/server.py - Main server implementation\n\
+    - vibey/mcp/transport/*.py - Transport implementations\n\
+    - MCP protocol specification\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Server lifecycle table covers init through shutdown\n\
+    - [ ] Transport mechanisms table lists >= 2 transports\n\
+    - [ ] ASCII server architecture diagram present\n\
+    - [ ] Remote backend strategy includes recommendation\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- MCP server ready for remote backend integration\n"
   status: not_started
-  created_at: '2026-01-26T16:44:30.817115+00:00'
-  started_at: '2026-01-27T02:18:02.988767+00:00'
-  completed_at: '2026-01-27T02:21:11.410288+00:00'
-  updated_at: '2026-01-27T02:21:11.410291+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:44:30.817115+00:00'
+  started: '2026-01-27T02:18:02.988767+00:00'
+  completed: '2026-01-27T02:21:11.410288+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'D6: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'D6: Interfaces'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:25:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:25:00+00:00'
-      implementation_status: MCP Server Architecture Audit Complete
-      server_lifecycle:
-        main_class: VibeyMCPServer
-        main_file: vibey/mcp/server.py
-        initialization:
-        - RoadmapAdapter (bridges to vibey.operations.roadmap)
-        - ToolDiscovery (60-second cache TTL)
-        - Logging to stderr (protocol-safe)
-        startup: FastMCP("vibey-roadmap") → run_stdio_async()
-        shutdown: KeyboardInterrupt handling with graceful exit
-        error_recovery: Multi-level try/catch with VibeyMCPError hierarchy
-      transport_mechanisms:
-        primary: stdio (JSON-RPC 2.0 over stdin/stdout)
-        sdk: mcp.server.fastmcp.FastMCP
-        future_options:
-        - SSE (not implemented)
-        - HTTP (compatible with FastMCP)
-        - WebSocket (not implemented)
-      state_management:
-        server_level:
-        - RoadmapAdapter (persistent)
-        - ToolDiscovery cache (60-second TTL, file hash invalidation)
-        connection_level: Tool definitions immutable during execution
-        request_level: VibeyMCPError with details dict
-        persistence: YAML files + SQLite database
-      protocol_compliance:
-        version: MCP 1.0 specification
-        format: JSON-RPC 2.0
-        capabilities:
-          tools_listChanged: true
-          resources_subscribe: false
-          prompts_listChanged: false
-      architecture_components:
-        adapter_pattern: RoadmapAdapter delegates to vibey.operations.roadmap
-        tool_categories:
-          static: task, sprint, query, content, context, token, submodule
-          dynamic: agents, workflows, handoffs (via ToolDiscovery)
-        routing: Modular handler dispatch based on tool_name patterns
-      remote_backend_options:
-        option_1_proxy_layer:
-          description: Local MCP Server → HTTP Client → Remote Vibey API
-          implementation: Create RemoteRoadmapAdapter
-          changes: Minimal (swap adapter based on config)
-        option_2_http_transport:
-          description: FastMCP with HTTP transport on remote server
-          implementation: Deploy same code with different transport
-          changes: Add auth layer
-        option_3_async_refactor:
-          description: Async resource queue with connection pooling
-          implementation: Full refactor of adapter layer
-          changes: Significant (optimal for production)
-      key_files:
-      - vibey/mcp/server.py (main server)
-      - vibey/mcp/adapters/roadmap_adapter.py (adapter layer)
-      - vibey/mcp/discovery/discovery.py (tool discovery)
-      - .mcp.json (configuration)
-      success_criteria_met:
-      - 'Server lifecycle documented: YES'
-      - 'Transport mechanisms documented: YES'
-      - 'Remote backend architecture designed: YES'

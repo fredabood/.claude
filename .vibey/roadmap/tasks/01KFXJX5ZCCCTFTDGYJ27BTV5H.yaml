@@ -1,96 +1,58 @@
 task:
   id: 01KFXJX5ZCCCTFTDGYJ27BTV5H
-  name: Audit CLI Output Formats
-  description: "Document CLI output formats for remote display context support.\n\n\
-    METHODOLOGY:\n1. Inventory output formats:\n   - Table format (default for lists)\n\
-    \   - JSON format (--json flag)\n   - YAML format (--yaml flag)\n   - Plain text\
-    \ format\n   - Color/styled output\n2. Document formatting utilities:\n   - Table\
-    \ rendering libraries (rich, tabulate, etc.)\n   - JSON serialization patterns\n\
-    \   - YAML serialization patterns\n   - Color and styling utilities\n3. Analyze\
-    \ output patterns by command type:\n   - List commands (multiple items)\n   -\
-    \ Show commands (single item detail)\n   - Status commands (summary views)\n \
-    \  - Error output formatting\n   - Progress indicators\n4. Document output configuration:\n\
-    \   - Format flags (--json, --yaml, --format)\n   - Color enable/disable\n   -\
-    \ Verbosity levels\n   - Output destination (stdout, file)\n5. Remote mode output\
-    \ considerations:\n   - Databricks notebook display\n   - API response formatting\n\
-    \   - Streaming output handling\n   - Remote terminal compatibility\n\nINPUT FILES:\n\
-    - vibey/cli/output.py - Output formatting\n- vibey/cli/utils/formatting.py - Format\
-    \ utilities\n- vibey/cli/commands/*.py - Command output patterns\n\nSUCCESS CRITERIA:\n\
-    - All output formats documented\n- Formatting patterns cataloged\n- Remote display\
-    \ requirements identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit CLI Output Formats
+  description: "Document CLI output formats for remote display context support.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/interfaces/D3-cli-output.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Output Formats Table:\n\
+    \   | Format | Flag | Use Case | Serialization |\n\
+    3. Formatting Utilities Table:\n\
+    \   | Utility | Library | Purpose | Location |\n\
+    4. Command Output Patterns Table:\n\
+    \   | Command Type | Default Format | Supports JSON | Supports YAML |\n\
+    5. Output Configuration Table:\n\
+    \   | Option | Flag | Default | Description |\n\
+    6. Remote Display Strategy:\n\
+    \   | Context | Format | Rendering | Compatibility |\n\
+    7. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Inventory output formats (table, JSON, YAML, plain, styled)\n\
+    2. Document formatting utilities and libraries\n\
+    3. Analyze output patterns by command type\n\
+    4. Document output configuration options\n\
+    5. Design remote mode output (notebook, API, streaming)\n\
+    \nINPUT FILES:\n- vibey/cli/output.py - Output formatting\n\
+    - vibey/cli/utils/formatting.py - Format utilities\n\
+    - vibey/cli/commands/*.py - Command output patterns\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Output formats table lists >= 4 formats\n\
+    - [ ] Command output patterns table covers list/show/status commands\n\
+    - [ ] Remote display strategy addresses Databricks notebooks\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- CLI output ready for remote display design\n"
   status: not_started
-  created_at: '2026-01-26T16:41:34.838696+00:00'
-  started_at: '2026-01-27T02:08:52.867568+00:00'
-  completed_at: '2026-01-27T02:11:03.428788+00:00'
-  updated_at: '2026-01-27T02:11:03.428791+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:41:34.838696+00:00'
+  started: '2026-01-27T02:08:52.867568+00:00'
+  completed: '2026-01-27T02:11:03.428788+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'D3: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
-  complexity: low
-  phase_label: 'D3: Interfaces'
+  complexity: simple
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:10:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:10:00+00:00'
-      implementation_status: CLI Output Formats Audit Complete
-      output_formats:
-      - Table (default, human-readable)
-      - JSON (--json flag, machine-readable)
-      - YAML (--yaml flag, structured)
-      - CSV (token reporting)
-      - Markdown (documentation)
-      - Plain text (simple/minimal)
-      - Colored text (ANSI, default for TTY)
-      formatting_utilities:
-        custom_formatter: vibey/cli/roadmap_lib/formatting.py
-        functions:
-        - colorize
-        - bold
-        - dim
-        - progress_bar
-        - table
-        - tree
-        - header
-        - status_indicator
-        rich_library: 13.0.0+ for Console, Table, Panel, Tree components
-        error_renderers: CLIErrorRenderer, MCPErrorRenderer, PlainTextRenderer
-      format_flags:
-        global:
-        - --verbose/-v
-        - --quiet/-q
-        - --plain
-        json_output: --json (boolean flag)
-        format_choice: --format/-f with command-specific options
-        color_control: NO_COLOR env var, TTY detection, --plain flag
-      output_patterns:
-        status_commands: Data dict -> JSON or pretty-printed with colors/emojis
-        list_commands: Table with progress bars, grouped hierarchically
-        show_commands: Rich text with sections, headers, nested data
-        error_output: CLIErrorRenderer with ANSI colors
-      libraries:
-      - Rich 13.0.0+
-      - Click 8.1.0+
-      - PyYAML 6.0+
-      remote_display_considerations:
-        databricks_notebooks: JSON output preferred, Rich tables for display
-        api_responses: JSON serialization via to_dict() methods
-        streaming_output: Progressive console output for long operations
-        tty_detection: Auto-disables colors in non-TTY environments
-      success_criteria_met:
-      - 'All output formats documented: YES'
-      - 'Formatting patterns cataloged: YES'
-      - 'Remote display requirements identified: YES'

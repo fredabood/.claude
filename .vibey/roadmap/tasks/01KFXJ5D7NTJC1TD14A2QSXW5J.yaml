@@ -1,125 +1,62 @@
 task:
   id: 01KFXJ5D7NTJC1TD14A2QSXW5J
-  name: Review Roadmap Visualization Platform Design
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Review Roadmap Visualization Platform Design
   description: "Review visualization platform design for remote API requirements.\n\
-    \nMETHODOLOGY:\n1. Review existing track documentation:\n   - Locate Roadmap Visualization\
-    \ Platform track\n   - Review sprint plans and task descriptions\n   - Identify\
-    \ architectural decisions made\n2. Document planned components:\n   - Web UI architecture\n\
-    \   - VS Code extension architecture\n   - Tree view implementation\n   - Kanban\
-    \ board implementation\n   - Gantt chart implementation\n   - Chat interface design\n\
-    3. Analyze API requirements:\n   - Data queries needed (list, filter, sort)\n\
-    \   - Real-time update requirements\n   - Authentication/authorization\n   - Rate\
-    \ limiting considerations\n4. Map data access patterns:\n   - Read patterns (dashboard,\
-    \ detail views)\n   - Write patterns (status updates, edits)\n   - Subscription\
-    \ patterns (live updates)\n   - Batch operations\n5. Document remote backend implications:\n\
-    \   - API endpoints needed\n   - WebSocket/SSE for real-time\n   - Caching strategies\n\
-    \   - Offline support requirements\n6. Identify integration points:\n   - How\
-    \ visualization connects to CLI\n   - How visualization connects to MCP\n   -\
-    \ Cross-platform considerations\n\nINPUT FILES:\n- .vibey/roadmap/tracks/ - Visualization\
-    \ Platform track\n- docs/architecture/ - Architecture documents\n- Any existing\
-    \ UI prototypes or designs\n\nSUCCESS CRITERIA:\n- Planned architecture documented\n\
-    - API requirements extracted\n- Remote backend needs identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/planned-features/G1-visualization-platform.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Planned Components Table:\n\
+    \   | Component | Architecture | Status | Track Location |\n\
+    3. API Requirements Table:\n\
+    \   | Endpoint | Method | Purpose | Auth Required |\n\
+    4. Data Access Patterns Table:\n\
+    \   | Pattern | Operations | Frequency | Caching |\n\
+    5. Real-Time Requirements Table:\n\
+    \   | Feature | Protocol | Update Frequency | Fallback |\n\
+    6. Remote Backend Architecture:\n\
+    \   | Component | Databricks Service | Scaling | Latency Target |\n\
+    7. Integration Points Table:\n\
+    \   | Integration | Protocol | Data Flow | Authentication |\n\
+    8. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Review Roadmap Visualization Platform track documentation\n\
+    2. Document planned components (Web UI, VS Code, tree/kanban/gantt)\n\
+    3. Analyze API requirements (queries, auth, rate limits)\n\
+    4. Map data access patterns (read, write, subscribe, batch)\n\
+    5. Document remote backend implications (endpoints, WebSocket, caching)\n\
+    6. Identify integration points (CLI, MCP)\n\
+    \nINPUT FILES:\n- .vibey/roadmap/tracks/ - Visualization Platform track\n\
+    - docs/architecture/ - Architecture documents\n\
+    - Any existing UI prototypes or designs\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Planned components table lists >= 4 components\n\
+    - [ ] API requirements table lists >= 6 endpoints\n\
+    - [ ] Remote backend architecture addresses Databricks\n\
+    - [ ] Integration points include CLI and MCP\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- Visualization platform ready for remote API design\n"
   status: not_started
-  created_at: '2026-01-26T16:28:35.810953+00:00'
-  started_at: '2026-01-27T00:40:23.570255+00:00'
-  completed_at: '2026-01-27T00:44:43.803673+00:00'
-  updated_at: '2026-01-27T00:44:43.803677+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:28:35.810953+00:00'
+  started: '2026-01-27T00:40:23.570255+00:00'
+  completed: '2026-01-27T00:44:43.803673+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'G1: Planned Features'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'G1: Planned Features'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T01:10:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T01:10:00+00:00'
-      implementation_status: Roadmap Visualization Platform Design Review Complete
-      track_info:
-        id: 01KC2D0JKWWW8WMS7PPGDQ42HB
-        name: Roadmap Visualization Platform
-        status: not_started
-        priority: medium
-        planned_sprints: 20 (13 core + 7 preliminary)
-        planned_tasks: 120
-        completion: 0%
-      architecture_layers:
-        backend:
-          framework: FastAPI (Python)
-          purpose: REST API for roadmap CRUD operations
-          foundation: Leverages existing vibey package
-        web_frontend:
-          framework: Next.js + React + TypeScript
-          styling: Tailwind CSS (likely)
-          deployment: Web application (browser-based)
-        vscode_extension:
-          language: TypeScript
-          integration: WebView-based UI hosting
-          communication: Bidirectional message passing
-      core_sprints:
-      - 'Sprint 1: Project Setup & Architecture (6 tasks)'
-      - 'Sprint 2: Roadmap API Backend (6 tasks)'
-      - 'Sprint 3: Core UI Layout (6 tasks)'
-      - 'Sprint 4: Tree View (6 tasks)'
-      - 'Sprint 5: Kanban Board (6 tasks)'
-      - 'Sprint 6: Gantt/Timeline View (6 tasks)'
-      - 'Sprint 7: Doc Viewer (6 tasks)'
-      - 'Sprint 8: Chat Interface Backend (6 tasks)'
-      - 'Sprint 9: Chat Interface Frontend (6 tasks)'
-      - 'Sprint 10: VS Code Extension Foundation (6 tasks)'
-      - 'Sprint 11: VS Code Extension Integration (6 tasks)'
-      - 'Sprint 12: Testing & Quality (6 tasks)'
-      - 'Sprint 13: Deployment & Publishing (6 tasks)'
-      ui_components:
-        tree_view: Hierarchical tracks/sprints/tasks with status indicators
-        kanban_board: Drag-and-drop status columns with task cards
-        gantt_chart: Timeline visualization with dependencies
-        chat_interface: LLM-powered AI-assisted planning
-        detail_views: Task/sprint/track detail panels
-        layout: Three-panel responsive design (left/center/right)
-      api_requirements:
-        endpoints:
-        - GET/POST/PUT/DELETE for tracks, sprints, tasks
-        - PATCH for status updates
-        - Chat endpoints for LLM integration
-        data_patterns:
-          read: Dashboard queries, detail views, tree navigation
-          write: Status updates, CRUD operations
-          subscription: Live updates via WebSocket/SSE
-          batch: Bulk status changes, imports
-      remote_backend_needs:
-        api_server: FastAPI with auto-generated OpenAPI docs
-        real_time: WebSocket/SSE for live updates
-        caching: Response caching for large roadmaps
-        offline_support: Not planned (web-first approach)
-      integration_points:
-        cli_integration: Reuses existing vibey operations
-        mcp_integration: Chat interface with tool calling
-        vscode_integration: WebView hosting, command palette, status bar
-      what_exists:
-      - Track definition with full sprint/task structure
-      - Detailed task descriptions with token estimates
-      - Technology stack recommendations
-      what_missing:
-      - No implementation (0% complete)
-      - No API specification document
-      - No UI mockups or wireframes
-      - No design system documentation
-      - No LLM integration details
-      success_criteria_met:
-      - 'Planned architecture documented: YES'
-      - 'API requirements extracted: YES'
-      - 'Remote backend needs identified: YES'

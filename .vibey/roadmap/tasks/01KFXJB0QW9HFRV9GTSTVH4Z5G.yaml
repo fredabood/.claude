@@ -1,116 +1,62 @@
 task:
   id: 01KFXJB0QW9HFRV9GTSTVH4Z5G
-  name: Review Ticket Template System Design
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Review Ticket Template System Design
   description: "Review ticket template system design for remote template sharing.\n\
-    \nMETHODOLOGY:\n1. Review existing track documentation:\n   - Locate Ticket Template\
-    \ System track\n   - Review sprint plans and task descriptions\n   - Identify\
-    \ architectural decisions made\n2. Document template data model:\n   - Template\
-    \ structure (fields, types)\n   - Template metadata\n   - Template versioning\n\
-    \   - Template inheritance\n3. Analyze variable substitution:\n   - Variable syntax\n\
-    \   - Supported variable types\n   - Default values\n   - Validation rules\n \
-    \  - Dynamic variables\n4. Document instantiation flow:\n   - Template selection\n\
-    \   - Variable collection\n   - Entity creation\n   - Post-instantiation hooks\n\
-    5. Map template storage:\n   - Local template storage\n   - Template organization\n\
-    \   - Template discovery\n   - Template sharing\n6. Remote environment considerations:\n\
-    \   - Template repository in Databricks\n   - Team template sharing\n   - Template\
-    \ sync between local/remote\n   - Template access control\n   - Version management\n\
-    \nINPUT FILES:\n- .vibey/roadmap/tracks/ - Template System track\n- docs/architecture/\
-    \ - Template designs\n- .vibey/templates/ - Any existing templates\n\nSUCCESS\
-    \ CRITERIA:\n- Template data model documented\n- Instantiation flow understood\n\
-    - Remote sharing requirements identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/planned-features/G4-template-system.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Template Data Model Table:\n\
+    \   | Field | Type | Required | Purpose | Inheritance |\n\
+    3. Variable Substitution Table:\n\
+    \   | Variable Type | Syntax | Default | Validation | Example |\n\
+    4. Instantiation Flow Diagram (ASCII):\n\
+    \   - Selection → Variables → Creation → Hooks\n\
+    5. Template Storage Table:\n\
+    \   | Storage Location | Organization | Discovery | Access |\n\
+    6. Remote Sharing Strategy:\n\
+    \   | Feature | Local Behavior | Remote Behavior | Sync Method |\n\
+    7. Version Management Table:\n\
+    \   | Aspect | Local | Remote | Conflict Resolution |\n\
+    8. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Review Ticket Template System track documentation\n\
+    2. Document template data model (structure, metadata, versioning)\n\
+    3. Analyze variable substitution (syntax, types, validation)\n\
+    4. Document instantiation flow (selection, variables, creation)\n\
+    5. Map template storage and discovery\n\
+    6. Design remote sharing (Databricks repository, sync, access control)\n\
+    \nINPUT FILES:\n- .vibey/roadmap/tracks/ - Template System track\n\
+    - docs/architecture/ - Template designs\n\
+    - .vibey/templates/ - Any existing templates\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Template data model table lists >= 5 fields\n\
+    - [ ] Variable substitution table lists >= 3 variable types\n\
+    - [ ] ASCII instantiation flow diagram present\n\
+    - [ ] Remote sharing strategy addresses team sharing\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- Template system ready for remote sharing design\n"
   status: not_started
-  created_at: '2026-01-26T16:31:39.657565+00:00'
-  started_at: '2026-01-27T00:52:20.724264+00:00'
-  completed_at: '2026-01-27T00:55:39.459949+00:00'
-  updated_at: '2026-01-27T00:55:39.459989+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:31:39.657565+00:00'
+  started: '2026-01-27T00:52:20.724264+00:00'
+  completed: '2026-01-27T00:55:39.459949+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'G4: Planned Features'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'G4: Planned Features'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T01:40:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T01:40:00+00:00'
-      implementation_status: Ticket Template System Design Review Complete
-      existing_systems:
-        standard_templates:
-          status: production_ready
-          track_id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
-          location: vibey/roadmap/standards/templates/
-          templates:
-          - commit-required (commit_check, blocking)
-          - doc-review-required (file_check, warning)
-          - test-coverage-required (test_run, blocking)
-          - multi-platform-testing (test_run, blocking)
-          - security-review (custom_script, blocking)
-          cli_commands:
-          - vibey roadmap list-templates
-          - vibey roadmap add-from-template
-        content_templates:
-          status: production
-          location: vibey/content/templates/
-          types:
-          - Output templates (CLAUDE.md.template, PROJECT-CONTEXT.md.template)
-          - Handoff templates (21 templates for agent-to-agent communication)
-          - State templates (sprint-state.yaml.template)
-          technology: Jinja2 templating
-      planned_ticket_template_system:
-        track_id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
-        status: not_started
-        priority: high
-        sprints_total: 6
-        sprints:
-        - 'Sprint 0: Template System Design'
-        - 'Sprint 1: Template Data Model Implementation'
-        - 'Sprint 2: Template CRUD Operations'
-        - 'Sprint 3: Template CLI Commands'
-        - 'Sprint 4: Built-in Templates'
-        - 'Sprint 5: Template Integration'
-      template_data_model:
-        standard_fields: id, name, description, type, enforcement, validation, enabled
-        standard_types: commit_check, file_check, test_run, custom_script
-        enforcement_modes: blocking, warning, audit
-        overrides: StandardOverride with audit trail
-      criterion_template_pattern:
-        target_types:
-        - COMPLETABLE (child task completion)
-        - FILE_EXISTS (specific files created)
-        - TEST_PASSES (tests pass)
-        - MANUAL (manual sign-off)
-        - THRESHOLD (metric threshold)
-        - EXTERNAL (external approval)
-        - ARTIFACT (artifact delivered)
-        instantiation_method: template.instantiate(ticket) -> Criterion
-      variable_substitution:
-        technology: Jinja2 templating
-        syntax: '{{ variable }}, {% if condition %}, {% for item in list %}'
-        common_variables: project.*, technology_stack.*, coding_standards.*
-        filters: datetime, custom filters
-      cascade_behavior:
-        hierarchy: Roadmap -> Track -> Sprint -> Task
-        inheritance: Standards cascade down hierarchy
-        override: Can override at any level with audit trail
-      remote_sharing_considerations:
-        template_repository: YAML files in .vibey/templates/
-        team_sharing: Via git repository sync
-        access_control: File-based (git permissions)
-        version_management: YAML versioning with created timestamps
-      success_criteria_met:
-      - 'Template data model documented: YES'
-      - 'Instantiation flow understood: YES'
-      - 'Remote sharing requirements identified: YES'

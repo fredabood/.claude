@@ -1,101 +1,64 @@
 task:
   id: 01KFXJVERN4135W7BR2DHSC979
-  name: Audit CLI State Management
-  description: "Document CLI state management for remote state design.\n\nMETHODOLOGY:\n\
-    1. Map configuration state:\n   - .vibey/config/ directory structure\n   - Global\
-    \ vs project configuration\n   - Configuration file formats\n   - Configuration\
-    \ precedence rules\n2. Document context state:\n   - Current roadmap context\n\
-    \   - Active track/sprint/task context\n   - Working directory context\n   - Git\
-    \ repository context\n3. Analyze session state:\n   - State that persists across\
-    \ commands\n   - State that resets per command\n   - Cached state for performance\n\
-    \   - User preferences and settings\n4. Document state initialization:\n   - How\
-    \ context is loaded on CLI start\n   - Lazy vs eager loading patterns\n   - State\
-    \ validation on load\n   - Default values when state missing\n5. Map state dependencies:\n\
-    \   - Which commands require which state\n   - State propagation between commands\n\
-    \   - State modification patterns\n6. Remote state considerations:\n   - State\
-    \ that must remain local\n   - State that should sync to remote\n   - State caching\
-    \ strategies\n   - Offline state handling\n\nINPUT FILES:\n- vibey/cli/context.py\
-    \ - CLI context management\n- vibey/common/config.py - Configuration handling\n\
-    - .vibey/config/*.yaml - Configuration files\n\nSUCCESS CRITERIA:\n- All state\
-    \ types documented\n- State flow diagrams complete\n- Remote state strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit CLI State Management
+  description: "Document CLI state management for remote state design.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/interfaces/D2-cli-state.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Configuration State Table:\n\
+    \   | Config Type | Location | Format | Precedence | Scope |\n\
+    3. Context State Table:\n\
+    \   | Context | Source | Loaded When | Used By |\n\
+    4. Session State Table:\n\
+    \   | State | Persistence | Reset Trigger | Purpose |\n\
+    5. State Initialization Flow (ASCII diagram):\n\
+    \   - CLI start → Config load → Context load → Command execute\n\
+    6. State Dependencies Table:\n\
+    \   | Command Group | Required State | Modifies State | Propagates To |\n\
+    7. Remote State Strategy Table:\n\
+    \   | State Type | Local Only | Sync to Remote | Caching | Offline Handling |\n\
+    8. State Validation Table:\n\
+    \   | State | Validation Rules | Default Value | Error Handling |\n\
+    9. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Map configuration state (.vibey/config/, global vs project, precedence)\n\
+    2. Document context state (roadmap, track/sprint/task, directory, git)\n\
+    3. Analyze session state (persistent, per-command, cached, preferences)\n\
+    4. Document state initialization (loading, validation, defaults)\n\
+    5. Map state dependencies between commands\n\
+    6. Design remote state strategy (local-only, sync, caching, offline)\n\
+    \nINPUT FILES:\n- vibey/cli/context.py - CLI context management\n\
+    - vibey/common/config.py - Configuration handling\n\
+    - .vibey/config/*.yaml - Configuration files\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Configuration state table lists >= 3 config types\n\
+    - [ ] Context state table lists >= 4 context types\n\
+    - [ ] ASCII state initialization flow diagram present\n\
+    - [ ] Remote state strategy addresses offline handling\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- CLI state ready for remote state design\n"
   status: not_started
-  created_at: '2026-01-26T16:40:38.276798+00:00'
-  started_at: '2026-01-27T02:05:41.586772+00:00'
-  completed_at: '2026-01-27T02:08:28.183470+00:00'
-  updated_at: '2026-01-27T02:08:28.183473+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:40:38.276798+00:00'
+  started: '2026-01-27T02:05:41.586772+00:00'
+  completed: '2026-01-27T02:08:28.183470+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'D2: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'D2: Interfaces'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T02:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T02:00:00+00:00'
-      implementation_status: CLI State Management Audit Complete
-      state_storage_locations:
-        session_state: .vibey/roadmap/sessions/{session_id}.yaml
-        implementation_state: .vibey/implementation/state.yaml
-        configuration: .vibey/config/ (modular) or .claude/project-config.yaml (legacy)
-        context: .vibey/roadmap/context/
-        cache: .vibey/.cache/indexes.json, mtimes.json
-        database: .vibey/roadmap.db (SQLite, 33 tables)
-      persistence_patterns:
-        dual_storage: YAML (source of truth) + SQLite (query cache)
-        load_priority: SQLite first (fast), YAML fallback (authoritative)
-        save_order: YAML first (atomic), then SQLite (best-effort)
-        auto_save_triggers: session start/end, task completion, configured intervals
-      session_management:
-        manager_location: vibey/operations/roadmap/session_manager.py
-        lifecycle: Created -> Started (ACTIVE) -> [Paused|Completed|Abandoned]
-        tracking: ULID identifier, git state capture, event logging
-        context_snapshots: At start, checkpoints, and end
-      implementation_mode_state:
-        class: LoopState
-        location: vibey/services/implementation/state.py
-        storage: .vibey/implementation/state.yaml
-        fields:
-        - session_id
-        - status
-        - current_task
-        - tasks_attempted/completed/failed
-        - tokens
-        transitions: RUNNING -> PAUSED -> RUNNING, or -> STOPPED/COMPLETED
-      configuration_loading:
-        loader: vibey/config/loader.py
-        priority: modular (.vibey/config/) > legacy (.claude/project-config.yaml)
-        models: VibeyConfig (ProjectConfig, FrameworkConfig, AgentsConfig, etc.)
-        immutable: Frozen dataclasses prevent accidental changes
-      remote_state_classification:
-        local_only:
-        - Implementation loop state (crash recovery needs local filesystem)
-        - Session context snapshots (git state specific to local repo)
-        - Active session tracking (in-memory execution state)
-        remote_capable:
-        - Roadmap entities (designed for git sync)
-        - Session event history (audit trail, append-only)
-        - Configuration files (already version controlled)
-      design_principles:
-      - YAML as source of truth (human-readable, git-friendly)
-      - SQLite as cache (fast queries, regenerable)
-      - Immutable config (frozen dataclasses)
-      - Crash recovery (every state change persisted)
-      - Session-centric (all work tracked with full audit trail)
-      success_criteria_met:
-      - 'All state types documented: YES'
-      - 'State flow diagrams complete: YES'
-      - 'Remote state strategy defined: YES'

@@ -1,190 +1,61 @@
 task:
   id: 01KFXJ3GBKMV82432WTSFGZHGK
-  name: Audit Platform-Specific Configurations
-  description: "Document platform-specific configurations for remote compatibility\
-    \ analysis.\n\nMETHODOLOGY:\n1. Document each platform's configuration:\n   -\
-    \ Cursor: .cursor/rules, settings.json\n   - Copilot: .github/copilot-instructions.md\n\
-    \   - Claude Code: CLAUDE.md, .claude/\n   - VS Code: .vscode/settings.json\n\
-    \   - Goose: .goose/ configuration\n   - Gemini: Gemini-specific config\n   -\
-    \ Aider: .aider configuration\n   - Continue: .continue/ directory\n   - Windsurf:\
-    \ Windsurf configuration\n   - JetBrains: .idea/ settings\n   - Replit: .replit\
-    \ configuration\n   - Amazon Q: Q-specific config\n   - Cody: Sourcegraph Cody\
-    \ config\n2. Analyze configuration capabilities:\n   - Supported features per\
-    \ platform\n   - Configuration syntax/format\n   - Dynamic vs static configuration\n\
-    \   - MCP support level\n3. Identify platform constraints:\n   - File location\
-    \ requirements\n   - Format limitations\n   - Feature restrictions\n   - Authentication\
-    \ methods\n4. Document MCP compatibility:\n   - MCP-enabled platforms\n   - Tool\
-    \ exposure differences\n   - Resource availability\n5. Remote mode constraints:\n\
-    \   - Platforms that can connect to remote\n   - Local-only platforms\n   - Hybrid\
-    \ operation needs\n   - Configuration sync requirements\n\nINPUT FILES:\n- vibey/adapters/*.py\
-    \ - Platform adapters\n- docs/reference/platforms/*.md - Platform documentation\n\
-    - .vibey/config/platforms/*.yaml - Platform configs\n\nSUCCESS CRITERIA:\n- All\
-    \ 13 platforms documented\n- Configuration formats cataloged\n- Remote constraints\
-    \ identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Platform-Specific Configurations
+  description: "Document platform-specific configurations for remote compatibility analysis.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/cross-cutting/F2-platform-configs.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Platform Configuration Table:\n\
+    \   | Platform | Config Files | Location | Format | Example |\n\
+    3. Capabilities Matrix:\n\
+    \   | Platform | MCP | Custom Instructions | Context Files | Agents |\n\
+    4. Platform Constraints Table:\n\
+    \   | Platform | File Location | Format Limits | Auth Method | Restrictions |\n\
+    5. MCP Compatibility Table:\n\
+    \   | Platform | MCP Version | Tools | Resources | Prompts |\n\
+    6. Remote Mode Constraints Table:\n\
+    \   | Platform | Remote Capable | Local Only | Hybrid Needs | Sync Method |\n\
+    7. Configuration Sync Strategy:\n\
+    \   | Platform | Sync Direction | Frequency | Conflict Resolution |\n\
+    8. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Document each platform's configuration (13 platforms)\n\
+    2. Analyze configuration capabilities and syntax\n\
+    3. Identify platform constraints (location, format, auth)\n\
+    4. Document MCP compatibility levels\n\
+    5. Map remote mode constraints and sync requirements\n\
+    \nINPUT FILES:\n- vibey/adapters/*.py - Platform adapters\n\
+    - docs/reference/platforms/*.md - Platform documentation\n\
+    - .vibey/config/platforms/*.yaml - Platform configs\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Platform configuration table lists >= 11 platforms\n\
+    - [ ] Capabilities matrix shows MCP support status\n\
+    - [ ] Remote mode constraints table complete\n\
+    - [ ] Sync strategy addresses all remote-capable platforms\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- Platform configs ready for remote compatibility\n"
   status: not_started
-  created_at: '2026-01-26T16:27:33.442426+00:00'
-  started_at: '2026-01-27T00:37:23.720385+00:00'
-  completed_at: '2026-01-27T00:40:03.211583+00:00'
-  updated_at: '2026-01-27T00:40:03.211587+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:27:33.442426+00:00'
+  started: '2026-01-27T00:37:23.720385+00:00'
+  completed: '2026-01-27T00:40:03.211583+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'F2: Cross-Cutting'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'F2: Cross-Cutting'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T01:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T01:00:00+00:00'
-      implementation_status: Platform-Specific Configurations Documentation Complete
-      platforms_documented: 13
-      platform_configurations:
-        claude_code:
-          directory: .claude/
-          files:
-          - CLAUDE.md
-          - .mcp.json (root)
-          format: Markdown + JSON
-          mcp_support: true
-        goose:
-          directory: .goose/
-          files:
-          - .goosehints (root)
-          format: Markdown
-          mcp_support: false
-        aider:
-          directory: .aider/
-          files:
-          - aider.conf.yml
-          - .generated
-          - agents/
-          - workflows/
-          - hooks/
-          format: YAML + Markdown + Python
-          mcp_support: false
-        cursor:
-          directory: .cursor/
-          files:
-          - mcp.json
-          - CURSOR.md
-          - .cursorrules (root)
-          format: JSON + Markdown
-          mcp_support: Yes (Nov 2024)
-        vscode:
-          directory: .vscode/
-          files:
-          - mcp.json
-          - VSCODE.md
-          format: JSON + Markdown
-          mcp_support: Yes (GA July 2025)
-        continue:
-          directory: .continue/
-          files:
-          - .continuerc.yaml
-          - CONTINUE.md
-          format: YAML + Markdown
-          mcp_support: Yes (Dec 2024)
-        gemini:
-          directory: .gemini/
-          files:
-          - gemini-extension.json
-          - settings.json
-          - commands/*.toml
-          - GEMINI.md
-          format: JSON + TOML + Markdown
-          mcp_support: true
-        windsurf:
-          directory: .windsurf/
-          files:
-          - mcp_config.json
-          - WINDSURF.md
-          format: JSON + Markdown
-          mcp_support: true
-        copilot:
-          directory: .github/
-          files:
-          - copilot-instructions.md
-          - COPILOT.md
-          - agents/*.md
-          format: Markdown
-          mcp_support: Conditional (CLI/VS Code)
-        cody:
-          directory: .cody/
-          files:
-          - mcp.json
-          - CODY.md
-          format: JSON + Markdown
-          mcp_support: Yes (OpenCtx)
-        jetbrains:
-          directory: .idea/ai/
-          files:
-          - mcp-servers.json
-          - JETBRAINS.md
-          format: JSON + Markdown
-          mcp_support: true
-        amazonq:
-          directory: .amazonq/
-          files:
-          - mcp.json
-          - AMAZONQ.md
-          format: JSON + Markdown
-          mcp_support: Yes (GA Apr 2025)
-        replit:
-          directory: .replit-vibey/
-          files:
-          - mcp.json
-          - REPLIT.md
-          format: JSON + Markdown
-          mcp_support: Yes (native)
-      mcp_config_schemas:
-        claude_desktop_format: mcpServers key (Claude, Cursor, Windsurf, Cody, Amazon
-          Q, Replit)
-        vscode_format: servers key (VS Code only)
-        jetbrains_format: servers array with enabled flag
-      authentication_methods:
-        none:
-        - claude-code
-        - goose
-        - cursor
-        - continue
-        - gemini
-        - windsurf
-        - replit
-        api_keys:
-        - aider
-        github_oauth:
-        - copilot
-        subscription:
-        - cody
-        - jetbrains
-        aws_credentials:
-        - amazonq
-      drift_detection:
-        file: .checksums.json
-        validation_command: vibey deploy --platform <platform> --validate
-        purpose: CI/CD enforcement of zero-drift guarantee
-      remote_constraints:
-        mcp_enabled: 11 platforms (all except Goose and Aider)
-        local_only:
-        - goose
-        - aider
-        hybrid:
-        - copilot
-        sync_requirements: Checksum validation on deploy
-      success_criteria_met:
-      - 'All 13 platforms documented: YES'
-      - 'Configuration formats cataloged: YES'
-      - 'Remote constraints identified: YES'

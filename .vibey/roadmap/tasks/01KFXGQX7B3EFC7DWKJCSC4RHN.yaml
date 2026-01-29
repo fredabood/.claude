@@ -1,125 +1,63 @@
 task:
   id: 01KFXGQX7B3EFC7DWKJCSC4RHN
-  name: Audit Agent Integration Points
-  description: "Document agent integration for remote agent orchestration.\n\nMETHODOLOGY:\n\
-    1. Document supported agents:\n   - Claude Code integration\n   - Other AI agent\
-    \ support\n   - Agent capability differences\n   - Agent selection criteria\n\
-    2. Map invocation patterns:\n   - Agent initialization\n   - Context passing\n\
-    \   - Tool exposure (MCP)\n   - Session management\n3. Document response handling:\n\
-    \   - Output parsing\n   - Result extraction\n   - Artifact collection\n   - Status\
-    \ determination\n4. Analyze error recovery:\n   - Timeout handling\n   - Rate\
-    \ limit handling\n   - API error handling\n   - Retry strategies\n   - Graceful\
-    \ degradation\n5. Document agent configuration:\n   - Model selection\n   - Temperature\
-    \ settings\n   - Token limits\n   - Tool permissions\n6. Remote orchestration:\n\
-    \   - Databricks-hosted agents\n   - Agent pool management\n   - Cross-agent coordination\n\
-    \   - Cost optimization\n\nINPUT FILES:\n- vibey/operations/implement/agent.py\
-    \ - Agent interface\n- vibey/adapters/*.py - Platform adapters\n- vibey/mcp/server.py\
-    \ - Tool exposure\n\nSUCCESS CRITERIA:\n- Agent integration documented\n- Invocation\
-    \ patterns mapped\n- Remote orchestration designed\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Agent Integration Points
+  description: "Document agent integration for remote agent orchestration.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/advanced/E5-agent-integration.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Supported Agents Table:\n\
+    \   | Agent | Integration Method | Capabilities | Limitations |\n\
+    3. Invocation Patterns Table:\n\
+    \   | Pattern | Initialization | Context Passing | Session Mgmt |\n\
+    4. Response Handling Table:\n\
+    \   | Response Type | Parsing Method | Extraction | Status Mapping |\n\
+    5. Error Recovery Table:\n\
+    \   | Error Type | Detection | Recovery Strategy | Fallback |\n\
+    6. Agent Configuration Table:\n\
+    \   | Setting | Purpose | Default | Override Method |\n\
+    7. Remote Orchestration Strategy:\n\
+    \   | Scenario | Architecture | Coordination | Cost Model |\n\
+    8. Agent Invocation Flow (ASCII diagram)\n\
+    9. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Document supported agents and capabilities\n\
+    2. Map invocation patterns (init, context, MCP tools, sessions)\n\
+    3. Document response handling and artifact collection\n\
+    4. Analyze error recovery (timeout, rate limit, API errors)\n\
+    5. Document agent configuration options\n\
+    6. Design remote orchestration (Databricks agents, pools, coordination)\n\
+    \nINPUT FILES:\n- vibey/services/implementation/executor.py - Agent execution\n\
+    - vibey/adapters/*.py - Platform adapters\n\
+    - vibey/mcp/server.py - Tool exposure\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Supported agents table lists >= 2 agents\n\
+    - [ ] Error recovery table covers >= 4 error types\n\
+    - [ ] ASCII invocation flow diagram present\n\
+    - [ ] Remote orchestration addresses Databricks hosting\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- Agent integration ready for remote orchestration\n"
   status: not_started
-  created_at: '2026-01-26T16:03:44.892676+00:00'
-  started_at: '2026-01-27T00:28:14.989818+00:00'
-  completed_at: '2026-01-27T00:32:42.223532+00:00'
-  updated_at: '2026-01-27T00:32:42.223536+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:03:44.892676+00:00'
+  started: '2026-01-27T00:28:14.989818+00:00'
+  completed: '2026-01-27T00:32:42.223532+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'E5: Advanced'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'E5: Advanced'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T00:50:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T00:50:00+00:00'
-      implementation_status: Agent Integration Points Documentation Complete
-      mcp_server:
-        location: vibey/mcp/server.py
-        sdk: FastMCP (Model Context Protocol SDK)
-        transport: stdio (standard input/output)
-        tool_count: 80+ tools exposed
-        tool_categories:
-        - Roadmap CRUD (create, read, update, delete)
-        - Task execution (start, complete, block)
-        - Query operations (list, search, filter)
-        - Content management (context, plans, post-mortems)
-        - Progress tracking (status, metrics)
-        registration_pattern: '@mcp.tool() decorator'
-        initialization: create_mcp_server() factory function
-      platform_adapters:
-        location: vibey/adapters/
-        count: 14 adapters
-        supported_platforms:
-        - claude_code (Claude Code CLI)
-        - goose (Goose AI)
-        - cursor (Cursor IDE)
-        - copilot (GitHub Copilot)
-        - vscode (VS Code)
-        - gemini (Google Gemini)
-        - aider (Aider CLI)
-        - continue_dev (Continue IDE)
-        - windsurf (Windsurf)
-        - cline (Cline)
-        - roo (Roo)
-        - amp (Amp)
-        - augment (Augment)
-        - zed (Zed IDE)
-        base_class: BaseAdapter
-        unified_architecture: Zero-drift guarantee via shared templates
-      agent_invocation:
-        claude_code_cli: claude --print --dangerously-skip-permissions
-        context_passing: System prompt with task description, criteria, files
-        tool_exposure: MCP tools auto-discovered by compatible agents
-        session_management: Single-shot execution per task
-      discovery_system:
-        location: vibey/discovery/
-        discovers:
-        - Agents (from markdown documentation)
-        - Workflows (from workflow definitions)
-        - Handoffs (agent-to-agent transitions)
-        source_format: Markdown files with structured sections
-      response_handling:
-        output_parsing: Raw text from agent stdout
-        result_extraction: Task completion detection
-        artifact_collection: Git diff analysis for changes
-        status_determination: Success/failure based on exit code
-      error_recovery:
-        timeout_handling: Configurable timeout per task
-        rate_limit_handling: Retry with exponential backoff
-        api_error_handling: Log and mark task failed
-        retry_strategies: Configurable retry count
-        graceful_degradation: Skip task, continue with next
-      agent_configuration:
-        model_selection: Via adapter configuration
-        temperature_settings: Adapter-specific defaults
-        token_limits: Configurable per task/sprint
-        tool_permissions: MCP tool filtering available
-      pm_adapter_system:
-        location: vibey/adapters/pm/
-        purpose: Project management tool integration
-        supported:
-        - jira (Jira)
-        - github_issues (GitHub Issues)
-        - linear (Linear)
-        sync_direction: Bidirectional (import/export)
-      remote_orchestration_considerations:
-        databricks_hosted: Possible via API endpoints
-        agent_pool: Multiple executors with shared queue
-        cross_agent_coordination: Event-driven task distribution
-        cost_optimization: Model selection based on task complexity
-      success_criteria_met:
-      - 'Agent integration documented: YES'
-      - 'Invocation patterns mapped: YES'
-      - 'Remote orchestration designed: YES'

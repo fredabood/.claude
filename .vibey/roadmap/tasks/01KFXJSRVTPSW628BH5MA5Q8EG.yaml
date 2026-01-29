@@ -1,148 +1,62 @@
 task:
   id: 01KFXJSRVTPSW628BH5MA5Q8EG
-  name: Audit CLI Command Groups
-  description: "Document all CLI commands for remote mode command planning.\n\nMETHODOLOGY:\n\
-    1. Extract complete command inventory:\n   - Use: vibey --help (recursive)\n \
-    \  - Document all 203 commands by group\n   - Note command hierarchies (group\
-    \ → subgroup → command)\n2. Document each command group:\n   - roadmap: Track/Sprint/Task\
-    \ management\n   - deploy: Platform deployment\n   - docs: Documentation generation\n\
-    \   - config: Configuration management\n   - db: Database operations\n   - mcp:\
-    \ MCP server control\n3. Analyze command dependencies:\n   - Local filesystem\
-    \ requirements\n   - Database requirements\n   - Git repository requirements\n\
-    \   - Configuration file requirements\n4. Classify commands by remote viability:\n\
-    \   - Local-only: Must run locally (git operations)\n   - Remote-delegable: Can\
-    \ run against remote backend\n   - Hybrid: Need both local and remote\n   - Remote-only:\
-    \ Only make sense in remote context\n5. Identify remote mode variants needed:\n\
-    \   - Commands requiring new parameters\n   - Commands needing mode switching\n\
-    \   - New commands for remote operations\n\nINPUT FILES:\n- vibey/cli/commands/*.py\
-    \ - All CLI modules\n- vibey/cli/main.py - Command registration\n- docs/reference/CLI_REFERENCE.md\
-    \ - Existing documentation\n\nSUCCESS CRITERIA:\n- All 203 commands documented\
-    \ by group\n- Each command classified by remote viability\n- Remote variant requirements\
-    \ identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit CLI Command Groups
+  description: "Document all CLI commands for remote mode command planning.\n\
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/interfaces/D1-cli-commands.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Command Groups Summary Table:\n\
+    \   | Group | Subgroups | Command Count | Purpose |\n\
+    3. Command Inventory by Group (for each group):\n\
+    \   | Command | Parameters | Dependencies | Description |\n\
+    4. Command Dependencies Table:\n\
+    \   | Dependency Type | Commands Affected | Required State |\n\
+    5. Remote Viability Classification Table:\n\
+    \   | Command | Classification | Reason | Remote Changes Needed |\n\
+    \   Classifications: Local-only, Remote-delegable, Hybrid, Remote-only\n\
+    6. Remote Mode Variants Table:\n\
+    \   | Command | New Parameters | Mode Switch | Notes |\n\
+    7. New Remote Commands Table:\n\
+    \   | Proposed Command | Purpose | Parameters | Justification |\n\
+    8. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Extract complete command inventory (vibey --help recursive)\n\
+    2. Document each command group (roadmap, deploy, docs, config, db, mcp)\n\
+    3. Analyze command dependencies (filesystem, database, git, config)\n\
+    4. Classify commands by remote viability\n\
+    5. Identify remote mode variants and new commands needed\n\
+    \nINPUT FILES:\n- vibey/cli/commands/*.py - All CLI modules\n\
+    - vibey/cli/main.py - Command registration\n\
+    - docs/reference/CLI_REFERENCE.md - Existing documentation\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Command groups summary lists all major groups\n\
+    - [ ] Total command count verified against actual (203+)\n\
+    - [ ] Remote viability table classifies >= 50 key commands\n\
+    - [ ] Remote variants table identifies needed changes\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- CLI commands ready for remote mode planning\n"
   status: not_started
-  created_at: '2026-01-26T16:39:43.039180+00:00'
-  started_at: '2026-01-27T00:55:56.605197+00:00'
-  completed_at: '2026-01-27T02:05:23.217067+00:00'
-  updated_at: '2026-01-27T02:05:23.217071+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:39:43.039180+00:00'
+  started: '2026-01-27T00:55:56.605197+00:00'
+  completed: '2026-01-27T02:05:23.217067+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'D1: Interfaces'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'D1: Interfaces'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T01:50:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T01:50:00+00:00'
-      implementation_status: CLI Command Groups Audit Complete
-      command_inventory:
-        total_top_level_groups: 18
-        total_roadmap_subgroups: 8
-        total_commands: 262+
-        main_file: vibey/cli/main.py (6,747 lines)
-      command_groups:
-        roadmap:
-          direct_commands: 44
-          subgroups:
-          - audit
-          - bulk
-          - checkpoint
-          - db
-          - edit
-          - task
-          - tokens
-          - update
-          subgroup_commands: 19
-          purpose: Track/Sprint/Task management
-        git:
-          commands: 24
-          subgroups:
-          - branch
-          - hooks
-          - sprint
-          purpose: Git history analysis and integration
-        deploy:
-          commands: 2 (run, list)
-          purpose: Framework deployment to platforms (13 platforms)
-        docs:
-          commands: 7
-          purpose: Documentation generation and validation
-        config:
-          commands: 4 direct + platform (5), estimation (4)
-          purpose: Configuration management
-        implement:
-          commands: 6 (status, pause, resume, stop, regressions, acknowledge)
-          purpose: Autonomous task implementation mode
-        session:
-          commands: 11
-          purpose: AI-assisted coding session management
-        context:
-          commands: 9
-          purpose: Context management for sessions, tasks
-        content:
-          commands: 7
-          purpose: Manage agents, workflows, templates
-        artifact:
-          commands: 12
-          purpose: File-based artifact management
-        other_groups:
-        - validate
-        - auth
-        - discover
-        - parity
-        - planned
-        - export
-        - submodule
-        - audit
-      remote_viability_classification:
-        local_only:
-          count: ~40
-          examples:
-          - git commands
-          - deploy
-          - config
-          - docs
-          - roadmap.db
-          - checkpoint
-          - export
-          reason: Filesystem/git operations
-        remote_delegable:
-          count: ~17
-          examples:
-          - roadmap.status
-          - roadmap.show
-          - roadmap.start
-          - roadmap.complete
-          - planned.*
-          - implement.*
-          reason: Read/write to roadmap backend
-        hybrid:
-          count: ~9
-          examples:
-          - roadmap.sync
-          - submodule.aggregate
-          - discover
-          reason: Need local+remote coordination
-      architectural_patterns:
-        framework: Click (Python CLI framework)
-        command_registry: '@unified_command decorators'
-        subgroup_pattern: Hierarchical organization
-        context_passing: Click context for config/state
-        exit_codes: 0 (success), 1 (failure)
-      success_criteria_met:
-      - 'All 203+ commands documented by group: YES'
-      - 'Each command classified by remote viability: YES'
-      - 'Remote variant requirements identified: YES'

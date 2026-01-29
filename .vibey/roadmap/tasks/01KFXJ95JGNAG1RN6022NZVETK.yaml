@@ -1,112 +1,61 @@
 task:
   id: 01KFXJ95JGNAG1RN6022NZVETK
-  name: Review Agent Workflow A/B Testing Design
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Review Agent Workflow A/B Testing Design
   description: "Review A/B testing design for distributed experimentation support.\n\
-    \nMETHODOLOGY:\n1. Review existing track documentation:\n   - Locate Agent Workflow\
-    \ A/B Testing track\n   - Review sprint plans and task descriptions\n   - Identify\
-    \ architectural decisions made\n2. Document experiment framework:\n   - Experiment\
-    \ definition format\n   - Variant configuration\n   - Traffic allocation methods\n\
-    \   - Experiment lifecycle\n3. Analyze model experiments:\n   - Model selection\
-    \ variants\n   - Parameter variations\n   - Cost tracking\n   - Performance comparison\n\
-    4. Analyze prompt experiments:\n   - Prompt template variants\n   - Context variations\n\
-    \   - Output quality metrics\n   - A/B split mechanisms\n5. Document metrics collection:\n\
-    \   - What metrics are collected\n   - How metrics are stored\n   - Statistical\
-    \ analysis methods\n   - Reporting dashboards\n6. Distributed environment considerations:\n\
-    \   - Experiment state storage\n   - Variant selection consistency\n   - Cross-agent\
-    \ coordination\n   - Databricks MLflow integration\n   - Metrics aggregation\n\
-    \nINPUT FILES:\n- .vibey/roadmap/tracks/ - A/B Testing track\n- docs/architecture/\
-    \ - Experiment designs\n- Any existing experiment configuration\n\nSUCCESS CRITERIA:\n\
-    - Framework design documented\n- Metrics system understood\n- Distributed requirements\
-    \ identified\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/planned-features/G3-ab-testing.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Experiment Framework Table:\n\
+    \   | Component | Definition Format | Configuration | Lifecycle |\n\
+    3. Model Experiments Table:\n\
+    \   | Experiment Type | Variants | Metrics | Cost Tracking |\n\
+    4. Prompt Experiments Table:\n\
+    \   | Experiment Type | Template Variants | Quality Metrics | Split Method |\n\
+    5. Metrics Collection Table:\n\
+    \   | Metric | Collection Method | Storage | Analysis |\n\
+    6. Distributed Considerations Table:\n\
+    \   | Concern | Challenge | Solution | Databricks Integration |\n\
+    7. Experiment Lifecycle Diagram (ASCII)\n\
+    8. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Review Agent Workflow A/B Testing track documentation\n\
+    2. Document experiment framework (definition, variants, allocation, lifecycle)\n\
+    3. Analyze model experiments (selection, parameters, cost, performance)\n\
+    4. Analyze prompt experiments (templates, context, quality)\n\
+    5. Document metrics collection and statistical analysis\n\
+    6. Map distributed environment considerations (MLflow, coordination)\n\
+    \nINPUT FILES:\n- .vibey/roadmap/tracks/ - A/B Testing track\n\
+    - docs/architecture/ - Experiment designs\n\
+    - Any existing experiment configuration\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Experiment framework table documents lifecycle\n\
+    - [ ] Model experiments table lists >= 2 experiment types\n\
+    - [ ] Metrics collection table lists >= 4 metrics\n\
+    - [ ] Distributed considerations address MLflow integration\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- A/B testing ready for distributed experimentation\n"
   status: not_started
-  created_at: '2026-01-26T16:30:39.060890+00:00'
-  started_at: '2026-01-27T00:48:42.623532+00:00'
-  completed_at: '2026-01-27T00:52:03.588976+00:00'
-  updated_at: '2026-01-27T00:52:03.588979+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:30:39.060890+00:00'
+  started: '2026-01-27T00:48:42.623532+00:00'
+  completed: '2026-01-27T00:52:03.588976+00:00'
+  assigned_agent: null
   priority: medium
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'G3: Planned Features'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'G3: Planned Features'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T01:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T01:30:00+00:00'
-      implementation_status:
-        exists:
-        - Comprehensive design documents
-        - Sprint structure and task breakdown
-        - Current state audit (Sprint 0 complete)
-        - Gap analysis of hardcoded values
-        not_implemented:
-        - All experiment dataclasses
-        - ExperimentRegistry
-        - VariantAssigner
-        - MetricsCollector
-        - CLI commands and MCP tools
-      track_info:
-        name: Agent Workflow & Handoff Architecture Review
-        id: 01KD617KB2XD77QC428SZ2Q5RW
-        status: not_started
-        sprints_total: 6
-        sprints_completed: 1 (Current State Audit)
-      design_documents:
-      - AB_TESTING_RECOMMENDATIONS.md (45KB, complete architecture)
-      - AGENT_MANAGEMENT_RESEARCH.md (20KB, gap analysis)
-      experiment_framework:
-        variant_types:
-        - MODEL (different LLM models)
-        - PROMPT (different system prompts)
-        - TEMPLATE (different ticket templates)
-        - STRATEGY (different execution strategies)
-        experiment_statuses: DRAFT, ACTIVE, PAUSED, COMPLETED, CANCELLED
-        traffic_allocation: Weighted distribution (0.0-1.0 per variant)
-        assignment_strategies: Deterministic (hash), Random, Round-robin
-      core_components:
-        experiment_config: Dataclasses for Experiment, Variant, ExperimentConfig
-        experiment_registry: YAML persistence, CRUD, lifecycle management
-        variant_assigner: Task-to-variant assignment with multiple strategies
-        metrics_collector: JSONL storage, statistical summaries
-      metrics_collection:
-        core_metrics:
-        - success_rate
-        - tokens_input/output/total
-        - duration_seconds
-        - commits_count
-        - retries_count
-        - error_rate
-        derived_metrics:
-        - efficiency (success/tokens)
-        - cost_effectiveness (success/cost)
-        - reliability (1-error_rate)
-        statistical_analysis: Z-test, t-test, confidence intervals, p-values
-      sprint_breakdown:
-        sprint_1: Experiment Foundation (config, registry, assigner)
-        sprint_2: Model Experiments (model variants, metrics)
-        sprint_3: Prompt Experiments (PromptTemplateRegistry, Jinja2)
-        sprint_4: Metrics & Analysis (MetricsCollector, statistical functions)
-        sprint_5: Advanced Experiments (TEMPLATE, STRATEGY variants)
-      distributed_considerations:
-        experiment_state_storage: YAML files + optional DB sync
-        variant_selection_consistency: Deterministic hashing recommended
-        cross_agent_coordination: Via shared experiment registry
-        mlflow_integration: Planned but not detailed
-        metrics_aggregation: JSONL + summary generation
-      success_criteria_met:
-      - 'Framework design documented: YES'
-      - 'Metrics system understood: YES'
-      - 'Distributed requirements identified: YES'

@@ -1,6 +1,10 @@
 task:
   id: 01KFXGMFE93MX4W5BTF0C9XSJM
-  name: Audit Execution Context Management
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Execution Context Management
   description: "Document execution context management for remote context building.\n\
     \nMETHODOLOGY:\n1. Document context components:\n   - Task context (description,\
     \ deliverables, etc.)\n   - Sprint context (goals, related tasks)\n   - Track\
@@ -19,93 +23,27 @@ task:
     \ - MCP context management\n- .vibey/context/*.md - Context templates\n\nSUCCESS\
     \ CRITERIA:\n- All context sources documented\n- Context assembly flow documented\n\
     - Remote context strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T16:01:52.447373+00:00'
-  started_at: '2026-01-27T00:20:38.339932+00:00'
-  completed_at: '2026-01-27T00:24:20.030630+00:00'
-  updated_at: '2026-01-27T00:24:20.030633+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:01:52.447373+00:00'
+  started: '2026-01-27T00:20:38.339932+00:00'
+  completed: '2026-01-27T00:24:20.030630+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'E3: Advanced'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'E3: Advanced'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T00:40:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T00:40:00+00:00'
-      implementation_status: Execution Context Management Documentation Complete
-      context_system_overview:
-        definition: Complete information set for AI agents to understand and implement
-          tasks
-        three_phase_model: Plan → Runtime → PostMortem
-        storage_location: .vibey/roadmap/context/
-      context_components:
-        task_context_builder:
-          location: vibey/services/implementation/context.py
-          role: Assemble complete execution context for AI agents
-          steps:
-          - Load task description from YAML
-          - Load task plan from context directory
-          - Extract acceptance criteria
-          - Discover relevant files via regex
-          - Build parent context (sprint/track)
-          - Generate system prompt
-        task_context_output:
-          system_prompt: Full instructions for agent
-          task_description: Formatted task details
-          acceptance_criteria: Completion requirements
-          relevant_files: Files to modify
-          parent_context: Sprint/track goals
-      context_sources:
-        primary:
-        - Task YAML files (.vibey/roadmap/tasks/)
-        - Sprint context (.vibey/roadmap/sprints/)
-        - Track context (.vibey/roadmap/tracks/)
-        - Task plans (.vibey/roadmap/context/tasks/)
-        secondary:
-        - Sprint context documents (.vibey/roadmap/context/sprints/)
-        - Dependency outputs from completed tasks
-        - Referenced files in codebase
-      hierarchical_context:
-        cascade_pattern: Track → Sprint → Task
-        inheritance: Task inherits sprint goals, track objectives
-        token_budget_override: Task can override sprint/track budget
-        constraint_flow: Track constraints flow down (no override)
-      context_storage_v2:
-        plans_directory: .vibey/roadmap/context/plans/{ticket_id}/
-        runtime_directory: .vibey/roadmap/context/runtime/{ticket_id}.yaml
-        postmortems_directory: .vibey/roadmap/context/post-mortems/{ticket_id}.yaml
-        sprint_context: .vibey/roadmap/context/sprints/{sprint_id}/
-      token_budget_management:
-        location: vibey/operations/context/token_budget.py
-        default_max: 100000
-        allocation: 20% plan, 15% runtime, 50% artifacts
-        platform_windows: Claude 200K, Gemini 1M, others 128K
-      distance_based_loading:
-        location: vibey/roadmap/context_loader.py
-        strategy: Reduce context by distance from current task
-        modes: FULL (0), SUMMARY (1), MINIMAL (2+)
-        reduction: 80-90% context reduction achieved
-      remote_context_considerations:
-        hybrid_assembly: Remote roadmap + local codebase
-        context_sync: Push plan/runtime changes to remote
-        freshness_tracking: Detect stale context
-        caching: Summary caching for repeated access
-      success_criteria_met:
-      - 'All context sources documented: YES'
-      - 'Context assembly flow documented: YES'
-      - 'Remote context strategy defined: YES'

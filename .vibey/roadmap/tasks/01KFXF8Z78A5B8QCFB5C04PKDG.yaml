@@ -1,6 +1,10 @@
 task:
   id: 01KFXF8Z78A5B8QCFB5C04PKDG
-  name: Audit Dependency System
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Dependency System
   description: "Document dependency system for critical path and remote sync planning.\n\
     \nMETHODOLOGY:\n1. Document dependency fields:\n   - depends_on: List of task\
     \ IDs this task depends on\n   - blocked_by: List of task IDs blocking this task\n\
@@ -19,111 +23,27 @@ task:
     \ - Dependency operations\n- vibey/operations/roadmap/validation.py - Validation\
     \ rules\n\nSUCCESS CRITERIA:\n- All dependency fields documented\n- Dependency\
     \ resolution algorithm understood\n- Remote sync strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T15:38:06.859241+00:00'
-  started_at: '2026-01-26T23:54:08.499110+00:00'
-  completed_at: '2026-01-26T23:57:09.075288+00:00'
-  updated_at: '2026-01-26T23:57:09.075290+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T15:38:06.859241+00:00'
+  started: '2026-01-26T23:54:08.499110+00:00'
+  completed: '2026-01-26T23:57:09.075288+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'B4: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'B4: Core Data Model'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T00:15:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T00:15:00+00:00'
-      implementation_status: Dependency System Documentation Complete
-      dependency_fields:
-        source_of_truth:
-          dependencies: List[TaskDependency] - static configuration of what task depends
-            on
-          blocks: List[TaskDependency] - forward index of what task blocks
-        cached_status:
-          depends_on: List[DependencyStatus] - cached status snapshot with is_satisfied()
-            check
-          depended_on_by: List[str] - reverse index for cascade propagation
-        deprecated:
-          blocked_by: Replaced by depends_on, may exist in old YAML
-      dependency_status_structure:
-        fields:
-        - blocker_id (the dependency's ID)
-        - blocker_type (task/sprint/track/external)
-        - required_status (what status needed to unblock)
-        - current_status (cached current status)
-        - blocks_transition_to (what transition this blocks)
-        - last_checked (when status was last synced)
-        key_methods:
-        - is_satisfied() - current_status >= required_status
-        - blocks_transition(target) - checks if blocks specific transition
-      status_progression_order:
-        sequence: not_started → in_progress → paused → completion_gate_check → completed
-          → production_gate_check → production_ready → deployed
-        satisfaction_rule: Dependency satisfied if current_status_index >= required_status_index
-      dependency_validation:
-        circular_detection:
-          location: vibey/cli/roadmap_lib/dependencies.py
-          algorithm: DFS with recursion stack tracking
-          returns: List of cycles (each cycle is path of IDs)
-        cross_entity_support:
-        - Tasks can depend on sprints and tracks
-        - Sprints can depend on tracks
-        - Tracks can depend on other tracks
-        quality_gate_isolation: Gate tasks cannot be depended on (isolated)
-        invalid_references: Returns status "not_found" (treated as unsatisfied)
-      blocked_status_propagation:
-        becomes_blocked: Any dependency in depends_on is unsatisfied
-        becomes_unblocked: All dependencies satisfied OR blocking dependency removed
-        cascade_direction: Upward through depended_on_by list
-        validation: blocked flag must match actual unsatisfied dependencies (enforced
-          in __post_init__)
-      dependency_resolver:
-        location: vibey/cli/roadmap_lib/dependencies.py
-        class: DependencyResolver
-        methods:
-        - build_dependency_graph() - Creates DependencyNode graph
-        - get_transitive_dependencies() - DFS for all direct and indirect deps
-        - detect_circular_dependencies() - DFS cycle detection
-        graph_type: DAG (Directed Acyclic Graph)
-      remote_sync_considerations:
-        cache_strategy:
-          field: last_checked in DependencyStatus
-          purpose: Track when cached status was synced
-          invalidation: Can check if older than TTL and reload
-        external_dependencies:
-          type: DependencyType.EXTERNAL
-          support: BlockerComputer can check external status
-          extension: Webhooks/polling for cross-repo
-        consistency_model:
-          write: Update dependencies → recompute depends_on → propagate via depended_on_by
-            → sync DB
-          read: depends_on for quick blocking checks (O(n)), dependencies for config
-            details
-      key_implementation_files:
-        models:
-        - vibey/roadmap/models/common.py (DependencyStatus lines 235-310)
-        - vibey/roadmap/models/task.py (lines 56-63, 221-227)
-        resolution:
-        - vibey/cli/roadmap_lib/dependencies.py (DependencyResolver)
-        - vibey/cli/roadmap_lib/blockers.py (BlockerComputer)
-        serialization:
-        - vibey/roadmap/serialization/yaml_loader.py (lines 1100-1840)
-        - vibey/roadmap/serialization/sql_loader.py (lines 350-500)
-      success_criteria_met:
-      - 'All dependency fields documented: YES'
-      - 'Dependency resolution algorithm understood: YES'
-      - 'Remote sync strategy defined: YES'

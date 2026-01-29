@@ -1,6 +1,10 @@
 task:
   id: 01KFXF5B3HGQD72EQQAXM7P91Z
-  name: Audit Entity Relationships
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Entity Relationships
   description: "Document entity relationships and hierarchy for remote storage design.\n\
     \nMETHODOLOGY:\n1. Map hierarchical relationships:\n   - Roadmap → Track (one-to-many)\n\
     \   - Track → Sprint (one-to-many)\n   - Sprint → Task (one-to-many)\n   - Document\
@@ -17,86 +21,27 @@ task:
     \ - Traversal operations\n- .vibey/roadmap/roadmap.db - SQLite schema\n\nSUCCESS\
     \ CRITERIA:\n- Complete relationship diagram\n- All cross-references documented\n\
     - Delta Lake relationship strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T15:36:07.903440+00:00'
-  started_at: '2026-01-26T23:43:56.005551+00:00'
-  completed_at: '2026-01-26T23:47:41.276541+00:00'
-  updated_at: '2026-01-26T23:47:41.276544+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T15:36:07.903440+00:00'
+  started: '2026-01-26T23:43:56.005551+00:00'
+  completed: '2026-01-26T23:47:41.276541+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'B2: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'B2: Core Data Model'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T23:55:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T23:55:00+00:00'
-      implementation_status: Relationship Documentation Complete
-      hierarchical_relationships:
-        roadmap_to_track:
-          type: one-to-many
-          parent_field: roadmap_id in Track
-          child_reference: tracks[] in Roadmap (summaries)
-        track_to_sprint:
-          type: one-to-many
-          parent_field: track_id in Sprint
-          child_reference: sprints[] in Track (summaries)
-        sprint_to_task:
-          type: one-to-many
-          parent_field: sprint_id in Task
-          child_reference: tasks[] in Sprint (summaries)
-        denormalized_fields: roadmap_id and track_id duplicated in Task/Sprint for
-          fast queries
-      cross_entity_references:
-        dependencies:
-          fields: dependencies, blocks, depends_on, depended_on_by, blocked_by (deprecated)
-          pattern: Source of truth in dependencies[], cached status in depends_on[]
-          resolution: DependencyResolver.get_transitive_dependencies()
-        git_commits:
-          task_level: commits[] with GitCommit objects (sha, message, platform, submitted_at)
-          triangle_model: TicketCommitLink, TicketArtifactAssociation, CommitArtifactChange
-        agent_assignment:
-          task_level: assigned_agent (single)
-          sprint_track_level: assigned_agents[] (multiple)
-        quality_gates:
-          sprint_level: quality_gates[]
-          task_level: gate_info (for gate tasks only)
-      storage_patterns:
-        yaml: Embedded IDs + nested summaries in parent files
-        sqlite: Foreign keys + JSON columns + relationship tables
-        relationship_tables:
-        - external_dependencies (polymorphic)
-        - entity_blocks
-        - entity_blocked_by
-        - entity_depends_on
-      delta_lake_strategy:
-        recommendation: Denormalize with embedded ancestry
-        partitioning: By roadmap_id and track_id
-        ancestry_path: Add ancestry_path field for partition pruning
-        denormalize_names: Include sprint_name, track_name in task records
-        relationship_tables: Keep separate, partition by dependent_type
-      key_traversal_operations:
-        location: vibey/operations/roadmap/
-        files:
-        - query.py (load_roadmap, load_track, load_sprint, load_tasks)
-        - dependencies.py (DependencyResolver, transitive deps, cycle detection)
-        - blockers.py (BlockerComputer, status-based blocking)
-        - context.py (ContextLoader, load_context_for_task)
-      success_criteria_met:
-      - 'Complete relationship diagram: YES'
-      - 'All cross-references documented: YES'
-      - 'Delta Lake relationship strategy defined: YES'

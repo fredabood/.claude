@@ -1,6 +1,10 @@
 task:
   id: 01KFXF1TJG5RD5FHTA9PDX2HMV
-  name: Review Existing Audit Artifacts
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Review Existing Audit Artifacts
   description: "Leverage Comprehensive Audit V2 outputs as a baseline for Databricks\
     \ integration planning.\n\nMETHODOLOGY:\n1. Locate and read all audit artifacts\
     \ from past tracks:\n   - docs/architecture/adr/ - Architecture Decision Records\n\
@@ -15,86 +19,27 @@ task:
     \ docs/\n\nSUCCESS CRITERIA:\n- Complete inventory of reusable audit artifacts\n\
     - Gap analysis document identifying fresh work needed\n- Baseline document ready\
     \ for subsequent audit tasks\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T15:34:12.603143+00:00'
-  started_at: '2026-01-26T23:36:37.540843+00:00'
-  completed_at: '2026-01-26T23:39:28.067652+00:00'
-  updated_at: '2026-01-26T23:39:28.067655+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T15:34:12.603143+00:00'
+  started: '2026-01-26T23:36:37.540843+00:00'
+  completed: '2026-01-26T23:39:28.067652+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'A1: Foundation'
   estimated_tokens: 1
   actual_tokens: null
-  complexity: low
-  phase_label: 'A1: Foundation'
+  complexity: simple
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-26T23:45:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-26T23:45:00+00:00'
-      implementation_status: Audit Review Complete
-      major_audit_tracks_found:
-        comprehensive_audit_v2:
-          track_id: 01KDJKA1TT237C23PQ77D2J4ZK
-          date: Dec 28-29, 2025
-          status: Complete (8/8 sprints, 58/58 tasks)
-          coverage: File inventory (9,529 files), module quality, database schema
-            (33 tables), codebase health
-          deliverables: 160+ artifacts including AUDIT_SUMMARY_REPORT.md, QUALITY_METRICS_BASELINE.md
-        user_journey_audit:
-          track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
-          date: Dec 12-16, 2025
-          status: In Progress (47/47 sprints, 348+ tasks)
-          coverage: 5 user personas, 4,500+ files audited, 30+ doc pages
-      adrs_found:
-      - ADR-0001: ULID identifiers
-      - ADR-0002: Flat directory structure
-      - ADR-0003: SQLite + YAML dual storage
-      - ADR-0004: Click CLI framework
-      - ADR-0005: MCP protocol integration
-      quality_baseline:
-        tests: 4,754
-        test_files: 198
-        ruff_issues: 6,783
-        f821_undefined: 53
-        vulture_findings: 31
-        cli_tested: 33% (6/18 groups)
-        mcp_tested: 16% (12/76 tools)
-        python_files: 746
-        tracks: 53
-        sprints: 293
-        tasks: 1,872
-      gaps_identified:
-      - Databricks integration not covered in any audit
-      - Performance/scaling benchmarks missing
-      - Security audit missing (only incidental mentions)
-      - API contract testing not analyzed
-      - Platform adapter feature parity matrix missing
-      - MCP tool coverage only 16%
-      - Auth CLI tests missing (security-critical)
-      critical_issues_for_databricks:
-      - 53 F821 undefined name errors
-      - Database rebuild timeout (>120s)
-      - YAML format compatibility (v2/v1 issues)
-      - Progress counter drift (122 discrepancies)
-      reusable_artifacts:
-      - File inventory with classifications (9,529 files)
-      - Module dependency graph (coupling matrix)
-      - Component health scores by module
-      - Database schema (33 tables)
-      - Quality metrics baseline
-      success_criteria_met:
-      - 'Complete inventory of reusable audit artifacts: YES'
-      - 'Gap analysis document identifying fresh work needed: YES'
-      - 'Baseline document ready for subsequent audit tasks: YES'

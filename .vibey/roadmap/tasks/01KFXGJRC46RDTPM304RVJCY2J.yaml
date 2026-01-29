@@ -1,6 +1,10 @@
 task:
   id: 01KFXGJRC46RDTPM304RVJCY2J
-  name: Audit Task Selection Algorithm
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Task Selection Algorithm
   description: "Document task selection algorithm for remote scheduling design.\n\n\
     METHODOLOGY:\n1. Document selection criteria:\n   - Task status (not_started,\
     \ not blocked)\n   - Dependency satisfaction\n   - Priority scoring\n   - Complexity\
@@ -18,87 +22,27 @@ task:
     \ - Selection logic\n- vibey/operations/roadmap/queries.py - Task queries\n- vibey/roadmap/models/task.py\
     \ - Task model\n\nSUCCESS CRITERIA:\n- Selection algorithm fully documented\n\
     - Scoring formula documented\n- Remote scheduling strategy defined\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T16:00:56.034393+00:00'
-  started_at: '2026-01-27T00:17:10.271402+00:00'
-  completed_at: '2026-01-27T00:20:16.202861+00:00'
-  updated_at: '2026-01-27T00:20:16.202864+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:00:56.034393+00:00'
+  started: '2026-01-27T00:17:10.271402+00:00'
+  completed: '2026-01-27T00:20:16.202861+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'E2: Advanced'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'E2: Advanced'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T00:35:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T00:35:00+00:00'
-      implementation_status: Task Selection Algorithm Documentation Complete
-      overview:
-        purpose: Find executable tasks for Implementation Mode
-        location: vibey/services/implementation/selector.py
-        class: TaskSelector
-        integration: Called by ImplementationLoop.get_next_task()
-      selection_criteria_order:
-        criterion_1_status: status == not_started
-        criterion_2_blocked: blocked == 0 (False)
-        criterion_3_dependencies: NOT EXISTS unresolved blockers in entity_blocked_by
-        criterion_4_planning: is_planned == True (YAML exists, context files)
-      priority_ordering:
-        primary_sort: priority (critical=0, high=1, medium=2, low=3, None=4)
-        secondary_sort: created ASC (oldest first within same priority)
-        implementation: SQL CASE expression with ORDER BY
-      database_queries:
-        connection: Thread-local storage via get_connection()
-        location: .vibey/roadmap/roadmap.db
-        main_query: SELECT with WHERE status, blocked, NOT EXISTS subquery
-        ordering: CASE priority ORDER BY, created ASC
-        limit: Default 100 candidates per query
-        indexes_used: status, blocked, priority, created, track_id, sprint_id
-      scope_filtering:
-        method: scope_ulid parameter in get_next_task()
-        track_scope: AND t.track_id = ?
-        sprint_scope: AND t.sprint_id = ?
-        purpose: Focus execution on specific subtree
-      edge_cases:
-        no_tasks_available: Returns None or empty list
-        circular_dependencies: Prevented by entity_blocked_by structure
-        task_blocked: Filtered by blocked=0 condition
-        planning_not_met: Skipped, next candidate tried
-        database_errors: Logged, returns empty list
-        yaml_missing: Falls back to database row construction
-      error_handling:
-        sqlite_errors: Caught, logged, returns empty
-        planning_failures: Defaults to True (assume planned)
-        file_not_found: Raises with helpful message
-      public_api:
-        get_next_task: Returns highest-priority executable task
-        get_all_executable: Returns all executable tasks (up to limit)
-        count_remaining: Returns count without planning check
-      design_patterns:
-        staged_filtering: Fast DB filters then planning check
-        fail_safe_defaults: Planning failure assumes planned
-        scope_aware_queries: Single scope_ulid handles all scope types
-        lazy_loading: YAML loaded only for returned task
-      remote_scheduling_considerations:
-        distributed_selection: Could use shared database with row locking
-        race_prevention: SELECT FOR UPDATE or optimistic locking
-        work_stealing: Independent task detection for parallel execution
-        load_balancing: Priority-based assignment to available workers
-      success_criteria_met:
-      - 'Selection algorithm fully documented: YES'
-      - 'Scoring formula documented: YES (priority-based ordering)'
-      - 'Remote scheduling strategy defined: YES'

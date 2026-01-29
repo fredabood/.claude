@@ -1,6 +1,10 @@
 task:
   id: 01KFXF774FSERKXQS8PE777FKS
-  name: Audit Status State Machine
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Status State Machine
   description: "Document status state machine for all entity types.\n\nMETHODOLOGY:\n\
     1. Document all status values by entity type:\n   - Task statuses (not_started,\
     \ in_progress, completed, blocked, wont_do)\n   - Sprint statuses (not_started,\
@@ -19,117 +23,27 @@ task:
     - vibey/operations/roadmap/transitions.py - Transition logic\n\nSUCCESS CRITERIA:\n\
     - All statuses documented for all entity types\n- State transition diagrams complete\n\
     - Remote sync considerations documented\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
   status: not_started
-  created_at: '2026-01-26T15:37:09.384796+00:00'
-  started_at: '2026-01-26T23:48:02.728274+00:00'
-  completed_at: '2026-01-26T23:52:38.513124+00:00'
-  updated_at: '2026-01-26T23:52:38.513128+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T15:37:09.384796+00:00'
+  started: '2026-01-26T23:48:02.728274+00:00'
+  completed: '2026-01-26T23:52:38.513124+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'B3: Core Data Model'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'B3: Core Data Model'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T00:10:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T00:10:00+00:00'
-      implementation_status: Status State Machine Documentation Complete
-      ticket_status_enum:
-        total_values: 10
-        values:
-        - NOT_STARTED
-        - IN_PROGRESS
-        - COMPLETED
-        - PRODUCTION_READY
-        - DEPLOYED
-        - BLOCKED
-        - DEFERRED
-        - WONT_DO
-        - SUPERSEDED
-        - ARCHIVED
-      task_status_enum:
-        total_values: 6
-        values:
-        - NOT_STARTED
-        - IN_PROGRESS
-        - BLOCKED
-        - COMPLETED
-        - WONT_DO
-        - DEFERRED
-        note: Restricted subset for tasks (no PRODUCTION_READY, DEPLOYED, SUPERSEDED,
-          ARCHIVED)
-      status_progression:
-        happy_path: NOT_STARTED → IN_PROGRESS → COMPLETED → PRODUCTION_READY → DEPLOYED
-        terminal_states:
-        - DEPLOYED (successful completion)
-        - WONT_DO (intentionally abandoned)
-        - SUPERSEDED (replaced by another entity)
-        - ARCHIVED (historical preservation)
-      transition_triggers:
-        cli_commands:
-        - vibey roadmap start <id> (→ IN_PROGRESS)
-        - vibey roadmap complete <id> (→ COMPLETED)
-        - vibey roadmap block <id> (→ BLOCKED)
-        - vibey roadmap defer <id> (→ DEFERRED)
-        - vibey roadmap wont-do <id> (→ WONT_DO)
-        auto_progression:
-          location: vibey/operations/roadmap/status.py
-          function: auto_progress_status()
-          triggers: dependency completion, all children complete
-        rollup_transitions:
-          sprint_completion: When all tasks reach COMPLETED
-          track_completion: When all sprints reach PRODUCTION_READY
-      validation_rules:
-        pre_transition:
-        - blocked_by must be empty to transition to IN_PROGRESS
-        - Dependencies must be satisfied for COMPLETED
-        - Gate tasks require gate_info validation
-        post_transition:
-        - started_at set on transition to IN_PROGRESS
-        - completed_at set on transition to COMPLETED
-        - progress counters updated in parent entities
-        - Database sync triggered
-        invariants:
-        - started_at required when status is IN_PROGRESS or later
-        - completed_at required when status is COMPLETED or later
-        - completed_at >= started_at (temporal consistency)
-      blocking_system:
-        explicit_blocking:
-          fields: blocked_by[], blocks[]
-          mechanism: Entity explicitly blocked by another entity
-        dependency_blocking:
-          fields: depends_on[], depended_on_by[]
-          mechanism: Status-based blocking via DependencyResolver
-        criteria_blocking:
-          field: criteria[]
-          mechanism: Unmet acceptance criteria block completion
-      remote_sync_considerations:
-        optimistic_locking:
-          field: updated_at
-          strategy: Compare-and-swap on update
-        conflict_resolution:
-        - Last-write-wins for simple fields
-        - Merge strategy for list fields (commits, criteria)
-        - Status transitions require ordering (no backward movement)
-        sync_events:
-        - Status change triggers immediate sync
-        - Timestamp updates included in sync payload
-        - Parent entity progress recalculated
-      success_criteria_met:
-      - 'All statuses documented for all entity types: YES'
-      - 'State transition diagrams complete: YES (text format)'
-      - 'Remote sync considerations documented: YES'

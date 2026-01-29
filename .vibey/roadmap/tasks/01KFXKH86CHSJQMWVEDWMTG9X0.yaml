@@ -1,106 +1,64 @@
 task:
   id: 01KFXKH86CHSJQMWVEDWMTG9X0
-  name: Create Feature Parity Matrix
+  sprint_id: 01KFW4GZHDNGAHCZYBGPFF51FZ
+  track_id: 01KFW4F7KN9E7GTQTXEQXE8AKB
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create Feature Parity Matrix
   description: "Create comprehensive feature parity matrix for remote mode planning.\n\
-    \nMETHODOLOGY:\n1. Compile feature inventory from prior tasks:\n   - CLI commands\
-    \ (from D1)\n   - MCP tools (from D4)\n   - Operations (from C1)\n   - Implementation\
-    \ Mode features (from E1-E5)\n   - Platform adapters (from F1-F2)\n2. Define classification\
-    \ categories:\n   - DIRECT PORT: Feature works as-is with remote backend\n   -\
-    \ NEEDS ADAPTATION: Feature requires modification for remote\n   - NEW IMPLEMENTATION:\
-    \ Feature requires complete rewrite\n   - NOT APPLICABLE: Feature doesn't apply\
-    \ to remote mode\n   - REMOTE ONLY: New feature for remote mode\n3. Create matrix\
-    \ structure:\n   - Feature name\n   - Current implementation location\n   - Classification\n\
-    \   - Remote mode requirements\n   - Effort estimate (S/M/L/XL)\n   - Dependencies\n\
-    \   - Priority for remote mode\n4. Classify each feature:\n   - Analyze state\
-    \ dependencies\n   - Analyze communication needs\n   - Analyze data access patterns\n\
-    \   - Determine classification\n5. Identify patterns:\n   - Common adaptation\
-    \ patterns\n   - Reusable abstractions\n   - Critical path features\n   - Quick\
-    \ wins vs heavy lifts\n\nINPUT FILES:\n- All deliverables from tasks A1-G4\n-\
-    \ Complete feature inventories from audit tasks\n\nSUCCESS CRITERIA:\n- Every\
-    \ Vibey feature classified\n- Remote requirements documented per feature\n- Effort\
-    \ estimates provided\n"
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KFW4GZHDNGAHCZYBGPFF51FZ
+    \nDELIVERABLE:\nFile: .vibey/audit/sprint-0/synthesis/H1-feature-parity-matrix.md\n\
+    \nREQUIRED SECTIONS:\n1. Executive Summary\n2. Classification Legend:\n\
+    \   | Classification | Definition | Example |\n\
+    3. Feature Parity Matrix (main deliverable):\n\
+    \   | Feature | Location | Classification | Remote Requirements | Effort | Priority |\n\
+    4. CLI Commands Classification Summary:\n\
+    \   | Classification | Count | Percentage | Key Features |\n\
+    5. MCP Tools Classification Summary:\n\
+    \   | Classification | Count | Percentage | Key Features |\n\
+    6. Operations Classification Summary:\n\
+    \   | Classification | Count | Percentage | Key Features |\n\
+    7. Adaptation Patterns Table:\n\
+    \   | Pattern | Features Affected | Abstraction | Reusability |\n\
+    8. Critical Path Features Table:\n\
+    \   | Feature | Why Critical | Dependencies | Effort |\n\
+    9. Quick Wins vs Heavy Lifts:\n\
+    \   | Category | Features | Total Effort | Recommendation |\n\
+    10. Verification Checklist\n\
+    \nMETHODOLOGY:\n1. Compile feature inventory from prior audit tasks (D1, D4, C1, E1-E5, F1-F2)\n\
+    2. Define classification categories (DIRECT PORT, NEEDS ADAPTATION, NEW, N/A, REMOTE ONLY)\n\
+    3. Create matrix with feature, location, classification, requirements, effort, priority\n\
+    4. Classify each feature by state/communication/data dependencies\n\
+    5. Identify patterns (common adaptations, abstractions, critical path, quick wins)\n\
+    \nINPUT FILES:\n- All deliverables from tasks A1-G4\n\
+    - Complete feature inventories from audit tasks\n\
+    \nVERIFICATION:\n- [ ] Deliverable file exists at specified path\n\
+    - [ ] Feature matrix includes >= 100 features\n\
+    - [ ] All 5 classifications represented in matrix\n\
+    - [ ] Effort estimates (S/M/L/XL) provided for each feature\n\
+    - [ ] Critical path features identified with dependencies\n\
+    \nSUCCESS CRITERIA:\n- Deliverable file created and committed\n\
+    - All verification checkboxes pass\n- Feature parity matrix ready for remote mode planning\n"
   status: not_started
-  created_at: '2026-01-26T16:52:32.524018+00:00'
-  started_at: '2026-01-27T02:42:31.154934+00:00'
-  completed_at: '2026-01-27T02:43:51.208428+00:00'
-  updated_at: '2026-01-27T02:43:51.208431+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2026-01-26T16:52:32.524018+00:00'
+  started: '2026-01-27T02:42:31.154934+00:00'
+  completed: '2026-01-27T02:43:51.208428+00:00'
+  assigned_agent: null
   priority: critical
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: 'H1: Synthesis'
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
-  phase_label: 'H1: Synthesis'
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2026-01-27T03:05:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    post_mortem:
-      completed_at: '2026-01-27T03:05:00+00:00'
-      implementation_status: Feature Parity Matrix Complete
-      classification_categories:
-        DIRECT_PORT: Works as-is with remote backend
-        NEEDS_ADAPTATION: Requires modification for remote
-        NEW_IMPLEMENTATION: Requires complete rewrite
-        NOT_APPLICABLE: Does not apply to remote mode
-        REMOTE_ONLY: New feature specific to remote mode
-      feature_parity_matrix:
-        cli_commands:
-          total: 262+
-          direct_port: ~200 (query commands, status, show)
-          needs_adaptation: ~40 (start, complete, create - add remote sync)
-          not_applicable: ~22 (local git hooks, file watchers)
-        mcp_tools:
-          total: 76+
-          direct_port: ~50 (all query tools, content tools)
-          needs_adaptation: ~20 (status transitions, context tools)
-          not_applicable: ~6 (git operations requiring local repo)
-        storage_operations:
-          yaml_backend: NEEDS_ADAPTATION (remote file storage)
-          sqlite_backend: NEW_IMPLEMENTATION (Delta Lake equivalent)
-          dual_sync: NEEDS_ADAPTATION (remote sync protocol)
-        crud_operations:
-          query_ops: DIRECT_PORT (25 functions)
-          update_ops: NEEDS_ADAPTATION (27 functions need remote sync)
-        validation:
-          fast_validation: DIRECT_PORT
-          advanced_validation: NEEDS_ADAPTATION
-          reconciliation: NEEDS_ADAPTATION (distributed conflict)
-        git_integration:
-          commit_parser: DIRECT_PORT (stateless)
-          git_sync: NOT_APPLICABLE (requires local repo)
-          hooks: NOT_APPLICABLE (local only)
-          ci_integration: DIRECT_PORT
-        context_system:
-          plan_context: DIRECT_PORT
-          runtime_context: NEEDS_ADAPTATION
-          token_estimation: DIRECT_PORT
-          mcp_context_tools: DIRECT_PORT
-      effort_summary:
-        small_effort: 60% (direct port features)
-        medium_effort: 30% (adaptation needed)
-        large_effort: 10% (new implementation)
-      critical_path:
-      - Remote storage backend (Delta Lake)
-      - Bidirectional sync protocol
-      - Authentication layer
-      - Distributed conflict resolution
-      quick_wins:
-      - All query operations (read-only)
-      - Token estimation
-      - Commit parser
-      - CI/CD integration
-      success_criteria_met:
-      - 'Every Vibey feature classified: YES'
-      - 'Remote requirements documented: YES'
-      - 'Effort estimates provided: YES'

@@ -14,7 +14,7 @@ track:
     sprints_completed: 0
     tasks_total: 120
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   sprints:
   - id: 01KC2D0JKWWW8WMS7PPGDQ42HC
     name: Foundation & Project Setup

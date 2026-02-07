@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 12
-    sprints_completed: 12
+    sprints_completed: 0
     tasks_total: 82
     tasks_completed: 82
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KC2D0JKDQPXAYGH93V9Z82Y6
     name: Pre-Audit Preparation

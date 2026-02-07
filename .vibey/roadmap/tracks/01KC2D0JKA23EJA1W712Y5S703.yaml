@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 1
-    sprints_completed: 1
+    sprints_completed: 0
     tasks_total: 11
     tasks_completed: 11
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KC2D0JKA23EJA1W712Y5S704
     name: Missing Agents Implementation

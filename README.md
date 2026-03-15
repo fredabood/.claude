@@ -4,6 +4,12 @@ A deployable `.claude/` directory that gives any project structured AI-assisted 
 
 Vibey bridges Jira, git, and Claude's context using native Claude Code primitives: skills, subagents, rules, and hooks.
 
+## Deploy
+
+```bash
+git clone https://github.com/fredabood/vibey.git your-project/.claude
+```
+
 ## What's Included
 
 ### Skills (`/slash-commands`)
@@ -45,50 +51,37 @@ Claude automatically delegates to these specialists based on task context:
 | Pre-commit tests | `git commit` | Runs test suite; blocks commit on failure |
 | Jira ticket check | `git commit` (async) | Warns if commit message lacks ticket reference |
 
-## Deploy
-
-```bash
-# Deploy to a project
-./deploy.sh /path/to/your/project
-
-# Overwrite existing files
-./deploy.sh /path/to/your/project --force
-```
-
 ## Structure
 
 ```
-vibey/
-├── .claude/
-│   ├── settings.json           # Hook configuration
-│   ├── skills/                 # 7 user-invocable /slash-commands
-│   │   ├── start-task/
-│   │   ├── complete-task/
-│   │   ├── status/
-│   │   ├── implement-feature/
-│   │   ├── plan-sprint/
-│   │   ├── handoff/
-│   │   └── discovery/
-│   ├── agents/                 # 6 auto-delegated specialists
-│   │   ├── security-reviewer.md
-│   │   ├── test-engineer.md
-│   │   ├── performance-reviewer.md
-│   │   ├── observability-reviewer.md
-│   │   ├── code-reviewer.md
-│   │   └── architecture-reviewer.md
-│   ├── rules/                  # Path-scoped standards
-│   │   ├── security.md
-│   │   └── testing.md
-│   └── hooks/                  # Shell scripts for quality gates
-│       ├── pre-commit-tests.sh
-│       └── jira-ticket-check.sh
-├── deploy.sh                   # Deploy to target project
-└── README.md                   # This file
+your-project/.claude/
+├── settings.json              # Hook configuration
+├── skills/                    # 7 user-invocable /slash-commands
+│   ├── start-task/
+│   ├── complete-task/
+│   ├── status/
+│   ├── implement-feature/
+│   ├── plan-sprint/
+│   ├── handoff/
+│   └── discovery/
+├── agents/                    # 6 auto-delegated specialists
+│   ├── security-reviewer.md
+│   ├── test-engineer.md
+│   ├── performance-reviewer.md
+│   ├── observability-reviewer.md
+│   ├── code-reviewer.md
+│   └── architecture-reviewer.md
+├── rules/                     # Path-scoped standards
+│   ├── security.md
+│   └── testing.md
+└── hooks/                     # Shell scripts for quality gates
+    ├── pre-commit-tests.sh
+    └── jira-ticket-check.sh
 ```
 
 ## Customize
 
-- **Add skills:** Create `.claude/skills/<name>/SKILL.md` with `user_invocable: true`
-- **Add agents:** Create `.claude/agents/<name>.md` with a description for auto-delegation
-- **Add rules:** Create `.claude/rules/<name>.md` with `globs:` for path matching
-- **Edit hooks:** Modify `.claude/settings.json` and scripts in `.claude/hooks/`
+- **Add skills:** Create `skills/<name>/SKILL.md` with `user_invocable: true`
+- **Add agents:** Create `agents/<name>.md` with a description for auto-delegation
+- **Add rules:** Create `rules/<name>.md` with `globs:` for path matching
+- **Edit hooks:** Modify `settings.json` and scripts in `hooks/`

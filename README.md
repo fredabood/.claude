@@ -83,11 +83,7 @@ vibey/
 │       ├── pre-commit-tests.sh
 │       └── jira-ticket-check.sh
 ├── deploy.sh                   # Deploy to target project
-├── README.md                   # This file
-└── examples/                   # Example CLAUDE.md files by project type
-    ├── web-app.md
-    ├── api.md
-    └── homelab.md
+└── README.md                   # This file
 ```
 
 ## Customize

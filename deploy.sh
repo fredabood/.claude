@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy vibey's .claude/ directory and CLAUDE.md template to a target project.
+# Deploy vibey's .claude/ directory to a target project.
 #
 # Usage:
 #   ./deploy.sh /path/to/project
@@ -7,8 +7,7 @@
 #
 # What it does:
 #   1. Copies .claude/ directory (skills, agents, rules, hooks, settings)
-#   2. Copies CLAUDE.md template (if one doesn't exist, or --force)
-#   3. Makes hook scripts executable
+#   2. Makes hook scripts executable
 
 set -euo pipefail
 
@@ -42,14 +41,6 @@ else
   cp -r "$SCRIPT_DIR/.claude" "$TARGET/.claude"
 fi
 
-# Copy CLAUDE.md template
-if [[ ! -f "$TARGET/CLAUDE.md" || "$FORCE" == "--force" ]]; then
-  echo "Copying CLAUDE.md template..."
-  cp "$SCRIPT_DIR/CLAUDE.md" "$TARGET/CLAUDE.md"
-else
-  echo "Skipping CLAUDE.md (already exists). Use --force to overwrite."
-fi
-
 # Make hooks executable
 find "$TARGET/.claude/hooks" -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
 
@@ -57,6 +48,5 @@ echo ""
 echo "Done! Vibey deployed to: $TARGET"
 echo ""
 echo "Next steps:"
-echo "  1. Edit $TARGET/CLAUDE.md with your project's CloudId and conventions"
-echo "  2. Review $TARGET/.claude/settings.json hook configuration"
-echo "  3. Try: /start-task, /status, /implement-feature, /discovery"
+echo "  1. Review $TARGET/.claude/settings.json hook configuration"
+echo "  2. Try: /start-task, /status, /implement-feature, /discovery"

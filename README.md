@@ -55,11 +55,6 @@ Claude automatically delegates to these specialists based on task context:
 ./deploy.sh /path/to/your/project --force
 ```
 
-Then edit `CLAUDE.md` in your project with:
-- Your Jira CloudId
-- Project conventions (code style, git workflow, architecture)
-- Current sprint focus
-
 ## Structure
 
 ```
@@ -87,10 +82,9 @@ vibey/
 │   └── hooks/                  # Shell scripts for quality gates
 │       ├── pre-commit-tests.sh
 │       └── jira-ticket-check.sh
-├── CLAUDE.md                   # Template project instructions
 ├── deploy.sh                   # Deploy to target project
 ├── README.md                   # This file
-└── examples/                   # Example CLAUDE.md files
+└── examples/                   # Example CLAUDE.md files by project type
     ├── web-app.md
     ├── api.md
     └── homelab.md
@@ -102,4 +96,3 @@ vibey/
 - **Add agents:** Create `.claude/agents/<name>.md` with a description for auto-delegation
 - **Add rules:** Create `.claude/rules/<name>.md` with `globs:` for path matching
 - **Edit hooks:** Modify `.claude/settings.json` and scripts in `.claude/hooks/`
-- **Edit CLAUDE.md:** Add project-specific conventions, current focus, team info

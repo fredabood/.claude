@@ -12,17 +12,19 @@ git clone https://github.com/fredabood/vibey.git your-project/.claude
 
 ## What's Included
 
-### Skills (`/slash-commands`)
+### Skills (`/vibey`)
+
+All workflows are accessed through a single `/vibey` command:
 
 | Command | What it does |
 |---------|-------------|
-| `/start-task <KEY>` | Transition Jira ticket to In Progress, set working context |
-| `/complete-task <KEY>` | Run quality gates, summarize work, transition to Done |
-| `/status` | Query Jira for active sprint overview |
-| `/implement-feature` | 7-step dev lifecycle: design → implement → test → security → integrate → document → commit |
-| `/plan-sprint` | 9-step sprint planning with prioritization framework |
-| `/handoff` | Generate session summary for continuity |
-| `/discovery` | Codebase analysis: structure, tech stack, quality, security, roadmap |
+| `/vibey start <KEY>` | Transition Jira ticket to In Progress, set working context |
+| `/vibey complete <KEY>` | Run quality gates, summarize work, transition to Done |
+| `/vibey status [KEY]` | Query Jira for active sprint overview |
+| `/vibey implement "<desc>"` | 7-step dev lifecycle: design → implement → test → security → integrate → document → commit |
+| `/vibey plan [KEY]` | 9-step sprint planning with prioritization framework |
+| `/vibey handoff` | Generate session summary for continuity |
+| `/vibey discover [path]` | Codebase analysis: structure, tech stack, quality, security, roadmap |
 
 ### Subagents (auto-delegated)
 
@@ -56,14 +58,9 @@ Claude automatically delegates to these specialists based on task context:
 ```
 your-project/.claude/
 ├── settings.json              # Hook configuration
-├── skills/                    # 7 user-invocable /slash-commands
-│   ├── start-task/
-│   ├── complete-task/
-│   ├── status/
-│   ├── implement-feature/
-│   ├── plan-sprint/
-│   ├── handoff/
-│   └── discovery/
+├── skills/
+│   └── vibey/                 # Single /vibey command with subcommands
+│       └── SKILL.md
 ├── agents/                    # 6 auto-delegated specialists
 │   ├── security-reviewer.md
 │   ├── test-engineer.md

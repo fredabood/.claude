@@ -14,3 +14,8 @@ Thumbs.db
 *.log
 *.bak
 .cache/
+
+# Project-specific local files (not part of shared config)
+settings.local.json
+.mcp.json
+worktrees/

@@ -1,8 +1,0 @@
-auto_estimation:
-  trigger: on_start_warn
-  require_task_type: true
-  require_complexity: true
-  warn_on_start_missing: true
-  re_estimate_threshold: 0.2
-  exclude_task_types:
-  - documentation

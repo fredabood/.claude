@@ -1,4 +1,0 @@
-include README.md
-include LICENSE
-include vibey/py.typed
-recursive-include vibey *.py

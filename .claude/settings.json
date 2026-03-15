@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/pre-commit-tests.sh",
+            "timeout": 120,
+            "statusMessage": "Running pre-commit quality gates..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash(git commit)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/jira-ticket-check.sh",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}

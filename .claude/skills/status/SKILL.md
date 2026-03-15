@@ -1,0 +1,60 @@
+---
+description: Show project status from Jira — active sprint, ticket states, blockers
+user_invocable: true
+---
+
+# /status
+
+Query Jira for a project overview showing active work, blockers, and progress.
+
+## Usage
+
+```
+/status
+/status <PROJECT-KEY>
+```
+
+Example: `/status` or `/status VIBEY`
+
+## Steps
+
+1. **Determine project** — Use the project key from the argument, or infer from CLAUDE.md / recent git history
+
+2. **Query active sprint** — Use `searchJiraIssuesUsingJql`:
+   ```
+   project = <KEY> AND sprint in openSprints() ORDER BY status ASC, priority DESC
+   ```
+
+3. **Query blockers** — Use `searchJiraIssuesUsingJql`:
+   ```
+   project = <KEY> AND status != Done AND (labels = blocker OR priority = Highest)
+   ```
+
+4. **Format overview** — Display a structured summary:
+
+   ```
+   ## Project Status: <PROJECT-KEY>
+
+   ### Active Sprint: <sprint name>
+   | Key | Summary | Status | Assignee |
+   |-----|---------|--------|----------|
+   | ... | ...     | ...    | ...      |
+
+   ### Progress
+   - To Do: X
+   - In Progress: Y
+   - Done: Z
+
+   ### Blockers
+   - <KEY>: <summary> (reason)
+   ```
+
+5. **Output** — Display the formatted overview.
+
+## Required MCP Tools
+
+- `searchJiraIssuesUsingJql` (cloudId, jql)
+
+## CloudId
+
+Use the project's configured Jira CloudId from CLAUDE.md.

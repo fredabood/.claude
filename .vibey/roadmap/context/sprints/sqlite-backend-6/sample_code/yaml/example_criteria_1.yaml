@@ -1,9 +1,0 @@
-# Criterion referencing another ticket
-criteria:
-  - id: crit_01JB3QVE5NTSK2D...
-    description: Sprint 5 must complete before starting
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: sprint_01JB3QVE2C...  # ULID, not "sqlite-backend-5"
-      required_status: completed

@@ -30,7 +30,16 @@ Example: `/status` or `/status VIBEY`
    project = <KEY> AND status != Done AND (labels = blocker OR priority = Highest)
    ```
 
-4. **Format overview** — Display a structured summary:
+4. **Compute next-eligible tickets:**
+   a. Query: `project = <KEY> AND status = "To Do" AND sprint in openSprints() ORDER BY priority DESC`
+   b. For each candidate, `getJiraIssue(cloudId, issueKey)` to retrieve links
+   c. Check inward "is blocked by" links:
+      - No such links → eligible
+      - All blocking issues Done → eligible (note: "just unblocked")
+      - Otherwise → blocked (record which blockers are unresolved)
+   d. Collect eligible set ordered by priority
+
+5. **Format overview** — Display a structured summary:
 
    ```
    ## Project Status: <PROJECT-KEY>
@@ -47,13 +56,24 @@ Example: `/status` or `/status VIBEY`
 
    ### Blockers
    - <KEY>: <summary> (reason)
+
+   ### Next Eligible (ready to start)
+   | Key | Summary | Priority | Notes |
+   |-----|---------|----------|-------|
+   | ... | ...     | High     | No blockers / Just unblocked |
+
+   ### Blocked (waiting on dependencies)
+   | Key | Summary | Blocked By | Blocker Status |
+   |-----|---------|-----------|----------------|
+   | ... | ...     | KEY-X     | In Progress    |
    ```
 
-5. **Output** — Display the formatted overview.
+6. **Output** — Display the formatted overview.
 
 ## Required MCP Tools
 
 - `searchJiraIssuesUsingJql` (cloudId, jql)
+- `getJiraIssue` (cloudId, issueIdOrKey)
 
 ## CloudId
 

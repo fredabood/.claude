@@ -48,9 +48,36 @@ Run a structured sprint planning process that analyzes current project state, ga
 
 ### Step 4: Map Dependencies
 
-- Identify which tickets block others
-- Determine what can be parallelized
-- Find the critical path (longest sequential chain)
+#### 4a: Discover link types
+Call `getIssueLinkTypes(cloudId)` to discover available types. Identify the "Blocks" type.
+
+#### 4b: Audit existing links
+For each candidate ticket, call `getJiraIssue(cloudId, issueKey)` and inspect `issuelinks`. Record existing "blocks"/"is blocked by" relationships. Flag circular dependencies as errors.
+
+#### 4c: Identify missing dependencies
+Based on the feasibility assessment in Step 3, identify tickets that should have dependency links but don't. Create each:
+```
+createIssueLink(cloudId, type: { name: "Blocks" },
+  outwardIssue: { key: "<BLOCKER>" },
+  inwardIssue: { key: "<BLOCKED>" })
+```
+
+#### 4d: Build dependency graph
+Document the full graph:
+```
+KEY-1 blocks KEY-2 — <reason>
+KEY-3 (no dependencies)
+```
+
+#### 4e: Critical path
+Identify the longest sequential chain. This determines minimum elapsed time.
+```
+Critical path: KEY-1 → KEY-2 → KEY-5 (3 tickets)
+Parallelizable: KEY-3, KEY-4 (can start immediately)
+```
+
+#### 4f: Next-eligible tickets
+From the sprint backlog, identify To Do tickets where all "is blocked by" links are Done (or no blockers). These can start immediately.
 
 ### Step 5: Prioritize
 
@@ -74,24 +101,47 @@ Produce a structured plan:
 **Duration:** <X weeks>
 **Goal:** <one-line sprint goal>
 
+### Definition of Done
+- All acceptance criteria verified with evidence
+- Tests pass (unit + integration)
+- No security regressions
+- Documentation updated where applicable
+- Post-mortem posted to ticket
+- Code reviewed
+
 ### Tickets (ordered by priority)
-| Key | Summary | Priority | Estimate | Dependencies |
-|-----|---------|----------|----------|-------------|
-| ... | ...     | High     | 2d       | None        |
+| Key | Summary | Priority | Estimate | Dependencies | Criteria Status |
+|-----|---------|----------|----------|-------------|-----------------|
+| ... | ...     | High     | 2d       | None        | Has criteria / Needs criteria |
 
 ### Milestones
 - Week 1: <milestone>
 - Week 2: <milestone>
 
+### Dependency Graph
+KEY-1 blocks KEY-2 — <reason>
+...
+
+### Critical Path
+KEY-X → KEY-Y → KEY-Z (N sequential tickets)
+
+### Next Eligible (ready to start)
+| Key | Summary | Priority | Notes |
+|-----|---------|----------|-------|
+| ... | ...     | High     | No blockers / Just unblocked |
+
 ### Risks
 - <risk and mitigation>
 ```
+
+**Acceptance criteria enforcement:** For any backlog item lacking acceptance criteria, draft them during planning and update the Jira ticket using `addCommentToJiraIssue` or `editJiraIssue`.
 
 ### Step 7: Update Jira
 
 - Create any new tickets identified during planning
 - Update priorities and sprint assignments in Jira
 - Link dependent tickets
+- Ensure all planned tickets have acceptance criteria
 
 ### Step 8: Update CLAUDE.md
 
@@ -109,3 +159,6 @@ Produce a structured plan:
 - `createJiraIssue` (cloudId, fields)
 - `editJiraIssue` (cloudId, issueIdOrKey, fields)
 - `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
+- `getJiraIssue` (cloudId, issueIdOrKey)
+- `createIssueLink` (cloudId, linkType, inwardIssue, outwardIssue)
+- `getIssueLinkTypes` (cloudId)

@@ -1,14 +1,29 @@
 ---
-description: Testing standards for test files and test directories
+description: Testing standards and behavioral instructions — tests are required for all implementation work, not optional
 globs:
-  - "**/*.test.*"
-  - "**/*.spec.*"
-  - "**/tests/**"
-  - "**/test_*"
-  - "**/__tests__/**"
+  - "**/*"
 ---
 
 # Testing Rules
+
+## Behavioral Instructions (always active)
+
+These apply to all implementation work, not just test files:
+
+- **Tests are required, not optional.** Before marking work complete, verify:
+  - Unit tests cover the changed business logic (target 90%+ on new code)
+  - Integration tests exist for any new external service interactions
+  - Edge cases and error paths are tested
+
+- **Test-first when possible:**
+  - For bug fixes, write a failing test that reproduces the bug before fixing it
+  - For new features, write test scenarios during the planning phase
+
+- **Testing is part of acceptance criteria:** Every ticket's acceptance criteria must include at least one test-based criterion (`Tests pass: <command>`).
+
+- **On `/complete-task`:** The test suite must pass as a hard gate. Test coverage on changed files must not decrease.
+
+## Standards for Test Code
 
 When writing or modifying tests:
 

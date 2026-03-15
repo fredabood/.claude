@@ -15,7 +15,7 @@ Walk through a complete feature development lifecycle in 7 steps with quality ga
 ```
 
 Example: `/implement-feature "Add user profile page with avatar upload"`
-Example: `/implement-feature VIBEY-42`
+Example: `/implement-feature PROJ-42`
 
 ## Steps
 
@@ -23,10 +23,21 @@ Execute each step sequentially. Do not proceed to the next step until the curren
 
 ### Step 1: Design
 
+- **Ensure a ticket exists:**
+  - If input is a ticket key (e.g., `PROJ-42`), fetch it with `getJiraIssue`
+  - If input is a description, search Jira for an existing ticket. If none found, create one using `/create-ticket` logic.
+- **Transition to In Progress** if not already (transition ID `"21"`)
+- **Check acceptance criteria** — If the ticket has no acceptance criteria, draft them and confirm with the user before proceeding
 - Understand the requirements (from the description or Jira ticket)
 - Identify affected files and components
 - Choose the implementation approach
 - Note dependencies and risks
+- **Post implementation plan to Jira** — Use `addCommentToJiraIssue` to post a plan comment including:
+  - Files to modify
+  - Approach and rationale
+  - Testing strategy (types of tests, specific scenarios, commands)
+  - Documentation plan (what docs/memory to update)
+  - Risks and mitigations
 - **Output:** Brief design summary with file list and approach
 
 ### Step 2: Implement
@@ -40,6 +51,7 @@ Execute each step sequentially. Do not proceed to the next step until the curren
 
 - Write tests for the new functionality
 - Cover happy path, edge cases, and error paths
+- For bug fixes, start with a failing test that reproduces the bug
 - Run the full test suite to check for regressions
 - **Quality check:** All tests pass, coverage adequate for business logic
 
@@ -69,16 +81,38 @@ Review the changed code against these 9 areas:
 ### Step 6: Documentation
 
 - Update relevant documentation (README, API docs, inline comments)
+- Update docs in `docs/` if operational behavior changed
+- Update memory files if project-level knowledge or decisions changed
 - Only add docs where the code isn't self-explanatory
 - **Quality check:** Key behaviors and non-obvious decisions documented
+
+### Step 6.5: Update Jira
+
+Post a milestone comment to Jira using `addCommentToJiraIssue` summarizing:
+- What was implemented
+- Tests added
+- Documentation updated
+- Any deviations from the plan posted in Step 1
 
 ### Step 7: Commit
 
 - Review all changes with `git diff`
 - Verify no secrets in staged files
-- Create a descriptive commit with ticket reference
+- Create a descriptive commit with ticket reference in format `KEY-123: <description>`
 - **Quality check:** Clean commit, all tests still pass
 
 ## Gate Policy
 
 If any quality check fails, stop and fix the issue before proceeding. Do not skip gates. If the security review finds critical issues, return to Step 2 and fix them.
+
+## Required MCP Tools
+
+- `getJiraIssue` (cloudId, issueIdOrKey)
+- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id: "21" })
+- `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
+- `searchJiraIssuesUsingJql` (cloudId, jql)
+- `createJiraIssue` (cloudId, fields)
+
+## CloudId
+
+Use the project's configured Jira CloudId from CLAUDE.md.

@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Pre-commit: validates frontmatter on memory vault .md files.
+# Exit 0 = allow, Exit 2 = block.
+#
+# This hook is triggered by settings.json PreToolUse on "Bash(git commit)".
+# It only runs when the commit involves the memory submodule.
+
+set -euo pipefail
+
+# Only run on memory submodule commits
+if [[ "${TOOL_INPUT:-}" != *"submodules/memory"* && "${TOOL_INPUT:-}" != *"memory"* ]]; then
+  exit 0
+fi
+
+# Find staged .md files in the memory submodule
+MEMORY_DIR="submodules/memory"
+if [[ ! -d "$MEMORY_DIR" ]]; then
+  exit 0
+fi
+
+cd "$MEMORY_DIR"
+
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.md' 2>/dev/null || true)
+if [[ -z "$STAGED_FILES" ]]; then
+  exit 0
+fi
+
+ERRORS=0
+while IFS= read -r file; do
+  [[ -f "$file" ]] || continue
+
+  # Check frontmatter exists
+  if [[ "$(head -1 "$file")" != "---" ]]; then
+    echo "ERROR: $file — missing frontmatter (no opening ---)"
+    ERRORS=$((ERRORS + 1))
+    continue
+  fi
+
+  # Extract frontmatter block (lines between first and second ---)
+  FM=$(awk '/^---$/{n++; if(n==2) exit} n==1{print}' "$file")
+
+  if [[ -z "$FM" ]]; then
+    echo "ERROR: $file — unclosed frontmatter block (missing closing ---)"
+    ERRORS=$((ERRORS + 1))
+    continue
+  fi
+
+  # Check required fields
+  for field in title tags created; do
+    if ! echo "$FM" | grep -q "^${field}:"; then
+      echo "ERROR: $file — missing required field: $field"
+      ERRORS=$((ERRORS + 1))
+    fi
+  done
+
+  # Validate created date format
+  CREATED=$(echo "$FM" | grep "^created:" | sed 's/created: *//' | sed 's/^["'"'"']//;s/["'"'"']$//')
+  if [[ -n "$CREATED" ]] && ! echo "$CREATED" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+    echo "ERROR: $file — created date not in YYYY-MM-DD format: $CREATED"
+    ERRORS=$((ERRORS + 1))
+  fi
+done <<< "$STAGED_FILES"
+
+if [[ $ERRORS -gt 0 ]]; then
+  echo ""
+  echo "Vault frontmatter validation failed ($ERRORS errors)."
+  echo "Run /obsidian-lint --fix to auto-repair, or fix manually."
+  exit 2
+fi
+
+echo "Vault frontmatter: all checks passed."
+exit 0

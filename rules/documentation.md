@@ -18,9 +18,13 @@ Persist the decision and rationale to the appropriate location:
 
 | Decision scope | Where to persist |
 |---|---|
-| Ticket-specific (approach choice, trade-off for this task) | Jira comment on the ticket |
-| Project-scoped (convention, pattern, architectural decision) | Memory file in the project memory directory |
-| Operational (how to run, deploy, configure, troubleshoot) | `docs/` directory |
+| Ticket-specific (approach, trade-off) | Jira comment on the ticket |
+| Claude behavioral (user prefs, feedback, corrections) | Auto-memory (`~/.claude/projects/.../memory/`) |
+| Architectural decision (chose X over Y because Z) | Vault → `submodules/memory/homelab/decisions/` |
+| Operational knowledge (how to run, deploy, configure) | Vault → `submodules/memory/homelab/knowledge/` |
+| Research findings (evaluation, comparison, analysis) | Vault → `submodules/memory/homelab/research/` |
+| Session continuity (handoff context) | Vault → `submodules/memory/homelab/sessions/` |
+| Workflow conventions (Jira config, commit format) | CLAUDE.md (rarely) |
 
 ## On session end or handoff
 
@@ -29,7 +33,8 @@ Ensure decisions and learnings from the session are persisted — not just outpu
 ## Documentation locations
 
 - **`docs/`** — Operational docs: how-tos, architecture overviews, runbooks. Canonical reference for how the system works.
-- **Memory files** — Long-term knowledge, cross-session decisions, lessons learned. Inform future Claude sessions.
+- **Auto-memory** (`~/.claude/projects/.../memory/`) — Claude behavioral context: user prefs, feedback, references. Auto-loaded, zero friction.
+- **Vault** (`submodules/memory/`) — Durable project knowledge: decisions, research, operational knowledge, session handoffs. Git-backed, human-readable.
 - **Jira comments** — Ticket-specific context: plans, milestones, post-mortems, verification reports. Audit trail for individual work items.
 - **CLAUDE.md** — Project-level workflow conventions and Jira configuration. Rarely changes; only updated when conventions evolve.
 

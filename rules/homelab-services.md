@@ -50,8 +50,6 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | MinIO | minio | (staging only) | minio:9000 (S3), minio:9001 (console) | Object storage | AWS S3 API; bucket `jira-activity` |
 | qBittorrent | qbittorrent | host: localhost:8081 | gluetun:8080 | Torrent client (VPN via gluetun) | Web API `/api/v2/` |
 
-> **Note:** Qdrant is defined in `stacks/llm-stack.yml` but commented out — not currently deployed.
-
 ### API Gateway (`api.dirtydata.studio`)
 
 | Path prefix | Strips prefix | Routes to |
@@ -59,7 +57,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | `/ollama/*` | yes | ollama:11434 |
 | `/mlflow/*` | yes | mlflow:5000 |
 
-The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/qdrant/*` and `/s3/*`.
+The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s3/*`.
 
 ---
 

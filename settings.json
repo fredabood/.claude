@@ -64,6 +64,46 @@
             "statusMessage": "Validating vault frontmatter..."
           }
         ]
+      },
+      {
+        "matcher": "Bash(docker stop *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/docker-safety-check.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(docker rm *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/docker-safety-check.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(docker rmi *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/docker-safety-check.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(docker kill *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/docker-safety-check.sh",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "PostToolUse": [

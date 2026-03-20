@@ -32,6 +32,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Mealie | mealie | mealie.dirtydata.studio | mealie:9000 | Recipe manager | REST API |
 | Home Assistant | homeassistant | hass.dirtydata.studio | homeassistant:8123 | Home automation | REST API + long-lived tokens |
 | Homebridge | homebridge | homebridge.dirtydata.studio | homebridge:8581 | HomeKit bridge | Web UI |
+| Twenty CRM | twenty-server | crm.dirtydata.studio | twenty-server:3000 | Self-hosted CRM | Web UI + REST API |
 | Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Jira dependency visualization | FastAPI REST `/api/graph` |
 | SearXNG | searxng | search.dirtydata.studio | searxng:8080 | Private search | REST `/search?q=` |
 | FreshRSS | freshrss | rss.dirtydata.studio | freshrss:80 | RSS reader | Web UI + Fever API |
@@ -113,6 +114,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
   - `memory-stack.yml` — postgres-memory
   - `data-platform-stack.yml` — MLflow, n8n, qBittorrent (via gluetun)
   - `media-stack.yml` — Jellyfin, Sonarr, Radarr, Prowlarr, Mealie
+  - `crm-stack.yml` — Twenty CRM
   - `jira-graph-stack.yml` — jira-graph
   - `smarthome-stack.yml` — Home Assistant, Homebridge
   - `privacy-stack.yml` — SearXNG, FreshRSS, Calibre-Web, Radicale

@@ -32,7 +32,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Mealie | mealie | mealie.dirtydata.studio | mealie:9000 | Recipe manager | REST API |
 | Home Assistant | homeassistant | hass.dirtydata.studio | homeassistant:8123 | Home automation | REST API + long-lived tokens |
 | Homebridge | homebridge | homebridge.dirtydata.studio | homebridge:8581 | HomeKit bridge | Web UI |
-| Jira-Graph | jira-graph | jira-graph.dirtydata.studio | jira-graph:8090 | Jira dependency visualization | FastAPI REST `/api/graph` |
+| Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Jira dependency visualization | FastAPI REST `/api/graph` |
 | SearXNG | searxng | search.dirtydata.studio | searxng:8080 | Private search | REST `/search?q=` |
 | FreshRSS | freshrss | rss.dirtydata.studio | freshrss:80 | RSS reader | Web UI + Fever API |
 | Calibre-Web | calibre-web | books.dirtydata.studio | calibre-web:8083 | Ebook library | Web UI |

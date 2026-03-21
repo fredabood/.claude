@@ -62,6 +62,18 @@
             "command": ".claude/hooks/memory-frontmatter-check.sh",
             "timeout": 30,
             "statusMessage": "Validating vault frontmatter..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/ticket-reference-check.sh",
+            "timeout": 10,
+            "statusMessage": "Checking for work item reference..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/workflow-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Checking workflow gates..."
           }
         ]
       },
@@ -104,16 +116,37 @@
             "timeout": 10
           }
         ]
-      }
-    ],
-    "PostToolUse": [
+      },
       {
-        "matcher": "Bash(git commit)",
+        "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/jira-ticket-check.sh",
-            "async": true
+            "command": ".claude/hooks/workflow-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Checking workflow gates..."
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/workflow-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Checking workflow gates..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__claude_ai_Atlassian__transitionJiraIssue",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/workflow-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Checking workflow gates..."
           }
         ]
       }

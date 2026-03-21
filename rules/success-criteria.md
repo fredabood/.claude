@@ -6,6 +6,8 @@ globs:
 
 # Success Criteria — Deterministic Acceptance Standards
 
+> Invoke `/workflow` for Phases 2 (criteria drafting) and 6 (verification) with deterministic hook enforcement.
+
 Every Plane work item must have deterministic, measurable acceptance criteria. Enforce this automatically.
 
 ## Before starting work (soft gate)

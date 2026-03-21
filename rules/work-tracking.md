@@ -6,6 +6,8 @@ globs:
 
 # Work Tracking — Plane-First Behavior
 
+> Invoke `/workflow` for full gated lifecycle with deterministic enforcement. This rule covers work item search/create mechanics and is active in all sessions.
+
 All implementation work is tracked in Plane by default. Follow these behaviors automatically without waiting for the user to invoke a skill.
 
 ## On any implementation request
@@ -22,20 +24,6 @@ Before writing code:
    - Mix of setup/infrastructure and feature work?
 
    If decomposition is warranted, present the proposed breakdown to the user. Use `/create-ticket` for each piece, then create "blocks" relations between them using `mcp__plane__create_work_item_relation`.
-
-## During implementation
-
-Post Plane comments automatically when:
-- A **design decision** is made (especially deviations from the work item description)
-- The **approach changes** from what was originally planned
-- A **blocker** is encountered
-- A **significant milestone** is reached (e.g., tests passing, migration applied, integration working)
-
-Use `mcp__plane__create_work_item_comment` with a concise Markdown summary.
-
-## On commit
-
-Ensure every commit message includes the active work item identifier in the format `KEY-123: <description>`.
 
 ## Stale in-progress work items
 

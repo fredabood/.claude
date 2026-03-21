@@ -6,6 +6,8 @@ globs:
 
 # Planning — Structured Design Requirements
 
+> Invoke `/workflow` for Phase 3 (plan posting) with deterministic hook enforcement — code edits are blocked until the plan is posted.
+
 When asked to plan, design, or architect a solution, the plan **must** include all five sections below. Plans are not just conversation output — they are posted to the relevant Plane work item.
 
 ## Required plan sections

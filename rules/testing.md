@@ -6,6 +6,8 @@ globs:
 
 # Testing Rules
 
+> Invoke `/workflow` for Phase 5 (implementation) with gated testing enforcement — tests must pass before proceeding.
+
 ## Behavioral Instructions (always active)
 
 These apply to all implementation work, not just test files:

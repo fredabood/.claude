@@ -6,6 +6,8 @@ globs:
 
 # Documentation — First-Class Concern
 
+> Invoke `/workflow` for Phase 8 (memory & knowledge persistence) with gated enforcement.
+
 Documentation is not a final step — it happens throughout the workflow. Follow these behaviors automatically.
 
 ## On any code change

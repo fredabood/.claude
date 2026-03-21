@@ -31,6 +31,16 @@ git clone https://github.com/fredabood/vibey.git your-project/.claude
 | `/sync-homelab` | Regenerate homelab-services.md from Caddyfile |
 | `/deploy-service` | Guided new service deployment workflow |
 
+### Commands (project-scoped)
+
+| Command | What it does |
+|---------|-------------|
+| `/sprint-next` | Top 3 unblocked tickets in current sprint |
+| `/check-blockers` | All tickets blocked by unresolved issues |
+| `/stack-status` | Docker container health across all stacks |
+| `/context` | Active ticket, recent commits, modified files |
+| `/deploy-stack` | Guided stack deployment with verification |
+
 ### Subagents (auto-delegated)
 
 Claude automatically delegates to these specialists based on task context:

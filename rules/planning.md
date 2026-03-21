@@ -1,5 +1,5 @@
 ---
-description: Planning mode behavior — every plan must include Plane tracking, testing strategy, documentation plan, success criteria, and risk assessment
+description: Planning mode behavior — every plan must include Jira tracking, testing strategy, documentation plan, success criteria, and risk assessment
 globs:
   - "**/*"
 ---
@@ -8,15 +8,15 @@ globs:
 
 > Invoke `/workflow` for Phase 3 (plan posting) with deterministic hook enforcement — code edits are blocked until the plan is posted.
 
-When asked to plan, design, or architect a solution, the plan **must** include all five sections below. Plans are not just conversation output — they are posted to the relevant Plane work item.
+When asked to plan, design, or architect a solution, the plan **must** include all five sections below. Plans are not just conversation output — they are posted to the relevant Jira ticket.
 
 ## Required plan sections
 
-### 1. Plane Tracking Plan
+### 1. Jira Tracking Plan
 
 #### Decomposition evaluation
 
-Before creating work items, evaluate whether the work should be decomposed:
+Before creating tickets, evaluate whether the work should be decomposed:
 
 - **Multiple codebase areas:** Does the work touch independent parts of the system?
 - **Independent acceptance criteria:** Can groups of criteria be verified in isolation?
@@ -24,19 +24,19 @@ Before creating work items, evaluate whether the work should be decomposed:
 - **Session scope:** Would the work take more than one session?
 - **Mixed types:** Does it include both bug fixes and features, or both infrastructure and user-facing changes?
 
-If two or more apply, decompose into multiple work items. Use sub-items when pieces are parts of one story; independent linked items when each has standalone value.
+If two or more apply, decompose into multiple tickets. Use sub-tasks when pieces are parts of one story; independent linked tickets when each has standalone value.
 
-#### Work item structure
+#### Ticket structure
 
-- What work items to create (with type as appropriate)
-- How they relate to existing epics/modules
-- Cycle (sprint) assignment (if applicable)
+- What tickets to create (with type as appropriate)
+- How they relate to existing epics
+- Sprint assignment (if applicable)
 
 #### Dependency mapping
 
-For each pair of work items where one must complete before another can start:
+For each pair of tickets where one must complete before another can start:
 
-1. Create relation: `mcp__plane__create_work_item_relation(work_item_id=<BLOCKER>, related_issue=<BLOCKED>, relation_type="blocks")`
+1. Create link: `mcp__claude_ai_Atlassian__createIssueLink(type="Blocks", outwardIssue=<BLOCKER>, inwardIssue=<BLOCKED>)`
 2. Document each link: `BLOCKER blocks BLOCKED — <reason>`
 
 Identify the **critical path** — the longest chain of sequential dependencies.
@@ -51,7 +51,7 @@ Identify the **critical path** — the longest chain of sequential dependencies.
 ### 3. Documentation Plan
 - What docs in `docs/` need creating or updating
 - What memory entries to persist for future sessions
-- What Plane comments to post
+- What Jira comments to post
 - Specify the audience for each doc artifact (ops team, future sessions, ticket reviewers)
 
 ### 4. Success Criteria
@@ -68,7 +68,7 @@ Identify the **critical path** — the longest chain of sequential dependencies.
 ## Posting plans
 
 After the plan is drafted and confirmed with the user:
-1. Post the full plan as a Plane comment on the relevant work item using `mcp__plane__create_work_item_comment`
+1. Post the full plan as a Jira comment on the relevant ticket using `mcp__claude_ai_Atlassian__addCommentToJiraIssue`
 2. Structure as ordered phases with dependencies clearly marked
 3. Include estimated effort where possible
 4. Include the dependency graph and critical path
@@ -76,5 +76,5 @@ After the plan is drafted and confirmed with the user:
 ## Plan updates
 
 If the plan changes during implementation:
-1. Post an updated plan comment to Plane noting what changed and why
+1. Post an updated plan comment to Jira noting what changed and why
 2. Update acceptance criteria if scope changed

@@ -34,13 +34,13 @@ Two memory systems exist. Each has a clear purpose — do not cross the boundary
 
 | Decision scope | Where |
 |---|---|
-| Ticket-specific (approach, trade-off) | Plane comment |
+| Ticket-specific (approach, trade-off) | Jira comment |
 | Claude behavioral (user prefs, feedback, corrections) | Auto-memory |
 | Architectural decision (chose X over Y because Z) | Vault → `decisions/` |
 | Operational knowledge (how to run, deploy, configure) | Vault → `knowledge/` |
 | Research findings (evaluation, comparison, analysis) | Vault → `research/` |
 | Session continuity (handoff context) | Vault → `sessions/` |
-| Workflow conventions (Plane config, commit format) | CLAUDE.md (rarely) |
+| Workflow conventions (Jira config, commit format) | CLAUDE.md (rarely) |
 
 ## Proactive Persistence Triggers
 
@@ -55,12 +55,12 @@ Two memory systems exist. Each has a clear purpose — do not cross the boundary
 
 5. **Session handoff** → `sessions/` — only if the session has meaningful context for continuity
 6. **Operational doc changed** → update existing file in `knowledge/` — keep docs in sync
-7. **Sprint planned** → `planning/` — only if not already tracked in Plane
+7. **Sprint planned** → `planning/` — only if not already tracked in Jira
 
 ### Never persist to vault
 
 - Test results, CI output, or transient state
-- Information already in Plane (don't duplicate)
+- Information already in Jira (don't duplicate)
 - Information derivable from code or git history
 - User preferences or behavioral corrections (those go to auto-memory)
 
@@ -68,7 +68,7 @@ Two memory systems exist. Each has a clear purpose — do not cross the boundary
 
 Before writing to the vault, evaluate:
 
-- **Durability**: Will this be relevant in 30 days? If not, it's ephemeral → Plane comment at most.
+- **Durability**: Will this be relevant in 30 days? If not, it's ephemeral → Jira comment at most.
 - **Uniqueness**: Does this already exist in the vault? Search titles/aliases first.
 - **Actionability**: Can a future session or human act on this? If it's just an observation with no practical use, skip it.
 

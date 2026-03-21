@@ -33,8 +33,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Home Assistant | homeassistant | hass.dirtydata.studio | homeassistant:8123 | Home automation | REST API + long-lived tokens |
 | Homebridge | homebridge | homebridge.dirtydata.studio | homebridge:8581 | HomeKit bridge | Web UI |
 | Twenty CRM | twenty-server | crm.dirtydata.studio | twenty-server:3000 | Self-hosted CRM | Web UI + REST API |
-| Plane | plane-proxy | plane.dirtydata.studio | plane-proxy:80 | Project management | Web UI + REST API v1 |
-| Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (Plane-backed) | FastAPI REST `/api/graph` |
+| Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (Jira-backed) | FastAPI REST `/api/graph` |
 | SearXNG | searxng | search.dirtydata.studio | searxng:8080 | Private search | REST `/search?q=` |
 | FreshRSS | freshrss | rss.dirtydata.studio | freshrss:80 | RSS reader | Web UI + Fever API |
 | Calibre-Web | calibre-web | books.dirtydata.studio | calibre-web:8083 | Ebook library | Web UI |
@@ -49,7 +48,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 |---|---|---|---|---|---|
 | Prometheus | prometheus | (internal only) | prometheus:9090 | Metrics scraping | HTTP API `/api/v1/query` |
 | Alertmanager | alertmanager | (internal only) | alertmanager:9093 | Alert routing | HTTP API |
-| postgres-memory | postgres-memory | host: localhost:5432 | postgres-memory:5432 | Agent memory + Plane data | asyncpg / psql |
+| postgres-memory | postgres-memory | host: localhost:5432 | postgres-memory:5432 | Agent memory + Jira data | asyncpg / psql |
 | MinIO | minio | (staging only) | minio:9000 (S3), minio:9001 (console) | Object storage | AWS S3 API; bucket `jira-activity` |
 | qBittorrent | qbittorrent | host: localhost:8081 | gluetun:8080 | Torrent client (VPN via gluetun) | Web API `/api/v2/` |
 
@@ -68,11 +67,11 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 | Server | What it can do | Key use cases |
 |---|---|---|
-| plane | Create/update/list/transition work items, comments, relations, cycles (sprints), modules, states | All Plane ops — workspace `homelab` at plane.dirtydata.studio (API: localhost:8091) |
+| atlassian | Create/edit/transition Jira issues, add comments, create issue links, search via JQL | All Jira ops — project `LAB` at fredabood.atlassian.net |
 | slack | Send/read messages, search channels, create/update canvases | Notifications, async comms, status updates |
 | obsidian | Read/write/search vault notes | Knowledge base at `submodules/memory/` |
 | google-workspace | Gmail, Calendar, Contacts | Email, scheduling |
-| postgres-cos | Read-only SQL on `agent_memory` DB | Query `plane.*` schema, inspect data |
+| postgres-cos | Read-only SQL on `agent_memory` DB | Query `jira.*` schema, inspect data |
 
 ---
 
@@ -80,9 +79,9 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 ### postgres-memory (`agent_memory` database)
 
-- **`plane` schema:** `issues`, `issue_links`, `sprints`, `status_transitions`, `sync_metadata`, `activity_log`, `issue_changelog`
-- **`jira` schema:** (legacy, archived) `issues`, `issue_links`, `sprints`, `status_transitions`, `sync_log`
-- **`public` schema:** pgvector tables for embeddings, `migration_key_map` (Jira→Plane ID mapping)
+- **`jira` schema:** `issues`, `issue_links`, `sprints`, `status_transitions`, `sync_metadata`, `activity_log`, `issue_changelog` — active, used by jira-graph
+- **`plane` schema:** (archived) mirror of jira schema from Plane CE experiment — 30-day retention then drop
+- **`public` schema:** pgvector tables for embeddings, `migration_key_map` (Jira↔Plane ID mapping), `plane_to_jira_key_map` (reverse migration mapping)
 - **Connection (from host):** `postgresql://postgres@localhost:5432/agent_memory`
 - **Connection (from container):** `postgresql://postgres@postgres-memory:5432/agent_memory`
 - **MCP postgres-cos is read-only.** For writes: `docker exec postgres-memory psql -U postgres -d agent_memory`
@@ -91,7 +90,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 - **S3 API:** `minio:9000` (internal) — AWS S3 SDK compatible
 - **Console:** `minio:9001` (internal)
-- **Known buckets:** `jira-activity` (legacy n8n sync payloads), `plane-uploads` (Plane CE file storage)
+- **Known buckets:** `jira-activity` (legacy n8n sync payloads)
 - **Client:** use `mc` (MinIO client) inside containers, or AWS SDK with `endpoint_url=http://minio:9000`
 
 ### n8n
@@ -118,8 +117,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
   - `data-platform-stack.yml` — MLflow, n8n, qBittorrent (via gluetun)
   - `media-stack.yml` — Jellyfin, Sonarr, Radarr, Prowlarr, Mealie
   - `crm-stack.yml` — Twenty CRM
-  - `plane-stack.yml` — Plane CE (project management)
-  - `jira-graph-stack.yml` — jira-graph (dependency visualization, reads from plane.* schema)
+  - `jira-graph-stack.yml` — jira-graph (dependency visualization, reads from jira.* schema)
   - `smarthome-stack.yml` — Home Assistant, Homebridge
   - `privacy-stack.yml` — SearXNG, FreshRSS, Calibre-Web, Radicale
   - `immich-stack.yml` — Immich

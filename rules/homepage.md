@@ -37,7 +37,7 @@ non-deprecated stack file, it belongs on the homepage.
 |-------|----------|---------|
 | Management | Portainer, Uptime Kuma, Grafana (if routed) | 2–3 |
 | AI Services | Open WebUI, Ollama | 2–3 |
-| Development | Code Server, MLflow, n8n, Jira Graph | 3–4 |
+| Development | Code Server, MLflow, n8n, Plane, Jira Graph | 3–4 |
 | Storage | MinIO Console, S3 API | 2 |
 | Media | Jellyfin, Sonarr, Radarr, Prowlarr, qBittorrent, Mealie | 5–6 |
 | Privacy | Nextcloud, Immich, SearXNG, FreshRSS, Calibre-Web, Radicale | 3 |

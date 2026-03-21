@@ -71,6 +71,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 | obsidian | Read/write/search vault notes | Knowledge base at `submodules/memory/` |
 | google-workspace | Gmail, Calendar, Contacts | Email, scheduling |
 | postgres-cos | Read-only SQL on `agent_memory` DB | Query `jira.*` schema, inspect data |
+| plane | Create/update/list/transition issues, add comments, create issue links, manage cycles (sprints), modules, states | All Plane ops — workspace `homelab` at staging-plane.dirtydata.studio |
 
 ---
 

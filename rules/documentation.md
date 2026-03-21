@@ -38,6 +38,25 @@ Ensure decisions and learnings from the session are persisted — not just outpu
 - **Jira comments** — Ticket-specific context: plans, milestones, post-mortems, verification reports. Audit trail for individual work items.
 - **CLAUDE.md** — Project-level workflow conventions and Jira configuration. Rarely changes; only updated when conventions evolve.
 
+## Vault: update existing vs. create new
+
+Before writing to the vault, search for an existing note on the same topic:
+- Use the obsidian MCP or `searchConfluenceUsingCql` to search by title and aliases
+- If a relevant note exists: **update it** — add new information, correct outdated sections
+- If no relevant note exists: **create a new one** using `/vault-add`
+
+**Update** an existing note when:
+- Adding more detail to the same decision, technology, or entity
+- Correcting or superseding previously recorded information
+- Appending a new finding to ongoing research
+
+**Create** a new note when:
+- The content is a distinct new decision (different trade-off, different date)
+- A new research finding stands independently from prior analysis
+- A new session handoff with its own context
+
+When in doubt, prefer updating over creating — fragmentation makes future retrieval harder.
+
 ## What not to document
 
 - Don't add comments to self-explanatory code

@@ -118,6 +118,72 @@
         ]
       },
       {
+        "matcher": "Bash(cat .env*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/env-secret-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking .env access..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(grep * .env*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/env-secret-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking .env access..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(head * .env*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/env-secret-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking .env access..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(tail * .env*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/env-secret-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking .env access..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(source .env*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/env-secret-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking .env access..."
+          }
+        ]
+      },
+      {
+        "matcher": "Read(.env)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/env-secret-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking .env access..."
+          }
+        ]
+      },
+      {
         "matcher": "Edit",
         "hooks": [
           {

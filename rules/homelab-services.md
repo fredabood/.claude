@@ -51,7 +51,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | postgres-memory | postgres-memory | host: localhost:5432 | postgres-memory:5432 | Agent memory + Jira data | asyncpg / psql |
 | MinIO | minio | (staging only) | minio:9000 (S3), minio:9001 (console) | Object storage | AWS S3 API; bucket `jira-activity` |
 | qBittorrent | qbittorrent | host: localhost:8081 | gluetun:8080 | Torrent client (VPN via gluetun) | Web API `/api/v2/` |
-| Claude Remote | claude-remote | Tailscale only (port 7681) | claude-remote:7681 | Claude Code web terminal | ttyd web UI + basicauth |
+| Claude Remote | claude-remote | claude.ai/code (no direct port) | outbound HTTPS only | Claude Code Remote Control server | claude.ai/code + Claude mobile app |
 
 ### API Gateway (`api.dirtydata.studio`)
 

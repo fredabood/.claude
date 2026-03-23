@@ -1,5 +1,5 @@
 ---
-description: Project management agent — ticket creation, work breakdown, prioritization, progress tracking, Definition of Done enforcement
+description: Project management agent — ticket creation, work breakdown, prioritization, progress tracking, Definition of Done enforcement, taxonomy awareness
 auto_triggers:
   - ticket creation
   - sprint planning
@@ -84,6 +84,28 @@ Every ticket must meet these criteria before transitioning to Done:
 - Documentation updated where applicable
 - Post-mortem posted to ticket
 - Code reviewed
+
+### Taxonomy Awareness
+
+Every ticket must have exactly one work pattern label and one infrastructure layer label per `.claude/rules/label-taxonomy.md`.
+
+**Label Application:**
+- When creating tickets: always include taxonomy labels in the `createJiraIssue` payload
+- Work pattern: one of `scraper`, `agent`, `workflow`, `deployment`, `pipeline`, `migration`, `platform`
+- Infrastructure layer: one of `L1-platform`, `L2-services`, `L3-framework`, `L4-domain`
+- Domain projects (REAL, COS, GAME, HOME, FOOD, WEB) → `L4-domain` automatically
+- LAB project → infer L1/L2/L3 from content
+
+**Template Detection:**
+- When decomposing work, check the ticket description against the 7 work pattern keyword hints in the label-taxonomy rule
+- If a pattern matches, offer the standard decomposition template (e.g., scraper → 4-step, agent → 5-step)
+- Each template step becomes a separate ticket with Blocks links
+
+**Layer-Direction Validation:**
+- Blocks links must flow downward: L1 → L2 → L3 → L4
+- Before creating a cross-project Blocks link, verify the blocker's layer ≤ the blocked ticket's layer
+- Flag and warn if a dependency flows upward (L4 blocking L1/L2/L3)
+- Reference the agent routing table in the label-taxonomy rule for agent assignment suggestions
 
 ### Next-Eligible Resolution
 

@@ -215,6 +215,28 @@
             "statusMessage": "Checking workflow gates..."
           }
         ]
+      },
+      {
+        "matcher": "mcp__claude_ai_Atlassian__createJiraIssue",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/label-taxonomy-check.sh",
+            "timeout": 10,
+            "statusMessage": "Validating taxonomy labels..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__claude_ai_Atlassian__editJiraIssue",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/label-taxonomy-check.sh",
+            "timeout": 10,
+            "statusMessage": "Validating taxonomy labels..."
+          }
+        ]
       }
     ]
   }

@@ -38,11 +38,46 @@ Assess whether the described work should be multiple tickets:
 
 If 2+ criteria apply:
 1. Present the proposed decomposition: each ticket with summary, type, and which acceptance criteria it carries
-2. Ask user to confirm or adjust
-3. If confirmed, create each ticket individually (following Steps 3-9 for each)
-4. After all created, proceed to dependency linking step
+2. If a work pattern was detected in Step 2.5 and decomposition is warranted, offer the standard decomposition template from `.claude/rules/label-taxonomy.md` (e.g., scraper → 4-step template). Each step becomes a separate ticket with Blocks links between them.
+3. Ask user to confirm or adjust
+4. If confirmed, create each ticket individually (following Steps 3-9 for each)
+5. After all created, proceed to dependency linking step
 
 If not warranted, proceed with a single ticket.
+
+### Step 2.5: Detect work pattern
+
+Scan the user's description against the keyword hints in `.claude/rules/label-taxonomy.md`:
+
+| Pattern | Keywords |
+|---|---|
+| `scraper` | scrape, crawl, fetch, ingest, connector, API client |
+| `agent` | agent, AI, LLM, tool-use, autonomous |
+| `workflow` | n8n, workflow, automation, schedule, trigger |
+| `deployment` | deploy, service, stack, container, Caddy route |
+| `pipeline` | pipeline, ETL, medallion, transform, schema |
+| `migration` | migrate, consolidate, export, import, decommission |
+| `platform` | infrastructure, Docker, security, networking, monitoring |
+
+If a pattern is detected:
+1. Present: "Detected work pattern: **{pattern}**. Correct?"
+2. If the user overrides, use their choice
+3. If decomposition is warranted (Step 2), offer the standard template from the label-taxonomy rule
+
+If no pattern is detected, ask the user to choose from the 7 options.
+
+### Step 2.6: Assign infrastructure layer
+
+Determine the layer based on project key and content:
+
+- **Domain projects** (REAL, COS, GAME, HOME, FOOD, WEB) → `L4-domain` automatically
+- **LAB project** → infer from content:
+  - Docker, Caddy, DNS, networking, security, backup → `L1-platform`
+  - Service names (PostgreSQL, Ollama, n8n, Grafana, etc.) → `L2-services`
+  - Framework, primitives, scraper framework, agent runtime → `L3-framework`
+
+Present: "Infrastructure layer: **{layer}**. Correct?"
+User can always override.
 
 ### Step 3: Determine ticket type
 
@@ -63,6 +98,7 @@ Structure the ticket with these sections:
 
 ```markdown
 **Summary:** <under 80 characters>
+**Taxonomy:** `{pattern}` / `{layer}`
 
 ## Context
 <Why this work is needed — the problem or opportunity>
@@ -92,7 +128,7 @@ Show the draft to the user. Wait for approval before creating.
 Use `createJiraIssue` with the CloudId from CLAUDE.md. Include:
 - Summary, description, issue type
 - Priority (infer or ask)
-- Labels (auto-detect from content: `infrastructure`, `security`, `documentation`, etc.)
+- Labels: taxonomy labels from Steps 2.5/2.6 (`[detected_pattern, detected_layer]`), plus optional `source:` label if applicable
 
 ### Step 8: Link to parent and dependencies
 

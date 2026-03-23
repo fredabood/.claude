@@ -25,6 +25,15 @@ Before writing code:
 
    If decomposition is warranted, present the proposed breakdown to the user. Use `/create-ticket` for each piece, then create "Blocks" links between them using `mcp__claude_ai_Atlassian__createIssueLink`.
 
+## Taxonomy label requirement
+
+When creating or updating tickets, apply taxonomy labels per `.claude/rules/label-taxonomy.md`:
+
+- **Work pattern:** exactly one of `scraper`, `agent`, `workflow`, `deployment`, `pipeline`, `migration`, `platform`
+- **Infrastructure layer:** exactly one of `L1-platform`, `L2-services`, `L3-framework`, `L4-domain`
+- If work matches a known pattern, offer the standard decomposition template from the label-taxonomy rule
+- Cross-project Blocks links must flow downward: L1 → L2 → L3 → L4
+
 ## Stale in-progress tickets
 
 At session start, if a ticket is already "In Progress":

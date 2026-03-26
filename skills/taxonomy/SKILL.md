@@ -10,10 +10,11 @@ Audit, report, and manage work taxonomy labels across all Jira projects.
 ## Usage
 
 ```
-/taxonomy             — overview with counts by pattern and layer
-/taxonomy audit       — find missing labels and dependency violations
+/taxonomy             — overview with counts by pattern, layer, and status
+/taxonomy audit       — find missing labels, dependency violations, and status violations
 /taxonomy apply <KEY> — interactively classify a specific ticket
 /taxonomy report      — cross-project dependency report by layer
+/taxonomy queue       — agent work queue diagnostics (Planned+Unblocked)
 ```
 
 ## Steps
@@ -33,6 +34,15 @@ Display taxonomy coverage across all projects.
 3. Display cross-tabulation matrix (pattern rows x layer columns)
 4. Query unlabeled: `issuetype != Epic AND labels is EMPTY`
 5. Show summary: total tickets, labeled count, unlabeled count, coverage percentage
+6. Query status distribution across the 5-status workflow:
+   ```
+   status = "<status>" AND issuetype != Epic
+   ```
+   Display counts for: To Do, In Progress, Work Complete, Doc Review Complete, Won't Do
+7. Show Planned/Blocked summary for To Do tickets:
+   - Query: `status = "To Do" AND description ~ "Acceptance Criteria" AND issuetype != Epic`
+   - For each, check if plan comment exists and if blockers are resolved
+   - Report: X Planned+Unblocked (ready for pickup), Y Planned+Blocked, Z Unplanned
 
 ### Step 2: `/taxonomy audit` — Find violations
 
@@ -55,7 +65,21 @@ Identify tickets that violate taxonomy rules.
    - Flag if blocker's layer number > blocked's layer number (e.g., L4 blocking L1)
 5. Report: `VIOLATION: {blocker_key} (L4) blocks {blocked_key} (L1) — dependencies must flow L1→L4`
 
-**Output:** violations grouped by type (missing labels, upward dependencies), with ticket keys and suggested fixes.
+**Status dimension violations:**
+6. Find tickets "In Progress" with no Assigned Agent (stale/orphaned):
+   ```
+   status = "In Progress" AND issuetype != Epic
+   ```
+   For each, inspect for Assigned Agent — flag if no assignment comment or field.
+7. Find tickets "Work Complete" without a verification report:
+   ```
+   status = "Work Complete" AND issuetype != Epic
+   ```
+   For each, search comments for verification report — flag if missing.
+8. Find Planned+Unblocked tickets sitting in "To Do" (ready but not started):
+   Report as positive signal: "N tickets ready for agent pickup"
+
+**Output:** violations grouped by type (missing labels, upward dependencies, status violations), with ticket keys and suggested fixes.
 
 ### Step 3: `/taxonomy apply <KEY>` — Classify a ticket
 
@@ -92,6 +116,30 @@ Show how LAB infrastructure tickets relate to domain project tickets.
    ```
 4. Flag any links flowing upward (domain blocking platform)
 5. Show summary counts: total cross-project links, by layer, violations
+
+### Step 5: `/taxonomy queue` — Agent work queue diagnostics
+
+Display the current Planned+Unblocked work queue with diagnostics.
+See `.claude/rules/label-taxonomy.md` for canonical definitions of Planned, Blocked, and the agent work queue.
+
+1. Query To Do tickets with acceptance criteria:
+   ```
+   project = LAB AND status = "To Do" AND description ~ "Acceptance Criteria"
+     ORDER BY priority DESC, created ASC
+   ```
+2. For each ticket, use `getJiraIssue` and compute:
+   - **Planned:** Acceptance criteria present in description AND plan comment exists in comments
+   - **Blocked:** Any unresolved inward "Blocks" link (blocker not in status category "Done")
+   - **Primary Agent:** Derive from work pattern label → agent routing table in label-taxonomy.md
+3. Display queue table:
+   ```
+   | Key | Summary | Pattern | Layer | Planned | Blocked | Primary Agent |
+   ```
+4. Highlight eligible items (Planned=true, Blocked=false) as "Ready for pickup"
+5. For blocked items, show blocker chain: "LAB-XXX blocked by LAB-YYY (In Progress)"
+6. Summary: "N eligible for pickup, M blocked, P need planning"
+
+**Note:** Until LAB-628 creates custom fields, Planned/Blocked are calculated agent-side from description, comments, and issuelinks. Values shown are best-effort estimates.
 
 ## Required MCP Tools
 

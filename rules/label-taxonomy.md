@@ -37,6 +37,101 @@ Examples: `source:rentcast`, `source:gmail`, `source:bsa-online`
 
 ---
 
+## Status Workflow (INFORMATIONAL — not a label)
+
+Status is a native Jira field, not a label dimension. This section documents the target workflow
+so all agents and rules share a consistent understanding.
+
+| Status | Category | Description | Entry trigger | Exit trigger |
+|---|---|---|---|---|
+| `To Do` | New | Queued, not started | Ticket created | Agent picks up work |
+| `In Progress` | In Progress | Active implementation | Agent starts (transition 21) | Implementation + tests done |
+| `Work Complete` | Done | Code + tests + post-mortem done | CI gates pass | Doc review verified |
+| `Doc Review Complete` | Done | Docs + memory updates reviewed. Fully closed. | Doc review passes | Terminal |
+| `Won't Do` | Done | Cancelled or abandoned | Manual decision | Terminal |
+
+**Valid transitions:**
+
+```
+To Do ──→ In Progress ──→ Work Complete ──→ Doc Review Complete
+  │                                │
+  └──→ Won't Do ←─────────────────┘  (from any non-terminal status)
+```
+
+**Transition IDs:** Use `getTransitionsForJiraIssue` at runtime to discover IDs — do not hardcode.
+New statuses (Work Complete, Doc Review Complete, Won't Do) are created by LAB-628.
+Until LAB-628 lands, the existing 2-status workflow (In Progress → Done) remains active.
+
+---
+
+## Planned (CALCULATED — not a label)
+
+A ticket is **Planned** when it has both:
+1. An `## Acceptance Criteria` section in the description
+2. An implementation plan posted as a Jira comment (contains `## Implementation Plan` or numbered plan sections)
+
+| Value | Meaning |
+|---|---|
+| `true` | Both criteria and plan exist — ready for work queue consideration |
+| `false` | Missing criteria, plan, or both — needs planning before pickup |
+
+**Detection logic (agent-side):**
+1. `getJiraIssue` → inspect `description` for `Acceptance Criteria` heading
+2. Fetch issue comments → search for plan comment (heading or structured numbered sections)
+3. Both present = Planned
+
+This is calculated at read time, not stored as a Jira field. See `.claude/rules/label-taxonomy.md` (this file) as the canonical definition.
+
+---
+
+## Blocked (CALCULATED — not a label)
+
+A ticket is **Blocked** when it has at least one unresolved inward "Blocks" link — i.e., another ticket that must finish first but hasn't.
+
+| Value | Meaning |
+|---|---|
+| `true` | At least one blocker is not in status category "Done" |
+| `false` | No blockers, or all blockers are Done |
+
+**Detection logic (agent-side):**
+1. `getJiraIssue` → inspect `issuelinks`
+2. For each link with `type.inward == "is blocked by"`: check the linked issue's `statusCategory.name`
+3. If any blocker is not `"Done"` → Blocked = true
+
+This is calculated at read time, not stored as a Jira field.
+
+---
+
+## Agent Work Queue
+
+The agent work queue consists of tickets eligible for autonomous pickup:
+
+```
+Eligible = status:"To Do" AND Planned:true AND Blocked:false
+```
+
+**JQL base query:**
+```
+project = <KEY> AND status = "To Do" AND description ~ "Acceptance Criteria"
+  ORDER BY priority DESC, created ASC
+```
+
+**Agent-side filtering (after JQL results):**
+1. **Plan check:** Verify a plan comment exists (inspect comments for plan structure)
+2. **Blocker check:** Verify no unresolved inward "Blocks" links (all blockers Done)
+3. **Assignment check:** If `Assigned Agent` field is set and ≠ current agent, skip
+
+**Pickup protocol:**
+1. Query the work queue using the JQL + agent-side filters above
+2. Select the highest-priority eligible ticket
+3. Set `Assigned Agent` to the current session identifier (requires custom field from LAB-628; until then, post assignment as a Jira comment)
+4. Transition to "In Progress"
+5. Post context comment with session timestamp
+
+**Priority within the queue:** Priority field (descending) → created date (ascending, oldest first).
+
+---
+
 ## Ticket Placement Decision Tree
 
 ```

@@ -42,6 +42,7 @@ At session start, if a ticket is already "In Progress":
 2. **If commits exist within ~24h:** Treat it as actively in progress — resume normally
 3. **If the last relevant commit is older than 24h:** Note the gap to the user and ask whether to resume or restart
 4. **If no commits reference the identifier at all:** Flag it as potentially stale — ask the user to confirm intent before proceeding
+5. **If Assigned Agent is set** and differs from the current session: another agent started but did not finish — warn the user and ask whether to take over or leave it
 
 Do not silently assume a stale In Progress ticket is active work.
 
@@ -51,13 +52,37 @@ Do not silently assume a stale In Progress ticket is active work.
 - The user can say **"skip tracking"** to bypass for any change
 - If the user explicitly says they don't want a ticket, respect that and don't ask again in the session
 
-## Suggesting next work
+## Agent assignment protocol
 
-When a ticket is completed or the user asks what to work on next:
+Before transitioning a ticket to "In Progress":
 
-1. Use `mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql` with `project = LAB AND statusCategory in ("To Do") ORDER BY priority DESC`
-2. For each candidate, use `mcp__claude_ai_Atlassian__getJiraIssue` and check `issuelinks` for "is blocked by" links
-3. A ticket is **eligible** only if all blocking tickets are Done (or it has no blockers)
-4. Present eligible items ordered by priority, noting any that just became unblocked
+1. Set `Assigned Agent` to the current session identifier (requires custom field from LAB-628; until then, post assignment as a Jira comment)
+2. Transition to "In Progress" using `getTransitionsForJiraIssue` to discover the transition ID
+3. Post context comment: "Starting work. Assigned Agent: `<session-id>`. Session: `<timestamp>`"
 
-If no eligible items exist, report which blockers need resolving to unlock the next tier of work.
+If the ticket already has an `Assigned Agent` set:
+- **Same agent:** Resume normally
+- **Different agent:** Warn the user that another agent claimed this ticket — ask whether to override or pick a different ticket
+
+## Suggesting next work (Planned+Unblocked agent queue)
+
+When a ticket is completed or the user asks what to work on next, use the agent work queue
+defined in `.claude/rules/label-taxonomy.md`:
+
+1. **Query base candidates:**
+   ```
+   project = LAB AND status = "To Do" AND description ~ "Acceptance Criteria"
+     ORDER BY priority DESC, created ASC
+   ```
+2. For each candidate, use `mcp__claude_ai_Atlassian__getJiraIssue` and apply three filters:
+   - **Planned check:** Verify a plan comment exists (comment body contains structured plan sections)
+   - **Blocker check:** Inspect `issuelinks` for inward "Blocks" links — all blockers must be in status category "Done"
+   - **Assignment check:** If Assigned Agent is set and ≠ current agent, skip
+3. A ticket is **eligible** only if: Planned = true AND Blocked = false AND (unassigned or assigned to current agent)
+4. Present results in three tiers:
+   - **Ready for pickup:** Eligible items, ordered by priority
+   - **Blocked:** Planned but waiting on dependencies — show which blockers are closest to completion
+   - **Needs planning:** Missing acceptance criteria or plan comment — note what's missing
+5. For blocked candidates, identify which blockers are closest to completion
+
+If no eligible items exist, report: (a) unplanned tickets that need criteria/plans, (b) which blockers need resolving to unlock the next tier.

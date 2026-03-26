@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # PreToolUse hook: validates taxonomy labels on Jira ticket create/edit.
-# Soft gate (warn only) during rollout — exit 0 with warning, never exit 2.
-# Harden to exit 2 via LAB-620 after full system validation.
+# Hard gate: blocks createJiraIssue/editJiraIssue when taxonomy labels are missing.
+# Exit 2 = block (labels missing or invalid), Exit 0 = allow (labels valid or non-label edit).
 #
 # Intercepts:
 #   mcp__claude_ai_Atlassian__createJiraIssue
 #   mcp__claude_ai_Atlassian__editJiraIssue
 #
 # Exit codes:
-#   0 = allow (with optional warning)
-#   2 = block (future hard gate, not used during rollout)
+#   0 = allow (labels valid, or edit doesn't touch labels)
+#   2 = block (taxonomy labels missing or invalid)
 
 set -euo pipefail
 
@@ -67,11 +67,13 @@ elif len(found_layers) > 1:
     warnings.append(f'Multiple layer labels found: {found_layers} — exactly one required')
 
 if warnings:
-    print('TAXONOMY WARNING: Labels do not satisfy taxonomy requirements:')
+    print('TAXONOMY ERROR: Labels do not satisfy taxonomy requirements:')
     for w in warnings:
         print(f'  - {w}')
     print()
     print('See .claude/rules/label-taxonomy.md for taxonomy conventions.')
+    print('Add the required labels to proceed.')
+    sys.exit(2)
 
 sys.exit(0)
-" || true
+" || exit $?

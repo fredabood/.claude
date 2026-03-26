@@ -107,15 +107,40 @@ Every ticket must have exactly one work pattern label and one infrastructure lay
 - Flag and warn if a dependency flows upward (L4 blocking L1/L2/L3)
 - Reference the agent routing table in the label-taxonomy rule for agent assignment suggestions
 
-### Next-Eligible Resolution
+**Status Workflow Awareness:**
+- Recognize the 5-status workflow: To Do, In Progress, Work Complete, Doc Review Complete, Won't Do
+- When creating tickets: initial status is always "To Do" (Jira default)
+- When reporting: group tickets by status, highlight the Planned+Unblocked subset
+- Use `getTransitionsForJiraIssue` to discover available transitions at runtime — do not hardcode transition IDs for new statuses (assigned when LAB-628 creates them)
+- Until new statuses exist, fall back to the existing 2-status workflow (In Progress → Done)
 
-Determine which tickets are ready to start based on the dependency graph:
+**Assignment Tracking:**
+- Before starting a ticket: set Assigned Agent to identify which agent/session owns the work (via custom field from LAB-628, or Jira comment until field exists)
+- When reporting status: show Assigned Agent for In Progress tickets
+- When detecting stale tickets: check Assigned Agent age against last commit timestamp
+- When a ticket completes: the completion workflow clears the assignment
 
-1. Query: `project = <KEY> AND status = "To Do" AND sprint in openSprints() ORDER BY priority DESC`
-2. For each candidate, `getJiraIssue` to inspect `issuelinks`
-3. Identify inward links where `type.name == "Blocks"` ("is blocked by")
-4. Eligible = no "is blocked by" links, or all blocking issues are Done
-5. Present ordered by priority; for blocked tickets, identify which blockers are closest to completion
+### Next-Eligible Resolution (Planned+Unblocked Agent Queue)
+
+Determine which tickets are ready for agent pickup using the three-gate filter
+defined in `.claude/rules/label-taxonomy.md`:
+
+1. **Query base candidates:**
+   ```
+   project = <KEY> AND status = "To Do" AND description ~ "Acceptance Criteria"
+     ORDER BY priority DESC, created ASC
+   ```
+2. For each candidate, `getJiraIssue` and evaluate:
+   - **Planned:** Acceptance criteria in description AND plan comment exists
+   - **Blocked:** No unresolved inward "Blocks" links (all blockers must be Done)
+   - **Assigned:** Assigned Agent field is empty or matches current agent
+3. **Eligible** = Planned + Unblocked + Unassigned (or assigned to current agent)
+4. **Filter by Primary Agent capability:** Match the ticket's work pattern label to the agent routing table. Show tickets where the current agent is Primary or Secondary.
+5. Present in three tiers:
+   - **Ready for pickup:** Eligible items, ordered by priority
+   - **Blocked:** Planned but waiting on dependencies — show blocker chain and which blockers are closest to completion
+   - **Needs planning:** Missing acceptance criteria or plan comment — note what's missing
+6. For blocked tickets, prioritize blockers that unlock the most downstream work
 
 Use when: ticket completed (suggest next), user asks what's next, sprint planning validation, `/status` overview.
 

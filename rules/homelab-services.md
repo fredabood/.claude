@@ -80,7 +80,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 ### postgres-memory (`agent_memory` database)
 
-- **`jira` schema:** `issues`, `issue_links`, `sprints`, `status_transitions`, `sync_metadata`, `activity_log`, `issue_changelog` — active, used by jira-graph
+- **`jira` schema:** `issues`, `issue_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph
 - **`plane` schema:** (archived) mirror of jira schema from Plane CE experiment — 30-day retention then drop
 - **`public` schema:** pgvector tables for embeddings, `migration_key_map` (Jira↔Plane ID mapping), `plane_to_jira_key_map` (reverse migration mapping)
 - **Connection (from host):** `postgresql://postgres@localhost:5432/agent_memory`
@@ -98,7 +98,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 - **SQLite DB:** `/home/node/.n8n/database.sqlite` inside the `n8n` container — use REST API instead
 - **REST API:** `n8n:5678/api/v1/` — use for reading/writing workflows
-- **Known workflow IDs:** full-sync `0NyujISFScfFNexz`, webhook-receiver `KTTljDaHkVbEMfUI`
+- **Known workflow IDs:** reconciliation `0NyujISFScfFNexz` (hourly diff-based sync + on CDC failure), CDC webhook-receiver `KTTljDaHkVbEMfUI` (real-time issue + changelog), changelog-sync `jira-changelog-sync` (deactivated — superseded by CDC webhook)
 
 ---
 

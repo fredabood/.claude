@@ -116,14 +116,14 @@ editJiraIssue(issueIdOrKey, fields={
 
 Use `getTransitionsForJiraIssue` to discover available transitions at runtime.
 
-**Preferred target:** "Work Complete" (if available in transitions).
+**Preferred target:** "Implementation Complete" (if available in transitions).
 **Fallback:** "Done" (transition ID `41`).
 
 This ensures the skill works both before and after the new statuses are added to the board.
 
 ```
 transitions = getTransitionsForJiraIssue(issueIdOrKey)
-target = find transition with to.name == "Work Complete"
+target = find transition with to.name == "Implementation Complete"
 if not found: target = find transition with to.name == "Done"
 transitionJiraIssue(issueIdOrKey, transition={id: target.id})
 ```

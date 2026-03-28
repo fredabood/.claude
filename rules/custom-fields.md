@@ -115,8 +115,8 @@ All skills, hooks, and agents reference this file for field operations.
 | In Progress | `10051` | IN_PROGRESS | In Progress |
 | Done | `10052` | DONE | Done |
 | Work Complete | `10235` | DONE | (pending board addition) |
-| Doc Review Complete | `10236` | DONE | Pending board column addition |
-| Wont Do | `10237` | DONE | Pending board column addition |
+| Doc Review Complete | `10236` | DONE | Done column (transition 61) |
+| Won't Do | `10237` | DONE | Done column (transition 71) |
 
 ## Transition IDs
 
@@ -125,16 +125,17 @@ Do not hardcode — transition IDs change when statuses are added to the board.
 
 Known transitions (company-managed LAB project):
 
-| Transition | ID | Target Status |
-|-----------|-----|---------------|
-| Backlog | `11` | Backlog |
-| Selected for Development | `21` | Selected for Development |
-| In Progress | `31` | In Progress |
-| Done | `41` | Done |
+| Transition | ID | Target Status | Category |
+|-----------|-----|---------------|----------|
+| Backlog | `11` | Backlog | To Do |
+| Selected for Development | `21` | Selected for Development | To Do |
+| In Progress | `31` | In Progress | In Progress |
+| Done | `41` | Done | Done |
+| Work Complete | `51` | Work Complete | Done |
+| Doc Review Complete | `61` | Doc Review Complete | Done |
+| Won't Do | `71` | Won't Do | Done |
 
-New status transitions (Work Complete, Doc Review Complete, Wont Do) will
-appear after the statuses are added to the board via UI (Board Settings > Columns).
-Skills must gracefully fall back to "Done" if a preferred target status is not yet available.
+Skills should still use `getTransitionsForJiraIssue` at runtime for resilience.
 
 ## Issue Type Schemes
 

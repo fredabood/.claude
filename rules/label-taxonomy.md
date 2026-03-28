@@ -46,20 +46,20 @@ so all agents and rules share a consistent understanding.
 |---|---|---|---|---|
 | `To Do` | New | Queued, not started | Ticket created | Agent picks up work |
 | `In Progress` | In Progress | Active implementation | Agent starts (transition 21) | Implementation + tests done |
-| `Work Complete` | Done | Code + tests + post-mortem done | CI gates pass | Doc review verified |
-| `Doc Review Complete` | Done | Docs + memory updates reviewed. Fully closed. | Doc review passes | Terminal |
+| `Implementation Complete` | In Progress | Code + tests + post-mortem done | CI gates pass | Review verified |
+| `Review Complete` | In Progress | Docs + memory + testing verified | Review passes | Transition to Done |
 | `Won't Do` | Done | Cancelled or abandoned | Manual decision | Terminal |
 
 **Valid transitions:**
 
 ```
-To Do ──→ In Progress ──→ Work Complete ──→ Doc Review Complete
+To Do ──→ In Progress ──→ Implementation Complete ──→ Review Complete
   │                                │
   └──→ Won't Do ←─────────────────┘  (from any non-terminal status)
 ```
 
 **Transition IDs:** Use `getTransitionsForJiraIssue` at runtime to discover IDs — do not hardcode.
-New statuses (Work Complete, Doc Review Complete, Won't Do) are created by LAB-628.
+New statuses (Implementation Complete, Review Complete, Won't Do) are created by LAB-628.
 Until LAB-628 lands, the existing 2-status workflow (In Progress → Done) remains active.
 
 ---

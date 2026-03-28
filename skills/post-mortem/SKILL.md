@@ -27,7 +27,8 @@ Use `getJiraIssue` to retrieve the full ticket including:
 
 ### Step 2: Gather context
 
-- Run `git log --grep="<KEY>" --oneline` to find related commits
+- Query postgres for linked commits: `SELECT commit_short, repo, message, committed_at FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` (via `docker exec postgres-memory psql`)
+- Fallback: `git log --grep="<KEY>" --oneline` if postgres unavailable
 - Run `git log --grep="<KEY>" --stat` for files changed
 - Review ticket comments for the timeline of events (milestones, blockers, decisions)
 

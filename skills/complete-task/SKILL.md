@@ -58,6 +58,7 @@ Collect:
 - Key decisions made during implementation
 - Any deviations from the original ticket description
 - Anything the next person should know
+- Linked commits from postgres: query `SELECT commit_short, repo, message FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` via `docker exec postgres-memory psql` and include as a commits table in the summary
 
 ### Step 5: Add summary comment
 

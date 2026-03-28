@@ -80,7 +80,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 ### postgres-memory (`agent_memory` database)
 
-- **`jira` schema:** `issues`, `issue_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph
+- **`jira` schema:** `issues`, `issue_links`, `commit_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph
 - **`plane` schema:** (archived) mirror of jira schema from Plane CE experiment — 30-day retention then drop
 - **`public` schema:** pgvector tables for embeddings, `migration_key_map` (Jira↔Plane ID mapping), `plane_to_jira_key_map` (reverse migration mapping)
 - **Connection (from host):** `postgresql://postgres@localhost:5432/agent_memory`

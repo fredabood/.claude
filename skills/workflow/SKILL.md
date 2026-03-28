@@ -5,7 +5,8 @@ user_invocable: true
 
 # /workflow
 
-End-to-end development lifecycle with deterministic gates at every phase.
+End-to-end 12-phase development lifecycle with deterministic gates at every phase.
+Phases 1-6: planning + implementation. Phase 7: Implementation Complete (PM fields). Phases 8-9: Doc Review + Review Complete. Phases 10-12: memory persistence, git cleanup, handoff.
 Backed by a persistent state machine (postgres + file cache) that enables hook enforcement and cross-session resume.
 
 When active, hooks on Edit/Write/Commit/Transition block out-of-sequence actions. When not active, Claude operates normally.
@@ -82,11 +83,19 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 ### Phase 1: Work Item
 
 1. Fetch the work item with `getJiraIssue`
-2. If not already "In Progress", transition using `transitionJiraIssue` (transition ID `"21"`)
-3. Post context comment: `"Starting workflow. Session: <date/time>"`
-4. **Write state:** DB + file (`phase_1_at`)
+2. If not already "In Progress", transition using `transitionJiraIssue` (discover ID via `getTransitionsForJiraIssue`)
+3. Set agent tracking fields:
+   ```
+   editJiraIssue(issueIdOrKey, fields={
+       "customfield_10188": "<session-identifier>",   // Primary Agent
+       "customfield_10189": "<session-identifier>",   // Assigned Agent
+       "customfield_10193": 1.0                       // Workflow Phase = 1
+   })
+   ```
+4. Post context comment: `"Starting workflow. Session: <date/time>"`
+5. **Write state:** DB + file (`phase_1_at`)
 
-**Gate:** Work item exists and is In Progress.
+**Gate:** Work item exists, is In Progress, and has Assigned Agent set.
 
 ---
 
@@ -112,8 +121,20 @@ Output a status line after each phase: `> Phase N: <name> ✓`
    - **Documentation plan:** what docs/memory/vault to update
    - **Risk assessment:** what could go wrong, mitigations, fallback approaches
 2. Post the plan to the work item as a comment using `addCommentToJiraIssue`
-3. **Ask the user to confirm the plan before proceeding.** Do not continue until confirmed.
-4. **Write state:** DB + file (`phase_3_at`)
+3. Write plan sections to custom fields:
+   ```
+   editJiraIssue(issueIdOrKey, fields={
+       "customfield_10173": "<Jira tracking plan>",
+       "customfield_10174": "<Testing strategy>",
+       "customfield_10175": "<Documentation plan>",
+       "customfield_10176": "<Success criteria>",
+       "customfield_10177": "<Risk assessment>",
+       "customfield_10190": [{"id":"10130"},{"id":"10131"},{"id":"10132"},{"id":"10133"},{"id":"10134"}],
+       "customfield_10193": 3.0   // Workflow Phase = 3
+   })
+   ```
+4. **Ask the user to confirm the plan before proceeding.** Do not continue until confirmed.
+5. **Write state:** DB + file (`phase_3_at`)
 
 **Gate:** Plan posted to work item AND user has confirmed.
 
@@ -173,53 +194,78 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 **Result:** ALL PASS / <N> FAILURES
 ```
 
-4. **Write state:** DB + file (`phase_6_at`)
+4. Write verification results to custom fields:
+   ```
+   editJiraIssue(issueIdOrKey, fields={
+       "customfield_10178": "<all criteria tested list>",
+       "customfield_10179": "<results summary — X/Y pass>",
+       "customfield_10191": [{"id":"10135"},{"id":"10136"}],  // + {"id":"10137"} if ALL pass
+       "customfield_10193": 6.0   // Workflow Phase = 6
+   })
+   ```
+5. **Write state:** DB + file (`phase_6_at`)
 
 **Hard gate:** ALL criteria must pass. If any fail, stop and fix before retrying Phase 6. Do not proceed with failures.
 
-> After this phase completes, the Done-transition hook gate opens.
-
 ---
 
-### Phase 7: Completion
+### Phase 7: Completion (Implementation Complete)
 
-1. Generate a structured post-mortem:
-
-```markdown
-## Post-Mortem: <KEY> — <Summary>
-
-**Completed:** <date>
-**Duration:** <time from In Progress to Done>
-
-### What Went Well
-- <positive outcomes, smooth implementations>
-
-### What Didn't Go Well
-- <issues encountered, unexpected problems, time sinks>
-
-### Lessons Learned
-- <actionable insights for future work>
-
-### Metrics
-- Files changed: <count>
-- Commits: <count>
-- Tests added/modified: <count>
-- Acceptance criteria met: <X/Y>
-
-### Follow-Up Items
-- [ ] <remaining work, tech debt, improvements>
-```
-
+1. Generate a structured post-mortem (same format as before)
 2. Post the post-mortem to the work item using `addCommentToJiraIssue`
-3. Transition to Done using `transitionJiraIssue` (transition ID `"31"`)
-4. Check if the work item has a parent epic — if all sibling items are Done, note that the epic may be ready to close
-5. **Write state:** DB + file (`phase_7_at`)
+3. Write post-mortem sections to custom fields:
+   ```
+   editJiraIssue(issueIdOrKey, fields={
+       "customfield_10180": "<What Went Well>",
+       "customfield_10181": "<What Didn't Go Well>",
+       "customfield_10182": "<Lessons Learned>",
+       "customfield_10183": "<Metrics>",
+       "customfield_10184": "<Follow-Up Items>",
+       "customfield_10192": [{"id":"10138"},{"id":"10139"},{"id":"10140"},{"id":"10141"},{"id":"10142"}],
+       "customfield_10193": 7.0   // Workflow Phase = 7
+   })
+   ```
+4. Transition to **Implementation Complete** using `getTransitionsForJiraIssue` to discover the transition ID (look for `to.name == "Implementation Complete"`)
+5. Check if the work item has a parent epic — if all sibling items are Done/Implementation Complete, note it
+6. **Write state:** DB + file (`phase_7_at`)
 
-**Gate:** Post-mortem posted AND work item transitioned to Done.
+**Gate:** Post-mortem posted, PM fields populated, work item in Implementation Complete.
 
 ---
 
-### Phase 8: Memory & Knowledge Persistence
+### Phase 8: Doc Review
+
+1. Review all documentation changes from the session:
+   - What docs in `docs/` were created or updated?
+   - What memory files were written or updated?
+   - What vault notes were created?
+   - What Jira comments were posted?
+2. Generate a documentation summary and a memory update summary
+3. Write to custom fields:
+   ```
+   editJiraIssue(issueIdOrKey, fields={
+       "customfield_10185": "<Documentation summary — what was updated and why>",
+       "customfield_10186": "<Memory updates — what was persisted and where>",
+       "customfield_10193": 8.0   // Workflow Phase = 8
+   })
+   ```
+4. Post a doc review comment to the work item
+5. **Write state:** DB + file (`phase_8_at`)
+
+**Gate:** Doc Review fields populated.
+
+---
+
+### Phase 9: Review Complete
+
+1. Transition to **Review Complete** using `getTransitionsForJiraIssue` (look for `to.name == "Review Complete"`)
+2. **Write state:** DB + file (`phase_9_at`)
+
+**Gate:** Work item in Review Complete status.
+
+---
+
+### Phase 10: Memory & Knowledge Persistence
 
 1. Review all decisions made during the session
 2. For each decision or lesson learned, route to the correct store:
@@ -233,29 +279,30 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 | Research findings (evaluation, comparison, analysis) | Vault → `submodules/memory/homelab/research/` | Use `/vault-add` logic |
 
 3. If follow-up items were identified in the post-mortem, present them to the user and offer to create new work items
-4. **Write state:** DB + file (`phase_8_at`)
+4. **Write state:** DB + file (`phase_10_at`)
 
 **Gate:** At least one persistence action taken, or explicitly noted "nothing to persist" with justification.
 
 ---
 
-### Phase 9: Git Cleanup
+### Phase 11: Git Cleanup
 
 1. Switch to main: `git checkout main`
 2. Merge the feature branch: `git merge <branch>`
 3. Delete the feature branch: `git branch -d <branch>`
-4. **Write state:** DB + file (`phase_9_at`)
+4. **Write state:** DB + file (`phase_11_at`)
 
 **Gate:** On main branch, feature branch deleted.
 
 ---
 
-### Phase 10: Handoff
+### Phase 12: Handoff
 
-1. Mark the workflow as complete:
+1. Transition to **Done** using `getTransitionsForJiraIssue` (look for `to.name == "Done"`)
+2. Mark the workflow as complete:
    ```bash
    docker exec postgres-memory psql -U postgres -d agent_memory -c \
-     "UPDATE workflow.runs SET phase_10_at = NOW(), completed_at = NOW() WHERE work_item_key = '<KEY>' AND completed_at IS NULL"
+     "UPDATE workflow.runs SET phase_12_at = NOW(), completed_at = NOW() WHERE work_item_key = '<KEY>' AND completed_at IS NULL"
    ```
 2. Delete `.workflow-state.json` (deactivates hook enforcement)
 3. Output final summary:

@@ -142,12 +142,57 @@ Use `createJiraIssue` with the CloudId from CLAUDE.md. Include:
 
 **Decomposed tickets:** If multiple tickets were created, create "Blocks" links between them to express ordering (earlier phases block later phases).
 
-### Step 9: Output
+### Step 9: Create Success Criterion children
+
+For each acceptance criterion in the ticket description:
+
+1. Create a Success Criterion child issue:
+   ```
+   createJiraIssue(project=<KEY>, issueTypeName="Success Criterion",
+     summary=<AC text trimmed to 80 chars>,
+     parent=<new-ticket-key>)
+   ```
+2. If the AC references a test command (e.g., `Tests pass: pytest ...`), set Test Marker:
+   ```
+   editJiraIssue(issueIdOrKey=<SC-key>, fields={
+       "customfield_10194": "<test command or marker>"
+   })
+   ```
+3. If the AC is subjective, documentation-related, or requires human judgment, set Human Approval Required:
+   ```
+   editJiraIssue(issueIdOrKey=<SC-key>, fields={
+       "customfield_10195": [{"id": "10143"}]
+   })
+   ```
+
+### Step 9a: Create HITL SC children
+
+Auto-create two Human-In-The-Loop SC children:
+
+1. **"Documentation updates reviewed"** — parent = new ticket, Human Approval Required = true
+2. **"Memory/vault updates reviewed"** — parent = new ticket, Human Approval Required = true
+
+These ensure documentation and memory persistence are explicitly verified by a human before the ticket reaches Done.
+
+### Step 9b: Initialize lifecycle fields
+
+Set agent tracking and workflow phase on the new ticket:
+```
+editJiraIssue(issueIdOrKey=<new-ticket-key>, fields={
+    "customfield_10188": "<agent-id from taxonomy routing>",  // Primary Agent
+    "customfield_10193": 0.0                                  // Workflow Phase = 0 (not started)
+})
+```
+
+The Primary Agent is determined from the work pattern → agent routing table in `.claude/rules/label-taxonomy.md`.
+
+### Step 10: Output
 
 Display:
 - Ticket key and summary
 - Link to the ticket
 - Acceptance criteria summary
+- SC children created (count + keys)
 - Dependency links created: `BLOCKER blocks BLOCKED`
 
 ## Required MCP Tools
@@ -157,6 +202,7 @@ Display:
 - `createJiraIssue` (cloudId, fields)
 - `createIssueLink` (cloudId, linkType, inwardIssue, outwardIssue)
 - `getIssueLinkTypes` (cloudId)
+- `editJiraIssue` (cloudId, issueIdOrKey, fields) — set lifecycle fields + SC fields
 - `getJiraIssue` (cloudId, issueIdOrKey)
 
 ## CloudId

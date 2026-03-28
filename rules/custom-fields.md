@@ -115,21 +115,32 @@ All skills, hooks, and agents reference this file for field operations.
 | In Progress | `10051` | IN_PROGRESS | In Progress |
 | Done | `10052` | DONE | Done |
 | Work Complete | `10235` | DONE | (pending board addition) |
-| Doc Review Complete | `10236` | DONE | (pending board addition) |
-| Wont Do | `10237` | DONE | (pending board addition) |
+| Doc Review Complete | `10236` | DONE | Pending board column addition |
+| Wont Do | `10237` | DONE | Pending board column addition |
 
 ## Transition IDs
 
-Use `getTransitionsForJiraIssue` at runtime to discover transition IDs.
-Standard transitions (always available):
+**Always use `getTransitionsForJiraIssue` at runtime** to discover transition IDs.
+Do not hardcode — transition IDs change when statuses are added to the board.
+
+Known transitions (company-managed LAB project):
 
 | Transition | ID | Target Status |
 |-----------|-----|---------------|
-| To Do | `11` | To Do |
-| In Progress | `21` | In Progress |
-| Done | `31` | Done |
+| Backlog | `11` | Backlog |
+| Selected for Development | `21` | Selected for Development |
+| In Progress | `31` | In Progress |
+| Done | `41` | Done |
 
-New status transition IDs will be available after board column addition.
+New status transitions (Work Complete, Doc Review Complete, Wont Do) will
+appear after the statuses are added to the board via UI (Board Settings > Columns).
+Skills must gracefully fall back to "Done" if a preferred target status is not yet available.
+
+## Issue Type Schemes
+
+| Scheme | ID | Includes SC? |
+|--------|-----|-------------|
+| LAB: Kanban Issue Type Scheme | `10437` | Yes (added via API) |
 
 ---
 

@@ -74,7 +74,21 @@ Starting work on this ticket.
 Session: [current date/time]
 ```
 
-### Step 7: Set working context
+### Step 7: Initialize lifecycle fields
+
+Use `editJiraIssue` to set the agent tracking fields and initialize the workflow phase:
+
+```
+editJiraIssue(issueIdOrKey, fields={
+    "customfield_10188": "<session-identifier>",   // Primary Agent
+    "customfield_10189": "<session-identifier>",   // Assigned Agent
+    "customfield_10193": 1.0                       // Workflow Phase = 1
+})
+```
+
+Field IDs reference `.claude/rules/custom-fields.md`.
+
+### Step 8: Set working context
 
 Summarize the ticket for the session:
 - Issue key and summary
@@ -83,15 +97,16 @@ Summarize the ticket for the session:
 - Tickets this is blocked by (inward links) — with current status
 - Relevant files (if mentioned in the ticket)
 
-### Step 8: Output
+### Step 9: Output
 
 Display a brief summary confirming the task is started and what needs to be done.
 
 ## Required MCP Tools
 
 - `getJiraIssue` (cloudId, issueIdOrKey)
-- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id: "21" })
+- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id })
 - `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
+- `editJiraIssue` (cloudId, issueIdOrKey, fields)
 
 ## CloudId
 

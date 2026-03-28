@@ -60,9 +60,32 @@ Use `getJiraIssue` to retrieve the full ticket including:
 
 Base the content on actual evidence from git history and Jira comments — don't fabricate or guess.
 
-### Step 4: Post to Jira
+### Step 4: Populate post-mortem fields
 
-Use `addCommentToJiraIssue` to post the full post-mortem on the ticket.
+Use `editJiraIssue` to write each section to its custom field:
+
+```
+editJiraIssue(issueIdOrKey, fields={
+    "customfield_10180": "<What Went Well text>",
+    "customfield_10181": "<What Didn't Go Well text>",
+    "customfield_10182": "<Lessons Learned text>",
+    "customfield_10183": "<Metrics text>",
+    "customfield_10184": "<Follow-Up Items text>",
+    "customfield_10192": [
+        {"id": "10138"},   // What Went Well
+        {"id": "10139"},   // What Didn't
+        {"id": "10140"},   // Lessons Learned
+        {"id": "10141"},   // Metrics
+        {"id": "10142"}    // Follow-Ups
+    ]
+})
+```
+
+Field IDs reference `.claude/rules/custom-fields.md`.
+
+### Step 5: Post to Jira
+
+Use `addCommentToJiraIssue` to post the full post-mortem on the ticket (in addition to the field writes — the comment serves as a human-readable record).
 
 ### Step 5: Persist to memory
 

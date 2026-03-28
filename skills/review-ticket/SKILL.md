@@ -55,11 +55,29 @@ For each criterion, determine the verification method and execute it:
 <expanded evidence for any non-trivial verifications>
 ```
 
-### Step 5: Post to Jira
+### Step 5: Populate verification fields
+
+Use `editJiraIssue` to write verification data to custom fields:
+
+```
+editJiraIssue(issueIdOrKey, fields={
+    "customfield_10178": "<all criteria tested — list from report>",
+    "customfield_10179": "<results summary — X/Y pass, any failures>",
+    "customfield_10191": [
+        {"id": "10135"},   // Criteria Tested
+        {"id": "10136"},   // Results Posted
+        // Add {"id": "10137"} (All Pass) only if ALL criteria passed
+    ]
+})
+```
+
+Field IDs reference `.claude/rules/custom-fields.md`.
+
+### Step 6: Post to Jira
 
 Use `addCommentToJiraIssue` to post the verification report on the ticket.
 
-### Step 6: Gate result
+### Step 7: Gate result
 
 - **All pass:** Confirm the ticket is ready for `/complete-task`.
 - **Any fail:** List what needs fixing. Do not proceed to completion. Suggest specific actions to address each failure.

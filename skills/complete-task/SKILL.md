@@ -94,34 +94,66 @@ Generate a structured post-mortem following the `/post-mortem` workflow:
 
 Post to Jira using `addCommentToJiraIssue`.
 
-### Step 7: Transition to Done
+### Step 7: Populate lifecycle fields
 
-Call `transitionJiraIssue` with transition ID `"31"` to move the ticket to "Done".
+Use `editJiraIssue` to write post-mortem data to custom fields (same as `/post-mortem` Step 4):
 
-### Step 8: Check parent epic
+```
+editJiraIssue(issueIdOrKey, fields={
+    "customfield_10180": "<What Went Well>",
+    "customfield_10181": "<What Didn't Go Well>",
+    "customfield_10182": "<Lessons Learned>",
+    "customfield_10183": "<Metrics>",
+    "customfield_10184": "<Follow-Up Items>",
+    "customfield_10192": [
+        {"id": "10138"}, {"id": "10139"}, {"id": "10140"},
+        {"id": "10141"}, {"id": "10142"}
+    ]
+})
+```
+
+### Step 8: Transition status
+
+Use `getTransitionsForJiraIssue` to discover available transitions at runtime.
+
+**Preferred target:** "Work Complete" (if available in transitions).
+**Fallback:** "Done" (transition ID `41`).
+
+This ensures the skill works both before and after the new statuses are added to the board.
+
+```
+transitions = getTransitionsForJiraIssue(issueIdOrKey)
+target = find transition with to.name == "Work Complete"
+if not found: target = find transition with to.name == "Done"
+transitionJiraIssue(issueIdOrKey, transition={id: target.id})
+```
+
+### Step 9: Check parent epic
 
 If this ticket has a parent epic, use `searchJiraIssuesUsingJql` with `parent = <epic-key> AND status != Done` to check if all sibling tasks are done. If so, note that the epic may be ready to close.
 
-### Step 9: Persist lessons to memory
+### Step 10: Persist lessons to memory
 
 If the post-mortem contains significant lessons learned:
 - Save to a memory file in the project memory directory
 - Include enough context for future sessions to apply the lesson
 
-### Step 10: Create follow-up tickets
+### Step 11: Create follow-up tickets
 
 If follow-up items were identified in the post-mortem:
 - Present them to the user
 - Offer to create each as a new ticket using `/create-ticket` logic
 
-### Step 11: Output
+### Step 12: Output
 
 Confirm completion with a brief summary.
 
 ## Required MCP Tools
 
 - `getJiraIssue` (cloudId, issueIdOrKey)
-- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id: "31" })
+- `getTransitionsForJiraIssue` (cloudId, issueIdOrKey) — discover transition IDs at runtime
+- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id })
+- `editJiraIssue` (cloudId, issueIdOrKey, fields) — write lifecycle custom fields
 - `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
 - `searchJiraIssuesUsingJql` (cloudId, jql)
 - `createJiraIssue` (cloudId, fields) — for follow-ups

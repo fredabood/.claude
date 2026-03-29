@@ -35,11 +35,9 @@ if not labels:
         label_ops = update.get('labels', [])
         labels = [op.get('add', '') for op in label_ops if isinstance(op, dict) and 'add' in op]
 
-# No labels field at all — might be an edit that doesn't touch labels, allow silently
-if labels is None or (isinstance(labels, list) and len(labels) == 0):
-    # Check if this is a create (fields present) vs edit (update only)
-    if not fields and not labels:
-        sys.exit(0)
+# No labels in payload — edit doesn't touch labels, allow silently
+if 'labels' not in fields and not labels:
+    sys.exit(0)
 
 # Normalize — handle both string and dict {'name': '...'} formats
 label_values = []

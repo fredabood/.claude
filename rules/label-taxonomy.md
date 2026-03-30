@@ -154,13 +154,13 @@ How many L4 domain projects consume this work's output?
 
 | Project | Layers | Scope |
 |---|---|---|
-| **LAB** | L1, L2, L3 | Homelab platform — infra, services, frameworks |
+| **LAB** | L1, L2, L3, L4 | Homelab platform — infra, services, frameworks, and consolidated domain work |
 | **REAL** | L4 | Real estate investing |
 | **COS** | L4 | AI personal assistant |
 | **GAME** | L4 | Autonomous game studio |
-| **HOME** | L4 | Smart home automation |
 | **FOOD** | L4 | Recipe/cooking workflows |
-| **WEB** | L4 | Personal website |
+
+> **Consolidated into LAB:** HOME (smart home automation → LAB-119 epic) and WEB (personal website → LAB-120 epic) were migrated into LAB as L4-domain epics on 2026-03-30.
 
 ---
 

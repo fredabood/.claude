@@ -30,8 +30,6 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Radarr | radarr | radarr.dirtydata.studio | radarr:7878 | Movie management | REST API v3 |
 | Prowlarr | prowlarr | prowlarr.dirtydata.studio | prowlarr:9696 | Indexer management | REST API v1 |
 | Mealie | mealie | mealie.dirtydata.studio | mealie:9000 | Recipe manager | REST API |
-| Home Assistant | homeassistant | hass.dirtydata.studio | homeassistant:8123 | Home automation | REST API + long-lived tokens |
-| Homebridge | homebridge | homebridge.dirtydata.studio | homebridge:8581 | HomeKit bridge | Web UI |
 | Twenty CRM | twenty-server | crm.dirtydata.studio | twenty-server:3000 | Self-hosted CRM | Web UI + REST API |
 | Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (Jira-backed) | FastAPI REST `/api/graph` |
 | SearXNG | searxng | search.dirtydata.studio | searxng:8080 | Private search | REST `/search?q=` |
@@ -87,6 +85,21 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 - **Connection (from container):** `postgresql://postgres@postgres-memory:5432/agent_memory`
 - **MCP postgres-cos is read-only.** For writes: `docker exec postgres-memory psql -U postgres -d agent_memory`
 
+### postgres-memory — All Databases (consolidated via LAB-145)
+
+| Database | Owner | Size | Service | Purpose |
+|----------|-------|------|---------|---------|
+| `agent_memory` | postgres | ~221 MB | Jira Graph, Open-WebUI, MCP | Jira sync schemas, pgvector embeddings |
+| `twenty_db` | twenty_user | ~16 MB | Twenty CRM | CRM application data |
+| `n8n` | postgres | ~19 MB | n8n | Workflow automation backend |
+| `freshrss_db` | freshrss | ~9 MB | FreshRSS | RSS feed data |
+| `mealie` | postgres | ~11 MB | Mealie | Recipe management |
+| `mlflow` | postgres | ~9 MB | MLflow | ML experiment tracking |
+| `grafana` | postgres | ~13 MB | Grafana | Dashboard metadata, users, alerts |
+| `homeassistant` | postgres | ~9 MB | (decommissioned) | Orphaned — HA shut down 2026-04-03, pending drop |
+| `plane_db` | postgres | ~88 MB | (legacy) | Plane CE — archived, pending drop |
+| `redmine_eval` | postgres | ~10 MB | (inactive) | PM evaluation stack |
+
 ### MinIO (S3-compatible)
 
 - **S3 API:** `minio:9000` (internal) — AWS S3 SDK compatible
@@ -119,7 +132,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
   - `media-stack.yml` — Jellyfin, Sonarr, Radarr, Prowlarr, Mealie
   - `crm-stack.yml` — Twenty CRM
   - `jira-graph-stack.yml` — jira-graph (dependency visualization, reads from jira.* schema)
-  - `smarthome-stack.yml` — Home Assistant, Homebridge
+  - `smarthome-stack.yml` — (decommissioned 2026-04-03, LAB-119 Won't Do)
   - `privacy-stack.yml` — SearXNG, FreshRSS, Calibre-Web, Radicale
   - `immich-stack.yml` — Immich
   - `nextcloud-stack.yml` — Nextcloud

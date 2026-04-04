@@ -53,6 +53,30 @@ user explicitly says to skip.
 - If a container fails to start after an update, check logs before attempting fixes — don't
   blindly retry
 
+## NAS mount dependencies
+
+The NAS at `/Volumes/Personal-Drive` is an SMB share that does NOT auto-mount after reboot.
+Several stacks have bind mounts to NAS paths — these are **commented out by default** to prevent
+containers from failing when the NAS isn't mounted.
+
+**Before any `docker compose up` on a stack with NAS mounts:**
+1. Check if NAS is mounted: `mount | grep Personal-Drive`
+2. If not mounted and the stack needs NAS data: run `./internal/scripts/mount-unas.sh` first
+3. Uncomment the NAS mount lines in the stack file before recreating
+4. After container starts, verify NAS data is accessible inside: `docker exec <container> ls <mount-path>`
+
+**Stacks with NAS mount dependencies:**
+| Stack | Service | NAS path | Purpose |
+|-------|---------|----------|---------|
+| `nextcloud-stack.yml` | nextcloud, nextcloud-cron | `/Volumes/Personal-Drive/homelab/google-drive` | Google Drive mirror |
+| `privacy-stack.yml` | calibre-web | `$CALIBRE_LIBRARY_PATH`, `$GUTENBERG_MIRROR_PATH` | Book library |
+| `data-platform-stack.yml` | n8n | `/Volumes/Personal-Drive/homelab/google-drive` | NAS access for workflows |
+| `wikipedia-stack.yml` | kiwix, eventstreams-daemon | `/Volumes/Personal-Drive/homelab/wikipedia` | Wikipedia data |
+
+**CRITICAL: Never add NAS bind mounts while rclone is actively writing to the same NAS path.**
+Docker Desktop crashes when containers have NAS SMB bind mounts during active writes (FUSE/gRPC
+bridge overwhelmed). Sequence: finish rclone writes → mount NAS → add container mounts.
+
 ## Networking changes
 
 - New services behind Caddy must bind to `0.0.0.0` (not `127.0.0.1`)

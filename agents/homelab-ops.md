@@ -22,12 +22,34 @@ Key facts:
 
 ## Docker Troubleshooting Flow
 
+0. **Check NAS mounts first:** If the container has bind mounts to `/Volumes/Personal-Drive/...`, check if the NAS is mounted: `mount | grep Personal-Drive`. If not mounted, that's likely the root cause — see NAS Mount Recovery below.
 1. **Check logs:** `docker logs <container> --tail 50`
-2. **Check health:** `curl -s http://localhost:<host-port>/` or the service's health endpoint
-3. **Soft restart:** `docker restart <container>` (same image, picks up env changes)
-4. **Hard restart:** `docker compose -f stacks/<stack>.yml --env-file .env up --force-recreate <service>` (required after image rebuild)
-5. **Check Caddy connectivity:** `docker exec caddy wget -qO- http://<container>:<port>/` — if this fails, it's a networking issue, not Caddy
-6. **Check networks:** `docker inspect <container> | grep -A20 Networks`
+2. **Check exit code and error:** `docker inspect --format='ExitCode={{.State.ExitCode}} Error={{.State.Error}} RestartCount={{.RestartCount}}' <container>`
+3. **Check health:** `curl -s http://localhost:<host-port>/` or the service's health endpoint
+4. **Soft restart:** `docker restart <container>` (same image, picks up env changes)
+5. **Hard restart:** `docker compose -f stacks/<stack>.yml --env-file .env up --force-recreate <service>` (required after image rebuild)
+6. **Check Caddy connectivity:** `docker exec caddy wget -qO- http://<container>:<port>/` — if this fails, it's a networking issue, not Caddy
+7. **Check networks:** `docker inspect <container> | grep -A20 Networks`
+
+## NAS Mount Recovery
+
+The NAS at `/Volumes/Personal-Drive` is an SMB share from UNAS-Pro. It does NOT auto-mount after reboot.
+
+**Stacks with NAS mount dependencies** (mounts are commented out by default to prevent boot failures):
+- `nextcloud-stack.yml` — Google Drive mirror in nextcloud + nextcloud-cron
+- `privacy-stack.yml` — Calibre-Web books + gutenberg-mirror (uses env vars `CALIBRE_LIBRARY_PATH`, `GUTENBERG_MIRROR_PATH`)
+- `data-platform-stack.yml` — n8n NAS mount (commented out)
+- `wikipedia-stack.yml` — Wikipedia data + ZIM files
+
+**Recovery after reboot:**
+1. Mount NAS: `./internal/scripts/mount-unas.sh` (prompts for password)
+2. Uncomment NAS mount lines in the affected stack file(s)
+3. Recreate: `docker compose -f stacks/<stack>.yml --env-file .env up -d <service>`
+4. Verify the container starts and data is accessible
+
+**CRITICAL:** Never add NAS bind mounts while rclone is actively writing to the same NAS path. Docker Desktop crashes when containers have NAS SMB bind mounts during active writes. Sequence: finish rclone writes first, then add/recreate containers.
+
+**Prometheus alert:** `NASMountUnavailable` fires when the NAS is unmounted for >2 minutes.
 
 ## 502 Bad Gateway Diagnosis
 

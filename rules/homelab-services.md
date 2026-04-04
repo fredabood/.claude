@@ -35,8 +35,8 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | SearXNG | searxng | search.dirtydata.studio | searxng:8080 | Private search | REST `/search?q=` |
 | FreshRSS | freshrss | rss.dirtydata.studio | freshrss:80 | RSS reader | Web UI + Fever API |
 | Calibre-Web | calibre-web | books.dirtydata.studio | calibre-web:8083 | Ebook library | Web UI |
-| Radicale | radicale | dav.dirtydata.studio | radicale:5232 | CalDAV/CardDAV | CalDAV protocol |
-| Immich | immich-server | photos.dirtydata.studio | immich-server:2283 | Photo management | REST API |
+| ~~Radicale~~ | ~~radicale~~ | ~~dav.dirtydata.studio~~ | ~~radicale:5232~~ | ~~CalDAV/CardDAV~~ | DECOMMISSIONED 2026-04-04 — CalDAV consolidated into Nextcloud |
+| ~~Immich~~ | ~~immich-server~~ | ~~photos.dirtydata.studio~~ | ~~immich-server:2283~~ | ~~Photo management~~ | DECOMMISSIONED 2026-04-04 — reactivate when photo storage needed |
 | Nextcloud | nextcloud | cloud.dirtydata.studio | nextcloud:80 | File storage | WebDAV + REST |
 | Kiwix | kiwix | wiki.dirtydata.studio | kiwix:8080 | Self-hosted Wikipedia browser | Web UI |
 | MCP Gateway | mcp-uptime-kuma-http | mcp.dirtydata.studio | mcp-uptime-kuma-http:3100 | MCP server for Claude.ai | Streamable HTTP `/mcp` |
@@ -110,8 +110,11 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 ### n8n
 
-- **SQLite DB:** `/home/node/.n8n/database.sqlite` inside the `n8n` container — use REST API instead
+- **Database:** PostgreSQL backend on `postgres-memory` (migrated from SQLite 2026-04-03)
 - **REST API:** `n8n:5678/api/v1/` — use for reading/writing workflows
+- **Custom image:** `homelab/n8n-puppeteer:${N8N_VERSION}` — includes Python 3.12+pip, rclone, rsync, docker-cli, mc, chromium, puppeteer-core, openssh-client, sqlite CLI
+- **Scheduling role:** Single orchestration plane for all scheduled jobs (LAB-162). Only macOS-native jobs (NAS mount, Cloudflare tunnel) and host-filesystem jobs (restic backup) stay on launchd. See `docs/operations/n8n-scheduling.md`.
+- **Docker access:** Docker CLI via socket proxy (`DOCKER_HOST=tcp://docker-socket-proxy:2375`)
 - **Known workflow IDs:** reconciliation `0NyujISFScfFNexz` (hourly diff-based sync + on CDC failure), CDC webhook-receiver `KTTljDaHkVbEMfUI` (real-time issue + changelog), changelog-sync `jira-changelog-sync` (deactivated — superseded by CDC webhook)
 
 ---

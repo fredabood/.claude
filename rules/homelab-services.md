@@ -96,6 +96,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 | `mealie` | postgres | ~11 MB | Mealie | Recipe management |
 | `mlflow` | postgres | ~9 MB | MLflow | ML experiment tracking |
 | `grafana` | postgres | ~13 MB | Grafana | Dashboard metadata, users, alerts |
+| `homeassistant` | postgres | empty | Home Assistant | Empty — HA auto-creates schema on boot |
 | `plane_db` | postgres | ~88 MB | (legacy) | Plane CE — archived, pending drop |
 | `redmine_eval` | postgres | ~10 MB | (inactive) | PM evaluation stack |
 

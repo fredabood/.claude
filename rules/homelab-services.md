@@ -38,6 +38,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Radicale | radicale | dav.dirtydata.studio | radicale:5232 | CalDAV/CardDAV | CalDAV protocol |
 | Immich | immich-server | photos.dirtydata.studio | immich-server:2283 | Photo management | REST API |
 | Nextcloud | nextcloud | cloud.dirtydata.studio | nextcloud:80 | File storage | WebDAV + REST |
+| Kiwix | kiwix | wiki.dirtydata.studio | kiwix:8080 | Self-hosted Wikipedia browser | Web UI |
 | MCP Gateway | mcp-uptime-kuma-http | mcp.dirtydata.studio | mcp-uptime-kuma-http:3100 | MCP server for Claude.ai | Streamable HTTP `/mcp` |
 
 ### Infrastructure Services (internal only / not in production Caddyfile)

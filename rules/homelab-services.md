@@ -25,10 +25,10 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Grafana | grafana | grafana.dirtydata.studio | grafana:3000 | Metrics dashboards | Web UI; HTTP API `/api/` |
 | MLflow | mlflow | mlflow.dirtydata.studio | mlflow:5000 | ML experiment tracking | REST API + web UI |
 | n8n | n8n | n8n.dirtydata.studio | n8n:5678 | Workflow automation | REST `/api/v1/` + web UI |
-| Jellyfin | jellyfin | jellyfin.dirtydata.studio | jellyfin:8096 | Media server | REST API |
-| Sonarr | sonarr | sonarr.dirtydata.studio | sonarr:8989 | TV show management | REST API v3 |
-| Radarr | radarr | radarr.dirtydata.studio | radarr:7878 | Movie management | REST API v3 |
-| Prowlarr | prowlarr | prowlarr.dirtydata.studio | prowlarr:9696 | Indexer management | REST API v1 |
+| ~~Jellyfin~~ | ~~jellyfin~~ | ~~jellyfin.dirtydata.studio~~ | ~~jellyfin:8096~~ | ~~Media server~~ | DECOMMISSIONED 2026-04-05 — reactivate when mobile access resolved |
+| ~~Sonarr~~ | ~~sonarr~~ | ~~sonarr.dirtydata.studio~~ | ~~sonarr:8989~~ | ~~TV show management~~ | DECOMMISSIONED 2026-04-05 — media stack paused |
+| ~~Radarr~~ | ~~radarr~~ | ~~radarr.dirtydata.studio~~ | ~~radarr:7878~~ | ~~Movie management~~ | DECOMMISSIONED 2026-04-05 — media stack paused |
+| ~~Prowlarr~~ | ~~prowlarr~~ | ~~prowlarr.dirtydata.studio~~ | ~~prowlarr:9696~~ | ~~Indexer management~~ | DECOMMISSIONED 2026-04-05 — media stack paused |
 | Mealie | mealie | mealie.dirtydata.studio | mealie:9000 | Recipe manager | REST API |
 | Twenty CRM | twenty-server | crm.dirtydata.studio | twenty-server:3000 | Self-hosted CRM | Web UI + REST API |
 | Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (Jira-backed) | FastAPI REST `/api/graph` |

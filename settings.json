@@ -237,6 +237,17 @@
             "statusMessage": "Validating taxonomy labels..."
           }
         ]
+      },
+      {
+        "matcher": "mcp__claude_ai_Atlassian__createIssueLink",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/link-direction-check.sh",
+            "timeout": 10,
+            "statusMessage": "Checking link direction..."
+          }
+        ]
       }
     ]
   }

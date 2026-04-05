@@ -137,8 +137,8 @@ Use `createJiraIssue` with the CloudId from CLAUDE.md. Include:
 **Dependency links:** If this ticket depends on or blocks other tickets:
 1. Call `getIssueLinkTypes(cloudId)` to discover link types (if not already cached)
 2. For each dependency:
-   - Blocked by existing ticket: `createIssueLink(cloudId, type: { name: "Blocks" }, outwardIssue: { key: "<EXISTING>" }, inwardIssue: { key: "<NEW>" })`
-   - Blocks existing ticket: `createIssueLink(cloudId, type: { name: "Blocks" }, outwardIssue: { key: "<NEW>" }, inwardIssue: { key: "<EXISTING>" })`
+   - Blocked by existing ticket: `createIssueLink(cloudId, type: { name: "Blocks" }, inwardIssue: { key: "<EXISTING>" }, outwardIssue: { key: "<NEW>" })`
+   - Blocks existing ticket: `createIssueLink(cloudId, type: { name: "Blocks" }, inwardIssue: { key: "<NEW>" }, outwardIssue: { key: "<EXISTING>" })`
 
 **Decomposed tickets:** If multiple tickets were created, create "Blocks" links between them to express ordering (earlier phases block later phases).
 

@@ -36,7 +36,7 @@ If two or more apply, decompose into multiple tickets. Use sub-tasks when pieces
 
 For each pair of tickets where one must complete before another can start:
 
-1. Create link: `mcp__claude_ai_Atlassian__createIssueLink(type="Blocks", outwardIssue=<BLOCKER>, inwardIssue=<BLOCKED>)`
+1. Create link: `mcp__claude_ai_Atlassian__createIssueLink(type="Blocks", inwardIssue=<BLOCKER>, outwardIssue=<BLOCKED>)`
 2. Document each link: `BLOCKER blocks BLOCKED — <reason>`
 
 Identify the **critical path** — the longest chain of sequential dependencies.

@@ -46,7 +46,7 @@ If 2+ criteria apply, decompose before creating tickets.
 
 **Creating links:**
 1. Call `getIssueLinkTypes(cloudId)` once per session to discover types
-2. For each dependency: `createIssueLink(cloudId, type: { name: "Blocks" }, outwardIssue: { key: "<BLOCKER>" }, inwardIssue: { key: "<BLOCKED>" })`
+2. For each dependency: `createIssueLink(cloudId, type: { name: "Blocks" }, inwardIssue: { key: "<BLOCKER>" }, outwardIssue: { key: "<BLOCKED>" })`
 3. Document each link with a reason
 
 **When to create links:**

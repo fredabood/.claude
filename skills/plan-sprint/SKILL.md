@@ -58,8 +58,8 @@ For each candidate ticket, call `getJiraIssue(cloudId, issueKey)` and inspect `i
 Based on the feasibility assessment in Step 3, identify tickets that should have dependency links but don't. Create each:
 ```
 createIssueLink(cloudId, type: { name: "Blocks" },
-  outwardIssue: { key: "<BLOCKER>" },
-  inwardIssue: { key: "<BLOCKED>" })
+  inwardIssue: { key: "<BLOCKER>" },
+  outwardIssue: { key: "<BLOCKED>" })
 ```
 
 #### 4d: Build dependency graph

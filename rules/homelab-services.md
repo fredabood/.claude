@@ -32,7 +32,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Mealie | mealie | mealie.dirtydata.studio | mealie:9000 | Recipe manager | REST API |
 | Twenty CRM | twenty-server | crm.dirtydata.studio | twenty-server:3000 | Self-hosted CRM | Web UI + REST API |
 | Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (Jira-backed) | FastAPI REST `/api/graph` |
-| SearXNG | searxng | search.dirtydata.studio | searxng:8080 | Private search | REST `/search?q=` |
+| ~~SearXNG~~ | ~~searxng~~ | ~~search.dirtydata.studio~~ | ~~searxng:8080~~ | ~~Private search~~ | DECOMMISSIONED 2026-04-05 |
 | FreshRSS | freshrss | rss.dirtydata.studio | freshrss:80 | RSS reader | Web UI + Fever API |
 | Calibre-Web | calibre-web | books.dirtydata.studio | calibre-web:8083 | Ebook library | Web UI |
 | ~~Radicale~~ | ~~radicale~~ | ~~dav.dirtydata.studio~~ | ~~radicale:5232~~ | ~~CalDAV/CardDAV~~ | DECOMMISSIONED 2026-04-04 — CalDAV consolidated into Nextcloud |

@@ -49,13 +49,15 @@ so all agents and rules share a consistent understanding.
 | `Implementation Complete` | In Progress | Code + tests + post-mortem done | CI gates pass | Review verified |
 | `Review Complete` | In Progress | Docs + memory + testing verified | Review passes | Transition to Done |
 | `Won't Do` | Done | Cancelled or abandoned | Manual decision | Terminal |
+| `Deferred` | To Do | Parked for later — valid idea, not prioritized now | Manual decision | Reactivate to To Do |
 
 **Valid transitions:**
 
 ```
 To Do ──→ In Progress ──→ Implementation Complete ──→ Review Complete
   │                                │
-  └──→ Won't Do ←─────────────────┘  (from any non-terminal status)
+  ├──→ Won't Do ←─────────────────┘  (from any non-terminal status)
+  └──→ Deferred ←──────────────────   (from any non-terminal status; reactivate to To Do)
 ```
 
 **Transition IDs:** Use `getTransitionsForJiraIssue` at runtime to discover IDs — do not hardcode.

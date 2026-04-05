@@ -117,6 +117,7 @@ All skills, hooks, and agents reference this file for field operations.
 | Implementation Complete | (board-created) | IN_PROGRESS | Own column (transition 81) |
 | Review Complete | (board-created) | IN_PROGRESS | Own column (transition 91) |
 | Won't Do | (board-created) | DONE | Done column (transition 71) |
+| Deferred | `10278` | TODO | Backlog column (transition 101) |
 
 ## Transition IDs
 
@@ -134,6 +135,7 @@ Known transitions (company-managed LAB project):
 | Review Complete | `91` | Review Complete | In Progress |
 | Done | `41` | Done | Done |
 | Won't Do | `71` | Won't Do | Done |
+| Deferred | `101` | Deferred | To Do |
 
 Skills should still use `getTransitionsForJiraIssue` at runtime for resilience.
 

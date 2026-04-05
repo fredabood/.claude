@@ -80,8 +80,10 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 ### postgres-memory (`agent_memory` database)
 
 - **`jira` schema:** `issues`, `issue_links`, `commit_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph
+- **`google` schema:** `emails`, `calendar_events`, `sync_metadata` — Google Workspace sync data (LAB-199, migrated from SQLite 2026-04-04). Email bodies inline as TEXT, labels as TEXT[], attendees as JSONB.
+- **`wikipedia` schema:** `embed_progress`, `image_metadata_progress` — Wikipedia RAG pipeline progress tracking (LAB-190, migrated from SQLite 2026-04-04)
 - **`plane` schema:** (archived) mirror of jira schema from Plane CE experiment — 30-day retention then drop
-- **`public` schema:** pgvector tables for embeddings, `migration_key_map` (Jira↔Plane ID mapping), `plane_to_jira_key_map` (reverse migration mapping)
+- **`public` schema:** pgvector tables for embeddings (`wikipedia_embeddings` for RAG), `migration_key_map` (Jira↔Plane ID mapping), `plane_to_jira_key_map` (reverse migration mapping)
 - **Connection (from host):** `postgresql://postgres@localhost:5432/agent_memory`
 - **Connection (from container):** `postgresql://postgres@postgres-memory:5432/agent_memory`
 - **MCP postgres-cos is read-only.** For writes: `docker exec postgres-memory psql -U postgres -d agent_memory`
@@ -112,10 +114,10 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 - **Database:** PostgreSQL backend on `postgres-memory` (migrated from SQLite 2026-04-03)
 - **REST API:** `n8n:5678/api/v1/` — use for reading/writing workflows
-- **Custom image:** `homelab/n8n-puppeteer:${N8N_VERSION}` — includes Python 3.12+pip, rclone, rsync, docker-cli, mc, chromium, puppeteer-core, openssh-client, sqlite CLI
+- **Custom image:** `homelab/n8n-puppeteer:${N8N_VERSION}` — includes Python 3.12+pip, psycopg2-binary, caldav, pyarrow, mwparserfromhell, rclone, rsync, docker-cli, mc, chromium, puppeteer-core, openssh-client, sqlite CLI. Google sync writes to `google` schema, Wikipedia pipeline writes to `wikipedia` schema.
 - **Scheduling role:** Single orchestration plane for all scheduled jobs (LAB-162). Only macOS-native jobs (NAS mount, Cloudflare tunnel) and host-filesystem jobs (restic backup) stay on launchd. See `docs/operations/n8n-scheduling.md`.
 - **Docker access:** Docker CLI via socket proxy (`DOCKER_HOST=tcp://docker-socket-proxy:2375`)
-- **Known workflow IDs:** reconciliation `0NyujISFScfFNexz` (hourly diff-based sync + on CDC failure), CDC webhook-receiver `KTTljDaHkVbEMfUI` (real-time issue + changelog), changelog-sync `jira-changelog-sync` (deactivated — superseded by CDC webhook)
+- **Known workflow IDs:** reconciliation `0NyujISFScfFNexz` (hourly diff-based sync + on CDC failure), CDC webhook-receiver `KTTljDaHkVbEMfUI` (real-time issue + changelog), changelog-sync `jira-changelog-sync` (deactivated — superseded by CDC webhook), Wikipedia mirrors `wikipedia-zim-sync` (monthly 1st 2AM), `wikidump-sync` (monthly 5th 4AM), `wikipedia-images-sync` (monthly 10th 6AM, self-chaining tranches)
 
 ---
 

@@ -117,7 +117,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 - **Custom image:** `homelab/n8n-puppeteer:${N8N_VERSION}` — includes Python 3.12+pip, psycopg2-binary, caldav, pyarrow, mwparserfromhell, rclone, rsync, docker-cli, mc, chromium, puppeteer-core, openssh-client, sqlite CLI. Google sync writes to `google` schema, Wikipedia pipeline writes to `wikipedia` schema.
 - **Scheduling role:** Single orchestration plane for all scheduled jobs (LAB-162). Only macOS-native jobs (NAS mount, Cloudflare tunnel) and host-filesystem jobs (restic backup) stay on launchd. See `docs/operations/n8n-scheduling.md`.
 - **Docker access:** Docker CLI via socket proxy (`DOCKER_HOST=tcp://docker-socket-proxy:2375`)
-- **Known workflow IDs:** reconciliation `0NyujISFScfFNexz` (hourly diff-based sync + on CDC failure), CDC webhook-receiver `KTTljDaHkVbEMfUI` (real-time issue + changelog), changelog-sync `jira-changelog-sync` (deactivated — superseded by CDC webhook), Wikipedia mirrors `wikipedia-zim-sync` (monthly 1st 2AM), `wikidump-sync` (monthly 5th 4AM), `wikipedia-images-sync` (monthly 10th 6AM, self-chaining tranches)
+- **Known workflow IDs:** reconciliation `0NyujISFScfFNexz` (hourly diff-based sync + on CDC failure), CDC webhook-receiver `KTTljDaHkVbEMfUI` (real-time issue + changelog), changelog-sync `jira-changelog-sync` (deactivated — superseded by CDC webhook), Wikipedia mirrors `wikipedia-zim-sync` (monthly 1st 2AM), `wikidump-sync` (monthly 5th 4AM), `wikipedia-images-sync` (monthly 10th 6AM, self-chaining tranches), `wikipedia-embeddings-sync` (webhook-only, self-chaining 1K tranches via Ollama)
 
 ---
 

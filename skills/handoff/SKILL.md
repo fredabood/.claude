@@ -5,6 +5,9 @@ user_invocable: true
 
 # /handoff
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "handoff", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
+
 Generate a session handoff summary and persist it to Jira and memory for continuity across conversations.
 
 ## Usage
@@ -93,3 +96,5 @@ If project-level documentation or conventions changed during the session, ensure
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

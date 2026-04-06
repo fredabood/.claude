@@ -5,6 +5,9 @@ user_invocable: true
 
 # /start-task
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "start-task", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+
 Start working on a Jira ticket. Checks acceptance criteria, transitions the issue to "In Progress", adds a context comment, and sets up the working context for the session.
 
 ## Usage
@@ -111,3 +114,5 @@ Display a brief summary confirming the task is started and what needs to be done
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

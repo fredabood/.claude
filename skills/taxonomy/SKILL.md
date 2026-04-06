@@ -5,6 +5,9 @@ user_invocable: true
 
 # /taxonomy
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "taxonomy", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
+
 Audit, report, and manage work taxonomy labels across all Jira projects.
 
 ## Usage
@@ -150,3 +153,5 @@ See `.claude/rules/label-taxonomy.md` for canonical definitions of Planned, Bloc
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

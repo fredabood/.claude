@@ -5,6 +5,9 @@ user_invocable: true
 
 # /workflow
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "workflow", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+
 End-to-end 12-phase development lifecycle with deterministic gates at every phase.
 Phases 1-6: planning + implementation. Phase 7: Implementation Complete (PM fields). Phases 8-9: Doc Review + Review Complete. Phases 10-12: memory persistence, git cleanup, handoff.
 Backed by a persistent state machine (postgres + file cache) that enables hook enforcement and cross-session resume.
@@ -341,3 +344,5 @@ If the user needs to abort an active workflow:
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

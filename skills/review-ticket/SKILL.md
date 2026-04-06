@@ -5,6 +5,9 @@ user_invocable: true
 
 # /review-ticket
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "review-ticket", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+
 Verify all acceptance criteria for a Jira ticket before completion. Runs tests, checks conditions, and posts a verification report.
 
 ## Usage
@@ -90,3 +93,5 @@ Use `addCommentToJiraIssue` to post the verification report on the ticket.
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

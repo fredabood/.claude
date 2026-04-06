@@ -290,6 +290,19 @@
         ]
       }
     ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/persistence-safety-net.sh",
+            "timeout": 10000,
+            "statusMessage": "Checking for unsaved decisions..."
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "matcher": "",

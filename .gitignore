@@ -19,3 +19,6 @@ Thumbs.db
 settings.local.json
 .mcp.json
 worktrees/
+
+# Skill execution context marker (ephemeral, used by atlassian-skill-gate hook)
+.skill-execution-context.json

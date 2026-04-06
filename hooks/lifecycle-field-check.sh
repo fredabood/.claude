@@ -37,23 +37,42 @@ if [[ "$TRANSITION_ID" != "81" && "$TRANSITION_ID" != "91" ]]; then
     exit 0
 fi
 
-# For now, log and allow — full field checking requires Jira API calls
-# which add latency to every transition. The /workflow skill handles
-# field population as part of its phase gates, so this hook serves as
-# a safety net for direct transitionJiraIssue calls outside /workflow.
-#
-# TODO: Add actual field checks once the overhead is acceptable:
-#   - Transition 81: Check customfield_10192 (PM Sections) + customfield_10191 (Verification)
-#   - Transition 91: Check customfield_10185/10186 (Doc Review) non-empty
+# Hard gate: require skill execution context for lifecycle transitions
+MARKER=".skill-execution-context.json"
+if [ -f "$MARKER" ]; then
+    # Check if marker is fresh (< 10 minutes old)
+    if [ "$(uname)" = "Darwin" ]; then
+        MARKER_AGE=$(( $(date +%s) - $(stat -f %m "$MARKER") ))
+    else
+        MARKER_AGE=$(( $(date +%s) - $(stat -c %Y "$MARKER") ))
+    fi
 
+    if [ "$MARKER_AGE" -lt 600 ]; then
+        # Skill is actively managing this transition — allow
+        if [[ "$TRANSITION_ID" == "81" ]]; then
+            echo "LIFECYCLE GATE: $ISSUE_KEY → Implementation Complete (via skill)"
+        fi
+        if [[ "$TRANSITION_ID" == "91" ]]; then
+            echo "LIFECYCLE GATE: $ISSUE_KEY → Review Complete (via skill)"
+        fi
+        exit 0
+    fi
+fi
+
+# No fresh skill context — block direct transitions
 if [[ "$TRANSITION_ID" == "81" ]]; then
-    echo "LIFECYCLE GATE: Transitioning $ISSUE_KEY to Implementation Complete."
-    echo "Ensure post-mortem + verification sections are complete before proceeding."
+    echo "BLOCKED: Cannot transition $ISSUE_KEY to Implementation Complete without skill context."
+    echo "Use /complete-task or /workflow to ensure all lifecycle fields are populated:"
+    echo "  - Plan Sections Complete (customfield_10190)"
+    echo "  - Verification: Criteria Tested (customfield_10178)"
+    echo "  - Post-Mortem: What Went Well (customfield_10180)"
+    exit 2
 fi
 
 if [[ "$TRANSITION_ID" == "91" ]]; then
-    echo "LIFECYCLE GATE: Transitioning $ISSUE_KEY to Review Complete."
-    echo "Ensure doc review + memory update fields are populated before proceeding."
+    echo "BLOCKED: Cannot transition $ISSUE_KEY to Review Complete without skill context."
+    echo "Use /workflow Phase 8 to ensure doc review fields are populated:"
+    echo "  - Doc Review: Documentation (customfield_10185)"
+    echo "  - Doc Review: Memory Updates (customfield_10186)"
+    exit 2
 fi
-
-exit 0

@@ -35,9 +35,20 @@ if not labels:
         label_ops = update.get('labels', [])
         labels = [op.get('add', '') for op in label_ops if isinstance(op, dict) and 'add' in op]
 
+# Determine if this is a create or edit operation
+tool_name = data.get('tool_name', '')
+is_create = 'createJiraIssue' in tool_name
+
 # No labels in payload — edit doesn't touch labels, allow silently
-if 'labels' not in fields and not labels:
+if not labels and not is_create:
     sys.exit(0)
+
+# For create: labels are required, block if missing
+if not labels and is_create:
+    print('TAXONOMY ERROR: New issues require taxonomy labels.')
+    print('Add exactly one work pattern + one infrastructure layer label.')
+    print('See .claude/rules/label-taxonomy.md for valid labels.')
+    sys.exit(2)
 
 # Normalize — handle both string and dict {'name': '...'} formats
 label_values = []

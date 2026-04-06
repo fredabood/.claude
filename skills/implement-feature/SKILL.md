@@ -5,6 +5,9 @@ user_invocable: true
 
 # /implement-feature
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "implement-feature", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+
 Walk through a complete feature development lifecycle in 7 steps with quality gates between each phase.
 
 ## Usage
@@ -116,3 +119,5 @@ If any quality check fails, stop and fix the issue before proceeding. Do not ski
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

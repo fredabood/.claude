@@ -5,6 +5,9 @@ user_invocable: true
 
 # /create-ticket
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "create-ticket", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
+
 Create a well-structured Jira ticket with acceptance criteria, after checking for duplicates.
 
 ## Usage
@@ -208,3 +211,5 @@ Display:
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

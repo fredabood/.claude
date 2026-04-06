@@ -5,6 +5,9 @@ user_invocable: true
 
 # /post-mortem
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "post-mortem", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+
 Generate and post a structured post-mortem for a Jira ticket. Captures outcomes, issues, lessons, and follow-up items.
 
 ## Usage
@@ -111,3 +114,5 @@ If follow-up items were identified:
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

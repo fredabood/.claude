@@ -5,6 +5,9 @@ user_invocable: true
 
 # /plan-sprint
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "plan-sprint", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
+
 Run a structured sprint planning process that analyzes current project state, gathers requirements, and produces an actionable sprint plan.
 
 ## Usage
@@ -162,3 +165,5 @@ KEY-X → KEY-Y → KEY-Z (N sequential tickets)
 - `getJiraIssue` (cloudId, issueIdOrKey)
 - `createIssueLink` (cloudId, linkType, inwardIssue, outwardIssue)
 - `getIssueLinkTypes` (cloudId)
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

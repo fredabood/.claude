@@ -5,6 +5,9 @@ user_invocable: true
 
 # /complete-task
 
+**Before any Jira operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "complete-task", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+
 Finish work on a Jira ticket. Verifies acceptance criteria, runs quality checks, posts a summary and post-mortem, and transitions the issue to "Done".
 
 ## Usage
@@ -163,3 +166,5 @@ Confirm completion with a brief summary.
 ## CloudId
 
 Use the project's configured Jira CloudId from CLAUDE.md.
+
+**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

@@ -85,7 +85,20 @@ created: YYYY-MM-DD
 ---
 ```
 
-Optional fields: `type`, `aliases`, `entities`, `importance`, `source`, `_migrated`
+Optional fields: `type`, `aliases`, `entities`, `importance`, `source`, `_migrated`, `last_accessed`, `access_count`
+
+### Staleness Tracking (auto-memory only)
+
+Auto-memory files include staleness metadata maintained by `memory-access-tracker.sh`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `last_accessed` | date | ISO date when file was last loaded into context |
+| `access_count` | integer | Cumulative access count across sessions |
+
+Files not accessed in 90+ days are candidates for archival or consolidation.
+Run `python3 scripts/memory-cleanup.py` to generate a staleness report.
+Use `--archive` flag to move stale files to a `stale/` subdirectory.
 
 ### Filenames
 

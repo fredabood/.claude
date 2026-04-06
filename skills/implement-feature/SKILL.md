@@ -29,7 +29,15 @@ Execute each step sequentially. Do not proceed to the next step until the curren
 - **Ensure a ticket exists:**
   - If input is a ticket key (e.g., `PROJ-42`), fetch it with `getJiraIssue`
   - If input is a description, search Jira for an existing ticket. If none found, create one using `/create-ticket` logic.
-- **Transition to In Progress** if not already (transition ID `"21"`)
+- **Transition to In Progress** if not already — use `getTransitionsForJiraIssue` to discover the transition ID at runtime (find `to.name == "In Progress"`), then call `transitionJiraIssue` with the discovered ID. Never hardcode transition IDs.
+- **Set agent tracking fields:**
+  ```
+  editJiraIssue(issueIdOrKey, fields={
+      "customfield_10188": "<session-identifier>",   // Primary Agent
+      "customfield_10189": "<session-identifier>",   // Assigned Agent
+      "customfield_10193": 1.0                       // Workflow Phase = 1 (design)
+  })
+  ```
 - **Check acceptance criteria** — If the ticket has no acceptance criteria, draft them and confirm with the user before proceeding
 - Understand the requirements (from the description or Jira ticket)
 - Identify affected files and components
@@ -111,7 +119,8 @@ If any quality check fails, stop and fix the issue before proceeding. Do not ski
 ## Required MCP Tools
 
 - `getJiraIssue` (cloudId, issueIdOrKey)
-- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id: "21" })
+- `getTransitionsForJiraIssue` (cloudId, issueIdOrKey)
+- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id })
 - `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
 - `searchJiraIssuesUsingJql` (cloudId, jql)
 - `createJiraIssue` (cloudId, fields)

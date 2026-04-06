@@ -48,7 +48,16 @@ Ask the user whether to:
 - Switch to a blocker instead (suggest highest-priority unresolved blocker)
 - View next-eligible tickets (no unresolved blockers)
 
-### Step 4: Check acceptance criteria
+### Step 4: Check planning state
+
+Check the ticket's Plan Sections Complete field (`customfield_10190`) from the `getJiraIssue` response:
+
+- **If Plan Sections Complete is empty or null:** Note: "This ticket has no plan sections complete. Consider running /implement-feature or /workflow for structured planning before implementation."
+- **If some sections are complete:** Display which plan sections are done.
+
+This is informational — do not block; the user may intend to plan during implementation.
+
+### Step 5: Check acceptance criteria
 
 Parse the ticket description for an `Acceptance Criteria` section.
 
@@ -65,11 +74,18 @@ Parse the ticket description for an `Acceptance Criteria` section.
   - Post the drafted criteria as a Jira comment using `addCommentToJiraIssue` (or suggest editing the description).
   - If the user declines, note the gap and proceed.
 
-### Step 5: Transition to In Progress
+### Step 6: Transition to In Progress
 
-Call `transitionJiraIssue` with transition ID `"21"` to move the ticket to "In Progress".
+Discover available transitions using runtime discovery, then transition:
 
-### Step 6: Add a context comment
+1. Call `getTransitionsForJiraIssue(issueIdOrKey)` to get available transitions
+2. Find the transition where `to.name == "In Progress"` (or `to.statusCategory.name == "In Progress"` as fallback)
+3. Call `transitionJiraIssue(issueIdOrKey, transition: {id: <discovered_id>})`
+4. If no "In Progress" transition is available, warn the user with the list of available transitions instead of failing silently
+
+Never hardcode transition IDs — they change when board configuration changes.
+
+### Step 7: Add a context comment
 
 Use `addCommentToJiraIssue` to post:
 ```
@@ -77,7 +93,7 @@ Starting work on this ticket.
 Session: [current date/time]
 ```
 
-### Step 7: Initialize lifecycle fields
+### Step 8: Initialize lifecycle fields
 
 Use `editJiraIssue` to set the agent tracking fields and initialize the workflow phase:
 
@@ -91,7 +107,7 @@ editJiraIssue(issueIdOrKey, fields={
 
 Field IDs reference `.claude/rules/custom-fields.md`.
 
-### Step 8: Set working context
+### Step 9: Set working context
 
 Summarize the ticket for the session:
 - Issue key and summary
@@ -100,13 +116,14 @@ Summarize the ticket for the session:
 - Tickets this is blocked by (inward links) — with current status
 - Relevant files (if mentioned in the ticket)
 
-### Step 9: Output
+### Step 10: Output
 
 Display a brief summary confirming the task is started and what needs to be done.
 
 ## Required MCP Tools
 
 - `getJiraIssue` (cloudId, issueIdOrKey)
+- `getTransitionsForJiraIssue` (cloudId, issueIdOrKey)
 - `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id })
 - `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
 - `editJiraIssue` (cloudId, issueIdOrKey, fields)

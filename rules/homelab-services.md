@@ -39,12 +39,13 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | ~~Immich~~ | ~~immich-server~~ | ~~photos.dirtydata.studio~~ | ~~immich-server:2283~~ | ~~Photo management~~ | DECOMMISSIONED 2026-04-04 — reactivate when photo storage needed |
 | Nextcloud | nextcloud | cloud.dirtydata.studio | nextcloud:80 | File storage | WebDAV + REST |
 | Kiwix | kiwix | wiki.dirtydata.studio | kiwix:8080 | Self-hosted Wikipedia browser | Web UI |
-| MCP Gateway | mcp-uptime-kuma-http | mcp.dirtydata.studio | mcp-uptime-kuma-http:3100 | MCP server for Claude.ai | Streamable HTTP `/mcp` |
+| MCP Gateway | mcp-gateway | mcp.dirtydata.studio | mcp-gateway:3100 | Aggregated MCP server (6 tool groups) for Claude.ai | Streamable HTTP `/mcp` |
 
 ### Infrastructure Services (internal only / not in production Caddyfile)
 
 | Service | Container | External URL | Internal host:port | Purpose | Primary access pattern |
 |---|---|---|---|---|---|
+| Agent Runtime | agent-runtime | (internal only) | agent-runtime:8095 | Autonomous agent workflow engine | REST API `/api/workflow/*`, `/api/search/jira` |
 | Prometheus | prometheus | (internal only) | prometheus:9090 | Metrics scraping | HTTP API `/api/v1/query` |
 | Alertmanager | alertmanager | (internal only) | alertmanager:9093 | Alert routing | HTTP API |
 | postgres-memory | postgres-memory | host: localhost:5432 | postgres-memory:5432 | Agent memory + Jira data | asyncpg / psql |

@@ -76,7 +76,16 @@ Generate a session handoff summary and persist it to Jira and memory for continu
 
 ### Step 7: Post to Jira
 
-For each ticket touched during the session, use `addCommentToJiraIssue` to post the relevant subset of the handoff summary as a comment. Each ticket gets only the context relevant to it — not the full handoff.
+For each ticket touched during the session:
+
+1. Use `addCommentToJiraIssue` to post the relevant subset of the handoff summary as a comment. Each ticket gets only the context relevant to it — not the full handoff.
+2. For tickets still In Progress, update lifecycle tracking fields:
+   ```
+   editJiraIssue(issueIdOrKey, fields={
+       "customfield_10193": <current_workflow_phase>   // Workflow Phase — set to the phase reached
+   })
+   ```
+   This ensures the next agent or session knows what phase the ticket reached.
 
 ### Step 8: Save to memory
 
@@ -92,6 +101,7 @@ If project-level documentation or conventions changed during the session, ensure
 ## Required MCP Tools
 
 - `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
+- `editJiraIssue` (cloudId, issueIdOrKey, fields)
 
 ## CloudId
 

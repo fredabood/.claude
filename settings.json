@@ -213,12 +213,6 @@
             "command": ".claude/hooks/workflow-gate.sh",
             "timeout": 5,
             "statusMessage": "Checking workflow gates..."
-          },
-          {
-            "type": "command",
-            "command": ".claude/hooks/atlassian-skill-gate.sh",
-            "timeout": 5,
-            "statusMessage": "Checking skill execution context..."
           }
         ]
       },
@@ -230,12 +224,6 @@
             "command": ".claude/hooks/label-taxonomy-check.sh",
             "timeout": 10,
             "statusMessage": "Validating taxonomy labels..."
-          },
-          {
-            "type": "command",
-            "command": ".claude/hooks/atlassian-skill-gate.sh",
-            "timeout": 5,
-            "statusMessage": "Checking skill execution context..."
           }
         ]
       },
@@ -247,12 +235,6 @@
             "command": ".claude/hooks/label-taxonomy-check.sh",
             "timeout": 10,
             "statusMessage": "Validating taxonomy labels..."
-          },
-          {
-            "type": "command",
-            "command": ".claude/hooks/atlassian-skill-gate.sh",
-            "timeout": 5,
-            "statusMessage": "Checking skill execution context..."
           }
         ]
       },
@@ -266,43 +248,9 @@
             "statusMessage": "Checking link direction..."
           }
         ]
-      },
-      {
-        "matcher": "mcp__claude_ai_Atlassian__addCommentToJiraIssue",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/atlassian-skill-gate.sh",
-            "timeout": 5,
-            "statusMessage": "Checking skill execution context..."
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__claude_ai_Atlassian__addWorklogToJiraIssue",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/atlassian-skill-gate.sh",
-            "timeout": 5,
-            "statusMessage": "Checking skill execution context..."
-          }
-        ]
       }
     ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/persistence-safety-net.sh",
-            "timeout": 10000,
-            "statusMessage": "Checking for unsaved decisions..."
-          }
-        ]
-      }
-    ],
+    "Stop": [],
     "UserPromptSubmit": [
       {
         "matcher": "",

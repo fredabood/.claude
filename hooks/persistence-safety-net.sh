@@ -2,6 +2,11 @@
 # persistence-safety-net.sh — Stop hook to warn on unsaved decisions
 # Advisory only — always exits 0, just prints warnings
 
+# Resolve project root from script location (handles cwd being inside submodules)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+cd "$PROJECT_ROOT" || exit 0
+
 WARNINGS=()
 
 # Check for uncommitted memory/vault changes

@@ -25,9 +25,14 @@ except (json.JSONDecodeError, ValueError):
 
 tool_input = data.get('tool_input', {})
 
-# Extract labels from create payload (fields.labels) or edit payload (update.labels)
+# Extract labels from create payload (fields.labels or additional_fields.labels) or edit payload (update.labels)
 fields = tool_input.get('fields', {})
 labels = fields.get('labels', [])
+
+if not labels:
+    additional = tool_input.get('additional_fields', {})
+    if isinstance(additional, dict):
+        labels = additional.get('labels', [])
 
 if not labels:
     update = tool_input.get('update', {})

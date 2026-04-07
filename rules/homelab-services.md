@@ -80,6 +80,14 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 ### postgres-memory (`agent_memory` database)
 
+**Custom image (LAB-218):** `homelab/postgres-memory:pg16` (built from `internal/postgres-memory/Dockerfile`)
+**Base:** `timescale/timescaledb-ha:pg16` + `postgresql-16-age` (PGDG)
+**Extensions on agent_memory:** postgis 3.6.2, timescaledb 2.26.1, vector 0.8.2 (pgvector), age 1.6.0, plpgsql
+**PGDATA path:** `/home/postgres/pgdata/data` (NOT vanilla `/var/lib/postgresql/data` — image uses its own path)
+**Active volume:** `homelab_postgres_memory_data_v2` (the original `homelab_postgres_memory_data` is preserved as a recovery snapshot from LAB-218)
+**ADR:** `submodules/memory/homelab/decisions/postgres-extension-stack.md`
+**Runbook:** `submodules/memory/homelab/knowledge/postgres-memory-runbook.md`
+
 - **`jira` schema:** `issues`, `issue_links`, `commit_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph
 - **`google` schema:** `emails`, `calendar_events`, `sync_metadata` — Google Workspace sync data (LAB-199, migrated from SQLite 2026-04-04). Email bodies inline as TEXT, labels as TEXT[], attendees as JSONB.
 - **`wikipedia` schema:** `embed_progress`, `image_metadata_progress` — Wikipedia RAG pipeline progress tracking (LAB-190, migrated from SQLite 2026-04-04)

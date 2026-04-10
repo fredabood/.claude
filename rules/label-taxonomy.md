@@ -159,6 +159,7 @@ How many L4 domain projects consume this work's output?
 | **LAB** | L1, L2, L3, L4 | Homelab platform — infra, services, frameworks, and consolidated domain work |
 | **REAL** | L4 | Real estate investing |
 | **GAME** | L4 | Autonomous game studio |
+| **DRTY** | L1, L2, L3, L4 | DirtyData intelligence platform — same taxonomy as LAB |
 | **FOOD** | L4 | Recipe/cooking workflows |
 
 > **Consolidated into LAB:** HOME (smart home automation → LAB-119 epic), WEB (personal website → LAB-120 epic), and COS (AI personal assistant → LAB-134 epic) were migrated into LAB as L4-domain epics.

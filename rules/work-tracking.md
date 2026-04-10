@@ -10,6 +10,10 @@ globs:
 
 All implementation work is tracked in Jira by default. Follow these behaviors automatically without waiting for the user to invoke a skill.
 
+**Project key routing:** Infer the project key from the work context:
+- Working in the homelab repo root or `stacks/`, `internal/`, `.claude/` → **LAB**
+- Working in `submodules/dirtydata/` or on DRTY-prefixed tickets → **DRTY**
+
 ## On any implementation request
 
 Before writing code:

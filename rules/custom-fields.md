@@ -3,7 +3,7 @@
 Canonical mapping of custom field names to Jira `customfield_NNNNN` IDs.
 All skills, hooks, and agents reference this file for field operations.
 
-> Created by LAB-628 + LAB-627 via Jira REST API (2026-03-28).
+> Created by LAB-628 + LAB-627 via Jira REST API (2026-03-28). Extended to DRTY by DRTY-103 (2026-04-10). All field IDs are shared site-wide — same IDs on both LAB and DRTY.
 
 ---
 

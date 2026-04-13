@@ -91,6 +91,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 - **`jira` schema:** `issues`, `issue_links`, `commit_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph
 - **`google` schema:** `emails`, `calendar_events`, `sync_metadata` — Google Workspace sync data (LAB-199, migrated from SQLite 2026-04-04). Email bodies inline as TEXT, labels as TEXT[], attendees as JSONB.
 - **`wikipedia` schema:** `embed_progress`, `image_metadata_progress` — Wikipedia RAG pipeline progress tracking (LAB-190, migrated from SQLite 2026-04-04)
+- **`domains` schema:** `domains`, `dns_records`, `blockchain_records`, `validation_checks`, `routing`, `events`, `sync_metadata` — unified domain registry for LAB-164 (Domain Management System). Migration: `internal/domain-manager/migrations/001_domain_schema.sql`
 - **`plane` schema:** (archived) mirror of jira schema from Plane CE experiment — 30-day retention then drop
 - **`public` schema:** pgvector tables for embeddings (`wikipedia_embeddings` for RAG), `migration_key_map` (Jira↔Plane ID mapping), `plane_to_jira_key_map` (reverse migration mapping)
 - **Connection (from host):** `postgresql://postgres@localhost:5432/agent_memory`

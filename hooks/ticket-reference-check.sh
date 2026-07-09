@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # PreToolUse hook: blocks commits without a work item reference.
-# Checks both commit message and branch name for pattern [A-Z]+-[0-9]+.
+# Accepted keys: HL-<n> (homelab), DD-<n> (dirtydata), plus historical
+# LAB-<n> / DRTY-<n> / LEGACY-<n> for migrated issues.
+# Checks both commit message and branch name.
 # Allowlist: messages starting with chore:, typo:, docs:, sync: bypass the check.
 
 set -euo pipefail
@@ -41,27 +43,28 @@ if not msg:
 if re.match(r'^\s*(chore|typo|docs|sync):', msg, re.IGNORECASE):
     sys.exit(0)
 
-# Check for work item reference pattern
-ticket_re = re.compile(r'[A-Z]+-[0-9]+')
+# Check for work item reference pattern (mirror keys + migrated historical keys)
+ticket_re = re.compile(r'\b(HL|DD|LAB|DRTY|LEGACY)-[0-9]+\b')
 commit_has_ref = bool(ticket_re.search(msg)) if msg else False
 branch_has_ref = bool(ticket_re.search(branch)) if branch else False
 
 if not commit_has_ref and not branch_has_ref:
     print('BLOCKED: No work item reference found in commit message or branch name.')
     print()
-    print(f'  Commit message: no reference (expected pattern: KEY-123)')
+    print(f'  Commit message: no reference (expected pattern: HL-123 / DD-45, or historical LAB-/DRTY-/LEGACY-)')
     print(f'  Branch name: \"{branch}\" — no reference')
     print()
     print('To fix:')
-    print('  - Include a work item key in the commit message: LAB-123: <description>')
+    print('  - Include the mirror key in the commit message: HL-123: <description> (homelab) or DD-45: <description> (dirtydata)')
+    print('  - Historical keys stay valid when touching migrated issues: LAB-123: / DRTY-45: / LEGACY-7:')
     print('  - Or use an allowlisted prefix: chore: / typo: / docs: / sync:')
-    print('  - Or create a tracking ticket with /create-ticket')
+    print('  - Or create a tracking issue with /create-ticket')
     sys.exit(2)
 
 if not commit_has_ref and branch_has_ref:
     print(f'NOTE: Commit message does not include a work item reference.')
     print(f'  Branch \"{branch}\" has a reference, but prefer including it in the commit message too.')
-    print(f'  Format: KEY-123: <description>')
+    print(f'  Format: HL-123: <description>')
 
 sys.exit(0)
 "

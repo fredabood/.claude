@@ -1,85 +1,119 @@
 ---
-description: Show project status from Jira — active sprint, ticket states, blockers
+description: Show project status from GitHub Issues — board snapshot, blockers, next-eligible work, recent closes
 user_invocable: true
 ---
 
 # /status
 
-**Before any Jira operations**, write the skill execution context marker:
+**Before any GitHub issue operations**, write the skill execution context marker:
 Write `.skill-execution-context.json` with content: `{"skill": "status", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
 
-Query Jira for a project overview showing active work, blockers, and progress.
+Show a project overview from the "Homelab Work" board and the postgres mirror: open work by Status, blockers, next-eligible issues, and recent completions.
 
 ## Usage
 
 ```
 /status
-/status <PROJECT-KEY>
+/status <repo>
 ```
 
-Example: `/status` or `/status VIBEY`
+Example: `/status` (both repos) or `/status homelab` or `/status dirtydata`
 
 ## Steps
 
-1. **Determine project** — Use the project key from the argument, or infer from CLAUDE.md / recent git history
+1. **Determine scope** — Use the repo from the argument (`homelab` or `dirtydata`), or default to both. The mirror (`jira.*` on postgres-memory) is the fastest read path for analytics; `mcp__github__list_issues` / `mcp__github__projects_get` are the authoritative live path if the mirror looks stale (`SELECT max(synced_at) FROM jira.issues`).
 
-2. **Query active sprint** — Use `searchJiraIssuesUsingJql`:
+2. **Query open work by board Status** (mirror SQL — filter `gh_repo` when scoped):
+   ```bash
+   docker exec postgres-memory psql -U postgres -d agent_memory -c \
+     "SELECT gh_repo, status, count(*) FROM jira.issues
+      WHERE status_category <> 'Done' GROUP BY 1, 2 ORDER BY 1, 2;"
    ```
-   project = <KEY> AND sprint in openSprints() ORDER BY status ASC, priority DESC
+   And the In Progress detail:
+   ```bash
+   docker exec postgres-memory psql -U postgres -d agent_memory -c \
+     "SELECT issue_key, summary, assigned_agent, updated_at::date FROM jira.issues
+      WHERE status = 'In Progress' ORDER BY updated_at DESC;"
    ```
 
-3. **Query blockers** — Use `searchJiraIssuesUsingJql`:
+3. **Query the blocked set** (`issue_links`: `source_key` = blocker, `target_key` = blocked):
+   ```bash
+   docker exec postgres-memory psql -U postgres -d agent_memory -c \
+     "SELECT b.issue_key, b.summary, l.source_key AS blocked_by, s.status AS blocker_status
+      FROM jira.issue_links l
+      JOIN jira.issues b ON b.issue_key = l.target_key
+      JOIN jira.issues s ON s.issue_key = l.source_key
+      WHERE l.link_type = 'Blocks'
+        AND b.status_category <> 'Done'
+        AND s.status_category <> 'Done'
+      ORDER BY b.issue_key;"
    ```
-   project = <KEY> AND status != Done AND (labels = blocker OR priority = Highest)
+
+4. **Compute next-eligible issues** (work queue = Backlog + Planned + not Blocked):
+   a. Candidates — Backlog with acceptance criteria and no open blockers:
+      ```bash
+      docker exec postgres-memory psql -U postgres -d agent_memory -c \
+        "SELECT i.issue_key, i.summary, i.priority FROM jira.issues i
+         WHERE i.status = 'Backlog'
+           AND i.description_text ILIKE '%acceptance criteria%'
+           AND NOT EXISTS (
+             SELECT 1 FROM jira.issue_links l
+             JOIN jira.issues s ON s.issue_key = l.source_key
+             WHERE l.link_type = 'Blocks' AND l.target_key = i.issue_key
+               AND s.status_category <> 'Done')
+         ORDER BY i.priority NULLS LAST, i.created_at;"
+      ```
+   b. For each candidate, confirm **Planned** with `mcp__github__issue_read` (method `get_comments`): a comment containing `## Implementation Plan` must exist. Note issues with criteria but no plan as "needs planning".
+   c. Skip candidates whose latest `Assigned Agent:` comment names another agent.
+   d. Collect the eligible set ordered by priority.
+
+5. **Recent completions** (last 7 days):
+   ```bash
+   docker exec postgres-memory psql -U postgres -d agent_memory -c \
+     "SELECT issue_key, summary, resolution, resolved_at::date FROM jira.issues
+      WHERE status_category = 'Done' AND resolved_at > now() - interval '7 days'
+      ORDER BY resolved_at DESC;"
    ```
+   (`resolution` distinguishes Done = closed/completed from Won't Do = closed/not_planned.)
 
-4. **Compute next-eligible tickets:**
-   a. Query: `project = <KEY> AND status = "To Do" AND sprint in openSprints() ORDER BY priority DESC`
-   b. For each candidate, `getJiraIssue(cloudId, issueKey)` to retrieve links
-   c. Check inward "is blocked by" links:
-      - No such links → eligible
-      - All blocking issues Done → eligible (note: "just unblocked")
-      - Otherwise → blocked (record which blockers are unresolved)
-   d. Collect eligible set ordered by priority
-
-5. **Format overview** — Display a structured summary:
+6. **Format overview** — Display a structured summary:
 
    ```
-   ## Project Status: <PROJECT-KEY>
+   ## Project Status: <repo | both repos>
 
-   ### Active Sprint: <sprint name>
-   | Key | Summary | Status | Assignee |
-   |-----|---------|--------|----------|
-   | ... | ...     | ...    | ...      |
+   ### Board: Homelab Work
+   | Status | Count |
+   |--------|-------|
+   | Backlog | X |
+   | In Progress | Y |
+   | Implementation Complete | Z |
+   | Review Complete | W |
+   | Deferred | V |
 
-   ### Progress
-   - To Do: X
-   - In Progress: Y
-   - Done: Z
-
-   ### Blockers
-   - <KEY>: <summary> (reason)
-
-   ### Next Eligible (ready to start)
-   | Key | Summary | Priority | Notes |
-   |-----|---------|----------|-------|
-   | ... | ...     | High     | No blockers / Just unblocked |
+   ### In Progress
+   | Key | Summary | Assigned Agent | Updated |
+   |-----|---------|----------------|---------|
 
    ### Blocked (waiting on dependencies)
    | Key | Summary | Blocked By | Blocker Status |
    |-----|---------|-----------|----------------|
-   | ... | ...     | KEY-X     | In Progress    |
+
+   ### Next Eligible (ready for pickup)
+   | Key | Summary | Priority | Notes |
+   |-----|---------|----------|-------|
+   | ... | ...     | High     | No blockers / Just unblocked |
+
+   ### Recently Closed (7 days)
+   | Key | Summary | Outcome | Closed |
+   |-----|---------|---------|--------|
    ```
 
-6. **Output** — Display the formatted overview.
+7. **Output** — Display the formatted overview. Issue URLs come from the mirror's `jira_url` column if links are needed.
 
-## Required MCP Tools
+## Required Tools
 
-- `searchJiraIssuesUsingJql` (cloudId, jql)
-- `getJiraIssue` (cloudId, issueIdOrKey)
-
-## CloudId
-
-Use the project's configured Jira CloudId from CLAUDE.md.
+- `docker exec postgres-memory psql ...` — mirror analytics (read-only; never write to `jira.*`)
+- `mcp__github__issue_read` (method `get_comments` — Planned check)
+- `mcp__github__list_issues` / `mcp__github__projects_get` — live fallback if the mirror is stale
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

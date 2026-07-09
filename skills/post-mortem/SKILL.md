@@ -1,47 +1,50 @@
 ---
-description: Generate a structured post-mortem for a completed ticket — what went well, what didn't, lessons learned, metrics
+description: Generate a structured post-mortem for a completed issue — what went well, what didn't, lessons learned, metrics
 user_invocable: true
 ---
 
 # /post-mortem
 
-**Before any Jira operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "post-mortem", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+**Before any GitHub operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "post-mortem", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<issue key if known, null otherwise>"}`
 
-Generate and post a structured post-mortem for a Jira ticket. Captures outcomes, issues, lessons, and follow-up items.
+Generate and post a structured post-mortem for a GitHub issue. Captures outcomes, issues, lessons, and follow-up items.
 
 ## Usage
 
 ```
-/post-mortem <ISSUE-KEY>
+/post-mortem <#N | HL-N | DD-N | LAB-N | DRTY-N>
 ```
 
-Example: `/post-mortem PROJ-123`
+Example: `/post-mortem HL-123`
+
+Migrated keys (`LAB-*`, `DRTY-*`, `LEGACY-*`) resolve to repo+number via `public.github_migration_key_map` (see `/start-task`).
 
 ## Steps
 
-### Step 1: Fetch ticket details
+### Step 1: Fetch issue details
 
-Use `getJiraIssue` to retrieve the full ticket including:
-- Summary, description, status
-- All comments (timeline of work)
-- Created date, resolution date
-- Acceptance criteria
+Use `mcp__github__issue_read` (method: get) and (method: get_comments) to retrieve the full issue including:
+- Title, body, state (`state_reason` if closed), labels
+- All comments (timeline of work — assignment, plan, milestones, verification)
+- Created date, closed date
 
 ### Step 2: Gather context
 
-- Query postgres for linked commits: `SELECT commit_short, repo, message, committed_at FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` (via `docker exec postgres-memory psql`)
+- Query the mirror for linked commits: `SELECT commit_short, repo, message, committed_at FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` (via `docker exec postgres-memory psql -U postgres -d agent_memory`; `<KEY>` is the mirror key — `HL-<n>`, `DD-<n>`, or the migrated `LAB-*`/`DRTY-*` key)
 - Fallback: `git log --grep="<KEY>" --oneline` if postgres unavailable
 - Run `git log --grep="<KEY>" --stat` for files changed
-- Review ticket comments for the timeline of events (milestones, blockers, decisions)
+- Review issue comments for the timeline of events (milestones, blockers, decisions)
 
 ### Step 3: Generate structured post-mortem
+
+The heading marker must be exactly `## Post-Mortem:` — hooks and the mirror grep for it (see `.claude/rules/custom-fields.md`):
 
 ```markdown
 ## Post-Mortem: <KEY> — <Summary>
 
 **Completed:** <date>
-**Duration:** <time from In Progress to Done>
+**Duration:** <time from In Progress to close>
 
 ### What Went Well
 - <positive outcomes, smooth implementations, good decisions>
@@ -62,57 +65,34 @@ Use `getJiraIssue` to retrieve the full ticket including:
 - [ ] <remaining work, tech debt, improvements identified>
 ```
 
-Base the content on actual evidence from git history and Jira comments — don't fabricate or guess.
+Base the content on actual evidence from git history and issue comments — don't fabricate or guess. Duration: from the assignment comment / board Status "In Progress" timestamp to close (the mirror's `jira.status_transitions` has the history if needed).
 
-### Step 4: Populate post-mortem fields
+### Step 4: Post to GitHub
 
-Use `editJiraIssue` to write each section to its custom field:
-
-```
-editJiraIssue(issueIdOrKey, fields={
-    "customfield_10180": "<What Went Well text>",
-    "customfield_10181": "<What Didn't Go Well text>",
-    "customfield_10182": "<Lessons Learned text>",
-    "customfield_10183": "<Metrics text>",
-    "customfield_10184": "<Follow-Up Items text>",
-    "customfield_10192": [
-        {"id": "10138"},   // What Went Well
-        {"id": "10139"},   // What Didn't
-        {"id": "10140"},   // Lessons Learned
-        {"id": "10141"},   // Metrics
-        {"id": "10142"}    // Follow-Ups
-    ]
-})
-```
-
-Field IDs reference `.claude/rules/custom-fields.md`.
-
-### Step 5: Post to Jira
-
-Use `addCommentToJiraIssue` to post the full post-mortem on the ticket (in addition to the field writes — the comment serves as a human-readable record).
+Use `mcp__github__add_issue_comment` to post the full post-mortem on the issue. There are no custom fields on GitHub — the structured comment IS the canonical record (the mirror parses the `##`/`###` markers into its `pm_*` columns).
 
 ### Step 5: Persist to memory
 
 If the post-mortem contains significant lessons learned (patterns to repeat, mistakes to avoid, architectural insights):
 - Save to a memory file in the project memory directory
-- Include enough context that a future session can apply the lesson without the original ticket context
+- Include enough context that a future session can apply the lesson without the original issue context
 
-### Step 6: Create follow-up tickets
+### Step 6: Create follow-up issues
 
 If follow-up items were identified:
 1. Present them to the user
-2. Offer to create each as a new ticket using `/create-ticket` logic
-3. Link follow-up tickets to the original ticket
+2. Offer to create each as a new issue using `/create-ticket` logic
+3. Link follow-up issues to the original — reference the original in the body (`Follow-up from <repo>#<n>`); if ordering matters, create blocked-by links via `gh api .../dependencies/blocked_by` (see `/create-ticket` Step 8)
 
-## Required MCP Tools
+## Required Tools
 
-- `getJiraIssue` (cloudId, issueIdOrKey)
-- `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
-- `createJiraIssue` (cloudId, fields) — for follow-ups
-- `createIssueLink` (cloudId, linkType, inwardIssue, outwardIssue) — for follow-ups
+- `mcp__github__issue_read` (method: get, get_comments)
+- `mcp__github__add_issue_comment`
+- `mcp__github__issue_write` / `mcp__github__sub_issue_write` — for follow-ups
+- `gh api` — dependency links; `docker exec postgres-memory psql` — commit links (Bash)
 
-## CloudId
+## Repos & Board
 
-Use the project's configured Jira CloudId from CLAUDE.md.
+Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board and Status option IDs: `.claude/rules/custom-fields.md`.
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

@@ -206,8 +206,26 @@
         ]
       },
       {
-        "matcher": "mcp__claude_ai_Atlassian__transitionJiraIssue",
+        "matcher": "mcp__github__issue_write",
         "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/github-skill-gate.sh",
+            "timeout": 10,
+            "statusMessage": "Checking skill execution context..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/label-taxonomy-check.sh",
+            "timeout": 10,
+            "statusMessage": "Validating taxonomy labels..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/lifecycle-field-check.sh",
+            "timeout": 30,
+            "statusMessage": "Checking lifecycle completeness..."
+          },
           {
             "type": "command",
             "command": ".claude/hooks/workflow-gate.sh",
@@ -217,35 +235,46 @@
         ]
       },
       {
-        "matcher": "mcp__claude_ai_Atlassian__createJiraIssue",
+        "matcher": "mcp__github__projects_write",
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/label-taxonomy-check.sh",
+            "command": ".claude/hooks/github-skill-gate.sh",
             "timeout": 10,
-            "statusMessage": "Validating taxonomy labels..."
+            "statusMessage": "Checking skill execution context..."
           }
         ]
       },
       {
-        "matcher": "mcp__claude_ai_Atlassian__editJiraIssue",
+        "matcher": "mcp__github__add_issue_comment",
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/label-taxonomy-check.sh",
+            "command": ".claude/hooks/github-skill-gate.sh",
             "timeout": 10,
-            "statusMessage": "Validating taxonomy labels..."
+            "statusMessage": "Checking skill execution context..."
           }
         ]
       },
       {
-        "matcher": "mcp__claude_ai_Atlassian__createIssueLink",
+        "matcher": "mcp__github__sub_issue_write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/github-skill-gate.sh",
+            "timeout": 10,
+            "statusMessage": "Checking skill execution context..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(gh api *)",
         "hooks": [
           {
             "type": "command",
             "command": ".claude/hooks/link-direction-check.sh",
             "timeout": 10,
-            "statusMessage": "Checking link direction..."
+            "statusMessage": "Checking dependency link direction..."
           }
         ]
       }

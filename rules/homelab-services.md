@@ -31,7 +31,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | ~~Prowlarr~~ | ~~prowlarr~~ | ~~prowlarr.dirtydata.studio~~ | ~~prowlarr:9696~~ | ~~Indexer management~~ | DECOMMISSIONED 2026-04-05 — media stack paused |
 | Mealie | mealie | mealie.dirtydata.studio | mealie:9000 | Recipe manager | REST API |
 | Twenty CRM | twenty-server | crm.dirtydata.studio | twenty-server:3000 | Self-hosted CRM | Web UI + REST API |
-| Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (Jira-backed) | FastAPI REST `/api/graph` |
+| Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (GitHub-backed) | FastAPI REST `/api/graph` |
 | ~~SearXNG~~ | ~~searxng~~ | ~~search.dirtydata.studio~~ | ~~searxng:8080~~ | ~~Private search~~ | DECOMMISSIONED 2026-04-05 |
 | FreshRSS | freshrss | rss.dirtydata.studio | freshrss:80 | RSS reader | Web UI + Fever API |
 | Calibre-Web | calibre-web | books.dirtydata.studio | calibre-web:8083 | Ebook library | Web UI |
@@ -48,7 +48,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Agent Runtime | agent-runtime | (internal only) | agent-runtime:8095 | Autonomous agent workflow engine | REST API `/api/workflow/*`, `/api/search/jira` |
 | Prometheus | prometheus | (internal only) | prometheus:9090 | Metrics scraping | HTTP API `/api/v1/query` |
 | Alertmanager | alertmanager | (internal only) | alertmanager:9093 | Alert routing | HTTP API |
-| postgres-memory | postgres-memory | host: localhost:5432 | postgres-memory:5432 | Agent memory + Jira data | asyncpg / psql |
+| postgres-memory | postgres-memory | host: localhost:5432 | postgres-memory:5432 | Agent memory + GitHub issue mirror (`jira.*`) | asyncpg / psql |
 | MinIO | minio | (staging only) | minio:9000 (S3), minio:9001 (console) | Object storage | AWS S3 API; bucket `jira-activity` |
 | qBittorrent | qbittorrent | host: localhost:8081 | gluetun:8080 | Torrent client (VPN via gluetun) | Web API `/api/v2/` |
 | Claude Remote | claude-remote | claude.ai/code (no direct port) | outbound HTTPS only | Claude Code Remote Control server | claude.ai/code + Claude mobile app |
@@ -69,7 +69,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 | Server | What it can do | Key use cases |
 |---|---|---|
-| atlassian | Create/edit/transition Jira issues, add comments, create issue links, search via JQL | All Jira ops — project `LAB` at fredabood.atlassian.net |
+| github | Create/update/close issues, add comments, sub-issues (epics), Projects v2 board status, search (github-mcp-server) | All issue ops — `fredabood/homelab` + `fredabood/dirtydata`; dependencies (blocked-by) via `gh api`, not MCP |
 | slack | Send/read messages, search channels, create/update canvases | Notifications, async comms, status updates |
 | obsidian | Read/write/search vault notes | Knowledge base at `submodules/memory/` |
 | google-workspace | Gmail, Calendar, Contacts | Email, scheduling |
@@ -89,7 +89,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 **ADR:** `submodules/memory/homelab/decisions/postgres-extension-stack.md`
 **Runbook:** `submodules/memory/homelab/knowledge/postgres-memory-runbook.md`
 
-- **`jira` schema:** `issues`, `issue_links`, `commit_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph
+- **`jira` schema:** `issues`, `issue_links`, `commit_links`, `sprints`, `status_transitions`, `sync_metadata`, `sync_drifts`, `activity_log`, `issue_changelog` — active, used by jira-graph. **Now mirrors GitHub Issues** (2026-07 migration): `gh_repo`/`gh_number` columns identify the GitHub issue; new issues get synthetic keys `HL-<n>` (homelab) / `DD-<n>` (dirtydata) while migrated issues keep `LAB-*`/`DRTY-*`; resolve keys with `jira.gh_issue_key(repo, number)`. Read-only for agents — GitHub is the write side.
 - **`google` schema:** `emails`, `calendar_events`, `sync_metadata` — Google Workspace sync data (LAB-199, migrated from SQLite 2026-04-04). Email bodies inline as TEXT, labels as TEXT[], attendees as JSONB.
 - **`wikipedia` schema:** `embed_progress`, `image_metadata_progress` — Wikipedia RAG pipeline progress tracking (LAB-190, migrated from SQLite 2026-04-04)
 - **`domains` schema:** `domains`, `dns_records`, `blockchain_records`, `validation_checks`, `routing`, `events`, `sync_metadata` — unified domain registry for LAB-164 (Domain Management System). Migration: `internal/domain-manager/migrations/001_domain_schema.sql`
@@ -103,7 +103,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 | Database | Owner | Size | Service | Purpose |
 |----------|-------|------|---------|---------|
-| `agent_memory` | postgres | ~221 MB | Jira Graph, Open-WebUI, MCP | Jira sync schemas, pgvector embeddings |
+| `agent_memory` | postgres | ~221 MB | Jira Graph, Open-WebUI, MCP | GitHub mirror schemas (`jira.*`), pgvector embeddings |
 | `twenty_db` | twenty_user | ~16 MB | Twenty CRM | CRM application data |
 | `n8n` | postgres | ~19 MB | n8n | Workflow automation backend |
 | `freshrss_db` | freshrss | ~9 MB | FreshRSS | RSS feed data |
@@ -128,7 +128,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 - **Custom image:** `homelab/n8n-puppeteer:${N8N_VERSION}` — includes Python 3.12+pip, psycopg2-binary, caldav, pyarrow, mwparserfromhell, rclone, rsync, docker-cli, mc, chromium, puppeteer-core, openssh-client, sqlite CLI. Google sync writes to `google` schema, Wikipedia pipeline writes to `wikipedia` schema.
 - **Scheduling role:** Single orchestration plane for all scheduled jobs (LAB-162). Only macOS-native jobs (NAS mount, Cloudflare tunnel) and host-filesystem jobs (restic backup) stay on launchd. See `docs/operations/n8n-scheduling.md`.
 - **Docker access:** Docker CLI via socket proxy (`DOCKER_HOST=tcp://docker-socket-proxy:2375`)
-- **Known workflow IDs:** reconciliation `0NyujISFScfFNexz` (hourly diff-based sync + on CDC failure), CDC webhook-receiver `KTTljDaHkVbEMfUI` (real-time issue + changelog), changelog-sync `jira-changelog-sync` (deactivated — superseded by CDC webhook), Wikipedia mirrors `wikipedia-zim-sync` (monthly 1st 2AM), `wikidump-sync` (monthly 5th 4AM), `wikipedia-images-sync` (monthly 10th 6AM, self-chaining tranches), `wikipedia-embeddings-sync` (webhook-only, self-chaining 1K tranches via Ollama), `earthdata-download-date` ID `1ttQHbNvhrlJHT4h` (LAB-221; webhook-triggered, accepts `{"date":"YYYY-MM-DD"}` body, downloads all imagery for that date across all collections — `POST /webhook/earthdata-download-date`)
+- **Known workflow IDs:** `github-webhook-receiver` (real-time GitHub CDC — `POST /webhook/github-event`, HMAC-verified; mirrors issue/comment/board events into `jira.*` and auto-adds new issues to the board at `Status=Backlog`), `github-full-sync` (hourly reconciliation + manual `POST /webhook/github-full-sync`), `github-weekly-export` (Sun 3AM + manual `POST /webhook/github-weekly-export`), Wikipedia mirrors `wikipedia-zim-sync` (monthly 1st 2AM), `wikidump-sync` (monthly 5th 4AM), `wikipedia-images-sync` (monthly 10th 6AM, self-chaining tranches), `wikipedia-embeddings-sync` (webhook-only, self-chaining 1K tranches via Ollama), `earthdata-download-date` ID `1ttQHbNvhrlJHT4h` (LAB-221; webhook-triggered, accepts `{"date":"YYYY-MM-DD"}` body, downloads all imagery for that date across all collections — `POST /webhook/earthdata-download-date`)
 
 ---
 

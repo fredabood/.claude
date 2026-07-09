@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# PreToolUse hook: validates taxonomy labels on Jira ticket create/edit.
-# Hard gate: blocks createJiraIssue/editJiraIssue when taxonomy labels are missing.
-# Exit 2 = block (labels missing or invalid), Exit 0 = allow (labels valid or non-label edit).
+# PreToolUse hook: validates taxonomy labels on GitHub issue create/update.
+# Hard gate: blocks mcp__github__issue_write creates when taxonomy labels are missing.
+# Exit 2 = block (labels missing or invalid), Exit 0 = allow (labels valid or non-label update).
 #
 # Intercepts:
-#   mcp__claude_ai_Atlassian__createJiraIssue
-#   mcp__claude_ai_Atlassian__editJiraIssue
+#   mcp__github__issue_write   (method: create — labels required;
+#                               method: update — validated only when labels are present)
 #
 # Exit codes:
-#   0 = allow (labels valid, or edit doesn't touch labels)
+#   0 = allow (labels valid, or update doesn't touch labels)
 #   2 = block (taxonomy labels missing or invalid)
 
 set -euo pipefail
@@ -23,35 +23,25 @@ try:
 except (json.JSONDecodeError, ValueError):
     sys.exit(0)
 
-tool_input = data.get('tool_input', {})
-
-# Extract labels from create payload (fields.labels or additional_fields.labels) or edit payload (update.labels)
-fields = tool_input.get('fields', {})
-labels = fields.get('labels', [])
-
-if not labels:
-    additional = tool_input.get('additional_fields', {})
-    if isinstance(additional, dict):
-        labels = additional.get('labels', [])
-
-if not labels:
-    update = tool_input.get('update', {})
-    if update:
-        label_ops = update.get('labels', [])
-        labels = [op.get('add', '') for op in label_ops if isinstance(op, dict) and 'add' in op]
-
-# Determine if this is a create or edit operation
 tool_name = data.get('tool_name', '')
-is_create = 'createJiraIssue' in tool_name
+# Only gate the GitHub issue write tool (allow silently if invoked on anything else)
+if tool_name and 'issue_write' not in tool_name:
+    sys.exit(0)
 
-# No labels in payload — edit doesn't touch labels, allow silently
+tool_input = data.get('tool_input', {})
+method = str(tool_input.get('method', '')).lower()
+is_create = method == 'create' or (not method and not tool_input.get('issue_number'))
+
+labels = tool_input.get('labels', []) or []
+
+# No labels in payload — update doesn't touch labels, allow silently
 if not labels and not is_create:
     sys.exit(0)
 
 # For create: labels are required, block if missing
 if not labels and is_create:
     print('TAXONOMY ERROR: New issues require taxonomy labels.')
-    print('Add exactly one work pattern + one infrastructure layer label.')
+    print('Add exactly one work pattern + one infrastructure layer label to the labels array.')
     print('See .claude/rules/label-taxonomy.md for valid labels.')
     sys.exit(2)
 
@@ -86,7 +76,7 @@ if warnings:
         print(f'  - {w}')
     print()
     print('See .claude/rules/label-taxonomy.md for taxonomy conventions.')
-    print('Add the required labels to proceed.')
+    print('Add the required labels to proceed (optional source:* labels are also allowed).')
     sys.exit(2)
 
 sys.exit(0)

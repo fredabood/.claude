@@ -1,33 +1,35 @@
 ---
-description: Verify acceptance criteria for a ticket — run tests, check conditions, post verification report to Jira
+description: Verify acceptance criteria for an issue — run tests, check conditions, post verification report to GitHub
 user_invocable: true
 ---
 
 # /review-ticket
 
-**Before any Jira operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "review-ticket", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+**Before any GitHub operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "review-ticket", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<issue key if known, null otherwise>"}`
 
-Verify all acceptance criteria for a Jira ticket before completion. Runs tests, checks conditions, and posts a verification report.
+Verify all acceptance criteria for a GitHub issue before completion. Runs tests, checks conditions, posts a verification report, and sets board Status to "Review Complete" on pass.
 
 ## Usage
 
 ```
-/review-ticket <ISSUE-KEY>
+/review-ticket <#N | HL-N | DD-N | LAB-N | DRTY-N>
 ```
 
-Example: `/review-ticket PROJ-123`
+Example: `/review-ticket HL-123`
+
+Migrated keys (`LAB-*`, `DRTY-*`, `LEGACY-*`) resolve to repo+number via `public.github_migration_key_map` (see `/start-task`).
 
 ## Steps
 
-### Step 1: Fetch ticket
+### Step 1: Fetch issue
 
-Use `getJiraIssue` to retrieve the ticket description and all comments.
+Use `mcp__github__issue_read` (method: get) for the issue body and (method: get_comments) for all comments.
 
 ### Step 2: Extract acceptance criteria
 
-Parse the `Acceptance Criteria` section from the ticket description. If no criteria exist:
-1. Check comments for criteria posted later
+Parse the `## Acceptance Criteria` task list from the issue **body**. If no criteria exist:
+1. Check comments for criteria posted later (they belong in the body — offer to move them there via `mcp__github__issue_write`)
 2. If still none found, report: "No acceptance criteria found. Run `/start-task` to draft criteria before reviewing."
 
 ### Step 3: Verify each criterion
@@ -36,62 +38,58 @@ For each criterion, determine the verification method and execute it:
 
 | Criterion type | Verification method |
 |---|---|
-| Test-based (`Tests pass: <command>`) | Run the command, capture pass/fail output |
+| Test-based (`Tests pass: <command>` or `[pytest:<marker>]` prefix) | Run the command, capture pass/fail output |
 | File-based (file exists, config present) | Check file existence and content |
 | Behavior-based (feature works as described) | Walk through verification steps, document evidence |
 | Security (no regressions) | Run security checks on changed files |
 | Documentation (docs updated) | Verify referenced docs exist and are current |
+| `[HUMAN-APPROVAL]` prefixed | Requires explicit user confirmation — do not self-approve; record who approved |
 
 ### Step 4: Generate verification report
 
+Use the exact `##`/`###` markers from `.claude/rules/custom-fields.md` — hooks and the mirror grep for them:
+
 ```markdown
-## Acceptance Criteria Verification: <KEY>
+## Verification Report
+
+### Criteria Tested
 
 | # | Criterion | Status | Evidence |
 |---|-----------|--------|----------|
 | 1 | <criterion text> | PASS | <how verified, command output summary> |
 | 2 | <criterion text> | FAIL | <what failed, expected vs actual> |
 
+### Results Summary
 **Result:** ALL PASS / <N> FAILURES
 
-### Details
 <expanded evidence for any non-trivial verifications>
 ```
 
-### Step 5: Populate verification fields
+### Step 5: Update the body checklist
 
-Use `editJiraIssue` to write verification data to custom fields:
+Tick the checkbox (`- [ ]` → `- [x]`) for each criterion that passed, using `mcp__github__issue_write` (method: update) on the issue body. Leave failing criteria unticked.
 
-```
-editJiraIssue(issueIdOrKey, fields={
-    "customfield_10178": "<all criteria tested — list from report>",
-    "customfield_10179": "<results summary — X/Y pass, any failures>",
-    "customfield_10191": [
-        {"id": "10135"},   // Criteria Tested
-        {"id": "10136"},   // Results Posted
-        // Add {"id": "10137"} (All Pass) only if ALL criteria passed
-    ]
-})
-```
+### Step 6: Post to GitHub
 
-Field IDs reference `.claude/rules/custom-fields.md`.
-
-### Step 6: Post to Jira
-
-Use `addCommentToJiraIssue` to post the verification report on the ticket.
+Use `mcp__github__add_issue_comment` to post the verification report on the issue.
 
 ### Step 7: Gate result
 
-- **All pass:** Confirm the ticket is ready for `/complete-task`.
-- **Any fail:** List what needs fixing. Do not proceed to completion. Suggest specific actions to address each failure.
+- **All pass:** Set board Status → "Review Complete" via `mcp__github__projects_write`:
+  - Project `PVT_kwHOAM5y1M4BcqrU`, Status field `PVTSSF_lAHOAM5y1M4BcqrUzhXRxK4`, option "Review Complete" = `0aa21637`
 
-## Required MCP Tools
+  Confirm the issue is ready for terminal close (`/complete-task` → close with `state_reason: completed`).
+- **Any fail:** List what needs fixing. Do not advance the board Status and do not proceed to completion. Suggest specific actions to address each failure.
 
-- `getJiraIssue` (cloudId, issueIdOrKey)
-- `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
+## Required Tools
 
-## CloudId
+- `mcp__github__issue_read` (method: get, get_comments)
+- `mcp__github__issue_write` (method: update — tick body checkboxes)
+- `mcp__github__add_issue_comment`
+- `mcp__github__projects_get` / `mcp__github__projects_write` (board Status)
 
-Use the project's configured Jira CloudId from CLAUDE.md.
+## Repos & Board
+
+Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board and Status option IDs: `.claude/rules/custom-fields.md`.
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

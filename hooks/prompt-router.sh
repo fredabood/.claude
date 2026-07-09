@@ -17,9 +17,19 @@ if echo "$TEXT" | grep -qE 'deploy|service|stack|container|caddy'; then
   SUGGESTION="/deploy-service or /deploy-stack"
 fi
 
+# Issue lookup/search patterns (GitHub Issues — jira-* skills are GitHub-backed now)
+if echo "$TEXT" | grep -qE 'jira|github issue|\b(hl|dd|lab|drty|legacy)-[0-9]+'; then
+  SUGGESTION="/jira-issue or /jira-search (GitHub Issues-backed)"
+fi
+
 # Ticket creation patterns
 if echo "$TEXT" | grep -qE 'create.*(ticket|issue|task)|new ticket|new issue'; then
   SUGGESTION="/create-ticket"
+fi
+
+# Completion patterns
+if echo "$TEXT" | grep -qE 'close.*(ticket|issue)|complete.*(task|ticket|issue)|mark.*done'; then
+  SUGGESTION="/complete-task (close as completed) or /review-ticket first"
 fi
 
 # Status patterns

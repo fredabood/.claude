@@ -5,10 +5,10 @@ user_invocable: true
 
 # /handoff
 
-**Before any Jira operations**, write the skill execution context marker:
+**Before any GitHub issue operations**, write the skill execution context marker:
 Write `.skill-execution-context.json` with content: `{"skill": "handoff", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
 
-Generate a session handoff summary and persist it to Jira and memory for continuity across conversations.
+Generate a session handoff summary and persist it to the active GitHub issue(s) and memory for continuity across conversations.
 
 ## Usage
 
@@ -22,7 +22,7 @@ Generate a session handoff summary and persist it to Jira and memory for continu
 
 - Files changed: `git diff --name-only` (staged and unstaged)
 - Commits made: `git log --oneline` since session start (compare to recent history)
-- Jira tickets touched (any tickets transitioned, commented on, or created during the session)
+- Issues touched (any issues whose board Status changed, that were commented on, created, or closed during the session — keys `HL-<n>`/`DD-<n>`, or migrated `LAB-*`/`DRTY-*`)
 
 ### Step 2: Summarize work done
 
@@ -40,14 +40,14 @@ Generate a session handoff summary and persist it to Jira and memory for continu
 
 - Uncommitted changes and their purpose
 - Failing tests or known issues
-- Tickets still in progress
+- Issues still In Progress on the board
 - Next steps that should be taken
 
 ### Step 5: Note blockers
 
 - Anything that prevented completion
 - Questions that need answers
-- External dependencies waiting on
+- External dependencies waiting on (including open blocked-by links — `gh api repos/fredabood/<repo>/issues/<n>/dependencies/blocked_by`)
 
 ### Step 6: Format handoff
 
@@ -74,37 +74,33 @@ Generate a session handoff summary and persist it to Jira and memory for continu
 - <file list>
 ```
 
-### Step 7: Post to Jira
+### Step 7: Post to GitHub
 
-For each ticket touched during the session:
+For each issue touched during the session:
 
-1. Use `addCommentToJiraIssue` to post the relevant subset of the handoff summary as a comment. Each ticket gets only the context relevant to it — not the full handoff.
-2. For tickets still In Progress, update lifecycle tracking fields:
+1. Use `mcp__github__add_issue_comment` to post the relevant subset of the handoff summary as a comment. Each issue gets only the context relevant to it — not the full handoff.
+2. For issues still In Progress, state the lifecycle point reached in the handoff comment (there is no Workflow Phase field on GitHub — the comment is the record), e.g.:
    ```
-   editJiraIssue(issueIdOrKey, fields={
-       "customfield_10193": <current_workflow_phase>   // Workflow Phase — set to the phase reached
-   })
+   Workflow phase reached: 5 (implementation — tests passing, verification pending)
+   Assigned Agent: <session-id>
    ```
-   This ensures the next agent or session knows what phase the ticket reached.
+   If an active `/workflow` run exists, its phase state is already in `workflow.runs` / `.workflow-state.json` — quote the phase number from there. This ensures the next agent or session knows where the issue stands.
+3. Leave board Status as-is — handoff does not transition issues.
 
 ### Step 8: Save to memory
 
-Write or update memory files in the project memory directory with:
-- Session context and decisions that the next conversation needs
-- Open items and their current state
-- Lessons learned during the session (if significant)
+- **Session continuity context** → vault: `submodules/memory/homelab/sessions/` (use `/vault-add` logic with proper frontmatter) — decisions, open items, and next-session checkpoints the next conversation needs
+- **Behavioral corrections or user preferences** learned this session → auto-memory (`~/.claude/projects/.../memory/`) + MEMORY.md index
+- Lessons learned during the session (if significant) → appropriate vault directory per `.claude/rules/vault-management.md`
 
 ### Step 9: Update docs if needed
 
 If project-level documentation or conventions changed during the session, ensure `docs/` is updated and changes are committed.
 
-## Required MCP Tools
+## Required Tools
 
-- `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
-- `editJiraIssue` (cloudId, issueIdOrKey, fields)
-
-## CloudId
-
-Use the project's configured Jira CloudId from CLAUDE.md.
+- `mcp__github__add_issue_comment`
+- `mcp__github__issue_read` (method `get` — confirm issue state before commenting)
+- `gh api .../dependencies/blocked_by` (blocker readback, optional)
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

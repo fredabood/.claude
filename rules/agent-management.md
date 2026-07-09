@@ -5,7 +5,7 @@ description: Shared conventions for agent structure, registration, evaluation, a
 
 # Agent Management — Structure, Registration, Evaluation, and Routing
 
-Canonical conventions for building, graduating, evaluating, and routing agents across LAB and DRTY projects.
+Canonical conventions for building, graduating, evaluating, and routing agents across the LAB (`fredabood/homelab`) and DRTY (`fredabood/dirtydata`) repos.
 All agent work must conform to these standards.
 
 > Design rationale: `submodules/memory/homelab/decisions/` (agent architecture decisions)
@@ -86,7 +86,7 @@ Examples:
 | Tag | Type | Description |
 |---|---|---|
 | `stage` | int | Current graduation stage (0-4) |
-| `project` | string | Jira project key (LAB, DRTY, REAL, GAME, FOOD) |
+| `project` | string | Repo name (`homelab`, `dirtydata`) — legacy values LAB/DRTY/REAL/GAME/FOOD remain on older models |
 | `prompt_hash` | string | SHA-256 of the prompt template content |
 | `t1_score` | float | Latest T1 evaluation score (Stage 2+) |
 | `t2_score` | float | Latest T2 evaluation score (Stage 3+) |
@@ -192,5 +192,5 @@ LAB agents do NOT need to satisfy this checklist — they run on homelab infrast
 | Agent routing by work pattern | `.claude/rules/label-taxonomy.md` → Agent Routing section |
 | Runtime architecture decisions | `submodules/memory/homelab/decisions/` |
 | MLflow service details | `.claude/rules/homelab-services.md` → Service Catalog |
-| Agent tracking Jira fields | `.claude/rules/custom-fields.md` → Agent Tracking Fields |
+| Agent assignment convention (issue comments) | `.claude/rules/custom-fields.md` → Agent assignment |
 | Evaluation infrastructure | MLflow at `mlflow.dirtydata.studio` |

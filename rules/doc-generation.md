@@ -1,9 +1,12 @@
 # Auto-Doc Generation — Conventions
 
 When `/workflow` reaches Phase 8 (Doc Review), automatically generate documentation
-and memory update summaries from the session's work context.
+and memory update summaries from the session's work context. They are posted as a
+`## Doc Review` issue comment (or folded into the post-mortem comment) with
+`### Documentation` and `### Memory Updates` sections — see
+`.claude/rules/custom-fields.md` for the structured comment vocabulary.
 
-## Documentation Summary (customfield_10185)
+## Documentation section (`## Doc Review` → `### Documentation`)
 
 Auto-generate from:
 1. **Plan comment** (Phase 3) — extract documentation plan section
@@ -21,7 +24,7 @@ Documentation updated:
 No documentation needed for: <files that don't affect operational docs>
 ```
 
-## Memory Update Summary (customfield_10186)
+## Memory Updates section (`## Doc Review` → `### Memory Updates`)
 
 Auto-generate from:
 1. **Post-mortem lessons** (Phase 7) — extract actionable insights
@@ -42,4 +45,4 @@ Vault notes:
 ## When to skip
 
 If a session produces no documentation or memory updates (e.g., pure investigation
-or planning with no implementation), set both fields to "No updates — <reason>".
+or planning with no implementation), set both sections to "No updates — <reason>".

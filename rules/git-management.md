@@ -7,16 +7,18 @@ When `/workflow` is active, git phases become mandatory gates enforced by hooks.
 
 ## Branch Strategy
 
-- **Non-trivial work:** create a feature branch named `<KEY>-kebab-description` (e.g., `LAB-123-add-user-profile`)
+- **Non-trivial work:** create a feature branch named `<KEY>-kebab-description` (e.g., `HL-123-add-user-profile`)
 - **Trivial changes** (typos, config, formatting): direct commits to `main` are acceptable
 - Before creating a new branch: check `git status` for uncommitted changes — stash or commit them first
 
 ## Commit Hygiene
 
-- Every commit references the active work item: `KEY-123: <description>`
+- Every commit references the active work item: `HL-123: <description>` (homelab, issue #123) or `DD-45: <description>` (dirtydata, issue #45)
+- Historical `LAB-*`/`DRTY-*` prefixes remain valid when touching migrated issues
+- Optionally append `(#123)` for GitHub auto-linking — never start the subject with a bare `#123` (git strips it as a comment)
 - Atomic commits — one logical change per commit
 - Don't mix unrelated changes in a single commit
-- Allowlisted prefixes for commits without a ticket: `chore:`, `typo:`, `docs:`, `sync:`
+- Allowlisted prefixes for commits without an issue: `chore:`, `typo:`, `docs:`, `sync:`
 
 ## Uncommitted Changes
 

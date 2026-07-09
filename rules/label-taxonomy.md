@@ -1,7 +1,8 @@
 # Work Taxonomy — Label Classification
 
-Every Jira ticket requires exactly one **work pattern** label and one **infrastructure layer** label.
+Every GitHub issue requires exactly one **work pattern** label and one **infrastructure layer** label.
 These labels drive decomposition templates, agent routing, and dependency validation.
+The label taxonomy exists identically in both repos (`fredabood/homelab`, `fredabood/dirtydata`).
 
 > Design rationale: `submodules/memory/homelab/decisions/work-taxonomy.md`
 
@@ -28,7 +29,7 @@ These labels drive decomposition templates, agent routing, and dependency valida
 | `L3-framework` | Reusable components that domain apps build on | Scraper framework, agent runtime, Claude Code primitives, n8n workflow patterns |
 | `L4-domain` | Business logic specific to one project | REAL deal scoring, GAME game logic, COS email triage, HOME automations, FOOD recipe workflow |
 
-**Key property:** A ticket at Layer N may depend on tickets at Layers 1 through N-1, but never on Layer N+1.
+**Key property:** An issue at Layer N may depend on issues at Layers 1 through N-1, but never on Layer N+1.
 
 ## Dimension 3: Data Source (OPTIONAL)
 
@@ -39,38 +40,42 @@ Examples: `source:rentcast`, `source:gmail`, `source:bsa-online`
 
 ## Status Workflow (INFORMATIONAL — not a label)
 
-Status is a native Jira field, not a label dimension. This section documents the target workflow
-so all agents and rules share a consistent understanding.
+Workflow status is NOT a label. Open-issue status lives on the Projects v2 board
+**"Homelab Work"** (`Status` single-select); terminal states are the native GitHub
+issue `state` + `state_reason`. This section documents the workflow so all agents
+and rules share a consistent understanding.
 
-| Status | Category | Description | Entry trigger | Exit trigger |
+| Status | Where | Description | Entry trigger | Exit trigger |
 |---|---|---|---|---|
-| `To Do` | New | Queued, not started | Ticket created | Agent picks up work |
-| `In Progress` | In Progress | Active implementation | Agent starts (transition 21) | Implementation + tests done |
-| `Implementation Complete` | In Progress | Code + tests + post-mortem done | CI gates pass | Review verified |
-| `Review Complete` | In Progress | Docs + memory + testing verified | Review passes | Transition to Done |
-| `Won't Do` | Done | Cancelled or abandoned | Manual decision | Terminal |
-| `Deferred` | To Do | Parked for later — valid idea, not prioritized now | Manual decision | Reactivate to To Do |
+| `Backlog` | board Status | Queued, not started | Issue created (auto-added by webhook receiver) | Agent picks up work |
+| `In Progress` | board Status | Active implementation | Agent starts (projects_write) | Implementation + tests done |
+| `Implementation Complete` | board Status | Code + tests + post-mortem done | CI gates pass | Review verified |
+| `Review Complete` | board Status | Docs + memory + testing verified | Review passes | Close as completed |
+| `Deferred` | board Status | Parked for later — valid idea, not prioritized now | Manual decision | Reactivate to Backlog |
+| Done | `closed` + `state_reason: completed` | Terminal | All gates pass | — |
+| Won't Do | `closed` + `state_reason: not_planned` | Cancelled or abandoned | Manual decision | Terminal |
 
 **Valid transitions:**
 
 ```
-To Do ──→ In Progress ──→ Implementation Complete ──→ Review Complete
-  │                                │
-  ├──→ Won't Do ←─────────────────┘  (from any non-terminal status)
-  └──→ Deferred ←──────────────────   (from any non-terminal status; reactivate to To Do)
+Backlog ──→ In Progress ──→ Implementation Complete ──→ Review Complete ──→ closed/completed
+   │                                  │
+   ├──→ closed/not_planned (Won't Do) ←──┘   (from any open status)
+   └──→ Deferred ←──────────────────────      (from any open status; reactivate to Backlog)
 ```
 
-**Transition IDs:** Use `getTransitionsForJiraIssue` at runtime to discover IDs — do not hardcode.
-New statuses (Implementation Complete, Review Complete, Won't Do) are created by LAB-628.
-Until LAB-628 lands, the existing 2-status workflow (In Progress → Done) remains active.
+**Mechanics:** Board Status changes via `mcp__github__projects_write`; close/reopen via
+`mcp__github__issue_write` (always set `state_reason`). Closed issues come off the board (D5 prune);
+reopened issues are re-added at `Backlog` by the webhook receiver. Stable board/field/option IDs:
+`.claude/rules/custom-fields.md`.
 
 ---
 
 ## Planned (CALCULATED — not a label)
 
-A ticket is **Planned** when it has both:
-1. An `## Acceptance Criteria` section in the description
-2. An implementation plan posted as a Jira comment (contains `## Implementation Plan` or numbered plan sections)
+An issue is **Planned** when it has both:
+1. An `## Acceptance Criteria` task list (`- [ ]`) in the issue **body**
+2. An implementation plan posted as an issue comment (contains `## Implementation Plan`)
 
 | Value | Meaning |
 |---|---|
@@ -78,97 +83,105 @@ A ticket is **Planned** when it has both:
 | `false` | Missing criteria, plan, or both — needs planning before pickup |
 
 **Detection logic (agent-side):**
-1. `getJiraIssue` → inspect `description` for `Acceptance Criteria` heading
-2. Fetch issue comments → search for plan comment (heading or structured numbered sections)
+1. `mcp__github__issue_read` (method `get`) → inspect body for `## Acceptance Criteria` heading with a task list
+2. `mcp__github__issue_read` (method `get_comments`) → search for a comment containing `## Implementation Plan`
 3. Both present = Planned
 
-This is calculated at read time, not stored as a Jira field. See `.claude/rules/label-taxonomy.md` (this file) as the canonical definition.
+This is calculated at read time, not stored anywhere. See `.claude/rules/label-taxonomy.md` (this file) as the canonical definition.
 
 ---
 
 ## Blocked (CALCULATED — not a label)
 
-A ticket is **Blocked** when it has at least one unresolved inward "Blocks" link — i.e., another ticket that must finish first but hasn't.
+An issue is **Blocked** when it has at least one open blocker in its dependency list — i.e., another issue that must finish first but hasn't.
 
 | Value | Meaning |
 |---|---|
-| `true` | At least one blocker is not in status category "Done" |
-| `false` | No blockers, or all blockers are Done |
+| `true` | At least one blocker is still open |
+| `false` | No blockers, or all blockers are closed |
 
 **Detection logic (agent-side):**
-1. `getJiraIssue` → inspect `issuelinks`
-2. For each link with `type.inward == "is blocked by"`: check the linked issue's `statusCategory.name`
-3. If any blocker is not `"Done"` → Blocked = true
+1. Read blockers: `gh api repos/fredabood/<repo>/issues/<n>/dependencies/blocked_by -H "X-GitHub-Api-Version: 2026-03-10"`
+2. If any returned issue has `state: open` → Blocked = true
+3. Alternative (read-only mirror): query `jira.issue_links` joined to `jira.issues` — `source_key` = blocker, `target_key` = blocked; any blocker not Done → Blocked = true
 
-This is calculated at read time, not stored as a Jira field.
+This is calculated at read time, not stored anywhere.
 
 ---
 
 ## Agent Work Queue
 
-The agent work queue consists of tickets eligible for autonomous pickup:
+The agent work queue consists of issues eligible for autonomous pickup:
 
 ```
-Eligible = status:"To Do" AND Planned:true AND Blocked:false
+Eligible = board Status:"Backlog" AND Planned:true AND Blocked:false
 ```
 
-**JQL base query:**
+**Base query:**
 ```
-project = <KEY> AND status = "To Do" AND description ~ "Acceptance Criteria"
-  ORDER BY priority DESC, created ASC
+mcp__github__search_issues:  repo:fredabood/<repo> is:open is:issue "Acceptance Criteria" in:body
+  (or mcp__github__list_issues with state=open, sorted oldest first)
+```
+Cross-check board Status = `Backlog` via `mcp__github__projects_get`, or query the mirror directly:
+```sql
+SELECT issue_key, summary, priority FROM jira.issues
+WHERE status = 'Backlog' ORDER BY priority DESC, created_at ASC;
 ```
 
-**Agent-side filtering (after JQL results):**
-1. **Plan check:** Verify a plan comment exists (inspect comments for plan structure)
-2. **Blocker check:** Verify no unresolved inward "Blocks" links (all blockers Done)
-3. **Assignment check:** If `Assigned Agent` field is set and ≠ current agent, skip
+**Agent-side filtering (after query results):**
+1. **Plan check:** Verify a comment containing `## Implementation Plan` exists (`issue_read` method `get_comments`)
+2. **Blocker check:** Verify no open blockers (`gh api .../dependencies/blocked_by` or mirror `issue_links`)
+3. **Assignment check:** If the latest `Assigned Agent:` comment names another agent, skip
 
 **Pickup protocol:**
-1. Query the work queue using the JQL + agent-side filters above
-2. Select the highest-priority eligible ticket
-3. Set `Assigned Agent` to the current session identifier (requires custom field from LAB-628; until then, post assignment as a Jira comment)
-4. Transition to "In Progress"
-5. Post context comment with session timestamp
+1. Query the work queue using the base query + agent-side filters above
+2. Select the highest-priority eligible issue
+3. Post an assignment comment (`Assigned Agent: <session-id>` + `Session: <ISO timestamp>`) via `mcp__github__add_issue_comment`
+4. Set board Status to "In Progress" via `mcp__github__projects_write`
+5. Post context comment with session timestamp (may be combined with the assignment comment)
 
-**Priority within the queue:** Priority field (descending) → created date (ascending, oldest first).
+**Priority within the queue:** priority (descending, from mirror or issue labels) → created date (ascending, oldest first).
 
 ---
 
-## Ticket Placement Decision Tree
+## Issue Placement Decision Tree
 
 ```
 How many L4 domain projects consume this work's output?
 
-  ZERO (generic infrastructure) → LAB
+  ZERO (generic infrastructure) → fredabood/homelab
     Running service? → L2 epic
     Platform/infra? → L1 epic
 
-  ONE (single domain) → That domain's project (L4)
-    Cross-project Blocks link to LAB if it touches shared infra.
+  ONE (single domain) → that domain's repo (L4)
+    Cross-repo blocked-by link to homelab if it touches shared infra.
 
-  MULTIPLE (shared across domains) → LAB as L3 framework
-    Blocks links FROM this LAB ticket TO domain tickets that depend on it.
+  MULTIPLE (shared across domains) → fredabood/homelab as L3 framework
+    Blocked-by links FROM domain issues TO this homelab issue (it blocks them).
 ```
 
-**Promotion rule:** single-consumer → multi-consumer = move ticket to LAB L3.
+**Promotion rule:** single-consumer → multi-consumer = move issue to homelab L3.
 
 ## Project-Layer Mapping
 
-| Project | Layers | Scope |
-|---|---|---|
-| **LAB** | L1, L2, L3, L4 | Homelab platform — infra, services, frameworks, and consolidated domain work |
-| **REAL** | L4 | Real estate investing |
-| **GAME** | L4 | Autonomous game studio |
-| **DRTY** | L1, L2, L3, L4 | DirtyData intelligence platform — same taxonomy as LAB |
-| **FOOD** | L4 | Recipe/cooking workflows |
+Former Jira projects now live as **repos** (LAB→homelab, DRTY→dirtydata) or as
+**domain scopes within a repo** (labels/epics) — there are no separate REAL/GAME/FOOD trackers.
 
-> **Consolidated into LAB:** HOME (smart home automation → LAB-119 epic), WEB (personal website → LAB-120 epic), and COS (AI personal assistant → LAB-134 epic) were migrated into LAB as L4-domain epics.
+| Project (legacy key) | Now | Layers | Scope |
+|---|---|---|---|
+| **LAB** | repo `fredabood/homelab` (keys `HL-<n>`, historical `LAB-*`) | L1, L2, L3, L4 | Homelab platform — infra, services, frameworks, and consolidated domain work |
+| **DRTY** | repo `fredabood/dirtydata` (keys `DD-<n>`, historical `DRTY-*`) | L1, L2, L3, L4 | DirtyData intelligence platform — same taxonomy as homelab |
+| **REAL** | domain scope under `fredabood/dirtydata` | L4 | Real estate investing |
+| **GAME** | domain scope under `fredabood/homelab` | L4 | Autonomous game studio |
+| **FOOD** | domain scope under `fredabood/homelab` | L4 | Recipe/cooking workflows |
+
+> **Consolidated into homelab:** HOME (smart home automation → LAB-119 epic), WEB (personal website → LAB-120 epic), and COS (AI personal assistant → LAB-134 epic) were migrated as L4-domain epics. All history is preserved in the migrated issues and the postgres mirror.
 
 ---
 
 ## Decomposition Templates
 
-When a ticket matches a work pattern, offer the standard decomposition. User can always override.
+When an issue matches a work pattern, offer the standard decomposition. User can always override.
 
 ### Scraper (4 steps)
 1. Configure credentials / evaluate API access
@@ -233,7 +246,7 @@ When a ticket matches a work pattern, offer the standard decomposition. User can
 
 ## Dependency Direction
 
-1. **Cross-project Blocks links** flow downward: L1 → L2 → L3 → L4
-2. **Within-project Blocks links** flow through the template: step 1 → step 2 → step 3
-3. **Relates links** for shared-concern connections (not sequential)
+1. **Cross-repo blocked-by links** flow downward: L1 → L2 → L3 → L4 (the lower layer is the blocker)
+2. **Within-repo blocked-by links** flow through the template: step 1 → step 2 → step 3
+3. **Relates links** exist only in the postgres mirror for migrated issues — for new shared-concern connections, use body backlinks (`fredabood/<repo>#<n>`), not dependencies
 4. **No circular dependencies** — if found, decomposition is wrong

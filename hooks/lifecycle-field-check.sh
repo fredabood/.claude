@@ -1,46 +1,56 @@
 #!/usr/bin/env bash
-# PreToolUse hook: validates lifecycle field completeness before status transitions.
-# Gates Implementation Complete (81) and Review Complete (91) transitions.
-# Exit 2 = block (fields incomplete), Exit 0 = allow.
+# PreToolUse hook: validates lifecycle completeness before closing an issue as Done.
+# Successor to the Jira custom-field gate — the Verification/Post-Mortem custom
+# fields are now structured issue comments (see .claude/rules/custom-fields.md).
 #
-# Triggered on: transitionJiraIssue
-# Checks:
-#   Implementation Complete: PM Sections + Verification Sections complete, all SC children Done/Won't Do
-#   Review Complete: Doc Review fields populated, HITL SC children Done
+# Gates: mcp__github__issue_write with state=closed, state_reason=completed
+#        (closing as not_planned / Won't Do is NOT gated).
+# Allow paths:
+#   1. Fresh skill execution context marker (< 10 min) — a skill manages the close
+#   2. A '## Verification Report' comment already exists on the issue (read-only gh api check)
+# Exit 2 = block (no verification evidence), Exit 0 = allow.
 
 set -euo pipefail
 
-# Parse tool call arguments from stdin
 INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | python3 -c "import json,sys; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null || echo "")
 
-if [[ "$TOOL_NAME" != "mcp__claude_ai_Atlassian__transitionJiraIssue" ]]; then
-    exit 0  # Not a transition call
+# Parse tool name + close parameters in one pass: "tool|method|state|reason|owner|repo|number"
+PARSED=$(echo "$INPUT" | python3 -c "
+import json, sys
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    print('|||||||')
+    sys.exit(0)
+ti = d.get('tool_input', {})
+print('|'.join(str(x) for x in [
+    d.get('tool_name', ''),
+    ti.get('method', ''),
+    ti.get('state', ''),
+    ti.get('state_reason', ''),
+    ti.get('owner', ''),
+    ti.get('repo', ''),
+    ti.get('issue_number', ti.get('number', '')),
+]))
+" 2>/dev/null || echo "|||||||")
+
+IFS='|' read -r TOOL_NAME METHOD STATE REASON OWNER REPO ISSUE_NUM <<< "$PARSED"
+
+if [[ "$TOOL_NAME" != "mcp__github__issue_write" ]]; then
+    exit 0  # Not an issue write
 fi
 
-# Extract transition ID and issue key
-TRANSITION_ID=$(echo "$INPUT" | python3 -c "
-import json, sys
-d = json.load(sys.stdin)
-t = d.get('tool_input', {}).get('transition', {})
-print(t.get('id', ''))
-" 2>/dev/null || echo "")
-
-ISSUE_KEY=$(echo "$INPUT" | python3 -c "
-import json, sys
-d = json.load(sys.stdin)
-print(d.get('tool_input', {}).get('issueIdOrKey', ''))
-" 2>/dev/null || echo "")
-
-# Only gate transitions 81 (Implementation Complete) and 91 (Review Complete)
-if [[ "$TRANSITION_ID" != "81" && "$TRANSITION_ID" != "91" ]]; then
+# Only gate close-as-completed. Won't Do (not_planned) and non-close updates pass.
+if [[ "$STATE" != "closed" || "$REASON" == "not_planned" ]]; then
     exit 0
 fi
 
-# Hard gate: require skill execution context for lifecycle transitions
+OWNER="${OWNER:-fredabood}"
+ISSUE_REF="${REPO:-?}#${ISSUE_NUM:-?}"
+
+# Allow path 1: fresh skill execution context (skill is managing the lifecycle)
 MARKER=".skill-execution-context.json"
 if [ -f "$MARKER" ]; then
-    # Check if marker is fresh (< 10 minutes old)
     if [ "$(uname)" = "Darwin" ]; then
         MARKER_AGE=$(( $(date +%s) - $(stat -f %m "$MARKER") ))
     else
@@ -48,31 +58,26 @@ if [ -f "$MARKER" ]; then
     fi
 
     if [ "$MARKER_AGE" -lt 600 ]; then
-        # Skill is actively managing this transition — allow
-        if [[ "$TRANSITION_ID" == "81" ]]; then
-            echo "LIFECYCLE GATE: $ISSUE_KEY → Implementation Complete (via skill)"
-        fi
-        if [[ "$TRANSITION_ID" == "91" ]]; then
-            echo "LIFECYCLE GATE: $ISSUE_KEY → Review Complete (via skill)"
-        fi
+        echo "LIFECYCLE GATE: $ISSUE_REF -> closed/completed (via skill)"
         exit 0
     fi
 fi
 
-# No fresh skill context — block direct transitions
-if [[ "$TRANSITION_ID" == "81" ]]; then
-    echo "BLOCKED: Cannot transition $ISSUE_KEY to Implementation Complete without skill context."
-    echo "Use /complete-task or /workflow to ensure all lifecycle fields are populated:"
-    echo "  - Plan Sections Complete (customfield_10190)"
-    echo "  - Verification: Criteria Tested (customfield_10178)"
-    echo "  - Post-Mortem: What Went Well (customfield_10180)"
-    exit 2
+# Allow path 2: verification report comment already posted (read-only check)
+if [[ -n "$REPO" && -n "$ISSUE_NUM" ]]; then
+    COMMENTS=$(gh api "repos/$OWNER/$REPO/issues/$ISSUE_NUM/comments" --paginate --jq '.[].body' 2>/dev/null || echo "")
+    if printf '%s' "$COMMENTS" | grep -q '## Verification Report'; then
+        echo "LIFECYCLE GATE: $ISSUE_REF -> closed/completed (verification report found)"
+        exit 0
+    fi
 fi
 
-if [[ "$TRANSITION_ID" == "91" ]]; then
-    echo "BLOCKED: Cannot transition $ISSUE_KEY to Review Complete without skill context."
-    echo "Use /workflow Phase 8 to ensure doc review fields are populated:"
-    echo "  - Doc Review: Documentation (customfield_10185)"
-    echo "  - Doc Review: Memory Updates (customfield_10186)"
-    exit 2
-fi
+# No skill context and no verification comment — block the close
+echo "BLOCKED: Cannot close $ISSUE_REF as completed without verification."
+echo "Post the structured lifecycle comments first (see .claude/rules/custom-fields.md):"
+echo "  - '## Verification Report' comment with '### Criteria Tested' + '### Results Summary'"
+echo "  - '## Post-Mortem: <KEY> — <summary>' comment"
+echo "Then close via /complete-task or /workflow (which set the skill execution context),"
+echo "or re-run the close after the verification comment exists."
+echo "To cancel instead of complete, close with state_reason: not_planned (Won't Do)."
+exit 2

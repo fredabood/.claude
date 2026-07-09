@@ -1,20 +1,22 @@
 ---
-description: Sprint planning workflow — analyze state, prioritize work, create actionable sprint plan
+description: Planning-cycle workflow — analyze board state, prioritize work, create actionable plan with dependencies
 user_invocable: true
 ---
 
 # /plan-sprint
 
-**Before any Jira operations**, write the skill execution context marker:
+**Before any GitHub issue operations**, write the skill execution context marker:
 Write `.skill-execution-context.json` with content: `{"skill": "plan-sprint", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
 
-Run a structured sprint planning process that analyzes current project state, gathers requirements, and produces an actionable sprint plan.
+Run a structured planning process that analyzes current project state, gathers requirements, and produces an actionable plan for the next work cycle.
+
+> **Note:** GitHub Issues has no sprint construct. Planning is done against the "Homelab Work" Projects v2 board (all open issues, both repos) + labels + dependencies. The plan artifact is posted as a comment on the relevant epic issue (or a dedicated planning epic).
 
 ## Usage
 
 ```
 /plan-sprint
-/plan-sprint <PROJECT-KEY>
+/plan-sprint <repo>          # homelab | dirtydata (default: both)
 ```
 
 ## Steps
@@ -23,21 +25,37 @@ Run a structured sprint planning process that analyzes current project state, ga
 
 - Review CLAUDE.md for project context and conventions
 - Check `git log --oneline -20` for recent development activity
-- Query Jira for current sprint status:
+- Query the mirror for the current board snapshot (read-only analytical queries):
+  ```bash
+  docker exec postgres-memory psql -U postgres -d agent_memory -c \
+    "SELECT gh_repo, status, count(*) FROM jira.issues
+     WHERE status_category <> 'Done' GROUP BY 1, 2 ORDER BY 1, 2;"
   ```
-  project = <KEY> AND sprint in openSprints()
+- Recent completions (last 14 days):
+  ```bash
+  docker exec postgres-memory psql -U postgres -d agent_memory -c \
+    "SELECT issue_key, summary, resolved_at::date FROM jira.issues
+     WHERE status_category = 'Done' AND resolved_at > now() - interval '14 days'
+     ORDER BY resolved_at DESC;"
   ```
 - Identify what's done, what's in progress, what's blocked
 
 ### Step 2: Gather Requirements
 
-- Query Jira backlog:
+- Query the backlog (mirror, or `mcp__github__list_issues` with `state: open`):
+  ```bash
+  docker exec postgres-memory psql -U postgres -d agent_memory -c \
+    "SELECT issue_key, summary, priority, labels FROM jira.issues
+     WHERE status = 'Backlog' AND gh_repo = '<repo>'
+     ORDER BY priority NULLS LAST, created_at;"
   ```
-  project = <KEY> AND status = "To Do" ORDER BY priority DESC
-  ```
-- Identify any epics with remaining work:
-  ```
-  project = <KEY> AND type = Epic AND status != Done
+- Identify epics with remaining work (epic-ness is derived — an issue with sub-issues):
+  ```bash
+  docker exec postgres-memory psql -U postgres -d agent_memory -c \
+    "SELECT e.issue_key, e.summary, count(*) FILTER (WHERE c.status_category <> 'Done') AS open_children
+     FROM jira.issues e JOIN jira.issues c ON c.epic_key = e.issue_key OR c.parent_key = e.issue_key
+     WHERE e.status_category <> 'Done' GROUP BY 1, 2 HAVING count(*) FILTER (WHERE c.status_category <> 'Done') > 0
+     ORDER BY open_children DESC;"
   ```
 - Ask the user about priorities, deadlines, or new requirements
 
@@ -45,42 +63,56 @@ Run a structured sprint planning process that analyzes current project state, ga
 
 - For each candidate item, consider:
   - Is the approach clear or does it need research?
-  - Are there dependencies on other tickets?
+  - Are there dependencies on other issues?
   - Are there infrastructure or access requirements?
 - Flag high-risk items that need spikes or prototypes
 
 ### Step 4: Map Dependencies
 
-#### 4a: Discover link types
-Call `getIssueLinkTypes(cloudId)` to discover available types. Identify the "Blocks" type.
-
-#### 4b: Audit existing links
-For each candidate ticket, call `getJiraIssue(cloudId, issueKey)` and inspect `issuelinks`. Record existing "blocks"/"is blocked by" relationships. Flag circular dependencies as errors.
-
-#### 4c: Identify missing dependencies
-Based on the feasibility assessment in Step 3, identify tickets that should have dependency links but don't. Create each:
+#### 4a: Audit existing links
+Read existing Blocks links from the mirror (`source_key` = blocker, `target_key` = blocked):
+```bash
+docker exec postgres-memory psql -U postgres -d agent_memory -c \
+  "SELECT l.source_key AS blocker, s.status AS blocker_status, l.target_key AS blocked
+   FROM jira.issue_links l JOIN jira.issues s ON s.issue_key = l.source_key
+   JOIN jira.issues b ON b.issue_key = l.target_key
+   WHERE l.link_type = 'Blocks' AND b.status_category <> 'Done';"
 ```
-createIssueLink(cloudId, type: { name: "Blocks" },
-  inwardIssue: { key: "<BLOCKER>" },
-  outwardIssue: { key: "<BLOCKED>" })
-```
+For authoritative per-issue readback: `gh api repos/fredabood/<repo>/issues/<n>/dependencies/blocked_by`. Flag circular dependencies as errors.
 
-#### 4d: Build dependency graph
+#### 4b: Identify missing dependencies
+Based on the feasibility assessment in Step 3, identify issues that should have dependency links but don't. Create each (blocked issue declares its blocker; `issue_id` is the blocker's **database id**, not its number):
+```bash
+BLOCKER_ID=$(gh api repos/fredabood/<repo>/issues/<BLOCKER#> --jq .id)
+gh api -X POST repos/fredabood/<repo>/issues/<BLOCKED#>/dependencies/blocked_by \
+  -H "X-GitHub-Api-Version: 2026-03-10" -F issue_id=$BLOCKER_ID
+```
+Cross-repo dependencies work. Validate direction: cross-layer links flow L1 → L4 (never upward).
+
+#### 4c: Build dependency graph
 Document the full graph:
 ```
-KEY-1 blocks KEY-2 — <reason>
-KEY-3 (no dependencies)
+HL-1 blocks HL-2 — <reason>
+HL-3 (no dependencies)
 ```
 
-#### 4e: Critical path
+#### 4d: Critical path
 Identify the longest sequential chain. This determines minimum elapsed time.
 ```
-Critical path: KEY-1 → KEY-2 → KEY-5 (3 tickets)
-Parallelizable: KEY-3, KEY-4 (can start immediately)
+Critical path: HL-1 → HL-2 → HL-5 (3 issues)
+Parallelizable: HL-3, HL-4 (can start immediately)
 ```
 
-#### 4f: Next-eligible tickets
-From the sprint backlog, identify To Do tickets where all "is blocked by" links are Done (or no blockers). These can start immediately.
+#### 4e: Next-eligible issues
+Identify Backlog issues where all blockers are closed (or no blockers). These can start immediately:
+```bash
+docker exec postgres-memory psql -U postgres -d agent_memory -c \
+  "SELECT i.issue_key, i.summary, i.priority FROM jira.issues i
+   WHERE i.status = 'Backlog' AND NOT EXISTS (
+     SELECT 1 FROM jira.issue_links l JOIN jira.issues s ON s.issue_key = l.source_key
+     WHERE l.link_type = 'Blocks' AND l.target_key = i.issue_key AND s.status_category <> 'Done')
+   ORDER BY i.priority NULLS LAST, i.created_at;"
+```
 
 ### Step 5: Prioritize
 
@@ -95,24 +127,24 @@ Score each item using Value / Effort / Risk:
 - Medium priority: score 2-4
 - Low priority: score <= 1
 
-### Step 6: Create Sprint Plan
+### Step 6: Create Plan
 
 Produce a structured plan:
 
 ```markdown
-## Sprint Plan: <Sprint Name>
+## Plan: <Cycle Name>
 **Duration:** <X weeks>
-**Goal:** <one-line sprint goal>
+**Goal:** <one-line goal>
 
 ### Definition of Done
 - All acceptance criteria verified with evidence
 - Tests pass (unit + integration)
 - No security regressions
 - Documentation updated where applicable
-- Post-mortem posted to ticket
+- Post-mortem posted to issue
 - Code reviewed
 
-### Tickets (ordered by priority)
+### Issues (ordered by priority)
 | Key | Summary | Priority | Estimate | Dependencies | Criteria Status |
 |-----|---------|----------|----------|-------------|-----------------|
 | ... | ...     | High     | 2d       | None        | Has criteria / Needs criteria |
@@ -122,11 +154,11 @@ Produce a structured plan:
 - Week 2: <milestone>
 
 ### Dependency Graph
-KEY-1 blocks KEY-2 — <reason>
+HL-1 blocks HL-2 — <reason>
 ...
 
 ### Critical Path
-KEY-X → KEY-Y → KEY-Z (N sequential tickets)
+HL-X → HL-Y → HL-Z (N sequential issues)
 
 ### Next Eligible (ready to start)
 | Key | Summary | Priority | Notes |
@@ -137,33 +169,36 @@ KEY-X → KEY-Y → KEY-Z (N sequential tickets)
 - <risk and mitigation>
 ```
 
-**Acceptance criteria enforcement:** For any backlog item lacking acceptance criteria, draft them during planning and update the Jira ticket using `addCommentToJiraIssue` or `editJiraIssue`.
+**Post the plan** as a comment on the relevant epic issue using `mcp__github__add_issue_comment` (if the planned work spans multiple epics, post on the dominant epic and cross-reference the others by key). If no epic fits, create a planning epic via `/create-ticket` logic and attach the in-scope issues as sub-issues with `mcp__github__sub_issue_write`.
 
-### Step 7: Update Jira
+**Acceptance criteria enforcement:** For any backlog item lacking acceptance criteria, draft them during planning and add them to the issue **body** (`## Acceptance Criteria` task list) using `mcp__github__issue_write`.
 
-- Create any new tickets identified during planning
-- Update priorities and sprint assignments in Jira
-- Link dependent tickets
-- Ensure all planned tickets have acceptance criteria
+### Step 7: Update GitHub
+
+- Create any new issues identified during planning (`/create-ticket` logic — taxonomy labels required: one work pattern + one layer)
+- Set board Status for items being pulled into active work via `mcp__github__projects_write` (IDs in `.claude/rules/custom-fields.md`); park de-prioritized items as `Deferred`
+- Create blocked-by links for dependent issues (Step 4b command)
+- Ensure all planned issues have acceptance criteria in their bodies
 
 ### Step 8: Update CLAUDE.md
 
-- Update the project's CLAUDE.md with current sprint focus
+- Update the project's CLAUDE.md with current cycle focus
 - Document any new conventions or decisions
 
 ### Step 9: Commit Planning Artifacts
 
 - Commit any documentation changes
-- Include sprint plan reference in commit message
+- Include the plan/epic reference in the commit message (e.g., `HL-123: Plan 2026-07 cycle`)
 
-## Required MCP Tools
+## Required Tools
 
-- `searchJiraIssuesUsingJql` (cloudId, jql)
-- `createJiraIssue` (cloudId, fields)
-- `editJiraIssue` (cloudId, issueIdOrKey, fields)
-- `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
-- `getJiraIssue` (cloudId, issueIdOrKey)
-- `createIssueLink` (cloudId, linkType, inwardIssue, outwardIssue)
-- `getIssueLinkTypes` (cloudId)
+- `mcp__github__list_issues` / `mcp__github__search_issues`
+- `mcp__github__issue_read` (methods `get`, `get_comments`, `get_sub_issues`)
+- `mcp__github__issue_write` (create/update — body criteria)
+- `mcp__github__add_issue_comment` (plan comment on epic)
+- `mcp__github__sub_issue_write` (epic membership)
+- `mcp__github__projects_write` (board Status)
+- `gh api .../dependencies/blocked_by` (dependency create/read — no MCP tool)
+- `docker exec postgres-memory psql ...` — mirror analytics (read-only)
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

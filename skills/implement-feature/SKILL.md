@@ -5,8 +5,8 @@ user_invocable: true
 
 # /implement-feature
 
-**Before any Jira operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "implement-feature", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+**Before any GitHub issue operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "implement-feature", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<issue key if known, null otherwise>"}`
 
 Walk through a complete feature development lifecycle in 7 steps with quality gates between each phase.
 
@@ -18,7 +18,14 @@ Walk through a complete feature development lifecycle in 7 steps with quality ga
 ```
 
 Example: `/implement-feature "Add user profile page with avatar upload"`
-Example: `/implement-feature PROJ-42`
+Example: `/implement-feature HL-42` (homelab #42) or `/implement-feature DD-7` (dirtydata #7)
+
+Keys resolve to GitHub coordinates via the mirror: `HL-<n>` ↔ `fredabood/homelab#n`, `DD-<n>` ↔ `fredabood/dirtydata#n`. Migrated keys (`LAB-*`, `DRTY-*`) resolve via:
+
+```bash
+docker exec postgres-memory psql -U postgres -d agent_memory -t -A -c \
+  "SELECT gh_repo || '|' || gh_number FROM jira.issues WHERE issue_key = '<KEY>'"
+```
 
 ## Steps
 
@@ -26,29 +33,31 @@ Execute each step sequentially. Do not proceed to the next step until the curren
 
 ### Step 1: Design
 
-- **Ensure a ticket exists:**
-  - If input is a ticket key (e.g., `PROJ-42`), fetch it with `getJiraIssue`
-  - If input is a description, search Jira for an existing ticket. If none found, create one using `/create-ticket` logic.
-- **Transition to In Progress** if not already — use `getTransitionsForJiraIssue` to discover the transition ID at runtime (find `to.name == "In Progress"`), then call `transitionJiraIssue` with the discovered ID. Never hardcode transition IDs.
-- **Set agent tracking fields:**
+- **Ensure an issue exists:**
+  - If input is an issue key, resolve repo/number (above) and fetch it with `mcp__github__issue_read` (method `get`)
+  - If input is a description, search for an existing issue with `mcp__github__search_issues` (scope `repo:fredabood/homelab` or `repo:fredabood/dirtydata`). If none found, create one using `/create-ticket` logic.
+- **Set board Status to In Progress** if not already — use `mcp__github__projects_write` with the stable IDs from `.claude/rules/custom-fields.md` (project `PVT_kwHOAM5y1M4BcqrU`, Status field `PVTSSF_lAHOAM5y1M4BcqrUzhXRxK4`, In Progress option `62ad3706`). Never guess IDs — if a mutation rejects them, re-derive via `gh api graphql`.
+- **Post the assignment comment** (replaces the old Primary/Assigned Agent custom fields) using `mcp__github__add_issue_comment`:
   ```
-  editJiraIssue(issueIdOrKey, fields={
-      "customfield_10188": "<session-identifier>",   // Primary Agent
-      "customfield_10189": "<session-identifier>",   // Assigned Agent
-      "customfield_10193": 1.0                       // Workflow Phase = 1 (design)
-  })
+  Assigned Agent: <session-identifier>
+  Session: <ISO timestamp>
   ```
-- **Check acceptance criteria** — If the ticket has no acceptance criteria, draft them and confirm with the user before proceeding
-- Understand the requirements (from the description or Jira ticket)
+  If a more recent assignment comment names a different agent, warn the user before overriding.
+- **Check acceptance criteria** — the issue **body** must contain an `## Acceptance Criteria` task list (`- [ ]`). If missing, draft criteria (minimum: 1 functional + 1 test-based + 1 security) and add them to the body via `mcp__github__issue_write`; confirm with the user before proceeding.
+- Understand the requirements (from the description or issue body)
 - Identify affected files and components
 - Choose the implementation approach
-- Note dependencies and risks
-- **Post implementation plan to Jira** — Use `addCommentToJiraIssue` to post a plan comment including:
-  - Files to modify
-  - Approach and rationale
-  - Testing strategy (types of tests, specific scenarios, commands)
-  - Documentation plan (what docs/memory to update)
-  - Risks and mitigations
+- Note dependencies and risks — read blockers with `gh api repos/fredabood/<repo>/issues/<n>/dependencies/blocked_by` and warn if any blocker is still open
+- **Post the implementation plan** — use `mcp__github__add_issue_comment` with the structured markers from `.claude/rules/custom-fields.md`:
+  ```markdown
+  ## Implementation Plan
+  ### Issue Tracking        (issues to create, epic membership, dependencies)
+  ### Testing Strategy      (types of tests, specific scenarios, commands)
+  ### Documentation         (what docs/memory to update)
+  ### Success Criteria
+  ### Risk Assessment       (risks and mitigations)
+  ```
+  Include files to modify, approach, and rationale under the relevant sections.
 - **Output:** Brief design summary with file list and approach
 
 ### Step 2: Implement
@@ -97,36 +106,34 @@ Review the changed code against these 9 areas:
 - Only add docs where the code isn't self-explanatory
 - **Quality check:** Key behaviors and non-obvious decisions documented
 
-### Step 6.5: Update Jira
+### Step 6.5: Update the Issue
 
-Post a milestone comment to Jira using `addCommentToJiraIssue` summarizing:
+Post a milestone comment using `mcp__github__add_issue_comment` summarizing:
 - What was implemented
 - Tests added
 - Documentation updated
 - Any deviations from the plan posted in Step 1
 
+Check off completed acceptance-criteria items in the issue body task list (`- [x]`) via `mcp__github__issue_write`.
+
 ### Step 7: Commit
 
 - Review all changes with `git diff`
 - Verify no secrets in staged files
-- Create a descriptive commit with ticket reference in format `KEY-123: <description>`
+- Create a descriptive commit with the issue reference in format `HL-123: <description>` (or `DD-45: ...`; historical `LAB-*`/`DRTY-*` prefixes remain valid for migrated issues). Optionally append `(#123)` for GitHub auto-linking.
 - **Quality check:** Clean commit, all tests still pass
 
 ## Gate Policy
 
 If any quality check fails, stop and fix the issue before proceeding. Do not skip gates. If the security review finds critical issues, return to Step 2 and fix them.
 
-## Required MCP Tools
+## Required Tools
 
-- `getJiraIssue` (cloudId, issueIdOrKey)
-- `getTransitionsForJiraIssue` (cloudId, issueIdOrKey)
-- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id })
-- `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
-- `searchJiraIssuesUsingJql` (cloudId, jql)
-- `createJiraIssue` (cloudId, fields)
-
-## CloudId
-
-Use the project's configured Jira CloudId from CLAUDE.md.
+- `mcp__github__issue_read` (methods `get`, `get_comments`)
+- `mcp__github__issue_write` (create/update — body edits, task-list check-offs)
+- `mcp__github__add_issue_comment`
+- `mcp__github__search_issues`
+- `mcp__github__projects_write` (board Status)
+- `gh api .../dependencies/blocked_by` (blocker check — no MCP tool)
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

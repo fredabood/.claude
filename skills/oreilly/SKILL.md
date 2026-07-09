@@ -1,13 +1,13 @@
 ---
-description: "Search O'Reilly Learning for a topic, summarize the top results, and optionally post to the active Jira ticket"
+description: "Search O'Reilly Learning for a topic, summarize the top results, and optionally post to the active GitHub issue"
 user_invocable: true
 ---
 
 # /oreilly
 
 Query the O'Reilly Learning platform for a topic and return a ranked, summarized digest.
-Output lands in the current conversation by default, or as a comment on the active Jira
-ticket when `--jira` is passed.
+Output lands in the current conversation by default, or as a comment on the active GitHub
+issue when `--jira` is passed (flag name kept for invocation compatibility).
 
 Requires the `oreilly` MCP server to be connected (LAB-282 wired this; see
 `submodules/memory/homelab/knowledge/integrations/oreilly-mcp-runbook.md`).
@@ -119,18 +119,19 @@ Use the `url` field verbatim — no URL construction on your part. Show authors 
 comma-joined string; if empty, show `—`. For live-events, include the next
 `live_event_start_dates` entry after the publication date when present.
 
-### Step 5b: Render to Jira (--jira)
+### Step 5b: Post to the active issue (--jira)
 
-If `--jira` is set, post the same digest as a comment on the active ticket via
-`mcp__claude_ai_Atlassian__addCommentToJiraIssue`:
+If `--jira` is set, post the same digest as a comment on the active GitHub issue via
+`mcp__github__add_issue_comment`:
 
-- cloudId: `fredabood.atlassian.net`
-- issueIdOrKey: the resolved ticket key
-- contentFormat: `markdown`
-- commentBody: the formatted digest, prefixed with `## O'Reilly research: <topic>` and
+- owner: `fredabood`
+- repo + issue_number: resolved from the active key (`HL-<n>` → `homelab` #n,
+  `DD-<n>` → `dirtydata` #n; migrated `LAB-*`/`DRTY-*` keys via the mirror:
+  `SELECT gh_repo, gh_number FROM jira.issues WHERE issue_key = '<KEY>'`)
+- body: the formatted digest, prefixed with `## O'Reilly research: <topic>` and
   a line noting `Skill: /oreilly · <ISO8601 timestamp>`.
 
-After posting, report the Jira comment URL in the conversation so the user can confirm
+After posting, report the comment URL in the conversation so the user can confirm
 it landed.
 
 ### Step 6: Cleanup
@@ -156,11 +157,7 @@ Delete `.skill-execution-context.json`.
 ## Required MCP Tools
 
 - `mcp__oreilly__search-oreilly-content` (query, n_items, content_types, order_by, …)
-- `mcp__claude_ai_Atlassian__addCommentToJiraIssue` (only when `--jira`)
-
-## CloudId
-
-Use `fredabood.atlassian.net` as the Jira cloudId.
+- `mcp__github__add_issue_comment` (only when `--jira`)
 
 ## Troubleshooting
 
@@ -169,4 +166,4 @@ Use `fredabood.atlassian.net` as the Jira cloudId.
 | "oreilly MCP not connected" | `.env` not sourced before Claude Code launch, or token missing | Run `./internal/scripts/inject-secrets.sh`; restart Claude Code |
 | 401 from upstream | Token expired/revoked | Regenerate at https://learning.oreilly.com/access-tokens/ and update the `O'Reilly Publishing` 1P item |
 | Empty results | Topic too narrow or account entitlement gap | Widen the query; try `--format all` |
-| Jira comment didn't post | Ticket key didn't resolve | Pass `--jira` only when a ticket is active (post-`/start-task`) |
+| Issue comment didn't post | Issue key didn't resolve | Pass `--jira` only when an issue is active (post-`/start-task`) |

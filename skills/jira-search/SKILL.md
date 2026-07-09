@@ -1,58 +1,88 @@
 ---
-description: "Search Jira issues using JQL and display results as a formatted table"
+description: "Search GitHub issues across the homelab and dirtydata repos and display results as a formatted table"
 user_invocable: true
 ---
 
 # /jira-search
 
-Search Jira issues using JQL and display results in a readable table format.
+Search issues and display results in a readable table format. (Directory name kept as
+`jira-search` for invocation compatibility — the tracker is GitHub Issues; the postgres
+mirror retains the `jira.*` schema name.)
 
 ## Usage
 
 ```
 /jira-search
-/jira-search <JQL query>
+/jira-search <query>
 ```
 
-Example: `/jira-search project = LAB AND status = "In Progress"`
+Examples:
+- `/jira-search state:open label:platform` — raw GitHub qualifiers, passed through
+- `/jira-search open deployment issues in dirtydata` — natural language, mapped to qualifiers
+- `/jira-search how many issues closed per month this year` — analytical, answered via mirror SQL
 
 ## Steps
 
 1. **Write skill execution context marker:** Write `.skill-execution-context.json` with: `{"skill": "jira-search", "started_at": "<ISO8601>", "ticket_key": null}`
 
-2. **Parse the JQL query** from the user's input after `/jira-search`. If no query provided, use `project = LAB ORDER BY updated DESC` as default.
+2. **Choose the backend:**
+   - **Listing/filtering searches** → `mcp__github__search_issues`
+   - **Analytical queries** (counts, aggregates, date math, joins across links/changelog, board-status filters, migrated-key lookups) → mirror SQL:
+     `docker exec postgres-memory psql -U postgres -d agent_memory` (READ ONLY — never write to `jira.*`)
 
-3. **Execute search** using `mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql`:
-   - cloudId: `fredabood.atlassian.net`
-   - jql: the parsed query
-   - maxResults: 20
-   - fields: `["summary", "status", "priority", "labels", "assignee", "updated"]`
+3. **Map the request to search qualifiers** (JQL is gone — translate JQL-ish requests):
 
-4. **Format results** as a markdown table:
+   | Old JQL idiom | GitHub qualifier |
+   |---------------|------------------|
+   | `project = LAB` | `repo:fredabood/homelab` |
+   | `project = DRTY` | `repo:fredabood/dirtydata` |
+   | `status = "To Do"` / open categories | `state:open` (board Status needs `projects_get` or mirror SQL) |
+   | `statusCategory = Done` | `state:closed` |
+   | `status = "Won't Do"` | `state:closed reason:not-planned` |
+   | `labels = platform` | `label:platform` |
+   | `text ~ "foo"` | bare terms `foo in:title,body` |
+   | `assignee = X` | `assignee:X` |
+   | `created >= -7d` | `created:>=<YYYY-MM-DD>` |
+   | `ORDER BY updated DESC` | `sort:updated-desc` |
+
+   Default query when none provided: `repo:fredabood/homelab state:open sort:updated-desc`.
+   If no `repo:` qualifier is implied, search both repos (`repo:fredabood/homelab repo:fredabood/dirtydata` is not OR'd by GitHub — run two searches or use `user:fredabood`).
+
+   **Board-status filtering** (e.g. "In Progress") is not a search qualifier — filter open
+   results by board Status via `mcp__github__projects_get`, or go straight to mirror SQL:
+
+   ```sql
+   SELECT issue_key, summary, status, labels, updated_at
+   FROM jira.issues
+   WHERE status = 'In Progress'
+   ORDER BY updated_at DESC LIMIT 20;
+   ```
+
+4. **Execute** with `mcp__github__search_issues` (query, owner/repo as appropriate), cap at 20 results — or run the mirror SQL.
+
+5. **Format results** as a markdown table:
 
    ```
-   ## Jira Search Results
+   ## Issue Search Results
 
-   **Query:** `<JQL>`
+   **Query:** `<query>`
    **Results:** X issues found
 
-   | Key | Summary | Status | Priority | Labels | Updated |
-   |-----|---------|--------|----------|--------|---------|
-   | LAB-123 | Example issue | In Progress | Medium | platform, L3-framework | 2026-04-05 |
+   | Key | Summary | State/Status | Labels | Updated |
+   |-----|---------|--------------|--------|---------|
+   | HL-123 | Example issue | In Progress | platform, L3-framework | 2026-07-05 |
    ```
 
-   - Show total count from the response
+   - Key = mirror key: `HL-<n>` (homelab) / `DD-<n>` (dirtydata); migrated issues keep `LAB-*`/`DRTY-*`/`LEGACY-*` (`jira.gh_issue_key(repo, number)` resolves it)
    - If no results, display: "No issues found for this query."
    - Truncate summary to 60 characters if longer, with ellipsis
    - Format updated date as YYYY-MM-DD (date only, no time)
-   - Show assignee display name if set, or "-" if unassigned
+   - Show assignee login if set, or "-" if unassigned
 
-5. **Cleanup:** Delete `.skill-execution-context.json`.
+6. **Cleanup:** Delete `.skill-execution-context.json`.
 
-## Required MCP Tools
+## Required tools
 
-- `searchJiraIssuesUsingJql` (cloudId, jql, maxResults, fields)
-
-## CloudId
-
-Use `fredabood.atlassian.net` as the cloudId for all queries.
+- `mcp__github__search_issues` (or `mcp__github__list_issues` for simple repo listings)
+- `mcp__github__projects_get` (board Status, when needed)
+- `docker exec postgres-memory psql -U postgres -d agent_memory` (analytical queries — READ ONLY)

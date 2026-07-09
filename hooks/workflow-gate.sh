@@ -4,9 +4,10 @@
 # No state file = no active workflow = allow everything.
 #
 # Gates:
-#   Edit/Write on code files → blocked until Phase 3 (Plan) complete
-#   Bash(git commit)         → blocked until Phase 4 (Git Setup) complete
-#   transitionJiraIssue(Done)→ blocked until Phases 6+7 complete
+#   Edit/Write on code files              → blocked until Phase 3 (Plan) complete
+#   Bash(git commit)                      → blocked until Phase 4 (Git Setup) complete
+#   issue_write close (state_reason:completed = Done) → blocked until Phases 6+7 complete
+#   (closing as not_planned = Won't Do is not gated)
 
 set -euo pipefail
 
@@ -102,24 +103,25 @@ print(json.load(sys.stdin).get('command', ''))
   fi
 fi
 
-# --- Gate: Done transition blocked until Phases 6+7 are complete ---
-if [[ "$TOOL_NAME" == "mcp__claude_ai_Atlassian__transitionJiraIssue" ]]; then
-  TRANSITION_ID=$(echo "$TOOL_INPUT" | python3 -c "
+# --- Gate: closing an issue as Done blocked until Phases 6+7 are complete ---
+if [[ "$TOOL_NAME" == "mcp__github__issue_write" ]]; then
+  CLOSE_KIND=$(echo "$TOOL_INPUT" | python3 -c "
 import sys, json
 d = json.load(sys.stdin)
-# Handle both {transition: {id: '31'}} and flat {transitionId: '31'}
-t = d.get('transition', {})
-if isinstance(t, dict):
-    print(t.get('id', ''))
+state = d.get('state', '')
+reason = d.get('state_reason', '')
+if state == 'closed':
+    # Won't Do (not_planned) is not gated; completed (or default) = Done
+    print('wont_do' if reason == 'not_planned' else 'done')
 else:
-    print(d.get('transitionId', ''))
+    print('')
 " 2>/dev/null || echo "")
 
-  if [[ "$TRANSITION_ID" == "31" ]]; then
+  if [[ "$CLOSE_KIND" == "done" ]]; then
     phase6=$(phase_done 6)
     phase7=$(phase_done 7)
     if [[ "$phase6" == "no" || "$phase7" == "no" ]]; then
-      echo "WORKFLOW GATE: Cannot transition to Done."
+      echo "WORKFLOW GATE: Cannot close the issue as completed (Done)."
       echo "Complete these phases first:"
       if [[ "$phase6" == "no" ]]; then
         echo "  Phase 6 (Verification): Post verification report to work item"

@@ -5,11 +5,11 @@ user_invocable: true
 
 # /workflow
 
-**Before any Jira operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "workflow", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<ticket key if known, null otherwise>"}`
+**Before any GitHub issue operations**, write the skill execution context marker:
+Write `.skill-execution-context.json` with content: `{"skill": "workflow", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<issue key if known, null otherwise>"}`
 
 End-to-end 12-phase development lifecycle with deterministic gates at every phase.
-Phases 1-6: planning + implementation. Phase 7: Implementation Complete (PM fields). Phases 8-9: Doc Review + Review Complete. Phases 10-12: memory persistence, git cleanup, handoff.
+Phases 1-6: planning + implementation. Phase 7: Implementation Complete (post-mortem). Phases 8-9: Doc Review + Review Complete. Phases 10-12: memory persistence, git cleanup, handoff.
 Backed by a persistent state machine (postgres + file cache) that enables hook enforcement and cross-session resume.
 
 When active, hooks on Edit/Write/Commit/Transition block out-of-sequence actions. When not active, Claude operates normally.
@@ -21,8 +21,20 @@ When active, hooks on Edit/Write/Commit/Transition block out-of-sequence actions
 /workflow "<description>"
 ```
 
-Example: `/workflow LAB-123`
+Example: `/workflow HL-123` (homelab issue #123) or `/workflow DD-45` (dirtydata issue #45)
+Example: `/workflow LAB-628` (migrated issue — key resolves via the mirror)
 Example: `/workflow "Add user profile page with avatar upload"`
+
+## Key → Repo/Number Resolution
+
+The work item key is the mirror key: `HL-<n>` ↔ `fredabood/homelab#n`, `DD-<n>` ↔ `fredabood/dirtydata#n`. Migrated issues keep `LAB-*`/`DRTY-*`/`LEGACY-*` keys — resolve any key to its GitHub coordinates via the mirror:
+
+```bash
+docker exec postgres-memory psql -U postgres -d agent_memory -t -A -c \
+  "SELECT gh_repo || '|' || gh_number FROM jira.issues WHERE issue_key = '<KEY>'"
+```
+
+Use the resolved `<repo>` (`homelab` or `dirtydata`, owner `fredabood`) and `<number>` for all `mcp__github__*` calls. The reverse map is `jira.gh_issue_key(repo, number)`.
 
 ## State Machine
 
@@ -31,9 +43,13 @@ Each phase writes state to **both** postgres (`workflow.runs`) and `.workflow-st
 **State write helper** — run after every phase gate passes:
 
 ```bash
-# DB write
+# DB write (phases 1-10 have dedicated columns)
 docker exec postgres-memory psql -U postgres -d agent_memory -c \
   "UPDATE workflow.runs SET phase_<N>_at = NOW() WHERE work_item_key = '<KEY>' AND completed_at IS NULL"
+
+# Phases 11-12 have no dedicated column — record in metadata instead:
+docker exec postgres-memory psql -U postgres -d agent_memory -c \
+  "UPDATE workflow.runs SET metadata = metadata || jsonb_build_object('phase_<N>_at', now()::text) WHERE work_item_key = '<KEY>' AND completed_at IS NULL"
 
 # File write
 python3 -c "
@@ -49,19 +65,20 @@ Replace `<N>` with the phase number and `<KEY>` with the work item key.
 
 ## Initialization
 
-### If input is a key (e.g., LAB-123)
+### If input is a key (e.g., HL-123, DD-45, LAB-628)
 
-1. Check postgres for an active (incomplete) workflow:
+1. Resolve the key to `<repo>`/`<number>` (see Key → Repo/Number Resolution above)
+2. Check postgres for an active (incomplete) workflow:
    ```bash
    docker exec postgres-memory psql -U postgres -d agent_memory -t -A -c \
      "SELECT row_to_json(r) FROM workflow.runs r WHERE work_item_key = '<KEY>' AND completed_at IS NULL"
    ```
-2. **If a row exists** (cross-session resume):
+3. **If a row exists** (cross-session resume):
    - Write the DB state to `.workflow-state.json` (hydrate file cache)
    - Identify the next incomplete phase (first `phase_N_at` that is NULL)
    - Output: `> Resuming workflow <KEY> at Phase N: <name>`
    - Skip to that phase
-3. **If no row exists** (fresh start):
+4. **If no row exists** (fresh start):
    - Insert a new row:
      ```bash
      docker exec postgres-memory psql -U postgres -d agent_memory -c \
@@ -72,9 +89,9 @@ Replace `<N>` with the phase number and `<KEY>` with the work item key.
 
 ### If input is a description
 
-1. Search Jira for an existing ticket using `searchJiraIssuesUsingJql`
+1. Search for an existing issue using `mcp__github__search_issues` (scope: `repo:fredabood/homelab` or `repo:fredabood/dirtydata` per context) — the mirror's semantic search (`agent-runtime:8095/api/search/jira`) is also acceptable
 2. If found: use the existing key, follow the key path above
-3. If not found: create a new ticket using `/create-ticket` logic, then follow the key path
+3. If not found: create a new issue using `/create-ticket` logic, then follow the key path
 
 ## Phases
 
@@ -85,34 +102,33 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 
 ### Phase 1: Work Item
 
-1. Fetch the work item with `getJiraIssue`
-2. If not already "In Progress", transition using `transitionJiraIssue` (discover ID via `getTransitionsForJiraIssue`)
-3. Set agent tracking fields:
+1. Fetch the work item with `mcp__github__issue_read` (method `get`) — confirm it is open
+2. If board Status is not already "In Progress", set it via `mcp__github__projects_write` (project `PVT_kwHOAM5y1M4BcqrU`, Status field `PVTSSF_lAHOAM5y1M4BcqrUzhXRxK4`, option `62ad3706` — see `.claude/rules/custom-fields.md`)
+3. Post the assignment comment (there are no custom fields on GitHub — this replaces Primary/Assigned Agent) using `mcp__github__add_issue_comment`:
    ```
-   editJiraIssue(issueIdOrKey, fields={
-       "customfield_10188": "<session-identifier>",   // Primary Agent
-       "customfield_10189": "<session-identifier>",   // Assigned Agent
-       "customfield_10193": 1.0                       // Workflow Phase = 1
-   })
-   ```
-4. Post context comment: `"Starting workflow. Session: <date/time>"`
-5. **Write state:** DB + file (`phase_1_at`)
+   Assigned Agent: <session-identifier>
+   Session: <ISO timestamp>
 
-**Gate:** Work item exists, is In Progress, and has Assigned Agent set.
+   Starting workflow.
+   ```
+   If a more recent assignment comment names a *different* agent, warn the user before overriding.
+4. **Write state:** DB + file (`phase_1_at`)
+
+**Gate:** Work item exists, board Status = In Progress, assignment comment posted.
 
 ---
 
 ### Phase 2: Acceptance Criteria
 
-1. Parse the work item description for an `Acceptance Criteria` section
+1. Parse the issue **body** for an `## Acceptance Criteria` task list (`- [ ]` items)
 2. **If criteria exist:** Confirm they are measurable and deterministic. Display them.
 3. **If criteria are missing:**
    - Draft criteria following the standard format (minimum: 1 functional + 1 test-based + 1 security)
-   - Post drafted criteria to the work item as a comment using `addCommentToJiraIssue`
+   - Add them to the issue **body** (not a comment — the body renders task-list progress) using `mcp__github__issue_write` (update, preserving existing body content)
    - Confirm with the user before proceeding
 4. **Write state:** DB + file (`phase_2_at`)
 
-**Gate:** Acceptance criteria exist on the work item (in description or comment).
+**Gate:** Acceptance criteria exist in the issue body.
 
 ---
 
@@ -123,23 +139,31 @@ Output a status line after each phase: `> Phase N: <name> ✓`
    - **Testing strategy:** types of tests, specific scenarios, verification commands
    - **Documentation plan:** what docs/memory/vault to update
    - **Risk assessment:** what could go wrong, mitigations, fallback approaches
-2. Post the plan to the work item as a comment using `addCommentToJiraIssue`
-3. Write plan sections to custom fields:
-   ```
-   editJiraIssue(issueIdOrKey, fields={
-       "customfield_10173": "<Jira tracking plan>",
-       "customfield_10174": "<Testing strategy>",
-       "customfield_10175": "<Documentation plan>",
-       "customfield_10176": "<Success criteria>",
-       "customfield_10177": "<Risk assessment>",
-       "customfield_10190": [{"id":"10130"},{"id":"10131"},{"id":"10132"},{"id":"10133"},{"id":"10134"}],
-       "customfield_10193": 3.0   // Workflow Phase = 3
-   })
-   ```
-4. **Ask the user to confirm the plan before proceeding.** Do not continue until confirmed.
-5. **Write state:** DB + file (`phase_3_at`)
+2. Post the plan as an issue comment using `mcp__github__add_issue_comment`, using the exact section markers from `.claude/rules/custom-fields.md` (hooks and the Planned-check grep for them):
 
-**Gate:** Plan posted to work item AND user has confirmed.
+```markdown
+## Implementation Plan
+
+### Issue Tracking
+<issues to create, epic membership, dependencies>
+
+### Testing Strategy
+<...>
+
+### Documentation
+<...>
+
+### Success Criteria
+<...>
+
+### Risk Assessment
+<...>
+```
+
+3. **Ask the user to confirm the plan before proceeding.** Do not continue until confirmed.
+4. **Write state:** DB + file (`phase_3_at`)
+
+**Gate:** Plan comment (`## Implementation Plan`) posted AND user has confirmed.
 
 > After this phase completes, the Edit/Write hook gate opens — code edits are now allowed.
 
@@ -150,7 +174,7 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 1. Check `git status` for uncommitted changes
    - If uncommitted changes exist: stash them (`git stash push -m "workflow: stashing for <KEY>"`) or commit with context
 2. Create a feature branch: `git checkout -b <KEY>-<kebab-description>`
-   - Example: `LAB-123-add-user-profile`
+   - Example: `HL-123-add-user-profile`
 3. **Write state:** DB + file (`phase_4_at`, `branch_name`)
    - Also update DB: `UPDATE workflow.runs SET branch_name = '<branch>' WHERE ...`
    - Also update file: add `"branch_name": "<branch>"` to `.workflow-state.json`
@@ -170,8 +194,8 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 3. Security review (9-point checklist):
    - Hardcoded secrets, environment variables, input sanitization, logging, rate limiting, TLS/HTTPS, error messages, dependencies (CVEs), test security
 4. Update `docs/` if operational behavior changed
-5. Commit with ticket reference: `<KEY>: <description>`
-6. Post milestone comment(s) to the work item at significant checkpoints (tests passing, integration working, docs updated)
+5. Commit with issue reference: `<KEY>: <description>` (e.g., `HL-123: Add avatar upload`; optionally append `(#123)` for GitHub auto-linking)
+6. Post milestone comment(s) to the issue at significant checkpoints (tests passing, integration working, docs updated) via `mcp__github__add_issue_comment`
 7. **Write state:** DB + file (`phase_5_at`)
 
 **Gate:** Code compiles/lints, tests written, security review clean, changes committed.
@@ -184,28 +208,22 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 2. For each acceptance criterion:
    - Run the specified verification (test command, file check, behavior walkthrough)
    - Record pass/fail with evidence
-3. Post a verification report to the work item using `addCommentToJiraIssue`:
+3. Post a verification report as an issue comment using `mcp__github__add_issue_comment`, with the exact markers from `.claude/rules/custom-fields.md`:
 
 ```markdown
-## Verification Report: <KEY>
+## Verification Report
 
+### Criteria Tested
 | # | Criterion | Status | Evidence |
 |---|-----------|--------|----------|
 | 1 | <criterion text> | PASS/FAIL | <how verified> |
 | 2 | ... | ... | ... |
 
-**Result:** ALL PASS / <N> FAILURES
+### Results Summary
+**Result:** ALL PASS / <N> FAILURES — <X/Y> criteria passed
 ```
 
-4. Write verification results to custom fields:
-   ```
-   editJiraIssue(issueIdOrKey, fields={
-       "customfield_10178": "<all criteria tested list>",
-       "customfield_10179": "<results summary — X/Y pass>",
-       "customfield_10191": [{"id":"10135"},{"id":"10136"}],  // + {"id":"10137"} if ALL pass
-       "customfield_10193": 6.0   // Workflow Phase = 6
-   })
-   ```
+4. Check off passing criteria in the issue body task list (`- [x]`) via `mcp__github__issue_write`
 5. **Write state:** DB + file (`phase_6_at`)
 
 **Hard gate:** ALL criteria must pass. If any fail, stop and fix before retrying Phase 6. Do not proceed with failures.
@@ -215,24 +233,23 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 ### Phase 7: Completion (Implementation Complete)
 
 1. Generate a structured post-mortem (same format as before)
-2. Post the post-mortem to the work item using `addCommentToJiraIssue`
-3. Write post-mortem sections to custom fields:
-   ```
-   editJiraIssue(issueIdOrKey, fields={
-       "customfield_10180": "<What Went Well>",
-       "customfield_10181": "<What Didn't Go Well>",
-       "customfield_10182": "<Lessons Learned>",
-       "customfield_10183": "<Metrics>",
-       "customfield_10184": "<Follow-Up Items>",
-       "customfield_10192": [{"id":"10138"},{"id":"10139"},{"id":"10140"},{"id":"10141"},{"id":"10142"}],
-       "customfield_10193": 7.0   // Workflow Phase = 7
-   })
-   ```
-4. Transition to **Implementation Complete** using `getTransitionsForJiraIssue` to discover the transition ID (look for `to.name == "Implementation Complete"`)
-5. Check if the work item has a parent epic — if all sibling items are Done/Implementation Complete, note it
-6. **Write state:** DB + file (`phase_7_at`)
+2. Post the post-mortem as an issue comment using `mcp__github__add_issue_comment`, with the exact markers:
 
-**Gate:** Post-mortem posted, PM fields populated, work item in Implementation Complete.
+```markdown
+## Post-Mortem: <KEY> — <summary>
+
+### What Went Well
+### What Didn't Go Well
+### Lessons Learned
+### Metrics
+### Follow-Up Items
+```
+
+3. Move board Status → **Implementation Complete** via `mcp__github__projects_write` (option `2eec8df1`)
+4. Check if the work item has a parent epic — `mcp__github__issue_read` (method `get`, look for parent) or check the parent's sub-issues (method `get_sub_issues`). If all sibling sub-issues are closed or in Implementation Complete, note it.
+5. **Write state:** DB + file (`phase_7_at`)
+
+**Gate:** Post-mortem comment posted, board Status = Implementation Complete.
 
 ---
 
@@ -242,29 +259,32 @@ Output a status line after each phase: `> Phase N: <name> ✓`
    - What docs in `docs/` were created or updated?
    - What memory files were written or updated?
    - What vault notes were created?
-   - What Jira comments were posted?
+   - What issue comments were posted?
 2. Generate a documentation summary and a memory update summary
-3. Write to custom fields:
-   ```
-   editJiraIssue(issueIdOrKey, fields={
-       "customfield_10185": "<Documentation summary — what was updated and why>",
-       "customfield_10186": "<Memory updates — what was persisted and where>",
-       "customfield_10193": 8.0   // Workflow Phase = 8
-   })
-   ```
-4. Post a doc review comment to the work item
-5. **Write state:** DB + file (`phase_8_at`)
+3. Post a doc review comment to the issue using `mcp__github__add_issue_comment`, with the exact markers:
 
-**Gate:** Doc Review fields populated.
+```markdown
+## Doc Review
+
+### Documentation
+<docs/ files created/updated and why — or "No updates — <reason>">
+
+### Memory Updates
+<auto-memory + vault notes persisted — or "No updates — <reason>">
+```
+
+4. **Write state:** DB + file (`phase_8_at`)
+
+**Gate:** Doc Review comment posted.
 
 ---
 
 ### Phase 9: Review Complete
 
-1. Transition to **Review Complete** using `getTransitionsForJiraIssue` (look for `to.name == "Review Complete"`)
+1. Move board Status → **Review Complete** via `mcp__github__projects_write` (option `0aa21637`)
 2. **Write state:** DB + file (`phase_9_at`)
 
-**Gate:** Work item in Review Complete status.
+**Gate:** Board Status = Review Complete.
 
 ---
 
@@ -275,13 +295,13 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 
 | Scope | Store | Method |
 |-------|-------|--------|
-| Ticket-specific (approach, trade-off) | Already posted as work item comment | Done in earlier phases |
+| Issue-specific (approach, trade-off) | Already posted as issue comment | Done in earlier phases |
 | Claude behavioral (user correction, preference) | Auto-memory (`~/.claude/projects/.../memory/`) | Write memory file + update MEMORY.md |
 | Architectural (chose X over Y because Z) | Vault → `submodules/memory/homelab/decisions/` | Use `/vault-add` logic |
 | Operational knowledge (how to run, deploy, configure) | Vault → `submodules/memory/homelab/knowledge/` | Use `/vault-add` logic |
 | Research findings (evaluation, comparison, analysis) | Vault → `submodules/memory/homelab/research/` | Use `/vault-add` logic |
 
-3. If follow-up items were identified in the post-mortem, present them to the user and offer to create new work items
+3. If follow-up items were identified in the post-mortem, present them to the user and offer to create new issues (`/create-ticket` logic; add blocked-by links where ordering matters)
 4. **Write state:** DB + file (`phase_10_at`)
 
 **Gate:** At least one persistence action taken, or explicitly noted "nothing to persist" with justification.
@@ -293,7 +313,7 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 1. Switch to main: `git checkout main`
 2. Merge the feature branch: `git merge <branch>`
 3. Delete the feature branch: `git branch -d <branch>`
-4. **Write state:** DB + file (`phase_11_at`)
+4. **Write state:** DB (metadata `phase_11_at`) + file (`phase_11_at`)
 
 **Gate:** On main branch, feature branch deleted.
 
@@ -301,19 +321,19 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 
 ### Phase 12: Handoff
 
-1. Transition to **Done** using `getTransitionsForJiraIssue` (look for `to.name == "Done"`)
+1. Close the issue as Done using `mcp__github__issue_write`: `state: closed`, `state_reason: completed`. (Closing removes it from the board — D5 prune. For a Won't Do outcome instead, use `state_reason: not_planned`.)
 2. Mark the workflow as complete:
    ```bash
    docker exec postgres-memory psql -U postgres -d agent_memory -c \
-     "UPDATE workflow.runs SET phase_12_at = NOW(), completed_at = NOW() WHERE work_item_key = '<KEY>' AND completed_at IS NULL"
+     "UPDATE workflow.runs SET metadata = metadata || jsonb_build_object('phase_12_at', now()::text), completed_at = NOW() WHERE work_item_key = '<KEY>' AND completed_at IS NULL"
    ```
-2. Delete `.workflow-state.json` (deactivates hook enforcement)
-3. Output final summary:
+3. Delete `.workflow-state.json` (deactivates hook enforcement)
+4. Output final summary:
 
 ```markdown
 ## Workflow Complete: <KEY>
 
-- **Work item:** <KEY> — <summary> → Done
+- **Work item:** <KEY> — <summary> → closed (completed)
 - **Branch:** <branch> → merged to main
 - **Commits:** <count>
 - **Verification:** <X/Y> criteria passed
@@ -330,19 +350,20 @@ If the user needs to abort an active workflow:
 
 1. Delete `.workflow-state.json` (deactivates hooks immediately)
 2. Update the DB row: `UPDATE workflow.runs SET completed_at = NOW(), metadata = metadata || '{"aborted": true}' WHERE work_item_key = '<KEY>' AND completed_at IS NULL`
-3. The work item remains in its current Jira state — no automatic transition
+3. The issue remains in its current state/board Status — no automatic transition or close
 
-## Required MCP Tools
+## Required Tools
 
-- `getJiraIssue` (cloudId, issueIdOrKey)
-- `transitionJiraIssue` (cloudId, issueIdOrKey, transition: { id })
-- `addCommentToJiraIssue` (cloudId, issueIdOrKey, body)
-- `searchJiraIssuesUsingJql` (cloudId, jql)
-- `createJiraIssue` (cloudId, fields) — for follow-ups
-- `createIssueLink` (cloudId, linkType, inwardIssue, outwardIssue) — for follow-ups
+- `mcp__github__issue_read` (methods `get`, `get_comments`, `get_sub_issues`)
+- `mcp__github__issue_write` (create/update/close — `state_reason` matters)
+- `mcp__github__add_issue_comment`
+- `mcp__github__search_issues` / `mcp__github__list_issues`
+- `mcp__github__projects_write` / `mcp__github__projects_get` (board Status)
+- `gh api repos/fredabood/<repo>/issues/<n>/dependencies/blocked_by` — dependency read/create (no MCP tool)
+- `docker exec postgres-memory psql ...` — state machine + key resolution (mirror is read-only for `jira.*`)
 
-## CloudId
+## Board IDs
 
-Use the project's configured Jira CloudId from CLAUDE.md.
+Use the stable IDs from `.claude/rules/custom-fields.md` (project `PVT_kwHOAM5y1M4BcqrU`, Status field `PVTSSF_lAHOAM5y1M4BcqrUzhXRxK4`). If a mutation rejects them, re-derive via `gh api graphql` — fail loudly, do not guess.
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

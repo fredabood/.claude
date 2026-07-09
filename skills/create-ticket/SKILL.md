@@ -1,37 +1,43 @@
 ---
-description: Create a structured Jira ticket with acceptance criteria, duplicate detection, and epic linking
+description: Create a structured GitHub issue with acceptance criteria, duplicate detection, and epic linking
 user_invocable: true
 ---
 
 # /create-ticket
 
-**Before any Jira operations**, write the skill execution context marker:
+**Before any GitHub operations**, write the skill execution context marker:
 Write `.skill-execution-context.json` with content: `{"skill": "create-ticket", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
 
-Create a well-structured Jira ticket with acceptance criteria, after checking for duplicates.
+Create a well-structured GitHub issue with acceptance criteria, after checking for duplicates.
 
 ## Usage
 
 ```
 /create-ticket "<description>"
-/create-ticket "<description>" --epic <EPIC-KEY>
+/create-ticket "<description>" --epic <#N | HL-N | DD-N>
 /create-ticket "<description>" --type Bug
 ```
 
 ## Steps
 
-### Step 1: Search for existing tickets
+### Step 1: Search for existing issues
 
-Query Jira for related tickets to avoid duplicates:
+Query GitHub for related issues to avoid duplicates:
 ```
-searchJiraIssuesUsingJql(cloudId, "project = <KEY> AND summary ~ '<keywords>' AND status != Done ORDER BY created DESC")
+mcp__github__search_issues(query: "repo:fredabood/<repo> is:issue is:open <keywords>")
+```
+
+Optionally widen to closed issues (`is:issue <keywords>`) if the work may already be done. For analytical sweeps across both repos, the mirror works too:
+```
+docker exec postgres-memory psql -U postgres -d agent_memory -c \
+  "SELECT issue_key, summary, status FROM jira.issues WHERE summary ILIKE '%<keyword>%' AND status_category != 'Done' ORDER BY created_at DESC LIMIT 20"
 ```
 
 If potential duplicates found, present them and ask the user to confirm this is new work.
 
 ### Step 2: Evaluate decomposition
 
-Assess whether the described work should be multiple tickets:
+Assess whether the described work should be multiple issues:
 
 - **Multiple codebase areas:** Independent parts of the system?
 - **Independent verification:** Acceptance criteria groupable into independently verifiable sets?
@@ -40,13 +46,13 @@ Assess whether the described work should be multiple tickets:
 - **Mixed types:** Bugs + features, or infrastructure + user-facing?
 
 If 2+ criteria apply:
-1. Present the proposed decomposition: each ticket with summary, type, and which acceptance criteria it carries
-2. If a work pattern was detected in Step 2.5 and decomposition is warranted, offer the standard decomposition template from `.claude/rules/label-taxonomy.md` (e.g., scraper → 4-step template). Each step becomes a separate ticket with Blocks links between them.
+1. Present the proposed decomposition: each issue with title, shape (bug label / sub-issue of an epic / standalone), and which acceptance criteria it carries
+2. If a work pattern was detected in Step 2.5 and decomposition is warranted, offer the standard decomposition template from `.claude/rules/label-taxonomy.md` (e.g., scraper → 4-step template). Each step becomes a separate issue with blocked-by links between them.
 3. Ask user to confirm or adjust
-4. If confirmed, create each ticket individually (following Steps 3-9 for each)
+4. If confirmed, create each issue individually (following Steps 3-9 for each)
 5. After all created, proceed to dependency linking step
 
-If not warranted, proceed with a single ticket.
+If not warranted, proceed with a single issue.
 
 ### Step 2.5: Detect work pattern
 
@@ -71,10 +77,10 @@ If no pattern is detected, ask the user to choose from the 7 options.
 
 ### Step 2.6: Assign infrastructure layer
 
-Determine the layer based on project key and content:
+Determine the layer from the target repo and content:
 
-- **Domain projects** (REAL, COS, GAME, HOME, FOOD, WEB) → `L4-domain` automatically
-- **LAB project** → infer from content:
+- **Single-domain work** (consumed by exactly one domain project) → `L4-domain` automatically
+- **Shared/platform work** (homelab repo) → infer from content:
   - Docker, Caddy, DNS, networking, security, backup → `L1-platform`
   - Service names (PostgreSQL, Ollama, n8n, Grafana, etc.) → `L2-services`
   - Framework, primitives, scraper framework, agent runtime → `L3-framework`
@@ -82,25 +88,28 @@ Determine the layer based on project key and content:
 Present: "Infrastructure layer: **{layer}**. Correct?"
 User can always override.
 
-### Step 3: Determine ticket type
+### Step 3: Determine issue shape and target repo
 
-- **Story** — new user-facing functionality
-- **Task** — technical work, infrastructure, refactoring
-- **Bug** — something is broken
-- **Sub-task** — part of a larger story/task (requires parent)
+GitHub has no issue types — shape is expressed with labels and structure:
+
+- **Bug** — something is broken → add the `bug` label
+- **Epic** — container for decomposed work → an issue with sub-issues (epic-ness is derived)
+- **Sub-issue** — part of a larger epic (requires parent; linked in Step 8)
+- **Everything else** — a plain issue (the mirror shows it as `Task`)
+
+Target repo routing (per CLAUDE.md §7 placement tree):
+- Zero domain consumers (generic infra) → `fredabood/homelab` (L1/L2)
+- One domain consumer → that domain's repo (e.g., `fredabood/dirtydata` for DirtyData work, L4)
+- Many domain consumers → `fredabood/homelab` as L3 framework
 
 Infer from the description or ask the user if ambiguous.
 
-### Step 4: Get project metadata
+### Step 4: Draft the issue
 
-Use `getJiraProjectIssueTypesMetadata` to confirm available issue types and required fields for the target project.
-
-### Step 5: Draft the ticket
-
-Structure the ticket with these sections:
+Structure the issue **body** with these sections. Acceptance criteria must be a native task list in the body (not a comment) — the body is editable and renders progress:
 
 ```markdown
-**Summary:** <under 80 characters>
+**Title:** <under 80 characters>
 **Taxonomy:** `{pattern}` / `{layer}`
 
 ## Context
@@ -120,96 +129,85 @@ Structure the ticket with these sections:
 
 ## Technical Notes
 <Implementation hints, relevant files, dependencies>
+**Primary Agent:** <agent-id from taxonomy routing table in .claude/rules/label-taxonomy.md>
 ```
+
+Criterion markers (see `.claude/rules/custom-fields.md`):
+- If a criterion maps to a specific test command/marker, prepend it: `- [ ] [pytest:test_foo] <condition>`
+- If a criterion is subjective, documentation-related, or requires human judgment, prepend `[HUMAN-APPROVAL]`: `- [ ] [HUMAN-APPROVAL] <condition>`
+
+### Step 5: Add HITL review criteria
+
+Always append two human-in-the-loop criteria to the Acceptance Criteria task list:
+
+```markdown
+- [ ] [HUMAN-APPROVAL] Documentation updates reviewed
+- [ ] [HUMAN-APPROVAL] Memory/vault updates reviewed
+```
+
+These ensure documentation and memory persistence are explicitly verified by a human before the issue is closed.
 
 ### Step 6: Present for confirmation
 
 Show the draft to the user. Wait for approval before creating.
 
-### Step 7: Create in Jira
+### Step 7: Create on GitHub
 
-Use `createJiraIssue` with the CloudId from CLAUDE.md. Include:
-- Summary, description, issue type
-- Priority (infer or ask)
-- Labels: taxonomy labels from Steps 2.5/2.6 (`[detected_pattern, detected_layer]`), plus optional `source:` label if applicable
+Use `mcp__github__issue_write` (method: create) against the target repo. Include:
+- Title, body
+- Labels: taxonomy labels from Steps 2.5/2.6 (`[detected_pattern, detected_layer]`), plus `bug` if applicable, plus optional `source:` label
+
+Do NOT add the issue to the board manually — the n8n `github-webhook-receiver` auto-adds new issues to the "Homelab Work" board with `Status=Backlog`.
+
+The mirror key is `HL-<n>` (homelab) or `DD-<n>` (dirtydata), where `<n>` is the new issue number.
 
 ### Step 8: Link to parent and dependencies
 
-**Epic link:** If an epic was specified, use `createIssueLink` to link the ticket to the epic.
+**Epic link:** If an epic was specified, use `mcp__github__sub_issue_write` to add the new issue as a sub-issue of the epic.
 
-**Dependency links:** If this ticket depends on or blocks other tickets:
-1. Call `getIssueLinkTypes(cloudId)` to discover link types (if not already cached)
-2. For each dependency:
-   - Blocked by existing ticket: `createIssueLink(cloudId, type: { name: "Blocks" }, inwardIssue: { key: "<EXISTING>" }, outwardIssue: { key: "<NEW>" })`
-   - Blocks existing ticket: `createIssueLink(cloudId, type: { name: "Blocks" }, inwardIssue: { key: "<NEW>" }, outwardIssue: { key: "<EXISTING>" })`
+**Dependency links:** There is no MCP dependencies tool — use `gh api` with the pinned version header. The BLOCKED issue declares its BLOCKER, and `issue_id` is the blocker's **database id** (not its number):
 
-**Decomposed tickets:** If multiple tickets were created, create "Blocks" links between them to express ordering (earlier phases block later phases).
+```bash
+# Get the blocker's database id:
+gh api repos/fredabood/<repo>/issues/<BLOCKER#> --jq .id
 
-### Step 9: Create Success Criterion children
+# Blocked by an existing issue (new issue waits):
+gh api -X POST repos/fredabood/<repo>/issues/<NEW#>/dependencies/blocked_by \
+  -H "X-GitHub-Api-Version: 2026-03-10" -F issue_id=<blocker-db-id>
 
-For each acceptance criterion in the ticket description:
-
-1. Create a Success Criterion child issue:
-   ```
-   createJiraIssue(project=<KEY>, issueTypeName="Success Criterion",
-     summary=<AC text trimmed to 80 chars>,
-     parent=<new-ticket-key>)
-   ```
-2. If the AC references a test command (e.g., `Tests pass: pytest ...`), set Test Marker:
-   ```
-   editJiraIssue(issueIdOrKey=<SC-key>, fields={
-       "customfield_10194": "<test command or marker>"
-   })
-   ```
-3. If the AC is subjective, documentation-related, or requires human judgment, set Human Approval Required:
-   ```
-   editJiraIssue(issueIdOrKey=<SC-key>, fields={
-       "customfield_10195": [{"id": "10143"}]
-   })
-   ```
-
-### Step 9a: Create HITL SC children
-
-Auto-create two Human-In-The-Loop SC children:
-
-1. **"Documentation updates reviewed"** — parent = new ticket, Human Approval Required = true
-2. **"Memory/vault updates reviewed"** — parent = new ticket, Human Approval Required = true
-
-These ensure documentation and memory persistence are explicitly verified by a human before the ticket reaches Done.
-
-### Step 9b: Initialize lifecycle fields
-
-Set agent tracking and workflow phase on the new ticket:
-```
-editJiraIssue(issueIdOrKey=<new-ticket-key>, fields={
-    "customfield_10188": "<agent-id from taxonomy routing>",  // Primary Agent
-    "customfield_10193": 0.0                                  // Workflow Phase = 0 (not started)
-})
+# Blocks an existing issue (existing issue waits on the new one):
+gh api -X POST repos/fredabood/<repo>/issues/<EXISTING#>/dependencies/blocked_by \
+  -H "X-GitHub-Api-Version: 2026-03-10" -F issue_id=<new-issue-db-id>
 ```
 
-The Primary Agent is determined from the work pattern → agent routing table in `.claude/rules/label-taxonomy.md`.
+Cross-repo dependencies work. Direction: **the blocker must finish first; the blocked issue waits.**
+
+**Decomposed issues:** If multiple issues were created, create blocked-by links between them to express ordering (earlier phases block later phases).
+
+### Step 9: Standalone criterion tracking (optional)
+
+The old Success Criterion subtask type is gone. If an individual acceptance criterion needs standalone tracking (own assignee, own timeline), convert that task-list item to a sub-issue using `mcp__github__sub_issue_write` with the new issue as parent. Otherwise, the body task list is the canonical checklist — no child issues needed.
 
 ### Step 10: Output
 
 Display:
-- Ticket key and summary
-- Link to the ticket
+- Issue number, mirror key (`HL-<n>` / `DD-<n>`), and title
+- Link to the issue (`html_url`)
 - Acceptance criteria summary
-- SC children created (count + keys)
+- Epic/sub-issue links created
 - Dependency links created: `BLOCKER blocks BLOCKED`
+- Note that the board will show it under `Backlog` shortly (webhook auto-add)
 
-## Required MCP Tools
+## Required Tools
 
-- `searchJiraIssuesUsingJql` (cloudId, jql)
-- `getJiraProjectIssueTypesMetadata` (cloudId, projectIdOrKey)
-- `createJiraIssue` (cloudId, fields)
-- `createIssueLink` (cloudId, linkType, inwardIssue, outwardIssue)
-- `getIssueLinkTypes` (cloudId)
-- `editJiraIssue` (cloudId, issueIdOrKey, fields) — set lifecycle fields + SC fields
-- `getJiraIssue` (cloudId, issueIdOrKey)
+- `mcp__github__search_issues` (duplicate detection)
+- `mcp__github__issue_write` (create)
+- `mcp__github__sub_issue_write` (epic membership, standalone criteria)
+- `mcp__github__issue_read` (readback)
+- `gh api repos/fredabood/<repo>/issues/<n>/dependencies/blocked_by` — dependency links (Bash)
 
-## CloudId
+## Repos & Board
 
-Use the project's configured Jira CloudId from CLAUDE.md.
+Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board "Homelab Work" IDs: see `.claude/rules/custom-fields.md` (new issues are auto-added as Backlog — no board write needed here).
 
 **Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.

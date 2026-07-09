@@ -1,170 +1,148 @@
-# Custom Fields — Jira Field ID Mapping
+# GitHub Field Mapping — Statuses, Board IDs, and Structured Comments
 
-Canonical mapping of custom field names to Jira `customfield_NNNNN` IDs.
-All skills, hooks, and agents reference this file for field operations.
+Canonical mapping of the old Jira field vocabulary to GitHub-native constructs.
+All skills, hooks, and agents reference this file for lifecycle operations.
 
-> Created by LAB-628 + LAB-627 via Jira REST API (2026-03-28). Extended to DRTY by DRTY-103 (2026-04-10). All field IDs are shared site-wide — same IDs on both LAB and DRTY.
-
----
-
-## Plan Fields
-
-| Field Name | Field ID | Type |
-|-----------|----------|------|
-| Plan: Jira Tracking | `customfield_10173` | textarea |
-| Plan: Testing Strategy | `customfield_10174` | textarea |
-| Plan: Documentation | `customfield_10175` | textarea |
-| Plan: Success Criteria | `customfield_10176` | textarea |
-| Plan: Risk Assessment | `customfield_10177` | textarea |
-| Plan Sections Complete | `customfield_10190` | multicheckboxes |
-
-**Plan Sections Complete options (context 10430):**
-
-| Option | ID |
-|--------|-----|
-| Jira Tracking | `10130` |
-| Testing Strategy | `10131` |
-| Documentation | `10132` |
-| Success Criteria | `10133` |
-| Risk Assessment | `10134` |
-
-## Verification Fields
-
-| Field Name | Field ID | Type |
-|-----------|----------|------|
-| Verification: Criteria Tested | `customfield_10178` | textarea |
-| Verification: Results Summary | `customfield_10179` | textarea |
-| Verification Sections Complete | `customfield_10191` | multicheckboxes |
-
-**Verification Sections Complete options (context 10431):**
-
-| Option | ID |
-|--------|-----|
-| Criteria Tested | `10135` |
-| Results Posted | `10136` |
-| All Pass | `10137` |
-
-## Post-Mortem Fields
-
-| Field Name | Field ID | Type |
-|-----------|----------|------|
-| Post-Mortem: What Went Well | `customfield_10180` | textarea |
-| Post-Mortem: What Didnt Go Well | `customfield_10181` | textarea |
-| Post-Mortem: Lessons Learned | `customfield_10182` | textarea |
-| Post-Mortem: Metrics | `customfield_10183` | textarea |
-| Post-Mortem: Follow-Up Items | `customfield_10184` | textarea |
-| Post-Mortem Sections Complete | `customfield_10192` | multicheckboxes |
-
-**Post-Mortem Sections Complete options (context 10432):**
-
-| Option | ID |
-|--------|-----|
-| What Went Well | `10138` |
-| What Didnt | `10139` |
-| Lessons Learned | `10140` |
-| Metrics | `10141` |
-| Follow-Ups | `10142` |
-
-## Doc Review Fields
-
-| Field Name | Field ID | Type |
-|-----------|----------|------|
-| Doc Review: Documentation | `customfield_10185` | textarea |
-| Doc Review: Memory Updates | `customfield_10186` | textarea |
-
-## Agent Tracking Fields
-
-| Field Name | Field ID | Type |
-|-----------|----------|------|
-| Primary Agent | `customfield_10188` | textfield |
-| Assigned Agent | `customfield_10189` | textfield |
-| Agent Runtime | `customfield_10187` | textarea |
-
-## Utility Fields
-
-| Field Name | Field ID | Type |
-|-----------|----------|------|
-| Workflow Phase | `customfield_10193` | float |
-
-## Success Criterion Fields (SC type only)
-
-| Field Name | Field ID | Type |
-|-----------|----------|------|
-| Test Marker | `customfield_10194` | textfield |
-| Human Approval Required | `customfield_10195` | multicheckboxes |
-
-**Human Approval Required options (context 10435):**
-
-| Option | ID |
-|--------|-----|
-| Required | `10143` |
+> Rewritten for the GitHub Issues migration (2026-07). The Jira custom fields
+> (customfield_10173–10195) are gone; their content lives in **structured issue
+> comments** with `##` markers, and workflow status lives on the **Projects v2
+> board**. Historical field values are preserved in the postgres mirror columns
+> (`jira.issues.plan_*`, `verification_*`, `pm_*`, etc.) for migrated issues.
 
 ---
+
+## Projects v2 Board — Stable IDs
+
+| Object | ID |
+|--------|-----|
+| Project "Homelab Work" (user `fredabood`, number 1) | `PVT_kwHOAM5y1M4BcqrU` |
+| `Status` single-select field | `PVTSSF_lAHOAM5y1M4BcqrUzhXRxK4` |
+
+**Status options:**
+
+| Option | ID |
+|--------|-----|
+| Backlog | `093793f1` |
+| In Progress | `62ad3706` |
+| Implementation Complete | `2eec8df1` |
+| Review Complete | `0aa21637` |
+| Deferred | `087e34a4` |
+
+These IDs are stable for the life of the board. Scripts may hardcode them but must
+fail loudly if a GraphQL mutation rejects them (board recreated → re-derive with
+`gh api graphql` querying `user(login:"fredabood"){projectV2(number:1){...}}`).
+
+## Status Transitions
+
+There are no Jira transition IDs anymore. To move an issue:
+
+| Action | How |
+|--------|-----|
+| Backlog → In Progress (etc.) | `mcp__github__projects_write` — update item's `Status` field |
+| Any → Done | `mcp__github__issue_write` — `state: closed`, `state_reason: completed` |
+| Any → Won't Do | `mcp__github__issue_write` — `state: closed`, `state_reason: not_planned` |
+| Reopen | `mcp__github__issue_write` — `state: open`, then set board Status |
+
+Closing an issue removes it from the board (D5). Reopening re-adds it via the
+webhook receiver with `Status=Backlog`.
+
+## Structured Comment Vocabulary
+
+The old plan/verification/post-mortem custom fields map to issue comments whose
+sections use these exact `##`/`###` markers (hooks and the Planned-check grep for them):
+
+### Plan comment (replaces Plan: * fields)
+
+```
+## Implementation Plan
+### Jira Tracking        → now: Issue Tracking (issues to create, epic membership, dependencies)
+### Testing Strategy
+### Documentation
+### Success Criteria
+### Risk Assessment
+```
+
+A comment containing `## Implementation Plan` marks the issue as **Planned**
+(together with an `## Acceptance Criteria` task list in the body).
+
+### Verification comment (replaces Verification: * fields)
+
+```
+## Verification Report
+### Criteria Tested      (each body checklist item, individually, with evidence)
+### Results Summary
+```
+
+### Post-mortem comment (replaces Post-Mortem: * fields)
+
+```
+## Post-Mortem: <KEY> — <summary>
+### What Went Well
+### What Didn't Go Well
+### Lessons Learned
+### Metrics
+### Follow-Up Items
+```
+
+### Doc review (replaces Doc Review: * fields)
+
+Folded into the post-mortem or a standalone comment:
+
+```
+## Doc Review
+### Documentation        (docs/ files created/updated and why)
+### Memory Updates       (auto-memory + vault notes persisted)
+```
+
+### Agent assignment (replaces Primary/Assigned Agent fields)
+
+```
+Assigned Agent: <session-identifier>
+Session: <ISO timestamp>
+```
+
+Posted as a short comment when picking up an issue. The most recent assignment
+comment wins. Warn before overriding another agent's assignment.
+
+## Acceptance Criteria / Success Criterion Issues
+
+- Acceptance criteria = native task list (`- [ ]`) under `## Acceptance Criteria` in the issue **body** (not a comment — the body is editable and renders progress).
+- The old Success Criterion subtask type is gone. If a criterion needs standalone tracking, convert the task-list item to a sub-issue (GitHub UI or `sub_issue_write`).
+- Test Marker / Human Approval Required: prepend to the criterion text, e.g. `- [ ] [pytest:test_foo] [HUMAN-APPROVAL] <condition>`.
 
 ## Issue Types
 
-| Name | ID | Subtask |
-|------|-----|---------|
-| Success Criterion | `10222` | true |
+None. Epic-ness is derived (an issue with sub-issues is an epic — the mirror sets
+`issue_type='Epic'` automatically). Use the `bug` label for defects. Everything
+else is an untyped issue (mirror shows `Task`).
 
-## Statuses
+## Mirror Columns (read-only reference)
 
-| Status | ID | Category | Board Column |
-|--------|-----|----------|-------------|
-| To Do | `10050` | TODO | To Do |
-| In Progress | `10051` | IN_PROGRESS | In Progress |
-| Done | `10052` | DONE | Done |
-| Implementation Complete | (board-created) | IN_PROGRESS | Own column (transition 81) |
-| Review Complete | (board-created) | IN_PROGRESS | Own column (transition 91) |
-| Won't Do | (board-created) | DONE | Done column (transition 71) |
-| Deferred | `10278` | TODO | Backlog column (transition 101) |
-
-## Transition IDs
-
-**Always use `getTransitionsForJiraIssue` at runtime** to discover transition IDs.
-Do not hardcode — transition IDs change when statuses are added to the board.
-
-Known transitions (company-managed LAB project):
-
-| Transition | ID | Target Status | Category |
-|-----------|-----|---------------|----------|
-| Backlog | `11` | Backlog | To Do |
-| Selected for Development | `21` | Selected for Development | To Do |
-| In Progress | `31` | In Progress | In Progress |
-| Implementation Complete | `81` | Implementation Complete | In Progress |
-| Review Complete | `91` | Review Complete | In Progress |
-| Done | `41` | Done | Done |
-| Won't Do | `71` | Won't Do | Done |
-| Deferred | `101` | Deferred | To Do |
-
-Skills should still use `getTransitionsForJiraIssue` at runtime for resilience.
-
-## Issue Type Schemes
-
-| Scheme | ID | Includes SC? |
-|--------|-----|-------------|
-| LAB: Kanban Issue Type Scheme | `10437` | Yes (added via API) |
-
----
+For migrated issues, historical field content is preserved in
+`jira.issues`: `plan_jira_tracking`, `plan_testing_strategy`, `plan_documentation`,
+`plan_success_criteria`, `plan_risk_assessment`, `verification_criteria_tested`,
+`verification_results_summary`, `pm_*`, `doc_review_*`, `primary_agent`,
+`assigned_agent`, `agent_runtime`, `workflow_phase`, `test_marker`,
+`human_approval_required`. New (post-migration) issues have these NULL — their
+equivalents are the structured comments above, fetched via
+`mcp__github__issue_read` (method `get_comments`).
 
 ## Usage
 
-### Reading a field value
-```python
-issue = getJiraIssue(issueIdOrKey="LAB-XXX")
-assigned_agent = issue["fields"].get("customfield_10189")
+### Reading lifecycle state
+
+```
+mcp__github__issue_read  method=get           → state, state_reason, labels, body (criteria)
+mcp__github__issue_read  method=get_comments  → plan / verification / post-mortem / assignment
+mcp__github__projects_get                     → board Status for open issues
 ```
 
-### Writing a field value
-```python
-editJiraIssue(issueIdOrKey="LAB-XXX", fields={
-    "customfield_10189": "claude-session-abc123"  # Assigned Agent
-})
-```
+### Writing
 
-### Setting a multi-select value
-```python
-editJiraIssue(issueIdOrKey="LAB-XXX", fields={
-    "customfield_10190": [{"id": "10130"}, {"id": "10131"}]  # Plan Sections Complete
-})
+```
+mcp__github__issue_write                      → create/update/close (state_reason!)
+mcp__github__add_issue_comment                → structured comments
+mcp__github__projects_write                   → board Status
+mcp__github__sub_issue_write                  → epic membership
+gh api .../dependencies/blocked_by            → Blocks links (no MCP tool yet)
 ```

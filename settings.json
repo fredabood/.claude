@@ -53,25 +53,25 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/pre-commit-tests.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit-tests.sh",
             "timeout": 120,
             "statusMessage": "Running pre-commit quality gates..."
           },
           {
             "type": "command",
-            "command": ".claude/hooks/memory-frontmatter-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/memory-frontmatter-check.sh",
             "timeout": 30,
             "statusMessage": "Validating vault frontmatter..."
           },
           {
             "type": "command",
-            "command": ".claude/hooks/ticket-reference-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/ticket-reference-check.sh",
             "timeout": 10,
             "statusMessage": "Checking for work item reference..."
           },
           {
             "type": "command",
-            "command": ".claude/hooks/workflow-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/workflow-gate.sh",
             "timeout": 5,
             "statusMessage": "Checking workflow gates..."
           }
@@ -82,7 +82,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/docker-safety-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
             "timeout": 10
           }
         ]
@@ -92,7 +92,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/docker-safety-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
             "timeout": 10
           }
         ]
@@ -102,7 +102,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/docker-safety-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
             "timeout": 10
           }
         ]
@@ -112,7 +112,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/docker-safety-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
             "timeout": 10
           }
         ]
@@ -122,7 +122,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/env-secret-guard.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
             "timeout": 10,
             "statusMessage": "Checking .env access..."
           }
@@ -133,7 +133,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/env-secret-guard.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
             "timeout": 10,
             "statusMessage": "Checking .env access..."
           }
@@ -144,7 +144,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/env-secret-guard.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
             "timeout": 10,
             "statusMessage": "Checking .env access..."
           }
@@ -155,7 +155,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/env-secret-guard.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
             "timeout": 10,
             "statusMessage": "Checking .env access..."
           }
@@ -166,7 +166,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/env-secret-guard.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
             "timeout": 10,
             "statusMessage": "Checking .env access..."
           }
@@ -177,7 +177,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/env-secret-guard.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
             "timeout": 10,
             "statusMessage": "Checking .env access..."
           }
@@ -188,7 +188,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/workflow-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/workflow-gate.sh",
             "timeout": 5,
             "statusMessage": "Checking workflow gates..."
           }
@@ -199,7 +199,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/workflow-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/workflow-gate.sh",
             "timeout": 5,
             "statusMessage": "Checking workflow gates..."
           }
@@ -210,25 +210,25 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/github-skill-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/github-skill-gate.sh",
             "timeout": 10,
             "statusMessage": "Checking skill execution context..."
           },
           {
             "type": "command",
-            "command": ".claude/hooks/label-taxonomy-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/label-taxonomy-check.sh",
             "timeout": 10,
             "statusMessage": "Validating taxonomy labels..."
           },
           {
             "type": "command",
-            "command": ".claude/hooks/lifecycle-field-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/lifecycle-field-check.sh",
             "timeout": 30,
             "statusMessage": "Checking lifecycle completeness..."
           },
           {
             "type": "command",
-            "command": ".claude/hooks/workflow-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/workflow-gate.sh",
             "timeout": 5,
             "statusMessage": "Checking workflow gates..."
           }
@@ -239,7 +239,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/github-skill-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/github-skill-gate.sh",
             "timeout": 10,
             "statusMessage": "Checking skill execution context..."
           }
@@ -250,7 +250,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/github-skill-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/github-skill-gate.sh",
             "timeout": 10,
             "statusMessage": "Checking skill execution context..."
           }
@@ -261,7 +261,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/github-skill-gate.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/github-skill-gate.sh",
             "timeout": 10,
             "statusMessage": "Checking skill execution context..."
           }
@@ -272,7 +272,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/link-direction-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/link-direction-check.sh",
             "timeout": 10,
             "statusMessage": "Checking dependency link direction..."
           }
@@ -286,7 +286,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/prompt-router.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-router.sh",
             "timeout": 5000,
             "statusMessage": "Checking for skill suggestions..."
           }

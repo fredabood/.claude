@@ -7,13 +7,17 @@
 
 set -euo pipefail
 
-# Only run on memory submodule commits
-if [[ "${TOOL_INPUT:-}" != *"submodules/memory"* && "${TOOL_INPUT:-}" != *"memory"* ]]; then
+# Modern hook payload arrives as JSON on stdin (legacy TOOL_INPUT env was always
+# empty, making this gate a silent no-op — LAB-215, 2026-07-13). Self-filter: only
+# git commit commands matter; the staged-file check below scopes to the vault.
+INPUT=$(cat)
+CMD=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print((d.get('tool_input') or {}).get('command') or '')" 2>/dev/null || echo "")
+if [[ "$CMD" != *"git commit"* ]]; then
   exit 0
 fi
 
-# Find staged .md files in the memory submodule
-MEMORY_DIR="submodules/memory"
+# Find staged .md files in the memory submodule (anchored to project root, not CWD)
+MEMORY_DIR="${CLAUDE_PROJECT_DIR:-.}/submodules/memory"
 if [[ ! -d "$MEMORY_DIR" ]]; then
   exit 0
 fi

@@ -40,7 +40,7 @@ if not labels and not is_create:
 
 # For create: labels are required, block if missing
 if not labels and is_create:
-    print('TAXONOMY ERROR: New issues require taxonomy labels.')
+    print('[label-taxonomy-check] TAXONOMY ERROR: New issues require taxonomy labels.')
     print('Add exactly one work pattern + one infrastructure layer label to the labels array.')
     print('See .claude/rules/label-taxonomy.md for valid labels.')
     sys.exit(2)

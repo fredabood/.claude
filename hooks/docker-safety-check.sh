@@ -12,7 +12,19 @@ set -euo pipefail
 # Claude Code passes the full command via stdin as JSON.
 # Extract the command field.
 INPUT=$(cat)
-CMD=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('command',''))" 2>/dev/null || echo "")
+# Payload shape is {"tool_name":"Bash","tool_input":{"command":...}} on current
+# Claude Code; older harnesses passed a top-level "command". Support both —
+# the top-level-only parse left this gate silently fail-open (found LAB-215/LAB-961
+# verification, 2026-07-13).
+CMD=$(echo "$INPUT" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    print('')
+    sys.exit(0)
+print((d.get('tool_input') or {}).get('command') or d.get('command') or '')
+" 2>/dev/null || echo "")
 
 if [[ -z "$CMD" ]]; then
   exit 0
@@ -40,7 +52,7 @@ if [[ "$ALL_STAGING" == "true" && -n "$TARGETS" ]]; then
 fi
 
 # Block and explain
-echo "Safety gate: '$CMD' targets a production container."
+echo "[docker-safety-check] Safety gate: '$CMD' targets a production container."
 echo ""
 echo "Production containers should not be stopped or deleted accidentally."
 echo "Staging containers (*-staging) are exempt from this check."

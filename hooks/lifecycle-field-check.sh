@@ -73,7 +73,7 @@ if [[ -n "$REPO" && -n "$ISSUE_NUM" ]]; then
 fi
 
 # No skill context and no verification comment — block the close
-echo "BLOCKED: Cannot close $ISSUE_REF as completed without verification."
+echo "[lifecycle-field-check] BLOCKED: Cannot close $ISSUE_REF as completed without verification."
 echo "Post the structured lifecycle comments first (see .claude/rules/custom-fields.md):"
 echo "  - '## Verification Report' comment with '### Criteria Tested' + '### Results Summary'"
 echo "  - '## Post-Mortem: <KEY> — <summary>' comment"

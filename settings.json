@@ -49,137 +49,52 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash(git commit)",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit-tests.sh",
-            "timeout": 120,
-            "statusMessage": "Running pre-commit quality gates..."
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
+            "timeout": 10
           },
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/memory-frontmatter-check.sh",
-            "timeout": 30,
-            "statusMessage": "Validating vault frontmatter..."
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/link-direction-check.sh",
+            "timeout": 10
           },
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/ticket-reference-check.sh",
-            "timeout": 10,
-            "statusMessage": "Checking for work item reference..."
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/memory-frontmatter-check.sh",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit-tests.sh",
+            "timeout": 120
           },
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/workflow-gate.sh",
-            "timeout": 5,
-            "statusMessage": "Checking workflow gates..."
+            "timeout": 5
           }
         ]
       },
       {
-        "matcher": "Bash(docker stop *)",
+        "matcher": "Read",
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
             "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(docker rm *)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(docker rmi *)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(docker kill *)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/docker-safety-check.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(cat .env*)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
-            "timeout": 10,
-            "statusMessage": "Checking .env access..."
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(grep * .env*)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
-            "timeout": 10,
-            "statusMessage": "Checking .env access..."
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(head * .env*)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
-            "timeout": 10,
-            "statusMessage": "Checking .env access..."
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(tail * .env*)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
-            "timeout": 10,
-            "statusMessage": "Checking .env access..."
-          }
-        ]
-      },
-      {
-        "matcher": "Bash(source .env*)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
-            "timeout": 10,
-            "statusMessage": "Checking .env access..."
-          }
-        ]
-      },
-      {
-        "matcher": "Read(.env)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/env-secret-guard.sh",
-            "timeout": 10,
-            "statusMessage": "Checking .env access..."
           }
         ]
       },
@@ -266,20 +181,21 @@
             "statusMessage": "Checking skill execution context..."
           }
         ]
-      },
+      }
+    ],
+    "Stop": [
       {
-        "matcher": "Bash(gh api *)",
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/link-direction-check.sh",
-            "timeout": 10,
-            "statusMessage": "Checking dependency link direction..."
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/persistence-safety-net.sh",
+            "timeout": 15,
+            "statusMessage": "Checking session persistence..."
           }
         ]
       }
     ],
-    "Stop": [],
     "UserPromptSubmit": [
       {
         "matcher": "",

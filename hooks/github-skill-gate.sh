@@ -52,7 +52,7 @@ if [ -f "$MARKER" ]; then
 fi
 
 # Block with helpful message
-echo "BLOCKED: Direct GitHub MCP write calls (issue_write / add_issue_comment / sub_issue_write / projects_write) are not allowed."
+echo "[github-skill-gate] BLOCKED: Direct GitHub MCP write calls (issue_write / add_issue_comment / sub_issue_write / projects_write) are not allowed."
 echo "Use the appropriate skill instead:"
 echo "  - /create-ticket to create issues (labels + acceptance criteria enforced)"
 echo "  - /start-task to pick up an issue (board Status -> In Progress + assignment comment)"

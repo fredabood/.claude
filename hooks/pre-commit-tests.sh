@@ -7,10 +7,16 @@
 
 set -euo pipefail
 
-# Only run on actual commit commands (not commit --amend messages, etc.)
-if [[ "${TOOL_INPUT:-}" != *"git commit"* ]]; then
+# Modern hook payload arrives as JSON on stdin ({"tool_name":..,"tool_input":{"command":..}}).
+# (The legacy TOOL_INPUT env check made this gate a silent no-op — LAB-215, 2026-07-13.)
+INPUT=$(cat)
+CMD=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print((d.get('tool_input') or {}).get('command') or '')" 2>/dev/null || echo "")
+if [[ "$CMD" != *"git commit"* ]]; then
   exit 0
 fi
+
+# Evaluate the PROJECT ROOT, not the shell CWD (which may sit in a submodule)
+cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
 
 # Detect test runner and run tests
 if [[ -f "pytest.ini" || -f "pyproject.toml" ]] && command -v pytest &>/dev/null; then

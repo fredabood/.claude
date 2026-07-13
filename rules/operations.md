@@ -83,3 +83,21 @@ bridge overwhelmed). Sequence: finish rclone writes → mount NAS → add contai
 - Debug 502s with `docker exec caddy wget -qO- http://<svc>:<port>/` before changing config
 - Docker network names: `homelab-frontend`, `homelab-backend`, `homelab-data`, `homelab-monitoring`
 - Confirm a service is on the correct network before declaring a routing issue fixed
+
+## Compose env-var strictness (LAB-965)
+
+Every `${VAR}` reference in `stacks/*.yml` must carry an explicit posture:
+
+- `${VAR:?VAR required}` — credentials, tokens, DSN components, webhook URLs, and
+  environment-specific paths/hosts (`HOMELAB_DATA_PATH`, `HOMELAB_REPO_PATH`, …).
+  Compose FAILS LOUDLY instead of silently interpolating an empty string.
+- `${VAR:-<default>}` — genuinely optional vars with a safe default; use `${VAR:-}`
+  + `# optional` comment for integrations that may be unset (e.g. DATABRICKS_*).
+- Non-colon `${VAR?msg}` — rare: var must EXIST but may legitimately be empty
+  (e.g. ANTHROPIC_API_KEY placeholder).
+
+Verification pattern for any change: `docker compose -f <stack> --env-file .env config`
+must exit 0 AND diff empty against the pre-change resolved config; a probe with
+`--env-file /dev/null` must fail naming a required variable. Note: compose prints
+"variable is not set" warnings from `.env`-internal interpolation even when resolution
+succeeds — trust the resolved config, not warning absence.

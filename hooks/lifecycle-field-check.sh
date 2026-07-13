@@ -49,7 +49,7 @@ OWNER="${OWNER:-fredabood}"
 ISSUE_REF="${REPO:-?}#${ISSUE_NUM:-?}"
 
 # Allow path 1: fresh skill execution context (skill is managing the lifecycle)
-MARKER=".skill-execution-context.json"
+MARKER="${CLAUDE_PROJECT_DIR:-.}/.skill-execution-context.json"
 if [ -f "$MARKER" ]; then
     if [ "$(uname)" = "Darwin" ]; then
         MARKER_AGE=$(( $(date +%s) - $(stat -f %m "$MARKER") ))

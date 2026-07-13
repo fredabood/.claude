@@ -37,7 +37,7 @@ if [ "$IS_WRITE" = false ]; then
 fi
 
 # Check for skill execution context marker
-MARKER=".skill-execution-context.json"
+MARKER="${CLAUDE_PROJECT_DIR:-.}/.skill-execution-context.json"
 if [ -f "$MARKER" ]; then
   # Check if marker is fresh (< 10 minutes old)
   if [ "$(uname)" = "Darwin" ]; then

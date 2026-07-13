@@ -52,7 +52,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | MinIO | minio | (staging only) | minio:9000 (S3), minio:9001 (console) | Object storage | AWS S3 API; bucket `jira-activity` |
 | qBittorrent | qbittorrent | host: localhost:8081 | gluetun:8080 | Torrent client (VPN via gluetun) | Web API `/api/v2/` |
 | Claude Remote | claude-remote | claude.ai/code (no direct port) | outbound HTTPS only | Claude Code Remote Control server | claude.ai/code + Claude mobile app |
-| Earthdata Downloader | earthdata-downloader | (internal only) | sleep-idle, invoked via `docker exec` | NASA Earthdata bulk granule archive (LAB-221) | `python -m earthdata_downloader download --daac <DAAC>` from n8n |
+| Earthdata Downloader | earthdata-downloader | (internal only) | sleep-idle, invoked via `docker exec` | NASA Earthdata bulk granule archive (RESORT-2, ex-LAB-221 — tracker in fredabood/9215resort) | `python -m earthdata_downloader download --daac <DAAC>` from n8n |
 
 ### API Gateway (`api.dirtydata.studio`)
 
@@ -128,7 +128,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 - **Custom image:** `homelab/n8n-puppeteer:${N8N_VERSION}` — includes Python 3.12+pip, psycopg2-binary, caldav, pyarrow, mwparserfromhell, rclone, rsync, docker-cli, mc, chromium, puppeteer-core, openssh-client, sqlite CLI. Google sync writes to `google` schema, Wikipedia pipeline writes to `wikipedia` schema.
 - **Scheduling role:** Single orchestration plane for all scheduled jobs (LAB-162). Only macOS-native jobs (NAS mount, Cloudflare tunnel) and host-filesystem jobs (restic backup) stay on launchd. See `docs/operations/n8n-scheduling.md`.
 - **Docker access:** Docker CLI via socket proxy (`DOCKER_HOST=tcp://docker-socket-proxy:2375`)
-- **Known workflow IDs:** `github-webhook-receiver` (real-time GitHub CDC — `POST /webhook/github-event`, HMAC-verified; mirrors issue/comment/board events into `jira.*` and auto-adds new issues to the board at `Status=Backlog`), `github-full-sync` (hourly reconciliation + manual `POST /webhook/github-full-sync`), `github-weekly-export` (Sun 3AM + manual `POST /webhook/github-weekly-export`), Wikipedia mirrors `wikipedia-zim-sync` (monthly 1st 2AM), `wikidump-sync` (monthly 5th 4AM), `wikipedia-images-sync` (monthly 10th 6AM, self-chaining tranches), `wikipedia-embeddings-sync` (webhook-only, self-chaining 1K tranches via Ollama), `earthdata-download-date` ID `1ttQHbNvhrlJHT4h` (LAB-221; webhook-triggered, accepts `{"date":"YYYY-MM-DD"}` body, downloads all imagery for that date across all collections — `POST /webhook/earthdata-download-date`)
+- **Known workflow IDs:** `github-webhook-receiver` (real-time GitHub CDC — `POST /webhook/github-event`, HMAC-verified; mirrors issue/comment/board events into `jira.*` and auto-adds new issues to the board at `Status=Backlog`), `github-full-sync` (hourly reconciliation + manual `POST /webhook/github-full-sync`), `github-weekly-export` (Sun 3AM + manual `POST /webhook/github-weekly-export`), Wikipedia mirrors `wikipedia-zim-sync` (monthly 1st 2AM), `wikidump-sync` (monthly 5th 4AM), `wikipedia-images-sync` (monthly 10th 6AM, self-chaining tranches), `wikipedia-embeddings-sync` (webhook-only, self-chaining 1K tranches via Ollama), `earthdata-download-date` ID `1ttQHbNvhrlJHT4h` (RESORT-2, ex-LAB-221; webhook-triggered, accepts `{"date":"YYYY-MM-DD"}` body, downloads all imagery for that date across all collections — `POST /webhook/earthdata-download-date`)
 
 ---
 

@@ -11,10 +11,11 @@ globs:
 All implementation work is tracked in GitHub Issues by default. Follow these behaviors automatically without waiting for the user to invoke a skill.
 
 **Repo routing:** Infer the target repo from the work context:
-- Working in the homelab repo root or `stacks/`, `internal/`, `.claude/` → **`fredabood/homelab`** (mirror keys `HL-<n>`, historical `LAB-*`)
-- Working in `submodules/dirtydata/` or on DD-/DRTY-prefixed issues → **`fredabood/dirtydata`** (mirror keys `DD-<n>`, historical `DRTY-*`)
+- Working in the homelab repo root or `stacks/`, `internal/`, `.claude/` → **`fredabood/homelab`** (keys `LAB-<n>`; `HL-*` prefix deprecated 2026-07-12, LAB-963)
+- Working in `submodules/dirtydata/` or on DRTY-prefixed issues → **`fredabood/dirtydata`** (keys `DRTY-<n>`; `DD-*` deprecated)
+- Working in `submodules/9215resort/` or on RESORT-prefixed issues → **`fredabood/9215resort`** (keys `RESORT-<n>`; the LAB-221 + LAB-228 trees transferred here 2026-07-12 — old↔new map in `public.resort_transfer_key_map`, LAB-962)
 
-All open issues from both repos live on the Projects v2 board **"Homelab Work"** (user `fredabood`, project number 1). Board Status values: `Backlog`, `In Progress`, `Implementation Complete`, `Review Complete`, `Deferred`. See `.claude/rules/custom-fields.md` for stable board/field IDs.
+All open issues from all three repos live on the Projects v2 board **"Homelab Work"** (user `fredabood`, project number 1). Board Status values: `Backlog`, `In Progress`, `Implementation Complete`, `Review Complete`, `Deferred`. See `.claude/rules/custom-fields.md` for stable board/field IDs.
 
 ## On any implementation request
 

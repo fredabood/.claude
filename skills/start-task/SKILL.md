@@ -13,12 +13,14 @@ Start working on a GitHub issue. Checks acceptance criteria, sets the board Stat
 ## Usage
 
 ```
-/start-task <#N | HL-N | DD-N | LAB-N | DRTY-N>
+/start-task <#N | LAB-N | DRTY-N | RESORT-N>
 ```
 
-Example: `/start-task HL-123`
+(Historical `HL-N`/`DD-N` inputs still resolve: `HL-N` ≡ `LAB-N`, `DD-N` ≡ `DRTY-N`.)
 
-Key resolution: `HL-<n>` = `fredabood/homelab#n`, `DD-<n>` = `fredabood/dirtydata#n`. Migrated keys (`LAB-*`, `DRTY-*`, `LEGACY-*`) resolve via the mirror:
+Example: `/start-task LAB-963`
+
+Key resolution: post-migration keys map directly to issue numbers — `LAB-<n>` = `fredabood/homelab#n` (n ≥ 941), `DRTY-<n>` = `fredabood/dirtydata#n`, `RESORT-<n>` = `fredabood/9215resort#n`. Migrated keys (`LAB-*` ≤ 286, `DRTY-*`, `LEGACY-*`) resolve via the mirror:
 ```
 docker exec postgres-memory psql -U postgres -d agent_memory -c \
   "SELECT gh_repo, gh_number FROM public.github_migration_key_map WHERE old_key = '<KEY>'"
@@ -35,7 +37,7 @@ Use `mcp__github__issue_read` (method: get) to retrieve the issue (title, body w
 Confirm the issue is not closed. If board Status is already "In Progress", check whether it's stale (per `.claude/rules/work-tracking.md`):
 
 1. Find the most recent `Assigned Agent: <session-id>` comment
-2. Check `git log --oneline -20` for recent commits referencing the issue key (`HL-<n>` / `DD-<n>` / migrated key)
+2. Check `git log --oneline -20` for recent commits referencing the issue key (`LAB-<n>` / `DRTY-<n>` / `RESORT-<n>`, or deprecated-era `HL-<n>`/`DD-<n>`)
 3. **Recent commits (~24h) + same agent:** resume normally, skip the board transition
 4. **Assigned to a different agent:** warn the user — another agent claimed this issue. Ask whether to take over (post a new assignment comment) or pick a different issue
 5. **No relevant commits / older than 24h:** flag as potentially stale and ask the user whether to resume or restart
@@ -54,7 +56,7 @@ gh api repos/fredabood/<repo>/issues/<n>/dependencies/blocked_by \
 **If any blocker is still open:** Display:
 ```
 Warning: This issue has unresolved blockers:
-- <repo>#<n> (HL-nnn): <title> (state: open, board Status: <status>)
+- <repo>#<n> (LAB-nnn): <title> (state: open, board Status: <status>)
 ```
 
 Ask the user whether to:

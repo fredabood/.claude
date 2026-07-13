@@ -92,15 +92,15 @@ Cross-repo dependencies work. Validate direction: cross-layer links flow L1 → 
 #### 4c: Build dependency graph
 Document the full graph:
 ```
-HL-1 blocks HL-2 — <reason>
-HL-3 (no dependencies)
+LAB-1 blocks LAB-2 — <reason>
+LAB-3 (no dependencies)
 ```
 
 #### 4d: Critical path
 Identify the longest sequential chain. This determines minimum elapsed time.
 ```
-Critical path: HL-1 → HL-2 → HL-5 (3 issues)
-Parallelizable: HL-3, HL-4 (can start immediately)
+Critical path: LAB-1 → LAB-2 → LAB-5 (3 issues)
+Parallelizable: LAB-3, LAB-4 (can start immediately)
 ```
 
 #### 4e: Next-eligible issues
@@ -154,11 +154,11 @@ Produce a structured plan:
 - Week 2: <milestone>
 
 ### Dependency Graph
-HL-1 blocks HL-2 — <reason>
+LAB-1 blocks LAB-2 — <reason>
 ...
 
 ### Critical Path
-HL-X → HL-Y → HL-Z (N sequential issues)
+LAB-X → LAB-Y → LAB-Z (N sequential issues)
 
 ### Next Eligible (ready to start)
 | Key | Summary | Priority | Notes |
@@ -188,7 +188,7 @@ HL-X → HL-Y → HL-Z (N sequential issues)
 ### Step 9: Commit Planning Artifacts
 
 - Commit any documentation changes
-- Include the plan/epic reference in the commit message (e.g., `HL-123: Plan 2026-07 cycle`)
+- Include the plan/epic reference in the commit message (e.g., `LAB-963: Plan 2026-07 cycle`)
 
 ## Required Tools
 

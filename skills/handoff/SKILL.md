@@ -22,7 +22,7 @@ Generate a session handoff summary and persist it to the active GitHub issue(s) 
 
 - Files changed: `git diff --name-only` (staged and unstaged)
 - Commits made: `git log --oneline` since session start (compare to recent history)
-- Issues touched (any issues whose board Status changed, that were commented on, created, or closed during the session — keys `HL-<n>`/`DD-<n>`, or migrated `LAB-*`/`DRTY-*`)
+- Issues touched (any issues whose board Status changed, that were commented on, created, or closed during the session — keys `LAB-<n>`/`DRTY-<n>`/`RESORT-<n>`; deprecated `HL-*`/`DD-*` ≡ `LAB-*`/`DRTY-*`)
 
 ### Step 2: Summarize work done
 

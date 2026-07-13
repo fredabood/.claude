@@ -7,15 +7,15 @@ When `/workflow` is active, git phases become mandatory gates enforced by hooks.
 
 ## Branch Strategy
 
-- **Non-trivial work:** create a feature branch named `<KEY>-kebab-description` (e.g., `HL-123-add-user-profile`)
+- **Non-trivial work:** create a feature branch named `<KEY>-kebab-description` (e.g., `LAB-963-add-user-profile`)
 - **Trivial changes** (typos, config, formatting): direct commits to `main` are acceptable
 - Before creating a new branch: check `git status` for uncommitted changes — stash or commit them first
 
 ## Commit Hygiene
 
-- Every commit references the active work item: `HL-123: <description>` (homelab, issue #123) or `DD-45: <description>` (dirtydata, issue #45)
-- Historical `LAB-*`/`DRTY-*` prefixes remain valid when touching migrated issues
-- Optionally append `(#123)` for GitHub auto-linking — never start the subject with a bare `#123` (git strips it as a comment)
+- Every commit references the active work item: `LAB-963: <description>` (homelab, issue #963), `DRTY-45: <description>` (dirtydata, issue #45), or `RESORT-12: <description>` (9215resort, issue #12)
+- Deprecated `HL-*`/`DD-*` prefixes in historical commits remain valid (`HL-n ≡ LAB-n`, `DD-n ≡ DRTY-n`) — don't use them for new work
+- Optionally append `(#963)` for GitHub auto-linking — never start the subject with a bare `#963` (git strips it as a comment)
 - Atomic commits — one logical change per commit
 - Don't mix unrelated changes in a single commit
 - Allowlisted prefixes for commits without an issue: `chore:`, `typo:`, `docs:`, `sync:`

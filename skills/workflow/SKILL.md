@@ -21,20 +21,20 @@ When active, hooks on Edit/Write/Commit/Transition block out-of-sequence actions
 /workflow "<description>"
 ```
 
-Example: `/workflow HL-123` (homelab issue #123) or `/workflow DD-45` (dirtydata issue #45)
-Example: `/workflow LAB-628` (migrated issue — key resolves via the mirror)
+Example: `/workflow LAB-963` (homelab issue #963) or `/workflow DRTY-45` (dirtydata issue #45)
+Example: `/workflow LAB-164` (migrated issue — key resolves via the mirror)
 Example: `/workflow "Add user profile page with avatar upload"`
 
 ## Key → Repo/Number Resolution
 
-The work item key is the mirror key: `HL-<n>` ↔ `fredabood/homelab#n`, `DD-<n>` ↔ `fredabood/dirtydata#n`. Migrated issues keep `LAB-*`/`DRTY-*`/`LEGACY-*` keys — resolve any key to its GitHub coordinates via the mirror:
+The work item key is the mirror key (unified scheme, LAB-963): `LAB-<n>` ↔ `fredabood/homelab#n` (post-migration, n ≥ 941), `DRTY-<n>` ↔ `fredabood/dirtydata#n`, `RESORT-<n>` ↔ `fredabood/9215resort#n`. Migrated issues keep their original `LAB-*`/`DRTY-*`/`LEGACY-*` keys, and deprecated `HL-<n>`/`DD-<n>` inputs resolve as `LAB-<n>`/`DRTY-<n>` — resolve any key to its GitHub coordinates via the mirror:
 
 ```bash
 docker exec postgres-memory psql -U postgres -d agent_memory -t -A -c \
   "SELECT gh_repo || '|' || gh_number FROM jira.issues WHERE issue_key = '<KEY>'"
 ```
 
-Use the resolved `<repo>` (`homelab` or `dirtydata`, owner `fredabood`) and `<number>` for all `mcp__github__*` calls. The reverse map is `jira.gh_issue_key(repo, number)`.
+Use the resolved `<repo>` (`homelab`, `dirtydata`, or `9215resort`, owner `fredabood`) and `<number>` for all `mcp__github__*` calls. The reverse map is `jira.gh_issue_key(repo, number)`.
 
 ## State Machine
 
@@ -65,7 +65,7 @@ Replace `<N>` with the phase number and `<KEY>` with the work item key.
 
 ## Initialization
 
-### If input is a key (e.g., HL-123, DD-45, LAB-628)
+### If input is a key (e.g., LAB-963, DRTY-45, RESORT-12)
 
 1. Resolve the key to `<repo>`/`<number>` (see Key → Repo/Number Resolution above)
 2. Check postgres for an active (incomplete) workflow:
@@ -174,7 +174,7 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 1. Check `git status` for uncommitted changes
    - If uncommitted changes exist: stash them (`git stash push -m "workflow: stashing for <KEY>"`) or commit with context
 2. Create a feature branch: `git checkout -b <KEY>-<kebab-description>`
-   - Example: `HL-123-add-user-profile`
+   - Example: `LAB-963-add-user-profile`
 3. **Write state:** DB + file (`phase_4_at`, `branch_name`)
    - Also update DB: `UPDATE workflow.runs SET branch_name = '<branch>' WHERE ...`
    - Also update file: add `"branch_name": "<branch>"` to `.workflow-state.json`
@@ -194,7 +194,7 @@ Output a status line after each phase: `> Phase N: <name> ✓`
 3. Security review (9-point checklist):
    - Hardcoded secrets, environment variables, input sanitization, logging, rate limiting, TLS/HTTPS, error messages, dependencies (CVEs), test security
 4. Update `docs/` if operational behavior changed
-5. Commit with issue reference: `<KEY>: <description>` (e.g., `HL-123: Add avatar upload`; optionally append `(#123)` for GitHub auto-linking)
+5. Commit with issue reference: `<KEY>: <description>` (e.g., `LAB-963: Add avatar upload`; optionally append `(#963)` for GitHub auto-linking)
 6. Post milestone comment(s) to the issue at significant checkpoints (tests passing, integration working, docs updated) via `mcp__github__add_issue_comment`
 7. **Write state:** DB + file (`phase_5_at`)
 

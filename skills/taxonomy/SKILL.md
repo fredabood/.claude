@@ -17,7 +17,7 @@ The postgres mirror (`jira.*`, read-only) is the fast path for label analytics �
 ```
 /taxonomy             — overview with counts by pattern, layer, and status
 /taxonomy audit       — find missing labels, label parity drift, dependency violations, and status violations
-/taxonomy apply <KEY> — interactively classify a specific issue (HL-<n>, DD-<n>, or migrated LAB-*/DRTY-*)
+/taxonomy apply <KEY> — interactively classify a specific issue (LAB-<n>, DRTY-<n>, RESORT-<n>; deprecated HL-/DD- inputs resolve as LAB-/DRTY-)
 /taxonomy report      — cross-repo dependency report by layer
 /taxonomy queue       — agent work queue diagnostics (Planned+Unblocked)
 ```
@@ -102,7 +102,7 @@ Identify issues that violate taxonomy rules.
 
 Interactively add taxonomy labels to a specific issue.
 
-1. Resolve `<KEY>` to repo/number (`HL-<n>` → homelab#n, `DD-<n>` → dirtydata#n; migrated keys via `SELECT gh_repo, gh_number FROM jira.issues WHERE issue_key = '<KEY>'`)
+1. Resolve `<KEY>` to repo/number (post-migration keys map directly: `LAB-<n>` → homelab#n (n ≥ 941), `DRTY-<n>` → dirtydata#n, `RESORT-<n>` → 9215resort#n; migrated keys via `SELECT gh_repo, gh_number FROM jira.issues WHERE issue_key = '<KEY>'`)
 2. `mcp__github__issue_read` (method `get`) — read current labels, title, body
 3. Detect work pattern from title/body keywords (per `.claude/rules/label-taxonomy.md` keyword hints)
 4. Infer infrastructure layer:
@@ -130,11 +130,11 @@ Show how infrastructure issues relate to domain work across layers and repos.
 2. Group by blocker layer → blocked repo/issue:
    ```
    L1-platform:
-     HL-XX (Docker networking) → blocks DD-YY
+     LAB-XX (Docker networking) → blocks DRTY-YY
    L2-services:
-     HL-XX (PostgreSQL) → blocks DD-YY
+     LAB-XX (PostgreSQL) → blocks DRTY-YY
    L3-framework:
-     HL-XX (scraper framework) → blocks DD-YY, HL-ZZ
+     LAB-XX (scraper framework) → blocks DRTY-YY, LAB-ZZ
    ```
 3. Flag any links flowing upward (higher layer blocking lower layer)
 4. Show summary counts: total cross-repo links, by layer, violations
@@ -161,7 +161,7 @@ See `.claude/rules/label-taxonomy.md` for canonical definitions of Planned, Bloc
    | Key | Summary | Pattern | Layer | Planned | Blocked | Primary Agent |
    ```
 4. Highlight eligible items (Planned=true, Blocked=false) as "Ready for pickup"
-5. For blocked items, show blocker chain: "HL-XXX blocked by HL-YYY (In Progress)"
+5. For blocked items, show blocker chain: "LAB-XXX blocked by LAB-YYY (In Progress)"
 6. Summary: "N eligible for pickup, M blocked, P need planning"
 
 **Note:** Planned/Blocked are calculated agent-side from body, comments, and dependency links — there are no stored fields. Values shown are best-effort at read time.

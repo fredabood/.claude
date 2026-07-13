@@ -13,10 +13,12 @@ Verify all acceptance criteria for a GitHub issue before completion. Runs tests,
 ## Usage
 
 ```
-/review-ticket <#N | HL-N | DD-N | LAB-N | DRTY-N>
+/review-ticket <#N | LAB-N | DRTY-N | RESORT-N>
 ```
 
-Example: `/review-ticket HL-123`
+(Historical `HL-N`/`DD-N` inputs still resolve: `HL-N` ≡ `LAB-N`, `DD-N` ≡ `DRTY-N`.)
+
+Example: `/review-ticket LAB-963`
 
 Migrated keys (`LAB-*`, `DRTY-*`, `LEGACY-*`) resolve to repo+number via `public.github_migration_key_map` (see `/start-task`).
 

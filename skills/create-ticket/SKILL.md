@@ -14,7 +14,7 @@ Create a well-structured GitHub issue with acceptance criteria, after checking f
 
 ```
 /create-ticket "<description>"
-/create-ticket "<description>" --epic <#N | HL-N | DD-N>
+/create-ticket "<description>" --epic <#N | LAB-N | DRTY-N | RESORT-N>
 /create-ticket "<description>" --type Bug
 ```
 
@@ -159,7 +159,7 @@ Use `mcp__github__issue_write` (method: create) against the target repo. Include
 
 Do NOT add the issue to the board manually — the n8n `github-webhook-receiver` auto-adds new issues to the "Homelab Work" board with `Status=Backlog`.
 
-The mirror key is `HL-<n>` (homelab) or `DD-<n>` (dirtydata), where `<n>` is the new issue number.
+The mirror key is `LAB-<n>` (homelab), `DRTY-<n>` (dirtydata), or `RESORT-<n>` (9215resort), where `<n>` is the new issue number.
 
 ### Step 8: Link to parent and dependencies
 
@@ -191,7 +191,7 @@ The old Success Criterion subtask type is gone. If an individual acceptance crit
 ### Step 10: Output
 
 Display:
-- Issue number, mirror key (`HL-<n>` / `DD-<n>`), and title
+- Issue number, mirror key (`LAB-<n>` / `DRTY-<n>` / `RESORT-<n>`), and title
 - Link to the issue (`html_url`)
 - Acceptance criteria summary
 - Epic/sub-issue links created

@@ -50,7 +50,7 @@ When creating or updating issues, apply taxonomy labels per `.claude/rules/label
 
 At session start, if an issue is already at board Status "In Progress":
 
-1. Check `git log --oneline -20` for recent commits referencing the issue identifier (`HL-<n>`/`DD-<n>`, historical `LAB-*`/`DRTY-*`, or `#<n>`)
+1. Check `git log --oneline -20` for recent commits referencing the issue identifier (`LAB-<n>`/`DRTY-<n>`/`RESORT-<n>`, deprecated-era `HL-<n>`/`DD-<n>`, or `#<n>`)
 2. **If commits exist within ~24h:** Treat it as actively in progress — resume normally
 3. **If the last relevant commit is older than 24h:** Note the gap to the user and ask whether to resume or restart
 4. **If no commits reference the identifier at all:** Flag it as potentially stale — ask the user to confirm intent before proceeding

@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # PreToolUse hook: blocks commits without a work item reference.
-# Accepted keys: HL-<n> (homelab), DD-<n> (dirtydata), plus historical
-# LAB-<n> / DRTY-<n> / LEGACY-<n> for migrated issues.
+# Accepted keys: LAB-<n> (homelab), DRTY-<n> (dirtydata), RESORT-<n> (9215resort),
+# and LEGACY-<n> for migrated issues. Deprecated HL-<n>/DD-<n> (the 2026-07
+# interim scheme, HL-n ≡ LAB-n / DD-n ≡ DRTY-n) stay accepted for historical
+# commits and amend flows.
 # Checks both commit message and branch name.
 # Allowlist: messages starting with chore:, typo:, docs:, sync: bypass the check.
 
@@ -43,20 +45,21 @@ if not msg:
 if re.match(r'^\s*(chore|typo|docs|sync):', msg, re.IGNORECASE):
     sys.exit(0)
 
-# Check for work item reference pattern (mirror keys + migrated historical keys)
-ticket_re = re.compile(r'\b(HL|DD|LAB|DRTY|LEGACY)-[0-9]+\b')
+# Check for work item reference pattern (unified keys LAB/DRTY/RESORT + LEGACY,
+# plus deprecated HL/DD for historical commits and amend flows)
+ticket_re = re.compile(r'\b(LAB|DRTY|RESORT|LEGACY|HL|DD)-[0-9]+\b')
 commit_has_ref = bool(ticket_re.search(msg)) if msg else False
 branch_has_ref = bool(ticket_re.search(branch)) if branch else False
 
 if not commit_has_ref and not branch_has_ref:
     print('BLOCKED: No work item reference found in commit message or branch name.')
     print()
-    print(f'  Commit message: no reference (expected pattern: HL-123 / DD-45, or historical LAB-/DRTY-/LEGACY-)')
+    print(f'  Commit message: no reference (expected pattern: LAB-963 / DRTY-45 / RESORT-12, or LEGACY- for migrated issues)')
     print(f'  Branch name: \"{branch}\" — no reference')
     print()
     print('To fix:')
-    print('  - Include the mirror key in the commit message: HL-123: <description> (homelab) or DD-45: <description> (dirtydata)')
-    print('  - Historical keys stay valid when touching migrated issues: LAB-123: / DRTY-45: / LEGACY-7:')
+    print('  - Include the mirror key in the commit message: LAB-963: <description> (homelab), DRTY-45: <description> (dirtydata), or RESORT-12: <description> (9215resort)')
+    print('  - Deprecated HL-/DD- keys are still accepted for historical commits (HL-n = LAB-n, DD-n = DRTY-n) but do not use them for new work')
     print('  - Or use an allowlisted prefix: chore: / typo: / docs: / sync:')
     print('  - Or create a tracking issue with /create-ticket')
     sys.exit(2)
@@ -64,7 +67,7 @@ if not commit_has_ref and not branch_has_ref:
 if not commit_has_ref and branch_has_ref:
     print(f'NOTE: Commit message does not include a work item reference.')
     print(f'  Branch \"{branch}\" has a reference, but prefer including it in the commit message too.')
-    print(f'  Format: HL-123: <description>')
+    print(f'  Format: LAB-963: <description>')
 
 sys.exit(0)
 "

@@ -13,10 +13,12 @@ Finish work on a GitHub issue. Verifies acceptance criteria, runs quality checks
 ## Usage
 
 ```
-/complete-task <#N | HL-N | DD-N | LAB-N | DRTY-N>
+/complete-task <#N | LAB-N | DRTY-N | RESORT-N>
 ```
 
-Example: `/complete-task HL-123`
+(Historical `HL-N`/`DD-N` inputs still resolve: `HL-N` ≡ `LAB-N`, `DD-N` ≡ `DRTY-N`.)
+
+Example: `/complete-task LAB-963`
 
 Migrated keys (`LAB-*`, `DRTY-*`, `LEGACY-*`) resolve to repo+number via `public.github_migration_key_map` (see `/start-task`).
 
@@ -69,7 +71,7 @@ Collect:
 - Key decisions made during implementation
 - Any deviations from the original issue body
 - Anything the next person should know
-- Linked commits from the mirror: query `SELECT commit_short, repo, message FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` via `docker exec postgres-memory psql -U postgres -d agent_memory` (issue_key is the mirror key: `HL-<n>`, `DD-<n>`, or the migrated `LAB-*`/`DRTY-*` key) and include as a commits table in the summary
+- Linked commits from the mirror: query `SELECT commit_short, repo, message FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` via `docker exec postgres-memory psql -U postgres -d agent_memory` (issue_key is the mirror key: `LAB-<n>`, `DRTY-<n>`, or `RESORT-<n>` — post-migration `<n>` = GitHub issue number, migrated issues keep their original keys) and include as a commits table in the summary
 
 ### Step 5: Add summary comment
 

@@ -70,10 +70,10 @@ Examples:
 
    | Key | Summary | State/Status | Labels | Updated |
    |-----|---------|--------------|--------|---------|
-   | HL-123 | Example issue | In Progress | platform, L3-framework | 2026-07-05 |
+   | LAB-963 | Example issue | In Progress | platform, L3-framework | 2026-07-05 |
    ```
 
-   - Key = mirror key: `HL-<n>` (homelab) / `DD-<n>` (dirtydata); migrated issues keep `LAB-*`/`DRTY-*`/`LEGACY-*` (`jira.gh_issue_key(repo, number)` resolves it)
+   - Key = mirror key: `LAB-<n>` (homelab) / `DRTY-<n>` (dirtydata) / `RESORT-<n>` (9215resort); post-migration `<n>` = GitHub issue number, migrated issues keep their original `LAB-*`/`DRTY-*`/`LEGACY-*` keys (`jira.gh_issue_key(repo, number)` resolves it; deprecated `HL-*`/`DD-*` ≡ `LAB-*`/`DRTY-*`)
    - If no results, display: "No issues found for this query."
    - Truncate summary to 60 characters if longer, with ellipsis
    - Format updated date as YYYY-MM-DD (date only, no time)

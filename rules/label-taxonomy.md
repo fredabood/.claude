@@ -169,8 +169,8 @@ Former Jira projects now live as **repos** (LAB→homelab, DRTY→dirtydata) or 
 
 | Project (legacy key) | Now | Layers | Scope |
 |---|---|---|---|
-| **LAB** | repo `fredabood/homelab` (keys `HL-<n>`, historical `LAB-*`) | L1, L2, L3, L4 | Homelab platform — infra, services, frameworks, and consolidated domain work |
-| **DRTY** | repo `fredabood/dirtydata` (keys `DD-<n>`, historical `DRTY-*`) | L1, L2, L3, L4 | DirtyData intelligence platform — same taxonomy as homelab |
+| **LAB** | repo `fredabood/homelab` (keys `LAB-<n>`; deprecated `HL-*` ≡ `LAB-*`) | L1, L2, L3, L4 | Homelab platform — infra, services, frameworks, and consolidated domain work |
+| **DRTY** | repo `fredabood/dirtydata` (keys `DRTY-<n>`; deprecated `DD-*` ≡ `DRTY-*`) | L1, L2, L3, L4 | DirtyData intelligence platform — same taxonomy as homelab |
 | **REAL** | domain scope under `fredabood/dirtydata` | L4 | Real estate investing |
 | **GAME** | domain scope under `fredabood/homelab` | L4 | Autonomous game studio |
 | **FOOD** | domain scope under `fredabood/homelab` | L4 | Recipe/cooking workflows |

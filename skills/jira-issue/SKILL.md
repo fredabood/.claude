@@ -19,12 +19,13 @@ Accepted key formats:
 
 | Input | Meaning |
 |-------|---------|
-| `HL-123` | `fredabood/homelab` issue #123 |
-| `DD-45` | `fredabood/dirtydata` issue #45 |
+| `LAB-963` | `fredabood/homelab` — post-migration keys (n ≥ 941): issue #n directly; migrated `LAB-*` (n ≤ 286) and `LEGACY-*` resolve via the mirror key map |
+| `DRTY-45` | `fredabood/dirtydata` — same rule (post-migration: issue #n; migrated: mirror key map) |
+| `RESORT-12` | `fredabood/9215resort` issue #12 (transfer map: `public.resort_transfer_key_map`) |
+| `HL-123` / `DD-45` | deprecated (LAB-963) — resolve as `HL-n` ≡ `LAB-n`, `DD-n` ≡ `DRTY-n` |
 | `#123` or `123` | issue number in the repo inferred from cwd (homelab repo root → homelab; `submodules/dirtydata/` → dirtydata; default homelab) |
-| `LAB-456` / `DRTY-*` / `LEGACY-*` | migrated key — resolve via the mirror key map |
 
-Example: `/jira-issue HL-113`
+Example: `/jira-issue LAB-113`
 
 ## Steps
 
@@ -34,8 +35,8 @@ Write `.skill-execution-context.json` with: `{"skill": "jira-issue", "started_at
 
 ### Step 2: Resolve the key to (repo, number)
 
-- `HL-<n>` → (`fredabood/homelab`, n). `DD-<n>` → (`fredabood/dirtydata`, n). `#<n>` → repo from context.
-- Migrated keys (`LAB-*`, `DRTY-*`, `LEGACY-*`) → resolve via the mirror:
+- Post-migration keys → number is the issue number: `LAB-<n>` (n ≥ 941) → (`fredabood/homelab`, n), `DRTY-<n>` → (`fredabood/dirtydata`, n), `RESORT-<n>` → (`fredabood/9215resort`, n). Deprecated `HL-<n>`/`DD-<n>` ≡ `LAB-<n>`/`DRTY-<n>`. `#<n>` → repo from context.
+- Migrated keys (`LAB-*` ≤ 286, `DRTY-*`, `LEGACY-*`) → resolve via the mirror (works for any key):
 
 ```bash
 docker exec postgres-memory psql -U postgres -d agent_memory -tA -c \
@@ -86,8 +87,8 @@ JOIN jira.issues i ON i.issue_key = CASE WHEN l.source_key = '<MIRROR_KEY>' THEN
 WHERE '<MIRROR_KEY>' IN (l.source_key, l.target_key)"
 ```
 
-`<MIRROR_KEY>` is the mirror key (`HL-<n>`/`DD-<n>`, or the original `LAB-*`/`DRTY-*`/`LEGACY-*`
-for migrated issues — `jira.gh_issue_key('<repo>', <n>)` resolves it from repo+number).
+`<MIRROR_KEY>` is the mirror key (`LAB-<n>`/`DRTY-<n>`/`RESORT-<n>`; migrated issues keep their
+original `LAB-*`/`DRTY-*`/`LEGACY-*` keys — `jira.gh_issue_key('<repo>', <n>)` resolves it from repo+number).
 
 ### Step 6: Display the issue
 
@@ -130,9 +131,9 @@ prominently with checked/unchecked state.
 ### Dependencies
 | Relationship | Key | Summary | Status |
 |-------------|-----|---------|--------|
-| is blocked by | HL-100 | Other issue | Done |
-| blocks | HL-200 | Some issue | Backlog |
-| relates to | HL-50 | Related issue | In Progress |
+| is blocked by | LAB-100 | Other issue | Done |
+| blocks | LAB-200 | Some issue | Backlog |
+| relates to | LAB-50 | Related issue | In Progress |
 ```
 
 Flag any open blocker (status not Done/Won't Do) with a warning.

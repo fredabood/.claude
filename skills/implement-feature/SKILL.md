@@ -18,9 +18,9 @@ Walk through a complete feature development lifecycle in 7 steps with quality ga
 ```
 
 Example: `/implement-feature "Add user profile page with avatar upload"`
-Example: `/implement-feature HL-42` (homelab #42) or `/implement-feature DD-7` (dirtydata #7)
+Example: `/implement-feature LAB-963` (homelab #963) or `/implement-feature DRTY-7` (dirtydata #7)
 
-Keys resolve to GitHub coordinates via the mirror: `HL-<n>` ↔ `fredabood/homelab#n`, `DD-<n>` ↔ `fredabood/dirtydata#n`. Migrated keys (`LAB-*`, `DRTY-*`) resolve via:
+Post-migration keys map directly to issue numbers: `LAB-<n>` ↔ `fredabood/homelab#n` (n ≥ 941), `DRTY-<n>` ↔ `fredabood/dirtydata#n`, `RESORT-<n>` ↔ `fredabood/9215resort#n`. (Deprecated `HL-N`/`DD-N` inputs resolve as `LAB-N`/`DRTY-N`.) Migrated keys (`LAB-*` ≤ 286, `DRTY-*`) resolve via the mirror:
 
 ```bash
 docker exec postgres-memory psql -U postgres -d agent_memory -t -A -c \
@@ -120,7 +120,7 @@ Check off completed acceptance-criteria items in the issue body task list (`- [x
 
 - Review all changes with `git diff`
 - Verify no secrets in staged files
-- Create a descriptive commit with the issue reference in format `HL-123: <description>` (or `DD-45: ...`; historical `LAB-*`/`DRTY-*` prefixes remain valid for migrated issues). Optionally append `(#123)` for GitHub auto-linking.
+- Create a descriptive commit with the issue reference in format `LAB-963: <description>` (or `DRTY-45: ...` / `RESORT-12: ...`; deprecated `HL-*`/`DD-*` prefixes appear only in historical commits). Optionally append `(#963)` for GitHub auto-linking.
 - **Quality check:** Clean commit, all tests still pass
 
 ## Gate Policy

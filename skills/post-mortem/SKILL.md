@@ -13,10 +13,12 @@ Generate and post a structured post-mortem for a GitHub issue. Captures outcomes
 ## Usage
 
 ```
-/post-mortem <#N | HL-N | DD-N | LAB-N | DRTY-N>
+/post-mortem <#N | LAB-N | DRTY-N | RESORT-N>
 ```
 
-Example: `/post-mortem HL-123`
+(Historical `HL-N`/`DD-N` inputs still resolve: `HL-N` ≡ `LAB-N`, `DD-N` ≡ `DRTY-N`.)
+
+Example: `/post-mortem LAB-963`
 
 Migrated keys (`LAB-*`, `DRTY-*`, `LEGACY-*`) resolve to repo+number via `public.github_migration_key_map` (see `/start-task`).
 
@@ -31,7 +33,7 @@ Use `mcp__github__issue_read` (method: get) and (method: get_comments) to retrie
 
 ### Step 2: Gather context
 
-- Query the mirror for linked commits: `SELECT commit_short, repo, message, committed_at FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` (via `docker exec postgres-memory psql -U postgres -d agent_memory`; `<KEY>` is the mirror key — `HL-<n>`, `DD-<n>`, or the migrated `LAB-*`/`DRTY-*` key)
+- Query the mirror for linked commits: `SELECT commit_short, repo, message, committed_at FROM jira.commit_links WHERE issue_key = '<KEY>' ORDER BY committed_at` (via `docker exec postgres-memory psql -U postgres -d agent_memory`; `<KEY>` is the mirror key — `LAB-<n>`, `DRTY-<n>`, or `RESORT-<n>`; post-migration `<n>` = GitHub issue number, migrated issues keep their original keys)
 - Fallback: `git log --grep="<KEY>" --oneline` if postgres unavailable
 - Run `git log --grep="<KEY>" --stat` for files changed
 - Review issue comments for the timeline of events (milestones, blockers, decisions)

@@ -125,8 +125,9 @@ If `--jira` is set, post the same digest as a comment on the active GitHub issue
 `mcp__github__add_issue_comment`:
 
 - owner: `fredabood`
-- repo + issue_number: resolved from the active key (`HL-<n>` → `homelab` #n,
-  `DD-<n>` → `dirtydata` #n; migrated `LAB-*`/`DRTY-*` keys via the mirror:
+- repo + issue_number: resolved from the active key (post-migration keys map directly:
+  `LAB-<n>` → `homelab` #n, `DRTY-<n>` → `dirtydata` #n, `RESORT-<n>` → `9215resort` #n;
+  deprecated `HL-<n>`/`DD-<n>` ≡ `LAB-<n>`/`DRTY-<n>`; migrated keys via the mirror:
   `SELECT gh_repo, gh_number FROM jira.issues WHERE issue_key = '<KEY>'`)
 - body: the formatted digest, prefixed with `## O'Reilly research: <topic>` and
   a line noting `Skill: /oreilly · <ISO8601 timestamp>`.

@@ -49,7 +49,7 @@ Two memory systems exist. Each has a clear purpose — do not cross the boundary
 1. **Architectural decision made** → `decisions/` — any non-trivial "we chose X over Y because Z"
 2. **Research conducted** → `research/` — any analysis, evaluation, or comparison that took significant effort
 3. **New operational knowledge created** → `knowledge/` — how-tos, runbooks, config docs that don't exist yet
-4. **Epic completed** → `milestones/` — summary of what was achieved and lessons learned
+4. **Parent issue completed** → `milestones/` — summary of what was achieved and lessons learned
 
 ### Soft triggers (persist if substantial)
 

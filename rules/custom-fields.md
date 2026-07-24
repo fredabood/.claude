@@ -55,7 +55,7 @@ sections use these exact `##`/`###` markers (hooks and the Planned-check grep fo
 
 ```
 ## Implementation Plan
-### Jira Tracking        → now: Issue Tracking (issues to create, epic membership, dependencies)
+### Jira Tracking        → now: Issue Tracking (issues to create, parent-issue membership, dependencies)
 ### Testing Strategy
 ### Documentation
 ### Success Criteria
@@ -146,6 +146,6 @@ mcp__github__projects_get                     → board Status for open issues
 mcp__github__issue_write                      → create/update/close (state_reason!)
 mcp__github__add_issue_comment                → structured comments
 mcp__github__projects_write                   → board Status
-mcp__github__sub_issue_write                  → epic membership
+mcp__github__sub_issue_write                  → parent-issue membership
 gh api .../dependencies/blocked_by            → Blocks links (no MCP tool yet)
 ```

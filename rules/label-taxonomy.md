@@ -150,8 +150,8 @@ WHERE status = 'Backlog' ORDER BY priority DESC, created_at ASC;
 How many L4 domain projects consume this work's output?
 
   ZERO (generic infrastructure) → fredabood/homelab
-    Running service? → L2 epic
-    Platform/infra? → L1 epic
+    Running service? → L2 parent issue
+    Platform/infra? → L1 parent issue
 
   ONE (single domain) → that domain's repo (L4)
     Cross-repo blocked-by link to homelab if it touches shared infra.
@@ -165,7 +165,7 @@ How many L4 domain projects consume this work's output?
 ## Project-Layer Mapping
 
 Former Jira projects now live as **repos** (LAB→homelab, DRTY→dirtydata) or as
-**domain scopes within a repo** (labels/epics) — there are no separate REAL/GAME/FOOD trackers.
+**domain scopes within a repo** (labels/parent issues) — there are no separate REAL/GAME/FOOD trackers.
 
 | Project (legacy key) | Now | Layers | Scope |
 |---|---|---|---|
@@ -175,7 +175,7 @@ Former Jira projects now live as **repos** (LAB→homelab, DRTY→dirtydata) or 
 | **GAME** | domain scope under `fredabood/homelab` | L4 | Autonomous game studio |
 | **FOOD** | domain scope under `fredabood/homelab` | L4 | Recipe/cooking workflows |
 
-> **Consolidated into homelab:** HOME (smart home automation → LAB-119 epic), WEB (personal website → LAB-120 epic), and COS (AI personal assistant → LAB-134 epic) were migrated as L4-domain epics. All history is preserved in the migrated issues and the postgres mirror.
+> **Consolidated into homelab:** HOME (smart home automation → LAB-119 parent issue), WEB (personal website → LAB-120 parent issue), and COS (AI personal assistant → LAB-134 parent issue) were migrated as L4-domain parent issues. All history is preserved in the migrated issues and the postgres mirror.
 
 ---
 
@@ -248,5 +248,5 @@ When an issue matches a work pattern, offer the standard decomposition. User can
 
 1. **Cross-repo blocked-by links** flow downward: L1 → L2 → L3 → L4 (the lower layer is the blocker)
 2. **Within-repo blocked-by links** flow through the template: step 1 → step 2 → step 3
-3. **Relates links** exist only in the postgres mirror for migrated issues — for new shared-concern connections, use body backlinks (`fredabood/<repo>#<n>`), not dependencies
+3. **No native "relates to":** GitHub has only blocked-by / blocking dependencies — for a soft shared-concern connection, use body backlinks (`fredabood/<repo>#<n>`), not dependencies
 4. **No circular dependencies** — if found, decomposition is wrong

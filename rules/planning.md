@@ -24,12 +24,12 @@ Before creating issues, evaluate whether the work should be decomposed:
 - **Session scope:** Would the work take more than one session?
 - **Mixed types:** Does it include both bug fixes and features, or both infrastructure and user-facing changes?
 
-If two or more apply, decompose into multiple issues. Use sub-issues of an epic when pieces are parts of one story; independent linked issues when each has standalone value.
+If two or more apply, decompose into multiple issues. Use sub-issues of a parent issue when pieces are parts of one story; independent linked issues when each has standalone value.
 
 #### Issue structure
 
 - What issues to create (in which repo — `fredabood/homelab` or `fredabood/dirtydata`)
-- Epic membership: which epic issue they become sub-issues of (`mcp__github__sub_issue_write`)
+- Parent-issue membership: which parent issue they become sub-issues of (`mcp__github__sub_issue_write`)
 - Taxonomy labels per `.claude/rules/label-taxonomy.md`
 
 #### Dependency mapping

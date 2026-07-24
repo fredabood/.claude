@@ -69,7 +69,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 | Server | What it can do | Key use cases |
 |---|---|---|
-| github | Create/update/close issues, add comments, sub-issues (epics), Projects v2 board status, search (github-mcp-server) | All issue ops — `fredabood/homelab` + `fredabood/dirtydata`; dependencies (blocked-by) via `gh api`, not MCP |
+| github | Create/update/close issues, add comments, sub-issues (parent issues), Projects v2 board status, search (github-mcp-server) | All issue ops — `fredabood/homelab` + `fredabood/dirtydata`; dependencies (blocked-by) via `gh api`, not MCP |
 | slack | Send/read messages, search channels, create/update canvases | Notifications, async comms, status updates |
 | obsidian | Read/write/search vault notes | Knowledge base at `submodules/memory/` |
 | google-workspace | Gmail, Calendar, Contacts | Email, scheduling |

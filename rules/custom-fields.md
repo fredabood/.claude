@@ -112,9 +112,12 @@ comment wins. Warn before overriding another agent's assignment.
 
 ## Issue Types
 
-None. Epic-ness is derived (an issue with sub-issues is an epic — the mirror sets
-`issue_type='Epic'` automatically). Use the `bug` label for defects. Everything
-else is an untyped issue (mirror shows `Task`).
+GitHub's native issue types are an **organization** feature; `fredabood` is a personal
+account, so there are **no issue types**. A **parent issue** is simply an issue that has
+sub-issues (GitHub's native parent-issue role) — there is no "Epic". Defects use the
+`bug` label. The mirror's legacy `issue_type='Epic'` derivation is **deprecated** (detect
+parent issues via has-sub-issues); `Relates` links are dropped — GitHub has no native
+"relates to", only **blocked by** / **blocking** dependencies.
 
 ## Mirror Columns (read-only reference)
 

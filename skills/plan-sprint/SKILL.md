@@ -1,4 +1,5 @@
 ---
+name: plan-sprint
 description: Planning-cycle workflow — analyze board state, prioritize work, create actionable plan with dependencies
 user_invocable: true
 ---

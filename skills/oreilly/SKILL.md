@@ -1,4 +1,5 @@
 ---
+name: oreilly
 description: "Search O'Reilly Learning for a topic, summarize the top results, and optionally post to the active GitHub issue"
 user_invocable: true
 ---

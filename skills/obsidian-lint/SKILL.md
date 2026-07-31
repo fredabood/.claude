@@ -1,4 +1,5 @@
 ---
+name: obsidian-lint
 description: Lint Obsidian vault files — validate frontmatter, normalize tags, convert wikilinks, detect broken links and orphans
 user_invocable: true
 ---

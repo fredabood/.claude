@@ -1,4 +1,5 @@
 ---
+name: create-ticket
 description: Create a structured GitHub issue with acceptance criteria, duplicate detection, and epic linking
 user_invocable: true
 ---

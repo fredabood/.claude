@@ -1,4 +1,5 @@
 ---
+name: taxonomy
 description: Audit, report, and manage taxonomy labels across the homelab and dirtydata repos
 user_invocable: true
 ---

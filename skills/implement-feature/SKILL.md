@@ -1,4 +1,5 @@
 ---
+name: implement-feature
 description: 7-step feature development lifecycle — from design through commit with quality gates
 user_invocable: true
 ---

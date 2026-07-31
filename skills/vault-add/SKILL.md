@@ -1,4 +1,5 @@
 ---
+name: vault-add
 description: Add a new note to the Obsidian vault with proper frontmatter, deduplication, and wikilink suggestions
 user_invocable: true
 ---

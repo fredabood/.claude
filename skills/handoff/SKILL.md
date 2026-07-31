@@ -1,4 +1,5 @@
 ---
+name: handoff
 description: Generate a session handoff summary for continuity between conversations
 user_invocable: true
 ---

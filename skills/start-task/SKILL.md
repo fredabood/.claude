@@ -1,4 +1,5 @@
 ---
+name: start-task
 description: Start working on a GitHub issue — sets board Status to "In Progress" and sets context
 user_invocable: true
 ---

@@ -1,4 +1,5 @@
 ---
+name: status
 description: Show project status from GitHub Issues — board snapshot, blockers, next-eligible work, recent closes
 user_invocable: true
 ---

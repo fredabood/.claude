@@ -1,4 +1,5 @@
 ---
+name: post-mortem
 description: Generate a structured post-mortem for a completed issue — what went well, what didn't, lessons learned, metrics
 user_invocable: true
 ---

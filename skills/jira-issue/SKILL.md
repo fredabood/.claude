@@ -1,4 +1,5 @@
 ---
+name: jira-issue
 description: "Display a single GitHub issue with full details — state, board status, labels, sub-issues, dependencies, and comments"
 user_invocable: true
 ---

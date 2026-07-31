@@ -1,4 +1,5 @@
 ---
+name: workflow
 description: Full lifecycle workflow — work tracking, planning, git, implementation, verification, completion, memory, handoff
 user_invocable: true
 ---

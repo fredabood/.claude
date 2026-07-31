@@ -1,4 +1,5 @@
 ---
+name: review-ticket
 description: Verify acceptance criteria for an issue — run tests, check conditions, post verification report to GitHub
 user_invocable: true
 ---

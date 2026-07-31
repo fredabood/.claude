@@ -1,4 +1,5 @@
 ---
+name: complete-task
 description: Complete a task — run quality gates, add summary comment, set board Status to "Implementation Complete" (or close as completed)
 user_invocable: true
 ---

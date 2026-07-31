@@ -1,4 +1,5 @@
 ---
+name: discovery
 description: Analyze a codebase — tech stack, structure, quality, security, and improvement roadmap
 user_invocable: true
 ---

@@ -1,4 +1,5 @@
 ---
+name: jira-search
 description: "Search GitHub issues across the homelab and dirtydata repos and display results as a formatted table"
 user_invocable: true
 ---

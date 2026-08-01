@@ -112,6 +112,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 | `mlflow` | postgres | ~9 MB | MLflow | ML experiment tracking |
 | `grafana` | postgres | ~13 MB | Grafana | Dashboard metadata, users, alerts |
 | `homeassistant` | postgres | empty | Home Assistant | Empty — HA auto-creates schema on boot |
+| `omnigent` | postgres | ~9 MB | omnigent (native on mini) | Sessions, transcripts, agent registry, usage ledger (LAB-1022; alembic-managed by omnigent, NOT a homelab migration dir) |
 | `plane_db` | postgres | ~88 MB | (legacy) | Plane CE — archived, pending drop |
 | `redmine_eval` | postgres | ~10 MB | (inactive) | PM evaluation stack |
 

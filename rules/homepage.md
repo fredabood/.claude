@@ -55,6 +55,11 @@ These two files must stay consistent:
 When modifying the Caddyfile, scan the diff for added/removed routes and update services.yaml
 accordingly. When modifying a stack file, check whether any Caddy routes are affected.
 
+**Documented deviation (LAB-1018):** the **Omnigent** tile (AI Services) has NO Caddy route by
+design — its `href` is the tailnet HTTPS hostname (`https://freds-mac-mini.tailc05760.ts.net`,
+via `tailscale serve`), resolvable only from tailnet devices. Omnigent surfaces are
+Tailscale-bound only (#1015 audit BLOCKER); do not "fix" this by adding a Caddy route.
+
 ## Icon convention
 
 Use Simple Icons (`si-<name>`) where available — check simpleicons.org.

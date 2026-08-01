@@ -53,6 +53,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | qBittorrent | qbittorrent | host: localhost:8081 | gluetun:8080 | Torrent client (VPN via gluetun) | Web API `/api/v2/` |
 | Claude Remote | claude-remote | claude.ai/code (no direct port) | outbound HTTPS only | Claude Code Remote Control server | claude.ai/code + Claude mobile app |
 | Earthdata Downloader | earthdata-downloader | (internal only) | sleep-idle, invoked via `docker exec` | NASA Earthdata bulk granule archive (RESORT-2, ex-LAB-221 — tracker in fredabood/9215resort) | `python -m earthdata_downloader download --daac <DAAC>` from n8n |
+| OpenDraft | opendraft | (internal only) | sleep-idle, invoked via `docker exec` | Academic-draft generator, batch CLI (LAB-1045; runbook `docs/operations/opendraft.md`) | `docker exec opendraft opendraft "<topic>" --level master -o /output/<slug>` |
 
 ### API Gateway (`api.dirtydata.studio`)
 
@@ -156,6 +157,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
   - `dev-tools-stack.yml` — Code-Server
   - `claude-remote-stack.yml` — Claude Code web terminal (Tailscale-only)
   - `mcp-stack.yml` — MCP servers
+  - `opendraft-stack.yml` — OpenDraft academic-draft generator (job container, `docker exec` invocation)
   - `staging-stack.yml` — all staging replicas
 
 ### Restart vs rebuild

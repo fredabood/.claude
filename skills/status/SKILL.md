@@ -22,7 +22,7 @@ Example: `/status` (both repos) or `/status homelab` or `/status dirtydata`
 
 ## Steps
 
-1. **Determine scope** — Use the repo from the argument (`homelab` or `dirtydata`), or default to both. The mirror (`jira.*` on postgres-memory) is the fastest read path for analytics; `mcp__github__list_issues` / `mcp__github__projects_get` are the authoritative live path if the mirror looks stale (`SELECT max(synced_at) FROM jira.issues`).
+1. **Determine scope** — Use the repo from the argument (`homelab` or `dirtydata`), or default to both. The mirror (`jira.*` on postgres-memory) is the fastest read path for analytics; `mcp__github__list_issues` / `mcp__github__projects_get` are the authoritative live path if the mirror looks stale — check `curl -s http://localhost:8090/api/sync/status | jq .is_stale` (or `SELECT max(completed_at) FROM jira.sync_metadata WHERE status='completed'`). Do NOT judge staleness by `max(synced_at)` on `jira.issues` — since LAB-1007 the hourly reconcile skips unchanged rows, so `synced_at` legitimately stands still through webhook-quiet hours.
 
 2. **Query open work by board Status** (mirror SQL — filter `gh_repo` when scoped):
    ```bash

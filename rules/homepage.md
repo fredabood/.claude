@@ -55,10 +55,12 @@ These two files must stay consistent:
 When modifying the Caddyfile, scan the diff for added/removed routes and update services.yaml
 accordingly. When modifying a stack file, check whether any Caddy routes are affected.
 
-**Documented deviation (LAB-1008):** the **Jira Graph** tile (Development) has NO Caddy route —
-Tailscale-only at `https://freds-mac-mini.tailc05760.ts.net:8443` (via `tailscale serve`; the app
-is a GitHub writer per #1001 S5 and must not be publicly reachable). Do not "fix" by re-adding a
-Caddy route.
+**Documented deviation (LAB-1008, corrected per Fred 2026-08-06):** **Jira Graph** keeps its
+`https://jira.dirtydata.studio` subdomain but is **tailnet-gated** — the DNS record is a DNS-only
+A pointing at the mini's Tailscale IP (not the Cloudflare tunnel), and caddy's host 443 is
+published only on that Tailscale IP (public ingress uses cloudflared → localhost:80). This is the
+standing pattern for locked-down apps: keep the subdomain, gate the transport. Never swap a
+service's primary address to a `*.ts.net` URL.
 
 **Documented deviation (LAB-1018):** the **Omnigent** tile (AI Services) has NO Caddy route by
 design — its `href` is the tailnet HTTPS hostname (`https://freds-mac-mini.tailc05760.ts.net`,

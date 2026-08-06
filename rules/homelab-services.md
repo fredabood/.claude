@@ -31,7 +31,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | ~~Prowlarr~~ | ~~prowlarr~~ | ~~prowlarr.dirtydata.studio~~ | ~~prowlarr:9696~~ | ~~Indexer management~~ | DECOMMISSIONED 2026-04-05 — media stack paused |
 | Mealie | mealie | mealie.dirtydata.studio | mealie:9000 | Recipe manager | REST API |
 | Twenty CRM | twenty-server | crm.dirtydata.studio | twenty-server:3000 | Self-hosted CRM | Web UI + REST API |
-| Jira-Graph | jira-graph | jira.dirtydata.studio | jira-graph:8090 | Dependency visualization (GitHub-backed) | FastAPI REST `/api/graph` |
+| Jira-Graph | jira-graph | https://freds-mac-mini.tailc05760.ts.net:8443 (**Tailscale-only**, LAB-1008 — public route removed; loopback publish + `tailscale serve`) | jira-graph:8090 | Issue & program visualizer (GitHub-backed) | FastAPI REST; mutations need `Tailscale-User-Login` ∈ `WRITE_ALLOWED` or `X-Service-Token` (op://Homelab "Jira Graph Service Token") |
 | ~~SearXNG~~ | ~~searxng~~ | ~~search.dirtydata.studio~~ | ~~searxng:8080~~ | ~~Private search~~ | DECOMMISSIONED 2026-04-05 |
 | FreshRSS | freshrss | rss.dirtydata.studio | freshrss:80 | RSS reader | Web UI + Fever API |
 | Calibre-Web | calibre-web | books.dirtydata.studio | calibre-web:8083 | Ebook library | Web UI |

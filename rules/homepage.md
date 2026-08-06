@@ -55,6 +55,11 @@ These two files must stay consistent:
 When modifying the Caddyfile, scan the diff for added/removed routes and update services.yaml
 accordingly. When modifying a stack file, check whether any Caddy routes are affected.
 
+**Documented deviation (LAB-1008):** the **Jira Graph** tile (Development) has NO Caddy route —
+Tailscale-only at `https://freds-mac-mini.tailc05760.ts.net:8443` (via `tailscale serve`; the app
+is a GitHub writer per #1001 S5 and must not be publicly reachable). Do not "fix" by re-adding a
+Caddy route.
+
 **Documented deviation (LAB-1018):** the **Omnigent** tile (AI Services) has NO Caddy route by
 design — its `href` is the tailnet HTTPS hostname (`https://freds-mac-mini.tailc05760.ts.net`,
 via `tailscale serve`), resolvable only from tailnet devices. Omnigent surfaces are

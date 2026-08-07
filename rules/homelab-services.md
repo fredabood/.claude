@@ -40,6 +40,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Nextcloud | nextcloud | cloud.dirtydata.studio | nextcloud:80 | File storage | WebDAV + REST |
 | Kiwix | kiwix | wiki.dirtydata.studio | kiwix:8080 | Self-hosted Wikipedia browser | Web UI |
 | MCP Gateway | mcp-gateway | mcp.dirtydata.studio | mcp-gateway:3100 | Aggregated MCP server (6 tool groups) for Claude.ai | Streamable HTTP `/mcp` |
+| Omnigent | (native on mini, :6767 loopback) | omni.dirtydata.studio (**tailnet-gated**, LAB-1111 — DNS-only A → mini Tailscale IP; caddy 443-on-Tailscale-IP → host.docker.internal:6767) | 127.0.0.1:6767 (host) | Agent orchestrator (own login auth; #1015 blocker) | Web UI + REST `/v1/*`; CLI uses loopback |
 
 ### Infrastructure Services (internal only / not in production Caddyfile)
 

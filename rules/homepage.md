@@ -62,10 +62,11 @@ published only on that Tailscale IP (public ingress uses cloudflared → localho
 standing pattern for locked-down apps: keep the subdomain, gate the transport. Never swap a
 service's primary address to a `*.ts.net` URL.
 
-**Documented deviation (LAB-1018):** the **Omnigent** tile (AI Services) has NO Caddy route by
-design — its `href` is the tailnet HTTPS hostname (`https://freds-mac-mini.tailc05760.ts.net`,
-via `tailscale serve`), resolvable only from tailnet devices. Omnigent surfaces are
-Tailscale-bound only (#1015 audit BLOCKER); do not "fix" this by adding a Caddy route.
+**Omnigent (LAB-1111, supersedes the LAB-1018 ts.net deviation):** the **Omnigent** tile points at
+`https://omni.dirtydata.studio` — same tailnet-gated pattern as Jira Graph (DNS-only A → mini's
+Tailscale IP, Caddy 443-on-Tailscale-IP, `reverse_proxy host.docker.internal:6767`). Omnigent
+surfaces remain Tailscale-bound only (#1015 audit BLOCKER) — the subdomain is unroutable
+off-tailnet; do not proxy it through the Cloudflare tunnel.
 
 ## Icon convention
 

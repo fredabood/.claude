@@ -35,6 +35,15 @@ Act as the infra-reviewer agent (see `.claude/agents/infra-reviewer.md` for full
    curl -s 'http://localhost:9090/api/v1/query?query=(1-node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"}/node_filesystem_size_bytes{fstype!~"tmpfs|overlay"})*100'
    ```
 
+6. **Omnigent (native on the mini — LAB-1021):**
+   ```bash
+   curl -s -m 5 http://localhost:6767/health          # expect {"status":"ok"}
+   omnigent host status 2>/dev/null | head -3          # expect process=online host=online
+   ls ~/.omnigent/crashes/ 2>/dev/null | wc -l         # >0 = crash dumps to review (P3)
+   ```
+   Non-empty `~/.omnigent/crashes/` is a real signal (each file is a crash dump) —
+   review the newest file's header before ticketing; clear handled dumps manually.
+
 ## Step 2: Analyze
 
 Follow the analysis framework in the infra-reviewer agent definition:

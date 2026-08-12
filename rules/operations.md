@@ -101,3 +101,10 @@ must exit 0 AND diff empty against the pre-change resolved config; a probe with
 `--env-file /dev/null` must fail naming a required variable. Note: compose prints
 "variable is not set" warnings from `.env`-internal interpolation even when resolution
 succeeds — trust the resolved config, not warning absence.
+
+**Every `:?`-required var must also exist in `.env.tpl`** (op:// ref or non-secret
+literal). `inject-secrets.sh` regenerates `.env` wholesale with `--force`, so a var
+present only in the live `.env` (or surviving only in a running container's env) is a
+redeploy time bomb — LAB-1124 found `JIRA_GRAPH_WRITE_ALLOWED`/`JIRA_GRAPH_SERVICE_TOKEN`
+this way. After adding a required var to a stack, add it to `.env.tpl` in the same change
+and verify with a fresh inject + `compose config`.

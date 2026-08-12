@@ -14,12 +14,13 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 
 ### Production Services (in Caddyfile)
 
-> **Tailnet-gated fleet (LAB-1110 Wave 1, 2026-08-12):** `portainer`, `status`, `grafana`,
-> `code` (+app password, M10), `mlflow`, `wiki`, `books`, `rss`, `ollama` now follow the
-> LAB-1008 pattern (DNS-only A → Tailscale IP, fleet HTTPS block on the tailnet-bound 443)
-> alongside `jira` and `omni`. Public URLs below remain canonical but require the tailnet.
-> `api.dirtydata.studio` + `health.dirtydata.studio` are **decommissioned** (#1168 — health
-> replaced by `hooks.dirtydata.studio/health`). Full catalog regen lands with #1177.
+> **ALL app UIs are tailnet-gated (LAB-1110 complete, 2026-08-12):** every URL below follows
+> the LAB-1008 pattern — DNS-only A → Tailscale IP, fleet HTTPS block on the tailnet-bound
+> 443; subdomains canonical, Tailscale required. **CF Access retired** (wildcard allow-gate
+> deleted); the ONLY live public route is `hooks.dirtydata.studio` (webhook ingress +
+> `/health`; tunnel ingress narrowed to it, #1176). `api.*` + `health.*` decommissioned
+> (#1168); ALL `staging-*` routes retired (#1175). code-server has an app password (M10).
+> Access truth: `docs/operations/SERVICE_ACCESS.md`.
 
 | Service | Container | External URL | Internal host:port | Purpose | Primary access pattern |
 |---|---|---|---|---|---|

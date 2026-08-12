@@ -14,6 +14,13 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 
 ### Production Services (in Caddyfile)
 
+> **Tailnet-gated fleet (LAB-1110 Wave 1, 2026-08-12):** `portainer`, `status`, `grafana`,
+> `code` (+app password, M10), `mlflow`, `wiki`, `books`, `rss`, `ollama` now follow the
+> LAB-1008 pattern (DNS-only A → Tailscale IP, fleet HTTPS block on the tailnet-bound 443)
+> alongside `jira` and `omni`. Public URLs below remain canonical but require the tailnet.
+> `api.dirtydata.studio` + `health.dirtydata.studio` are **decommissioned** (#1168 — health
+> replaced by `hooks.dirtydata.studio/health`). Full catalog regen lands with #1177.
+
 | Service | Container | External URL | Internal host:port | Purpose | Primary access pattern |
 |---|---|---|---|---|---|
 | Homepage | homepage | home.dirtydata.studio | homepage:3000 | Service dashboard | Web UI |
@@ -56,7 +63,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Earthdata Downloader | earthdata-downloader | (internal only) | sleep-idle, invoked via `docker exec` | NASA Earthdata bulk granule archive (RESORT-2, ex-LAB-221 — tracker in fredabood/9215resort) | `python -m earthdata_downloader download --daac <DAAC>` from n8n |
 | OpenDraft | opendraft | (internal only) | sleep-idle, invoked via `docker exec` | Academic-draft generator, batch CLI (LAB-1045; runbook `docs/operations/opendraft.md`) | `docker exec opendraft opendraft "<topic>" --level master -o /output/<slug>` |
 
-### API Gateway (`api.dirtydata.studio`)
+### API Gateway (`api.dirtydata.studio`) — DECOMMISSIONED 2026-08-12 (LAB-1110/#1168, zero consumers)
 
 | Path prefix | Strips prefix | Routes to |
 |---|---|---|

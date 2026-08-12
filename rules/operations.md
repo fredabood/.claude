@@ -37,6 +37,10 @@ After any Caddyfile edit:
 
 ## Staging-first principle
 
+> **Interim (LAB-1110/#1175, 2026-08-12):** staging routes + containers are retired until
+> the Mac Studio re-establishes staging (#983). Until then, validate non-trivial changes
+> with `compose config`, targeted single-service recreates, and health checks instead.
+
 For any non-trivial production change:
 1. Apply the change to the staging replica (`*-staging`) first
 2. Verify the staging service works as expected

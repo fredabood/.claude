@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # PreToolUse hook: blocks commits without a work item reference.
 # Accepted keys: LAB-<n> (homelab), DRTY-<n> (dirtydata), RESORT-<n> (9215resort),
-# and LEGACY-<n> for migrated issues. Deprecated HL-<n>/DD-<n> (the 2026-07
-# interim scheme, HL-n ≡ LAB-n / DD-n ≡ DRTY-n) stay accepted for historical
-# commits and amend flows.
+# JG-<n> (jira-graph), WORK-<n> (work), and LEGACY-<n> for migrated issues.
+# Deprecated HL-<n>/DD-<n> (the 2026-07 interim scheme, HL-n ≡ LAB-n /
+# DD-n ≡ DRTY-n) stay accepted for historical commits and amend flows.
 # Checks both commit message and branch name.
 # Allowlist: messages starting with chore:, typo:, docs:, sync: bypass the check.
 
@@ -45,20 +45,20 @@ if not msg:
 if re.match(r'^\s*(chore|typo|docs|sync):', msg, re.IGNORECASE):
     sys.exit(0)
 
-# Check for work item reference pattern (unified keys LAB/DRTY/RESORT + LEGACY,
-# plus deprecated HL/DD for historical commits and amend flows)
-ticket_re = re.compile(r'\b(LAB|DRTY|RESORT|LEGACY|HL|DD)-[0-9]+\b')
+# Check for work item reference pattern (unified keys LAB/DRTY/RESORT/JG/WORK
+# + LEGACY, plus deprecated HL/DD for historical commits and amend flows)
+ticket_re = re.compile(r'\b(LAB|DRTY|RESORT|JG|WORK|LEGACY|HL|DD)-[0-9]+\b')
 commit_has_ref = bool(ticket_re.search(msg)) if msg else False
 branch_has_ref = bool(ticket_re.search(branch)) if branch else False
 
 if not commit_has_ref and not branch_has_ref:
     print('BLOCKED: No work item reference found in commit message or branch name.')
     print()
-    print(f'  Commit message: no reference (expected pattern: LAB-963 / DRTY-45 / RESORT-12, or LEGACY- for migrated issues)')
+    print(f'  Commit message: no reference (expected pattern: LAB-963 / DRTY-45 / RESORT-12 / JG-8 / WORK-25, or LEGACY- for migrated issues)')
     print(f'  Branch name: \"{branch}\" — no reference')
     print()
     print('To fix:')
-    print('  - Include the mirror key in the commit message: LAB-963: <description> (homelab), DRTY-45: <description> (dirtydata), or RESORT-12: <description> (9215resort)')
+    print('  - Include the mirror key in the commit message: LAB-963: <description> (homelab), DRTY-45: <description> (dirtydata), RESORT-12: <description> (9215resort), JG-8: <description> (jira-graph), or WORK-25: <description> (work)')
     print('  - Deprecated HL-/DD- keys are still accepted for historical commits (HL-n = LAB-n, DD-n = DRTY-n) but do not use them for new work')
     print('  - Or use an allowlisted prefix: chore: / typo: / docs: / sync:')
     print('  - Or create a tracking issue with /create-ticket')

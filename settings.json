@@ -209,5 +209,8 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "databricks@claude-plugins-official": true
   }
 }

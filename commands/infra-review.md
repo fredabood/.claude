@@ -8,6 +8,10 @@ Act as the infra-reviewer agent (see `.claude/agents/infra-reviewer.md` for full
    ```bash
    curl -s http://localhost:9090/api/v1/alerts
    ```
+   Read Prometheus directly, not Alertmanager: Alertmanager routes `severity: warning`
+   to a `null` receiver by design (LAB-1297), so its API would hide exactly the
+   lower-severity findings this review exists to catch. Only `severity: critical`
+   reaches Slack; everything else is yours to triage here.
 
 2. **Container health:**
    ```bash
@@ -30,10 +34,33 @@ Act as the infra-reviewer agent (see `.claude/agents/infra-reviewer.md` for full
      --data-urlencode 'limit=50'
    ```
 
-5. **Disk + memory pressure:**
+5. **Disk pressure — HOST, not the Docker VM:**
    ```bash
-   curl -s 'http://localhost:9090/api/v1/query?query=(1-node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"}/node_filesystem_size_bytes{fstype!~"tmpfs|overlay"})*100'
+   # LAB-1297: node_filesystem_* describes the Docker VM, NOT the Mac.
+   # node-exporter runs inside the VM, and its /host_mnt/* virtiofs mounts report
+   # a meaningless ~11,586 GB available. This check used that series and so never
+   # saw the volume fill to 99% three times. Use the host-side collector instead.
+   curl -s 'http://localhost:9090/api/v1/query?query=host_disk_avail_bytes' 
+   curl -s 'http://localhost:9090/api/v1/query?query=host_apfs_local_snapshots'
    ```
+   **Interpreting free space:** if `host_disk_avail_bytes` is low, check
+   `host_apfs_local_snapshots` BEFORE concluding anything is leaking. Hourly Time
+   Machine local snapshots pin deleted blocks, so free space can fall by tens of GB
+   overnight with nothing wrong. Thinning them is the remedy, not a cleanup:
+   `tmutil thinlocalsnapshots / 60000000000 4`. See
+   `docs/operations/STORAGE_ARCHITECTURE.md` §6.
+
+   Two more host-side signals from the same collector:
+   ```bash
+   # Scanner scratch — expect 0 at rest; non-zero means the LAB-1293 teardown regressed
+   curl -s 'http://localhost:9090/api/v1/query?query=host_scanner_scratch_bytes'
+   # launchd job failures — a job's ONLY failure signal is this exit status
+   curl -s 'http://localhost:9090/api/v1/query?query=homelab_launchd_last_exit_code>0'
+   ```
+   A non-zero `homelab_launchd_last_exit_code{unit="..."}` is a real finding: the backup
+   chain, pg-dump, vault-sync and the vulnerability scan all run here, and a failure is
+   otherwise invisible. Note the label is `unit`, not `job` — Prometheus reserves `job`
+   for the scrape target.
 
 6. **Omnigent (native on the mini — LAB-1021):**
    ```bash

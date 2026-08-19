@@ -49,6 +49,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Kiwix | kiwix | wiki.dirtydata.studio | kiwix:8080 | Self-hosted Wikipedia browser | Web UI |
 | MCP Gateway | mcp-gateway | ~~mcp.dirtydata.studio~~ (public route DISABLED 2026-07-21, LAB-979 — tailnet-only at `${TAILSCALE_IP}:3100`; re-enable planned in #978 with CF Access service token) | mcp-gateway:3100 | Aggregated MCP server (16 tools / 7 tool groups) for Claude clients | Streamable HTTP `/mcp` |
 | Omnigent | (native on mini, :6767 loopback) | omni.dirtydata.studio (**tailnet-gated**, LAB-1111 — DNS-only A → mini Tailscale IP; caddy 443-on-Tailscale-IP → host.docker.internal:6767) | 127.0.0.1:6767 (host) | Agent orchestrator (own login auth; #1015 blocker) | Web UI + REST `/v1/*`; CLI uses loopback |
+| Vaultwarden | vaultwarden | vault.dirtydata.studio (**tailnet-gated**, LAB-1311 — fleet block, DNS-only A → mini Tailscale IP) | vaultwarden:80 | Human credential store (browser/mobile passwords, TOTP, passkeys). **1Password stays the machine-secrets backbone (D8) and is strictly upstream** — nothing here feeds `inject-secrets.sh` | Web UI + Bitwarden clients (enter the custom server URL **before** the email). **No host ports**; no auto-login header — the master password + TOTP is the authenticator, the tailnet is defence in depth. `/admin` disabled in steady state (a disabled panel answers **200**, not 404). State is SPLIT: `vaultwarden` pg DB **+** `homelab-data/vaultwarden/` — a restore needs BOTH. Runbook: `docs/operations/vaultwarden.md` |
 | Buzz | buzz-relay | buzz.dirtydata.studio (**tailnet-gated**, LAB-1029 — fleet block, DNS-only A → mini Tailscale IP) | buzz-relay:3000 | Human+agent workspace relay (block/buzz Nostr, closed-relay mode; shared pg16 `buzz` DB + shared MinIO `buzz-media` + local `buzz-redis`) | WSS (Nostr) + REST; health `buzz-relay:8080/_liveness`, metrics `:9102`; desktop/mobile clients need Tailscale |
 | Buzz Admin | buzz-relay (same process) | admin-buzz.dirtydata.studio (**tailnet-gated**, LAB-1212 — fleet block, DNS-only A → mini Tailscale IP) — **DISABLED BY DEFAULT** | buzz-relay:3000 | Read-only deployment admin dashboard (moderation reports + product feedback). `BUZZ_ADMIN_HOST` is empty in the stack ⇒ no admin router at all; set it in `.env` + recreate to enable for a session, then unset. DNS + Caddy route stay in place | Web UI (`/`, `/reports`, `/feedback`) + `GET /api/admin/v1/*`. **UNAUTHENTICATED, and a Host header is not an access control inside the fleet** — ~40 containers reach `buzz-relay:3000` directly and can forge it (verified from n8n), which is why it ships off. Deliberately NOT on the homepage (a tile to a disabled surface misleads). `curl -sI /` 404s; `/` needs `Accept: text/html`. Runbook: `submodules/memory/homelab/knowledge/buzz-runbook.md` |
 
@@ -64,7 +65,6 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | qBittorrent | qbittorrent | host: localhost:8081 | gluetun:8080 | Torrent client (VPN via gluetun) | Web API `/api/v2/` |
 | Claude Remote | claude-remote | claude.ai/code (no direct port) | outbound HTTPS only | Claude Code Remote Control server | claude.ai/code + Claude mobile app |
 | Earthdata Downloader | earthdata-downloader | (internal only) | sleep-idle, invoked via `docker exec` | NASA Earthdata bulk granule archive (RESORT-2, ex-LAB-221 — tracker in fredabood/9215resort) | `python -m earthdata_downloader download --daac <DAAC>` from n8n |
-| OpenDraft | opendraft | (internal only) | sleep-idle, invoked via `docker exec` | Academic-draft generator, batch CLI (LAB-1045; runbook `docs/operations/opendraft.md`) | `docker exec opendraft opendraft "<topic>" --level master -o /output/<slug>` |
 
 ### API Gateway (`api.dirtydata.studio`) — DECOMMISSIONED 2026-08-12 (LAB-1110/#1168, zero consumers)
 
@@ -98,6 +98,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 **Extensions on agent_memory:** postgis 3.6.2, timescaledb 2.26.1, vector 0.8.2 (pgvector), age 1.6.0, plpgsql
 **PGDATA path:** `/home/postgres/pgdata/data` (NOT vanilla `/var/lib/postgresql/data` — image uses its own path)
 **Active volume:** `homelab_postgres_memory_data_v2` (the original `homelab_postgres_memory_data` is preserved as a recovery snapshot from LAB-218)
+**Connection ceiling (LAB-1300):** `max_connections = 200` (was 50 — the fleet's measured steady-state demand is **87**, so 50 was structurally oversubscribed and any simultaneous restart crash-looped whichever client reconnected last). Set via `ALTER SYSTEM` in `postgresql.auto.conf`, not `postgresql.conf`. `shared_buffers` 1 GB / `work_mem` 10 MB, deliberately unchanged (~5 MB per backend ⇒ ~2 GB at 200, inside the 4 GB container cap). **No connection metric or alert exists yet** — threshold when built is 160/200, tracked in LAB-1348. Per-database budget and diagnostics: the runbook's *Connection budget* section.
 **ADR:** `submodules/memory/homelab/decisions/postgres-extension-stack.md`
 **Runbook:** `submodules/memory/homelab/knowledge/postgres-memory-runbook.md`
 
@@ -169,7 +170,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
   - `dev-tools-stack.yml` — Code-Server
   - `claude-remote-stack.yml` — Claude Code web terminal (Tailscale-only)
   - `mcp-stack.yml` — MCP servers
-  - `opendraft-stack.yml` — OpenDraft academic-draft generator (job container, `docker exec` invocation)
+  - `security-stack.yml` — Vaultwarden (human credential store, tailnet-only, no host ports)
   - `staging-stack.yml` — all staging replicas
 
 ### Restart vs rebuild

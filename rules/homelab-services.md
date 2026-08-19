@@ -97,6 +97,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 **Extensions on agent_memory:** postgis 3.6.2, timescaledb 2.26.1, vector 0.8.2 (pgvector), age 1.6.0, plpgsql
 **PGDATA path:** `/home/postgres/pgdata/data` (NOT vanilla `/var/lib/postgresql/data` — image uses its own path)
 **Active volume:** `homelab_postgres_memory_data_v2` (the original `homelab_postgres_memory_data` is preserved as a recovery snapshot from LAB-218)
+**Connection ceiling (LAB-1300):** `max_connections = 200` (was 50 — the fleet's measured steady-state demand is **87**, so 50 was structurally oversubscribed and any simultaneous restart crash-looped whichever client reconnected last). Set via `ALTER SYSTEM` in `postgresql.auto.conf`, not `postgresql.conf`. `shared_buffers` 1 GB / `work_mem` 10 MB, deliberately unchanged (~5 MB per backend ⇒ ~2 GB at 200, inside the 4 GB container cap). **No connection metric or alert exists yet** — threshold when built is 160/200, tracked in LAB-1348. Per-database budget and diagnostics: the runbook's *Connection budget* section.
 **ADR:** `submodules/memory/homelab/decisions/postgres-extension-stack.md`
 **Runbook:** `submodules/memory/homelab/knowledge/postgres-memory-runbook.md`
 

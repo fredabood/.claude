@@ -22,3 +22,6 @@ worktrees/
 
 # Skill execution context marker (ephemeral, used by atlassian-skill-gate hook)
 .skill-execution-context.json
+
+# Claude session data (per-project transcripts) — machine-local, never shared config
+projects/

@@ -262,6 +262,20 @@ expect "cd into the primary then commit blocked" 2 "$GATE" \
   "$(bash_payload "cd $PRIMARY && git commit -m x" "$SANDBOX/wt")"
 expect "ordinary commit inside the worktree still allowed" 0 "$GATE" \
   "$(bash_payload 'git commit -m x' "$SANDBOX/wt")"
+# A bare `cd` home is navigation, not a redirect. Blocking it strands the session with no
+# way back to the primary checkout — which this guard did on its first live run.
+expect "bare cd back to the primary allowed" 0 "$GATE" \
+  "$(bash_payload "cd $PRIMARY" "$SANDBOX/wt")"
+expect "cd primary then ls allowed" 0 "$GATE" \
+  "$(bash_payload "cd $PRIMARY && ls" "$SANDBOX/wt")"
+expect "cd primary then rm still blocked" 2 "$GATE" \
+  "$(bash_payload "cd $PRIMARY && rm README.md" "$SANDBOX/wt")"
+expect "cd primary then a READ-ONLY git command allowed" 0 "$GATE" \
+  "$(bash_payload "cd $PRIMARY && git status --short" "$SANDBOX/wt")"
+expect "cd primary then git branch --show-current allowed" 0 "$GATE" \
+  "$(bash_payload "cd $PRIMARY && git branch --show-current" "$SANDBOX/wt")"
+expect "cd primary then git checkout -b still blocked" 2 "$GATE" \
+  "$(bash_payload "cd $PRIMARY && git checkout -b x" "$SANDBOX/wt")"
 
 echo ""
 echo "worktree-gate tests: $PASS passed, $FAIL failed"

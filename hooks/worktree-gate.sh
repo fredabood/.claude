@@ -95,6 +95,11 @@ segment_invokes() {
     grep -qE "^[[:space:]]*([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)*(sudo[[:space:]]+)?($2)\b"
 }
 
+# Shell verbs that write files, and git verbs that move HEAD or write history. Shared by
+# the primary-checkout rules and the worktree redirect guard so the two cannot drift apart.
+MUTATORS_ALL='(rm|mv|cp|tee|dd|truncate|install|sed[^;|&]*-i)\b'
+GIT_WRITE_ALL='git[^;|&]*\b(commit|merge|rebase|reset|cherry-pick|stash|push|am|apply|revert|checkout|switch)\b'
+
 # ------------------------------------------------- anti-self-tamper (always) ---
 # Checked BEFORE the mode short-circuit: the installed gate lives in ~/.claude, which is
 # outside any repo, so a mode check would have already exited 0 and let it through.
@@ -151,11 +156,23 @@ if [ "$MODE" = WORKTREE ] && [ "$TOOL" = "Bash" ]; then
     SHARED="$(dirname "$(wf_realdir "$COMMON" 2>/dev/null || echo /nonexistent)")"
     if [ -n "$SHARED" ] && [ "$SHARED" != "/" ]; then
       CODE="$(strip_quotes "$CMD")"
+      # `cd <primary>` is only a redirect when the command also RUNS something that could
+      # write there. A bare `cd` back to the primary checkout is navigation, and blocking
+      # it strands the session with no way home — which this gate did to its own author
+      # the first time it ran. The -C / --git-dir / GIT_DIR forms need no such qualifier:
+      # they are git invocations by construction.
+      # Qualify on a WRITING command, not on git generally: `cd <primary> && git status`
+      # is a read and must stay allowed, or the session cannot even look at the checkout
+      # it deploys from.
+      FORMS='-C[[:space:]]+|--git-dir[= ]|--work-tree[= ]|GIT_DIR=|GIT_WORK_TREE='
+      if segment_invokes "$CODE" "$GIT_WRITE_ALL" || segment_invokes "$CODE" "$MUTATORS_ALL"; then
+        FORMS="$FORMS|(^|[[:space:]])cd[[:space:]]+"
+      fi
       # Extract the OPERAND of each redirect form and resolve it, rather than matching the
       # shared path as a literal string: the command may spell it logically (/var/...)
       # while git reports it physically (/private/var/...). Same symlink trap as wf_realdir.
       for tok in $(printf '%s' "$CODE" |
-        grep -oE '(-C[[:space:]]+|--git-dir[= ]|--work-tree[= ]|GIT_DIR=|GIT_WORK_TREE=|(^|[[:space:]])cd[[:space:]]+)[^[:space:];|&]+' |
+        grep -oE "($FORMS)[^[:space:];|&]+" |
         sed -E 's/^.*(-C[[:space:]]+|--git-dir[= ]|--work-tree[= ]|GIT_DIR=|GIT_WORK_TREE=|cd[[:space:]]+)//'); do
         [ -n "$tok" ] || continue
         RESOLVED="$(wf_abspath "$tok" "$CWD")"
@@ -237,8 +254,7 @@ case "$TOOL" in
     # Redirect pattern excludes fd-dups ([^&]) so `2>&1` and `>&2` never trip it. The verb
     # forms are anchored the same way as the git verbs, so prose mentioning "rm" or "cp"
     # inside a multi-line payload is not mistaken for an invocation.
-    MUTATORS='(rm|mv|cp|tee|dd|truncate|install|sed[^;|&]*-i)\b'
-    if printf '%s' "$CODE" | grep -qE '>[[:space:]]*[^&[:space:]]' || segment_invokes "$CODE" "$MUTATORS"; then
+    if printf '%s' "$CODE" | grep -qE '>[[:space:]]*[^&[:space:]]' || segment_invokes "$CODE" "$MUTATORS_ALL"; then
       # Collect candidate targets: redirect operands plus every non-flag token.
       TARGETS="$(printf '%s' "$CODE" |
         tr '|;&' '\n' |

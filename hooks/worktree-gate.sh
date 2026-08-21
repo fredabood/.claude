@@ -255,41 +255,85 @@ case "$TOOL" in
     # forms are anchored the same way as the git verbs, so prose mentioning "rm" or "cp"
     # inside a multi-line payload is not mistaken for an invocation.
     if printf '%s' "$CODE" | grep -qE '>[[:space:]]*[^&[:space:]]' || segment_invokes "$CODE" "$MUTATORS_ALL"; then
-      # Collect candidate targets: redirect operands plus every non-flag token.
-      TARGETS="$(printf '%s' "$CODE" |
-        tr '|;&' '\n' |
-        sed -e 's/^[[:space:]]*//' |
-        grep -oE '>>?[[:space:]]*[^[:space:]]+|[^[:space:]]+' |
-        sed -e 's/^>>*[[:space:]]*//' |
-        grep -vE '^-' || true)"
       VERDICT=allow
       SAW_PATH=no
-      for t in $TARGETS; do
-        case "$t" in
-          # skip the verbs themselves and obvious non-paths
-          rm | mv | cp | tee | sed | dd | truncate | echo | cat | printf | git | docker | sudo | env | bash | sh | then | do | fi | done) continue ;;
-          *=*) continue ;;
+
+      is_target() { # $1 token, $2 "redirect"|"word"
+        case "$1" in
+          rm | mv | cp | tee | sed | dd | truncate | install | echo | cat | printf | git | gh | \
+            docker | sudo | env | bash | sh | python3 | jq | then | do | fi | done | if | else) return 1 ;;
+          *=*) return 1 ;;
         esac
+        # Redirect operands and destinations always count, existing or not.
+        case "$2" in redirect | dest) return 0 ;; esac
+        # Absolute paths always count.
+        case "$1" in /*) return 0 ;; esac
+        # A RELATIVE token counts only if it actually exists. Without this, a jq filter
+        # (`--jq .body`) and a flag value that looks like a path (`--repo owner/name`)
+        # were both read as repo-relative files and blocked ordinary reads.
+        [ -e "$CWD/$1" ] && return 0
+        return 1
+      }
+
+      check_tok() { # $1 token
         # A token carrying an unexpanded variable or glob cannot be resolved statically.
-        case "$t" in
+        case "$1" in
           *'$'* | *'`'* | *'*'* | *'?'*)
             SAW_PATH=yes
             VERDICT=block
-            break
+            return
             ;;
         esac
-        case "$t" in
-          */* | .* | *.*)
-            SAW_PATH=yes
-            ABS="$(wf_abspath "$t" "$CWD")"
-            wf_is_scratch "$ABS" && continue
-            if wf_path_inside "$ABS" "$PRIMARY"; then
-              VERDICT=block
-              break
-            fi
+        SAW_PATH=yes
+        local abs
+        abs="$(wf_abspath "$1" "$CWD")"
+        wf_is_scratch "$abs" && return
+        wf_path_inside "$abs" "$PRIMARY" && VERDICT=block
+      }
+
+      # Which operands are WRITTEN depends on the verb, so targets are collected per
+      # segment rather than from the command as a whole:
+      #   cp / install  only the destination — the sources are reads, and
+      #                 `cp README.md /tmp/x` must stay allowed
+      #   mv / rm       every operand — a move removes its source too
+      #   tee / sed -i  every operand
+      #   redirects     the operand, in any segment, existing or not
+      while IFS= read -r seg; do
+        [ "$VERDICT" = block ] && break
+        [ -n "$seg" ] || continue
+
+        for t in $(printf '%s' "$seg" | grep -oE '>>?[[:space:]]*[^[:space:]]+' | sed -e 's/^>>*[[:space:]]*//'); do
+          [ "$VERDICT" = block ] && break
+          is_target "$t" redirect && check_tok "$t"
+        done
+        [ "$VERDICT" = block ] && break
+
+        HEAD="$(printf '%s' "$seg" |
+          sed -E 's/^[[:space:]]*([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)*//; s/^(sudo[[:space:]]+)?//' |
+          awk '{print $1}')"
+        OPERANDS="$(printf '%s' "$seg" | grep -oE '[^[:space:]]+' | grep -vE '^[->]' | tail -n +2 || true)"
+
+        case "$HEAD" in
+          cp | install | mv)
+            # Destination: written, so it counts even if it does not exist yet.
+            LAST="$(printf '%s' "$seg" | awk '{print $NF}')"
+            is_target "$LAST" dest && check_tok "$LAST"
             ;;
         esac
-      done
+        [ "$VERDICT" = block ] && break
+        case "$HEAD" in
+          mv | rm | tee | truncate | dd | sed)
+            # Sources too: a move or remove takes the original away. cp/install are
+            # absent here on purpose — their sources are only read.
+            for t in $OPERANDS; do
+              [ "$VERDICT" = block ] && break
+              is_target "$t" word && check_tok "$t"
+            done
+            ;;
+        esac
+      done <<EOF
+$(cmd_segments "$CODE")
+EOF
       # No resolvable path at all: relative operands default to cwd, which IS the repo.
       [ "$SAW_PATH" = no ] && VERDICT=block
       [ "$VERDICT" = block ] &&

@@ -277,6 +277,31 @@ expect "cd primary then git branch --show-current allowed" 0 "$GATE" \
 expect "cd primary then git checkout -b still blocked" 2 "$GATE" \
   "$(bash_payload "cd $PRIMARY && git checkout -b x" "$SANDBOX/wt")"
 
+# ============================================ tokens that only look like paths
+# A jq filter, a flag value, or any bare word that is neither slash-bearing nor an
+# existing file is not a path. Reading `--jq .body` as one blocked an ordinary
+# `gh issue view ... > /tmp/x` from the primary checkout.
+echo "non-path tokens are not treated as targets:"
+expect "gh issue view --jq .body redirected to /tmp allowed" 0 "$GATE" \
+  "$(bash_payload 'gh issue view 1364 --repo fredabood/homelab --json body --jq .body > /tmp/b.md' "$PRIMARY")"
+expect "jq filter with a dot allowed" 0 "$GATE" \
+  "$(bash_payload 'docker inspect caddy --format .State.Status > /tmp/s.txt' "$PRIMARY")"
+expect "wc on a /tmp file allowed" 0 "$GATE" "$(bash_payload 'wc -l /tmp/b.md' "$PRIMARY")"
+expect "redirect to a NEW repo file still blocked" 2 "$GATE" \
+  "$(bash_payload 'echo x > brand-new-file.txt' "$PRIMARY")"
+expect "rm of an existing repo file still blocked" 2 "$GATE" \
+  "$(bash_payload 'rm README.md' "$PRIMARY")"
+expect "cp into the repo still blocked" 2 "$GATE" \
+  "$(bash_payload 'cp /tmp/a.txt internal/caddy/Caddyfile' "$PRIMARY")"
+expect "cp creating a NEW repo file still blocked (destination need not exist)" 2 "$GATE" \
+  "$(bash_payload 'cp /tmp/a.txt brand-new.txt' "$PRIMARY")"
+expect "mv creating a NEW repo file still blocked" 2 "$GATE" \
+  "$(bash_payload 'mv /tmp/a.txt also-new.txt' "$PRIMARY")"
+expect "cp from the repo out to /tmp allowed" 0 "$GATE" \
+  "$(bash_payload 'cp README.md /tmp/copy.md' "$PRIMARY")"
+expect "gh with an owner/name flag value allowed" 0 "$GATE" \
+  "$(bash_payload 'gh issue list --repo fredabood/homelab --json number > /tmp/i.json' "$PRIMARY")"
+
 echo ""
 echo "worktree-gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]

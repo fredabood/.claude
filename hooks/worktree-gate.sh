@@ -220,6 +220,7 @@ if [ "$MODE" = WORKTREE ] && [ "$TOOL" = "Bash" ]; then
       # normalized catches a `git -C <shared>` hidden inside `bash -c "..."`.
       SCAN="$(strip_quotes "$CMD")
 $CODE"
+      WT_ROOT="$(wf_repo_root "$CWD" 2>/dev/null)"
       # `cd <primary>` is only a redirect when the command also RUNS something that could
       # write there. A bare `cd` back to the primary checkout is navigation, and blocking
       # it strands the session with no way home — which this gate did to its own author
@@ -241,6 +242,13 @@ $CODE"
         [ -n "$tok" ] || continue
         RESOLVED="$(wf_abspath "$tok" "$CWD")"
         case "$RESOLVED" in */.git | */.git/*) RESOLVED="${RESOLVED%%/.git*}" ;; esac
+        # Claude Code's native worktrees live at <shared>/.claude/worktrees/<name>, so EVERY
+        # worktree is inside the shared checkout by path containment. Without these two
+        # exemptions the guard reads `cd <this very worktree> && <write>` as a redirect and
+        # strands the session -- the same over-block shape as the bare-cd bug in #1378.
+        # A worktree is never the primary checkout, whatever its path says.
+        [ -n "$WT_ROOT" ] && wf_path_inside "$RESOLVED" "$WT_ROOT" && continue
+        wf_path_inside "$RESOLVED" "$SHARED/.claude/worktrees" && continue
         if wf_path_inside "$RESOLVED" "$SHARED"; then
           echo "[$GATE_NAME] BLOCKED: this command redirects into the shared checkout" >&2
           echo "$SHARED from inside a worktree." >&2

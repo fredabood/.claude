@@ -34,6 +34,15 @@ echo "caddy" >internal/caddy/Caddyfile
 git add -A && git commit -qm "init"
 git worktree add -q "$SANDBOX/wt" -b feature main
 
+# A second worktree in the REAL layout: Claude Code nests its worktrees INSIDE the primary
+# checkout at .claude/worktrees/<name>. The sibling "$SANDBOX/wt" above cannot reproduce
+# "a worktree is inside the shared checkout by path containment", which is exactly why the
+# redirect guard's over-block on `cd <own worktree>` survived 86 assertions.
+mkdir -p "$PRIMARY/.claude/worktrees"
+git worktree add -q "$PRIMARY/.claude/worktrees/nested" -b nested main
+NESTED="$PRIMARY/.claude/worktrees/nested"
+mkdir -p "$NESTED/sub"
+
 OTHER="$SANDBOX/other"
 mkdir -p "$OTHER"
 git -C "$OTHER" init -q -b main
@@ -352,6 +361,22 @@ expect "a command merely starting with sh keeps its quoting" 0 "$GATE" \
   "$(bash_payload 'sha256sum "README.md"' "$PRIMARY")"
 expect "shellcheck on a repo file allowed (sh* prefix trap)" 0 "$GATE" \
   "$(bash_payload 'shellcheck internal/caddy/Caddyfile' "$PRIMARY")"
+
+                                # --- a worktree is not the shared checkout (LAB-1380) ---
+# Native worktrees live at <shared>/.claude/worktrees/<name>, so every worktree is inside
+# the primary checkout by path containment. The redirect guard read `cd <own worktree>`
+# as a redirect and stranded the session. Pre-existing; found by the gate blocking its
+# own pointer-bump commit.
+echo ""
+echo "the redirect guard must not treat a worktree as the shared checkout:"
+expect "cd into the session's OWN worktree allowed" 0 "$GATE" \
+  "$(bash_payload "cd $NESTED && git commit -m x" "$NESTED")"
+expect "cd into a subdirectory of the own worktree allowed" 0 "$GATE" \
+  "$(bash_payload "cd $NESTED/sub && git commit -m x" "$NESTED")"
+expect "cd into the PRIMARY checkout still blocked" 2 "$GATE" \
+  "$(bash_payload "cd $PRIMARY && git commit -m x" "$NESTED")"
+expect "git -C at the PRIMARY checkout still blocked" 2 "$GATE" \
+  "$(bash_payload "git -C $PRIMARY commit -m x" "$NESTED")"
 
 echo ""
 echo "worktree-gate tests: $PASS passed, $FAIL failed"

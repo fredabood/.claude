@@ -8,12 +8,41 @@ globs:
 
 > Invoke `/workflow` for Phase 5 (implementation) with gated testing enforcement — tests must pass before proceeding.
 
+## What is actually enforced (LAB-1369)
+
+This section exists because everything below it was **aspirational and stated as fact**
+until 2026-08-21. No test had ever run in CI, and the local pre-commit gate was a
+structural no-op that exited 0 on every commit. Read the distinction carefully.
+
+**Enforced, automatically:**
+
+| Gate | Where | Effect |
+|---|---|---|
+| Every discovered suite runs | `.github/workflows/tests.yml`, on every PR | A failing suite fails the build unless it is in `ci/test-allowlist.json` with a reason and a follow-up issue |
+| The suite owning your staged files runs | `.claude/hooks/pre-commit-tests.sh` | Blocks the commit on real test failures |
+
+Suites are **discovered**, not listed — `internal/scripts/discover-test-suites.sh` finds
+any component containing test files. Adding a component with tests needs no config change.
+
+**Deliberately not enforced:**
+
+- **The 90% coverage target below is a goal, not a gate.** Nothing measures or blocks on it.
+- `tests/integration/` is **excluded from CI** — those suites need live postgres-memory,
+  ollama and mlflow, which a hosted runner cannot reach. Putting a test there is how you
+  declare it needs live services.
+- The pre-commit hook **skips loudly** (never silently passes) when a component cannot be
+  collected locally, which usually means its dependencies are not installed on this
+  machine. CI runs the same suite with a clean install.
+
+Current state: **8 suites, 264 tests passing**; `internal/agent-runtime` is allowlisted
+pending #1394.
+
 ## Behavioral Instructions (always active)
 
 These apply to all implementation work, not just test files:
 
 - **Tests are required, not optional.** Before marking work complete, verify:
-  - Unit tests cover the changed business logic (target 90%+ on new code)
+  - Unit tests cover the changed business logic (**goal**: 90%+ on new code — not measured or gated; see above)
   - Integration tests exist for any new external service interactions
   - Edge cases and error paths are tested
 

@@ -27,7 +27,7 @@ Source of truth for service names, URLs, and ports: `internal/caddy/Caddyfile` a
 | Homepage | homepage | home.dirtydata.studio | homepage:3000 | Service dashboard | Web UI |
 | Portainer | portainer | portainer.dirtydata.studio | portainer:9000 | Docker management | Web UI + REST API |
 | Uptime Kuma | uptime-kuma | status.dirtydata.studio | uptime-kuma:3001 | Uptime monitoring | Web UI + REST API |
-| Open-WebUI | open-webui | chat.dirtydata.studio | open-webui:8080 | Chat UI for Ollama | Web UI |
+| ~~Open-WebUI~~ | ~~open-webui~~ | ~~chat.dirtydata.studio~~ | ~~open-webui:8080~~ | ~~Chat UI for Ollama~~ | DECOMMISSIONED 2026-08-21 (LAB-1399) — re-downloaded its embedding model on every boot and spiralled to 22.9 GB of orphaned `.incomplete` blobs; chat moved to Omnigent and Buzz. Container, volume, image, Caddy route and DNS record all removed |
 | Ollama | ollama | ollama.dirtydata.studio | ollama:11434 | Local LLM inference | REST `/api/generate`, `/api/chat` |
 | Code-Server | code-server | code.dirtydata.studio | code-server:8080 | Browser VSCode | Web UI |
 | Grafana | grafana | grafana.dirtydata.studio | grafana:3000 | Metrics dashboards | Web UI; HTTP API `/api/` |
@@ -116,7 +116,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
 
 | Database | Owner | Size | Service | Purpose |
 |----------|-------|------|---------|---------|
-| `agent_memory` | postgres | ~221 MB | Jira Graph, Open-WebUI, MCP | GitHub mirror schemas (`jira.*`), pgvector embeddings |
+| `agent_memory` | postgres | ~221 MB | Jira Graph, MCP | GitHub mirror schemas (`jira.*`), pgvector embeddings. Open-WebUI's `public.document_chunk` was dropped with its decommission (LAB-1399); `public.knowledge_embeddings` belongs to `ingest-gdrive-to-pgvector.py` and stays |
 | `twenty_db` | twenty_user | ~16 MB | Twenty CRM | CRM application data |
 | `n8n` | postgres | ~19 MB | n8n | Workflow automation backend |
 | `freshrss_db` | freshrss | ~9 MB | FreshRSS | RSS feed data |
@@ -156,7 +156,7 @@ The staging API gateway (`staging-api.dirtydata.studio`) additionally routes `/s
   ```
 - Stack files by category:
   - `core-stack.yml` — MinIO, core services
-  - `llm-stack.yml` — Ollama, Open-WebUI
+  - `llm-stack.yml` — Ollama (Open-WebUI decommissioned 2026-08-21, LAB-1399)
   - `monitoring-stack.yml` — Prometheus, Alertmanager, Grafana, Loki
   - `memory-stack.yml` — postgres-memory
   - `data-platform-stack.yml` — MLflow, n8n, qBittorrent (via gluetun)

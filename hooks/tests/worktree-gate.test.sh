@@ -302,6 +302,57 @@ expect "cp from the repo out to /tmp allowed" 0 "$GATE" \
 expect "gh with an owner/name flag value allowed" 0 "$GATE" \
   "$(bash_payload 'gh issue list --repo fredabood/homelab --json number > /tmp/i.json' "$PRIMARY")"
 
+                                        # --- shell-wrapper bypasses (LAB-1380) ---
+# Anchoring the verb match to a segment head fixed prose-as-invocation but opened the
+# mirror-image hole: a verb behind a wrapper is not at the head either. All eight forms
+# below were measured returning 0 against the installed gate before this fix. None was
+# caught by the 86 assertions above, which is why they are pinned here permanently.
+echo ""
+echo "shell-wrapper bypasses must not reach the shared checkout:"
+expect "bash -c hiding a git write blocked" 2 "$GATE" \
+  "$(bash_payload 'bash -c "git commit -m x"' "$PRIMARY")"
+expect "sh -c hiding an rm blocked" 2 "$GATE" \
+  "$(bash_payload 'sh -c "rm -f README.md"' "$PRIMARY")"
+expect "eval hiding a git write blocked" 2 "$GATE" \
+  "$(bash_payload 'eval "git commit -m x"' "$PRIMARY")"
+expect "eval with single quotes blocked" 2 "$GATE" \
+  "$(bash_payload "eval 'rm -f README.md'" "$PRIMARY")"
+expect "timeout <duration> prefix blocked" 2 "$GATE" \
+  "$(bash_payload 'timeout 5 git commit -m x' "$PRIMARY")"
+expect "timeout with its own flags blocked (GHSA-7mqg-cx4g-x2rf shape)" 2 "$GATE" \
+  "$(bash_payload 'timeout -s KILL 5m git commit -m x' "$PRIMARY")"
+expect "nice -n N prefix blocked" 2 "$GATE" \
+  "$(bash_payload 'nice -n 10 git commit -m x' "$PRIMARY")"
+expect "env prefix blocked" 2 "$GATE" \
+  "$(bash_payload 'env git commit -m x' "$PRIMARY")"
+expect "command prefix blocked" 2 "$GATE" \
+  "$(bash_payload 'command git commit -m x' "$PRIMARY")"
+expect "exec prefix blocked" 2 "$GATE" \
+  "$(bash_payload 'exec git commit -m x' "$PRIMARY")"
+expect "stacked wrappers blocked" 2 "$GATE" \
+  "$(bash_payload 'sudo env git commit -m x' "$PRIMARY")"
+expect "nested wrapper inside bash -c blocked" 2 "$GATE" \
+  "$(bash_payload 'bash -c "timeout 5 git commit -m x"' "$PRIMARY")"
+expect "absolute interpreter path blocked" 2 "$GATE" \
+  "$(bash_payload '/bin/bash -c "git commit -m x"' "$PRIMARY")"
+expect "combined interpreter flag (-lc) blocked" 2 "$GATE" \
+  "$(bash_payload 'bash -lc "git commit -m x"' "$PRIMARY")"
+expect "redirect hidden inside bash -c blocked" 2 "$GATE" \
+  "$(bash_payload 'bash -c "echo x > README.md"' "$PRIMARY")"
+
+# Guards. Unwrapping must not resurrect the over-blocking that #1377-#1379 fixed: the
+# payload of a wrapper is only a command when the wrapper actually runs it.
+echo ""
+echo "wrapper handling must not over-block:"
+expect "prose naming a wrapper and a verb allowed" 0 "$GATE" \
+  "$(bash_payload 'echo "timeout 5 git commit -m x"' "$PRIMARY")"
+expect "read-only git inside bash -c allowed" 0 "$GATE" \
+  "$(bash_payload 'bash -c "git status"' "$PRIMARY")"
+expect "a command merely starting with sh keeps its quoting" 0 "$GATE" \
+  "$(bash_payload 'sha256sum "README.md"' "$PRIMARY")"
+expect "shellcheck on a repo file allowed (sh* prefix trap)" 0 "$GATE" \
+  "$(bash_payload 'shellcheck internal/caddy/Caddyfile' "$PRIMARY")"
+
 echo ""
 echo "worktree-gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]

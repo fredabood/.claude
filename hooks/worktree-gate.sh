@@ -95,6 +95,63 @@ segment_invokes() {
     grep -qE "^[[:space:]]*([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)*(sudo[[:space:]]+)?($2)\b"
 }
 
+# Normalize ONE segment so the verb that actually runs sits at its head.
+#
+# Anchoring the verb match (segment_invokes) fixed prose-as-invocation but created the
+# mirror-image hole: a verb hidden behind a wrapper is no longer at the head either. All
+# eight of these reached the shared checkout unchallenged --
+#   bash -c "<git write>"   sh -c "rm ..."   eval "..."   timeout 5 <git write>
+#   nice -n 10 <git write>  env <git write>  command <git write>  exec <git write>
+# because the segment head was `bash` / `timeout` / `env`, and for the -c forms
+# strip_quotes had already deleted the payload being hidden.
+#
+# Two passes, repeated to a bounded depth so `bash -c "timeout 5 <git write>"` resolves:
+#   1. drop leading env assignments and wrapper words. The flag-carrying wrappers must
+#      also consume their own option values and (for timeout) its duration positional,
+#      or a flag is left looking like the command -- the GHSA-7mqg-cx4g-x2rf shape.
+#   2. drop a shell-interpreter `-c` / `eval` prefix and remove the quote characters that
+#      delimited its argument, so the inner command is classified as if typed directly.
+#      Quotes are removed ONLY when the unwrap actually matched, so `sha256sum "..."`
+#      (which merely starts with "sh") keeps its quoting and its prose protection.
+normalize_segment() {
+  local s="$1" prev="" t i=0
+  while [ "$i" -lt 4 ] && [ "$s" != "$prev" ]; do
+    prev="$s"
+    s="$(printf '%s' "$s" | sed -E \
+      -e 's/^[[:space:]]+//' \
+      -e 's/^([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)+//' \
+      -e 's/^(sudo|env|command|exec|time|nohup|setsid)[[:space:]]+//' \
+      -e 's/^nice([[:space:]]+(-n[[:space:]]*[0-9]+|--adjustment[[:space:]]+[0-9]+|-[0-9]+))?[[:space:]]+//' \
+      -e 's/^stdbuf([[:space:]]+-[ioe][[:space:]]*[A-Za-z0-9]+)+[[:space:]]+//' \
+      -e 's/^xargs([[:space:]]+(-[0adprtx]+|-I[[:space:]]*[^[:space:]]+|-[nP][[:space:]]*[0-9]+))*[[:space:]]+//' \
+      -e 's/^timeout([[:space:]]+(-s[[:space:]]*[A-Za-z0-9]+|--signal=[A-Za-z0-9]+|-k[[:space:]]*[0-9smhd.]+|--kill-after=[0-9smhd.]+|--preserve-status|--foreground))*[[:space:]]+[0-9]+[smhd.]*[[:space:]]+//')"
+    # An absolute interpreter path (`/bin/bash -c`) and a combined flag that merely
+    # CONTAINS c (`bash -lc`) are the same hole as `bash -c`; both are matched here.
+    t="$(printf '%s' "$s" | sed -E \
+      -e 's@^(/[^[:space:]]*/)?(bash|sh|zsh|dash|ksh)([[:space:]]+-[A-Za-z]+)*[[:space:]]+-[A-Za-z]*c[[:space:]]+@@' \
+      -e 's/^eval[[:space:]]+//')"
+    if [ "$t" != "$s" ]; then
+      s="$(printf '%s' "$t" | tr -d '\042\047')"
+    fi
+    i=$((i + 1))
+  done
+  printf '%s' "$s"
+}
+
+# Whole command -> one normalized segment per line, ready for segment_invokes and for the
+# per-verb target extraction. An unwrapped inner command may carry its own `;` / `&&`; those
+# are re-split downstream because every consumer runs cmd_segments over this output.
+expand_code() {
+  local seg out=""
+  while IFS= read -r seg; do
+    out="$out$(normalize_segment "$seg")
+"
+  done <<EOF
+$(cmd_segments "$1")
+EOF
+  printf '%s' "$out"
+}
+
 # Shell verbs that write files, and git verbs that move HEAD or write history. Shared by
 # the primary-checkout rules and the worktree redirect guard so the two cannot drift apart.
 MUTATORS_ALL='(rm|mv|cp|tee|dd|truncate|install|sed[^;|&]*-i)\b'
@@ -155,7 +212,14 @@ if [ "$MODE" = WORKTREE ] && [ "$TOOL" = "Bash" ]; then
     case "$COMMON" in /*) : ;; *) COMMON="$CWD/$COMMON" ;; esac
     SHARED="$(dirname "$(wf_realdir "$COMMON" 2>/dev/null || echo /nonexistent)")"
     if [ -n "$SHARED" ] && [ "$SHARED" != "/" ]; then
-      CODE="$(strip_quotes "$CMD")"
+      CODE="$(strip_quotes "$(expand_code "$CMD")")"
+      # Form extraction scans the RAW text as well as the normalized text. normalize_segment
+      # strips leading env assignments to expose a wrapped verb, which also deletes the
+      # `GIT_DIR=` / `GIT_WORK_TREE=` this guard is looking for -- scanning only the
+      # normalized text silently unblocked the GIT_DIR redirect. Raw catches the env forms;
+      # normalized catches a `git -C <shared>` hidden inside `bash -c "..."`.
+      SCAN="$(strip_quotes "$CMD")
+$CODE"
       # `cd <primary>` is only a redirect when the command also RUNS something that could
       # write there. A bare `cd` back to the primary checkout is navigation, and blocking
       # it strands the session with no way home — which this gate did to its own author
@@ -171,7 +235,7 @@ if [ "$MODE" = WORKTREE ] && [ "$TOOL" = "Bash" ]; then
       # Extract the OPERAND of each redirect form and resolve it, rather than matching the
       # shared path as a literal string: the command may spell it logically (/var/...)
       # while git reports it physically (/private/var/...). Same symlink trap as wf_realdir.
-      for tok in $(printf '%s' "$CODE" |
+      for tok in $(printf '%s' "$SCAN" |
         grep -oE "($FORMS)[^[:space:];|&]+" |
         sed -E 's/^.*(-C[[:space:]]+|--git-dir[= ]|--work-tree[= ]|GIT_DIR=|GIT_WORK_TREE=|cd[[:space:]]+)//'); do
         [ -n "$tok" ] || continue
@@ -228,7 +292,10 @@ case "$TOOL" in
   Bash)
     CMD="$(printf '%s' "$PAYLOAD" | jq -r '.tool_input.command // empty' 2>/dev/null)"
     [ -n "$CMD" ] || exit 0
-    CODE="$(strip_quotes "$CMD")"
+    # expand_code first: wrapper prefixes are stripped and `bash -c` / `eval` payloads are
+    # lifted to segment heads BEFORE strip_quotes runs, so a hidden verb is classified as
+    # an invocation rather than deleted along with its quotes.
+    CODE="$(strip_quotes "$(expand_code "$CMD")")"
 
     # --- git verbs that move HEAD or write history -----------------------------
     # Allowlist-by-omission: pull/fetch/status/log/diff/show/worktree add|list are absent

@@ -1,0 +1,236 @@
+#!/usr/bin/env bash
+# worktree-gate.test.sh — tests for the LAB-1364 worktree entry gate.
+# Harness modelled on submodules/work/.claude/hooks/tests/run.sh: a real sandbox git repo,
+# synthetic stdin payloads, exit-code assertions, PASS/FAIL counters, and the final
+# `[ "$FAIL" -eq 0 ]` as the script's exit status.
+#
+# Run: bash .claude/hooks/tests/worktree-gate.test.sh
+
+set -u
+
+HOOKS_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+GATE="$HOOKS_DIR/worktree-gate.sh"
+BOOT="$HOOKS_DIR/session-bootstrap.sh"
+PASS=0
+FAIL=0
+
+SANDBOX="$(mktemp -d)"
+trap 'rm -rf "$SANDBOX"' EXIT
+
+# --- sandbox: a primary checkout, a linked worktree, and an out-of-scope repo -----
+# WF_SCOPE_REPO is exported so the gate treats the sandbox repo named "homelab" as in-scope
+# without needing a real GitHub remote.
+export WF_SCOPE_REPO=homelab
+
+PRIMARY="$SANDBOX/homelab"
+mkdir -p "$PRIMARY"
+cd "$PRIMARY"
+git init -q -b main
+git config user.email t@t && git config user.name t
+git remote add origin https://github.com/fredabood/homelab.git
+mkdir -p internal/caddy stacks
+echo "root" >README.md
+echo "caddy" >internal/caddy/Caddyfile
+git add -A && git commit -qm "init"
+git worktree add -q "$SANDBOX/wt" -b feature main
+
+OTHER="$SANDBOX/other"
+mkdir -p "$OTHER"
+git -C "$OTHER" init -q -b main
+git -C "$OTHER" config user.email t@t && git -C "$OTHER" config user.name t
+git -C "$OTHER" remote add origin https://github.com/fredabood/dirtydata.git
+echo x >"$OTHER/f.txt"
+git -C "$OTHER" add -A && git -C "$OTHER" commit -qm init
+
+NONGIT="$SANDBOX/plain"
+mkdir -p "$NONGIT"
+
+# --- harness -----------------------------------------------------------------
+run_hook() { # $1 script, $2 payload -> $HOOK_EXIT, $HOOK_ERR
+  HOOK_ERR="$(printf '%s' "$2" | bash "$1" 2>&1 >/dev/null)"
+  HOOK_EXIT=$?
+}
+
+edit_payload() { # $1 path, $2 cwd, $3 tool(optional)
+  jq -cn --arg p "$1" --arg c "$2" --arg t "${3:-Edit}" \
+    '{tool_name:$t, cwd:$c, tool_input:{file_path:$p}}'
+}
+bash_payload() { # $1 command, $2 cwd
+  jq -cn --arg m "$1" --arg c "$2" '{tool_name:"Bash", cwd:$c, tool_input:{command:$m}}'
+}
+
+expect() { # $1 desc, $2 expected exit, $3 script, $4 payload
+  run_hook "$3" "$4"
+  if [ "$HOOK_EXIT" -eq "$2" ]; then
+    PASS=$((PASS + 1))
+    echo "  ok: $1"
+  else
+    FAIL=$((FAIL + 1))
+    echo "  FAIL: $1 (expected $2, got $HOOK_EXIT) [$HOOK_ERR]"
+  fi
+}
+
+# =============================================================== mode detection
+echo "mode detection (lib):"
+# shellcheck source=../lib/worktree-facts.sh
+. "$HOOKS_DIR/lib/worktree-facts.sh"
+check_mode() { # $1 desc, $2 dir, $3 expected
+  local got
+  got="$(wf_mode "$2")"
+  if [ "$got" = "$3" ]; then
+    PASS=$((PASS + 1))
+    echo "  ok: $1"
+  else
+    FAIL=$((FAIL + 1))
+    echo "  FAIL: $1 (expected $3, got $got)"
+  fi
+}
+check_mode "primary checkout -> PRIMARY" "$PRIMARY" PRIMARY
+check_mode "linked worktree -> WORKTREE" "$SANDBOX/wt" WORKTREE
+check_mode "different repo -> OUT_OF_SCOPE" "$OTHER" OUT_OF_SCOPE
+check_mode "non-git dir -> OUT_OF_REPO" "$NONGIT" OUT_OF_REPO
+
+# ============================================================ blocks in primary
+echo "blocks in the primary checkout:"
+expect "Edit on a repo file blocked" 2 "$GATE" "$(edit_payload "$PRIMARY/README.md" "$PRIMARY")"
+expect "Edit on a relative repo path blocked" 2 "$GATE" "$(edit_payload "README.md" "$PRIMARY")"
+expect "Write blocked" 2 "$GATE" "$(edit_payload "$PRIMARY/new.txt" "$PRIMARY" Write)"
+expect "MultiEdit blocked (currently ungated in homelab)" 2 "$GATE" "$(edit_payload "$PRIMARY/README.md" "$PRIMARY" MultiEdit)"
+expect "NotebookEdit blocked (currently ungated in homelab)" 2 "$GATE" "$(edit_payload "$PRIMARY/n.ipynb" "$PRIMARY" NotebookEdit)"
+expect "git commit blocked" 2 "$GATE" "$(bash_payload 'git commit -m "x"' "$PRIMARY")"
+expect "git checkout -b blocked (moves shared HEAD)" 2 "$GATE" "$(bash_payload 'git checkout -b feat' "$PRIMARY")"
+expect "git switch -c blocked" 2 "$GATE" "$(bash_payload 'git switch -c feat' "$PRIMARY")"
+expect "git merge blocked" 2 "$GATE" "$(bash_payload 'git merge origin/main' "$PRIMARY")"
+expect "git rebase blocked" 2 "$GATE" "$(bash_payload 'git rebase main' "$PRIMARY")"
+expect "git push blocked" 2 "$GATE" "$(bash_payload 'git push origin main' "$PRIMARY")"
+expect "git stash blocked (can capture another session's work)" 2 "$GATE" "$(bash_payload 'git stash push -m wip' "$PRIMARY")"
+expect "sed -i on a repo file blocked" 2 "$GATE" "$(bash_payload 'sed -i "" s/a/b/ internal/caddy/Caddyfile' "$PRIMARY")"
+expect "redirect into a repo file blocked" 2 "$GATE" "$(bash_payload 'echo x > README.md' "$PRIMARY")"
+expect "append into a repo file blocked" 2 "$GATE" "$(bash_payload 'echo x >> internal/caddy/Caddyfile' "$PRIMARY")"
+expect "rm of a repo file blocked" 2 "$GATE" "$(bash_payload 'rm internal/caddy/Caddyfile' "$PRIMARY")"
+expect "mv of a repo file blocked" 2 "$GATE" "$(bash_payload 'mv README.md OLD.md' "$PRIMARY")"
+expect "tee into a repo file blocked" 2 "$GATE" "$(bash_payload 'echo x | tee README.md' "$PRIMARY")"
+expect "unresolvable variable target blocked (fails closed)" 2 "$GATE" "$(bash_payload 'rm -rf $SOMEDIR' "$PRIMARY")"
+
+# =========================================================== allows in primary
+echo "allows in the primary checkout (deploys happen here):"
+expect "docker compose ps allowed" 0 "$GATE" "$(bash_payload 'docker compose -f stacks/core-stack.yml --env-file .env ps' "$PRIMARY")"
+expect "git pull allowed" 0 "$GATE" "$(bash_payload 'git pull --ff-only' "$PRIMARY")"
+expect "git fetch allowed" 0 "$GATE" "$(bash_payload 'git fetch origin --prune' "$PRIMARY")"
+expect "git status allowed" 0 "$GATE" "$(bash_payload 'git status --short' "$PRIMARY")"
+expect "git log allowed" 0 "$GATE" "$(bash_payload 'git log --oneline -10' "$PRIMARY")"
+expect "git diff allowed" 0 "$GATE" "$(bash_payload 'git diff --stat' "$PRIMARY")"
+expect "git worktree add allowed (the remedy must never be blocked)" 0 "$GATE" "$(bash_payload 'git worktree add .claude/worktrees/x -b x origin/main' "$PRIMARY")"
+expect "git worktree list allowed" 0 "$GATE" "$(bash_payload 'git worktree list' "$PRIMARY")"
+expect "git checkout -- <path> allowed (restores bind-mounted config, no HEAD move)" 0 "$GATE" "$(bash_payload 'git checkout -- internal/caddy/Caddyfile' "$PRIMARY")"
+expect "redirect to /tmp allowed" 0 "$GATE" "$(bash_payload 'echo x > /tmp/probe.txt' "$PRIMARY")"
+expect "redirect to /dev/null allowed" 0 "$GATE" "$(bash_payload 'somecmd > /dev/null' "$PRIMARY")"
+expect "fd-dup redirect not treated as a write" 0 "$GATE" "$(bash_payload 'somecmd 2>&1' "$PRIMARY")"
+expect "Edit outside the repo allowed" 0 "$GATE" "$(edit_payload "/tmp/scratch.md" "$PRIMARY")"
+expect "quoted verb in a commit message is not a commit" 0 "$GATE" "$(bash_payload 'echo "how to git commit and git push" > /tmp/notes.md' "$PRIMARY")"
+expect "read-only command allowed" 0 "$GATE" "$(bash_payload 'cat README.md' "$PRIMARY")"
+
+# =================================================================== worktree
+echo "allows in a worktree (native isolation takes over):"
+expect "Edit in a worktree allowed" 0 "$GATE" "$(edit_payload "$SANDBOX/wt/README.md" "$SANDBOX/wt")"
+expect "git commit in a worktree allowed" 0 "$GATE" "$(bash_payload 'git commit -m "x"' "$SANDBOX/wt")"
+expect "sed -i in a worktree allowed" 0 "$GATE" "$(bash_payload 'sed -i "" s/a/b/ README.md' "$SANDBOX/wt")"
+
+# ================================================================ out of scope
+echo "inert outside fredabood/homelab:"
+expect "Edit in another repo allowed" 0 "$GATE" "$(edit_payload "$OTHER/f.txt" "$OTHER")"
+expect "git commit in another repo allowed" 0 "$GATE" "$(bash_payload 'git commit -m "x"' "$OTHER")"
+expect "rm in another repo allowed" 0 "$GATE" "$(bash_payload 'rm f.txt' "$OTHER")"
+expect "Edit in a non-git dir allowed" 0 "$GATE" "$(edit_payload "$NONGIT/x.txt" "$NONGIT")"
+expect "git commit in a non-git dir allowed" 0 "$GATE" "$(bash_payload 'git commit -m x' "$NONGIT")"
+
+# ================================================================= fail closed
+echo "fail-closed behaviour:"
+expect "payload with no cwd fails closed" 2 "$GATE" '{"tool_name":"Bash","tool_input":{"command":"git commit -m x"}}'
+expect "malformed payload fails closed" 2 "$GATE" 'not json at all'
+expect "empty payload fails closed" 2 "$GATE" ''
+
+# A PATH with git+bash but no jq. /nonexistent alone would hide `bash` itself, so the
+# test would pass for the wrong reason (command-not-found, not the gate's own check).
+NOJQ="$SANDBOX/nojq"
+mkdir -p "$NOJQ"
+for b in bash sh git sed grep cmp; do
+  p="$(command -v "$b")" && ln -sf "$p" "$NOJQ/$b"
+done
+HOOK_ERR="$(printf '%s' "$(bash_payload 'git commit -m x' "$PRIMARY")" | env PATH="$NOJQ" "$NOJQ/bash" "$GATE" 2>&1 >/dev/null)"
+RC=$?
+if [ "$RC" -eq 2 ] && printf '%s' "$HOOK_ERR" | grep -q 'jq is required'; then
+  PASS=$((PASS + 1))
+  echo "  ok: missing jq fails closed with its own message"
+else
+  FAIL=$((FAIL + 1))
+  echo "  FAIL: missing jq should fail closed (rc=$RC) [$HOOK_ERR]"
+fi
+
+# ================================================================ kill switch
+echo "kill switch:"
+HOOK_ERR="$(printf '%s' "$(bash_payload 'git commit -m x' "$PRIMARY")" | HOMELAB_WORKTREE_GATE=off bash "$GATE" 2>&1 >/dev/null)"
+if [ $? -eq 0 ] && printf '%s' "$HOOK_ERR" | grep -q DISABLED; then
+  PASS=$((PASS + 1))
+  echo "  ok: HOMELAB_WORKTREE_GATE=off allows and announces itself loudly"
+else
+  FAIL=$((FAIL + 1))
+  echo "  FAIL: kill switch [$HOOK_ERR]"
+fi
+expect "a command TEXT setting the var does not disable the gate" 2 "$GATE" \
+  "$(bash_payload 'HOMELAB_WORKTREE_GATE=off git commit -m x' "$PRIMARY")"
+
+# =============================================================== anti-tamper
+echo "anti-self-tamper:"
+expect "Edit on ~/.claude/settings.json blocked" 2 "$GATE" "$(edit_payload "$HOME/.claude/settings.json" "$SANDBOX/wt")"
+expect "Edit on the installed gate blocked even from a worktree" 2 "$GATE" "$(edit_payload "$HOME/.claude/hooks/worktree-gate.sh" "$SANDBOX/wt")"
+expect "Edit on the canonical repo copy allowed from a worktree" 0 "$GATE" "$(edit_payload "$SANDBOX/wt/.claude/hooks/worktree-gate.sh" "$SANDBOX/wt")"
+
+# ================================================== nested worktree messaging
+# A worktree living under .claude/worktrees/ is physically inside the primary checkout.
+# Reaching into it from a primary-checkout session must still be blocked, but with the
+# remedy that actually applies (enter it), not the generic primary-checkout text.
+echo "nested worktree under the primary checkout:"
+mkdir -p "$PRIMARY/.claude/worktrees"
+git -C "$PRIMARY" worktree add -q "$PRIMARY/.claude/worktrees/nested" -b nested main
+run_hook "$GATE" "$(edit_payload "$PRIMARY/.claude/worktrees/nested/README.md" "$PRIMARY")"
+if [ "$HOOK_EXIT" -eq 2 ] && printf '%s' "$HOOK_ERR" | grep -q "belongs to the worktree"; then
+  PASS=$((PASS + 1))
+  echo "  ok: reaching into a nested worktree from primary is blocked with the enter-it remedy"
+else
+  FAIL=$((FAIL + 1))
+  echo "  FAIL: nested worktree message (rc=$HOOK_EXIT) [$HOOK_ERR]"
+fi
+expect "editing that same file FROM inside the nested worktree is allowed" 0 "$GATE" \
+  "$(edit_payload "$PRIMARY/.claude/worktrees/nested/README.md" "$PRIMARY/.claude/worktrees/nested")"
+
+# ============================================================ session-bootstrap
+echo "session-bootstrap:"
+OUT="$(printf '%s' "$(jq -cn --arg c "$PRIMARY" '{hook_event_name:"SessionStart",cwd:$c}')" | bash "$BOOT" 2>/dev/null)"
+if printf '%s' "$OUT" | jq -e '.hookSpecificOutput.additionalContext | test("PRIMARY CHECKOUT")' >/dev/null 2>&1; then
+  PASS=$((PASS + 1))
+  echo "  ok: emits additionalContext naming the primary checkout"
+else
+  FAIL=$((FAIL + 1))
+  echo "  FAIL: bootstrap primary context [$OUT]"
+fi
+OUT="$(printf '%s' "$(jq -cn --arg c "$SANDBOX/wt" '{hook_event_name:"SessionStart",cwd:$c}')" | bash "$BOOT" 2>/dev/null)"
+if printf '%s' "$OUT" | jq -e '.hookSpecificOutput.additionalContext | test("WORKTREE")' >/dev/null 2>&1; then
+  PASS=$((PASS + 1))
+  echo "  ok: emits additionalContext naming the worktree"
+else
+  FAIL=$((FAIL + 1))
+  echo "  FAIL: bootstrap worktree context [$OUT]"
+fi
+OUT="$(printf '%s' "$(jq -cn --arg c "$OTHER" '{hook_event_name:"SessionStart",cwd:$c}')" | bash "$BOOT" 2>/dev/null)"
+if [ -z "$OUT" ]; then
+  PASS=$((PASS + 1))
+  echo "  ok: silent in an out-of-scope repo"
+else
+  FAIL=$((FAIL + 1))
+  echo "  FAIL: bootstrap should be silent out of scope [$OUT]"
+fi
+
+echo ""
+echo "worktree-gate tests: $PASS passed, $FAIL failed"
+[ "$FAIL" -eq 0 ]

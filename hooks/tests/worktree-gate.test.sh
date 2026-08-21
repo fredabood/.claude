@@ -231,6 +231,38 @@ else
   echo "  FAIL: bootstrap should be silent out of scope [$OUT]"
 fi
 
+# ============================================ prose vs invocation (anchoring)
+# strip_quotes is line-oriented (sed), so a quoted span crossing newlines survives it.
+# Verb matching is therefore anchored to the head of a command segment. Regression: a
+# `gh issue edit` carrying body text that said "git commit" blocked itself.
+echo "prose mentioning guarded verbs is not an invocation:"
+PROSE='python3 - <<PY
+new = """## Criteria
+- [x] on main: `git commit` is blocked; `docker compose ps` allowed
+- [x] `rm` of a repo file is blocked
+"""
+PY'
+expect "multi-line prose naming git commit / rm is allowed" 0 "$GATE" "$(bash_payload "$PROSE" "$PRIMARY")"
+expect "gh issue edit with a body file is allowed" 0 "$GATE" \
+  "$(bash_payload 'gh issue edit 1364 --repo fredabood/homelab --body-file /tmp/b.md' "$PRIMARY")"
+expect "a real invocation is still blocked" 2 "$GATE" "$(bash_payload 'git commit -m "LAB-1: x"' "$PRIMARY")"
+expect "a real invocation after && is still blocked" 2 "$GATE" "$(bash_payload 'git add -A && git commit -m "LAB-1: x"' "$PRIMARY")"
+expect "env-prefixed invocation is still blocked" 2 "$GATE" "$(bash_payload 'FOO=1 git commit -m "LAB-1: x"' "$PRIMARY")"
+expect "real rm of a repo file is still blocked" 2 "$GATE" "$(bash_payload 'rm README.md' "$PRIMARY")"
+
+# ================================ worktree sessions may not reach the shared checkout
+# A session that `cd`-ed into a worktree satisfies this gate but never engages Claude
+# Code's native isolation, so the redirect guard is load-bearing there.
+echo "worktree may not redirect git into the shared checkout:"
+expect "git -C <primary> commit from a worktree blocked" 2 "$GATE" \
+  "$(bash_payload "git -C $PRIMARY commit -m x" "$SANDBOX/wt")"
+expect "GIT_DIR pointed at the shared checkout blocked" 2 "$GATE" \
+  "$(bash_payload "GIT_DIR=$PRIMARY/.git git commit -m x" "$SANDBOX/wt")"
+expect "cd into the primary then commit blocked" 2 "$GATE" \
+  "$(bash_payload "cd $PRIMARY && git commit -m x" "$SANDBOX/wt")"
+expect "ordinary commit inside the worktree still allowed" 0 "$GATE" \
+  "$(bash_payload 'git commit -m x' "$SANDBOX/wt")"
+
 echo ""
 echo "worktree-gate tests: $PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]

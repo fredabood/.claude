@@ -76,7 +76,24 @@ block_nested_worktree() {
 
 # Verb matching must ignore quoted strings — a commit MESSAGE mentioning "git merge" is not
 # a merge. Strips "..." and '...' spans; verb greps run on the stripped text.
+#
+# LIMIT: sed is LINE-oriented, so a quoted span crossing newlines is NOT stripped. A
+# multi-line command carrying prose that mentions a guarded verb therefore survives this.
+# That is why verb matching is additionally ANCHORED (see cmd_segments / segment_invokes):
+# stripping alone is not sufficient, as a `gh issue edit` whose body text said
+# "`git commit` is blocked" proved by blocking itself.
 strip_quotes() { printf '%s' "$1" | sed -e 's/"[^"]*"//g' -e "s/'[^']*'//g"; }
+
+# One shell command segment per line: split on ; | & and newlines.
+cmd_segments() { printf '%s' "$1" | tr ';|&\n' '\n\n\n\n'; }
+
+# True when some segment actually INVOKES $2 (an alternation) as a command — i.e. the verb
+# sits at the head of a segment, after optional env assignments and sudo. Prose that merely
+# mentions "git commit" mid-sentence is not an invocation and no longer matches.
+segment_invokes() {
+  cmd_segments "$1" |
+    grep -qE "^[[:space:]]*([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)*(sudo[[:space:]]+)?($2)\b"
+}
 
 # ------------------------------------------------- anti-self-tamper (always) ---
 # Checked BEFORE the mode short-circuit: the installed gate lives in ~/.claude, which is
@@ -118,6 +135,45 @@ fi
 }
 
 MODE="$(wf_mode "$CWD")"
+
+# ------------------------------------------- worktree: guard the shared checkout ---
+# Claude Code's native isolation covers a session that entered a worktree via
+# EnterWorktree or --worktree. It does NOT cover a session that merely `cd`-ed into one
+# with Bash: cwd moves (so this gate is satisfied) while native isolation never engages.
+# In that state `git -C <primary> commit` would reach the shared checkout unchallenged.
+# This is the one place the gate deliberately overlaps native isolation — it is redundant
+# for a properly entered worktree and load-bearing for a cd-ed one.
+if [ "$MODE" = WORKTREE ] && [ "$TOOL" = "Bash" ]; then
+  CMD="$(printf '%s' "$PAYLOAD" | jq -r '.tool_input.command // empty' 2>/dev/null)"
+  if [ -n "$CMD" ]; then
+    COMMON="$(git -C "$CWD" rev-parse --git-common-dir 2>/dev/null)"
+    case "$COMMON" in /*) : ;; *) COMMON="$CWD/$COMMON" ;; esac
+    SHARED="$(dirname "$(wf_realdir "$COMMON" 2>/dev/null || echo /nonexistent)")"
+    if [ -n "$SHARED" ] && [ "$SHARED" != "/" ]; then
+      CODE="$(strip_quotes "$CMD")"
+      # Extract the OPERAND of each redirect form and resolve it, rather than matching the
+      # shared path as a literal string: the command may spell it logically (/var/...)
+      # while git reports it physically (/private/var/...). Same symlink trap as wf_realdir.
+      for tok in $(printf '%s' "$CODE" |
+        grep -oE '(-C[[:space:]]+|--git-dir[= ]|--work-tree[= ]|GIT_DIR=|GIT_WORK_TREE=|(^|[[:space:]])cd[[:space:]]+)[^[:space:];|&]+' |
+        sed -E 's/^.*(-C[[:space:]]+|--git-dir[= ]|--work-tree[= ]|GIT_DIR=|GIT_WORK_TREE=|cd[[:space:]]+)//'); do
+        [ -n "$tok" ] || continue
+        RESOLVED="$(wf_abspath "$tok" "$CWD")"
+        case "$RESOLVED" in */.git | */.git/*) RESOLVED="${RESOLVED%%/.git*}" ;; esac
+        if wf_path_inside "$RESOLVED" "$SHARED"; then
+          echo "[$GATE_NAME] BLOCKED: this command redirects into the shared checkout" >&2
+          echo "$SHARED from inside a worktree." >&2
+          echo "" >&2
+          echo "Reaching into the primary checkout moves the HEAD every other session" >&2
+          echo "depends on. Do that work from a session actually rooted there, or stay" >&2
+          echo "in this worktree and land the change through a PR." >&2
+          exit 2
+        fi
+      done
+    fi
+  fi
+fi
+
 case "$MODE" in
   OUT_OF_REPO | OUT_OF_SCOPE | WORKTREE) exit 0 ;;
   UNRESOLVABLE)
@@ -158,15 +214,19 @@ case "$TOOL" in
     CODE="$(strip_quotes "$CMD")"
 
     # --- git verbs that move HEAD or write history -----------------------------
-    # Explicit allowlist-by-omission: pull/fetch/status/log/diff/show/worktree add|list
-    # are absent from this pattern and therefore pass. The [^;|&]* idiom scopes the match
-    # to one shell command segment, so `git status; echo commit` is not a commit.
-    if printf '%s' "$CODE" |
-      grep -qE '\bgit[^;|&]*\b(commit|merge|rebase|reset|cherry-pick|stash|push|am|apply|revert)\b'; then
+    # Allowlist-by-omission: pull/fetch/status/log/diff/show/worktree add|list are absent
+    # from these patterns and therefore pass.
+    #
+    # Matching is ANCHORED to the head of a command segment. An earlier version matched
+    # `\bgit[^;|&]*\bcommit\b` anywhere, which blocked a `gh issue edit` whose body text
+    # contained the words "git commit" — strip_quotes could not remove it because the
+    # quoted span crossed newlines and sed works line by line.
+    GIT_WRITE='git[^;|&]*\b(commit|merge|rebase|reset|cherry-pick|stash|push|am|apply|revert)\b'
+    if segment_invokes "$CODE" "$GIT_WRITE"; then
       block "a history-moving git command in the primary checkout."
     fi
     # Branch switching moves the shared HEAD — the exact failure this gate exists to stop.
-    if printf '%s' "$CODE" | grep -qE '\bgit[^;|&]*\b(checkout|switch)\b'; then
+    if segment_invokes "$CODE" 'git[^;|&]*\b(checkout|switch)\b'; then
       # `git checkout -- <path>` and `git checkout <sha> -- <path>` restore files without
       # moving HEAD; they are how a deploy mirror recovers a clobbered bind-mounted config.
       printf '%s' "$CODE" | grep -qE '\bgit[^;|&]*\b(checkout|switch)\b[^;|&]*--[[:space:]]' ||
@@ -174,8 +234,11 @@ case "$TOOL" in
     fi
 
     # --- file-mutating shell verbs --------------------------------------------
-    # Redirect pattern excludes fd-dups ([^&]) so `2>&1` and `>&2` never trip it.
-    if printf '%s' "$CODE" | grep -qE '>[[:space:]]*[^&[:space:]]|\btee\b|\bsed[^;|&]*-i\b|\brm\b|\bmv\b|\bcp\b|\btruncate\b|\bdd\b'; then
+    # Redirect pattern excludes fd-dups ([^&]) so `2>&1` and `>&2` never trip it. The verb
+    # forms are anchored the same way as the git verbs, so prose mentioning "rm" or "cp"
+    # inside a multi-line payload is not mistaken for an invocation.
+    MUTATORS='(rm|mv|cp|tee|dd|truncate|install|sed[^;|&]*-i)\b'
+    if printf '%s' "$CODE" | grep -qE '>[[:space:]]*[^&[:space:]]' || segment_invokes "$CODE" "$MUTATORS"; then
       # Collect candidate targets: redirect operands plus every non-flag token.
       TARGETS="$(printf '%s' "$CODE" |
         tr '|;&' '\n' |

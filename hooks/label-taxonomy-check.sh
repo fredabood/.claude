@@ -15,6 +15,71 @@ set -euo pipefail
 
 INPUT=$(cat)
 
+# --- the `gh` CLI path (LAB-1425) --------------------------------------------------------
+# This hook was registered on mcp__github__issue_write only, so `gh issue create` never once
+# ran it — including for #1417, #1420, #1421 and #1424, all created on 2026-08-22. They carry
+# correct labels because a human passed them, not because this "hard gate" fired.
+#
+# Rather than write a second validator, the gh path SYNTHESIZES the MCP payload and falls
+# through to the same python below. One implementation, so the two paths cannot drift.
+#
+# Scope, deliberately narrow:
+#   * `create` only. `gh issue edit --add-label` is NOT validated: --add-label has ADD
+#     semantics while the MCP `labels` field REPLACES, so requiring a complete pattern+layer
+#     pair on an add would block the legitimate act of supplying a single missing label.
+#     Creation is where taxonomy is established, and that is what is enforced.
+#   * Tracked repos only. The taxonomy does not exist in fredabood/.claude or fredabood/work,
+#     so demanding it there would be a constant, immediate over-block.
+TOOL_NAME_RAW=$(printf '%s' "$INPUT" | python3 -c "
+import json, sys
+try:
+    print(json.load(sys.stdin).get('tool_name', '') or '')
+except Exception:
+    print('')
+" 2>/dev/null || echo "")
+
+if [ "$TOOL_NAME_RAW" = "Bash" ]; then
+  . "$(dirname "$0")/lib/gh-lifecycle.sh"
+  GH_CMD=$(printf '%s' "$INPUT" | python3 -c "
+import json, sys
+try:
+    print((json.load(sys.stdin).get('tool_input') or {}).get('command', '') or '')
+except Exception:
+    print('')
+" 2>/dev/null || echo "")
+  GH_CWD=$(printf '%s' "$INPUT" | python3 -c "
+import json, sys
+try:
+    print(json.load(sys.stdin).get('cwd', '') or '')
+except Exception:
+    print('')
+" 2>/dev/null || echo "")
+
+  [ -n "$GH_CMD" ] || exit 0
+  GH_PARSED="$(gh_lifecycle_parse "$GH_CMD")"
+  GH_VERDICT="$(printf '%s' "$GH_PARSED" | cut -d'|' -f1)"
+  [ "$GH_VERDICT" = "create" ] || exit 0
+
+  GH_REPO="$(printf '%s' "$GH_PARSED" | cut -d'|' -f2)"
+  GH_LABELS="$(printf '%s' "$GH_PARSED" | cut -d'|' -f4)"
+
+  # No --repo means gh infers it from the working directory; do the same rather than guess.
+  if [ -z "$GH_REPO" ] && [ -n "$GH_CWD" ]; then
+    GH_REPO="$(git -C "$GH_CWD" remote get-url origin 2>/dev/null || echo "")"
+    GH_REPO="${GH_REPO%.git}"
+  fi
+  # Cannot resolve the repo at all: allow. A gate that blocks on a parse miss over-blocks,
+  # and this is a taxonomy check, not a security boundary.
+  gh_lifecycle_repo_tracked "$GH_REPO" || exit 0
+
+  INPUT="$(LABELS="$GH_LABELS" python3 -c "
+import json, os
+labels = [l for l in os.environ.get('LABELS', '').split(',') if l]
+print(json.dumps({'tool_name': 'mcp__github__issue_write',
+                  'tool_input': {'method': 'create', 'labels': labels}}))
+")"
+fi
+
 echo "$INPUT" | python3 -c "
 import sys, json
 

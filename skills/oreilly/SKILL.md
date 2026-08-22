@@ -52,15 +52,14 @@ substitute a default.
 
 ## Steps
 
-### Step 1: Write execution context marker
+### Step 1: Set execution context marker
 
-Write `.skill-execution-context.json` with:
-`{"skill": "oreilly", "started_at": "<ISO8601>", "ticket_key": null}`
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set oreilly`
 
-If `--jira` is set, resolve the active ticket (same logic as `/complete-task` etc. — check
-`.skill-execution-context.json` from a previous skill, a prior `/start-task` marker, or
-the most recent commit's `KEY-###` prefix on the current branch). Populate `ticket_key`
-in the marker once known.
+If `--jira` is set, resolve the active ticket (same logic as `/complete-task` etc. — check the marker
+(`bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" path`) from a previous skill, a prior `/start-task` marker, or
+the most recent commit's `KEY-###` prefix on the current branch). Once the key is known,
+re-run the marker command with it: `... skill-marker.sh set oreilly "<KEY>"`.
 
 If `--jira` is set but no active ticket can be resolved, stop and ask the user for the key
 rather than posting to the wrong place.
@@ -138,7 +137,7 @@ it landed.
 
 ### Step 6: Cleanup
 
-Delete `.skill-execution-context.json`.
+Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear`.
 
 ## Design notes
 

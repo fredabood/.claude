@@ -6,8 +6,12 @@ user_invocable: true
 
 # /complete-task
 
-**Before any GitHub operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "complete-task", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<issue key if known, null otherwise>"}`
+**This skill does repo work and must run from a worktree.** Before anything else:
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" require-worktree complete-task`
+If it exits non-zero, stop and report its message verbatim — do not continue.
+
+**Before any GitHub operations**, set the skill execution context marker:
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set complete-task "<issue key>"` — omit the key argument if it is not known yet
 
 Finish work on a GitHub issue. Verifies acceptance criteria, runs quality checks, posts a summary and post-mortem, and advances the issue — board Status "Implementation Complete" by default, or close as completed for terminal Done.
 
@@ -151,4 +155,4 @@ Confirm completion with a brief summary (issue number, mirror key, new status, v
 
 Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board and Status option IDs: `.claude/rules/custom-fields.md`.
 
-**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.
+**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

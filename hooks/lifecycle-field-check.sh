@@ -36,6 +36,59 @@ print('|'.join(str(x) for x in [
 
 IFS='|' read -r TOOL_NAME METHOD STATE REASON OWNER REPO ISSUE_NUM <<< "$PARSED"
 
+# --- the `gh` CLI path (LAB-1425) --------------------------------------------------------
+# Registered on mcp__github__issue_write only, this hook never saw `gh issue close` — and
+# with the MCP server disconnected that is the path every close takes. The LAB-966 audit
+# closed 34 issues through it without this gate, or any other, running once.
+#
+# The gh path recovers the same four fields from argv and then falls through to the SAME
+# checks below. Won't Do stays ungated here exactly as on the MCP path.
+#
+# Note: workflow-gate.sh also gates `gh issue close`, on workflow PHASES. That is a different
+# question from this hook's (is there verification evidence?), so both firing is defence in
+# depth rather than duplication — but see the two messages together before assuming a bug.
+if [[ "$TOOL_NAME" == "Bash" ]]; then
+    . "$(dirname "$0")/lib/gh-lifecycle.sh"
+    GH_CMD=$(printf '%s' "$INPUT" | python3 -c "
+import json, sys
+try:
+    print((json.load(sys.stdin).get('tool_input') or {}).get('command', '') or '')
+except Exception:
+    print('')
+" 2>/dev/null || echo "")
+    [[ -n "$GH_CMD" ]] || exit 0
+    GH_PARSED="$(gh_lifecycle_parse "$GH_CMD")"
+    case "$(printf '%s' "$GH_PARSED" | cut -d'|' -f1)" in
+        close-done) : ;;
+        *) exit 0 ;;   # not a close-as-completed: not this hook's business
+    esac
+    TOOL_NAME="mcp__github__issue_write"
+    STATE="closed"
+    REASON="completed"
+    GH_REPO="$(printf '%s' "$GH_PARSED" | cut -d'|' -f2)"
+    ISSUE_NUM="$(printf '%s' "$GH_PARSED" | cut -d'|' -f3)"
+    if [[ -n "$GH_REPO" ]]; then
+        OWNER="${GH_REPO%%/*}"
+        REPO="${GH_REPO##*/}"
+        [[ "$OWNER" == "$REPO" ]] && OWNER=""     # bare name, no owner given
+    else
+        # No --repo: gh infers it from the working directory, so do the same. Allow-path 2
+        # needs a real repo to query; without one it would silently drop to the block path.
+        GH_CWD=$(printf '%s' "$INPUT" | python3 -c "
+import json, sys
+try:
+    print(json.load(sys.stdin).get('cwd', '') or '')
+except Exception:
+    print('')
+" 2>/dev/null || echo "")
+        if [[ -n "$GH_CWD" ]]; then
+            ORIGIN="$(git -C "$GH_CWD" remote get-url origin 2>/dev/null || echo "")"
+            ORIGIN="${ORIGIN%.git}"
+            [[ -n "$ORIGIN" ]] && { REPO="${ORIGIN##*/}"; OWNER="$(basename "$(dirname "$ORIGIN")")"; }
+        fi
+    fi
+fi
+
 if [[ "$TOOL_NAME" != "mcp__github__issue_write" ]]; then
     exit 0  # Not an issue write
 fi
@@ -65,6 +118,9 @@ except Exception:
 " 2>/dev/null || echo "")
 
 if skill_marker_fresh "$SESSION_ID"; then
+    # Refresh on use (LAB-1425) — the window measures time since the last sanctioned
+    # operation, so a long or multi-issue close pass stays authorized while it works.
+    skill_marker_touch "$SESSION_ID"
     echo "LIFECYCLE GATE: $ISSUE_REF -> closed/completed (via skill)"
     exit 0
 fi

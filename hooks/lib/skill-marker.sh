@@ -71,6 +71,25 @@ skill_marker_fresh() {
   [ "$age" -lt "$SKILL_MARKER_TTL" ]
 }
 
+# Extend a live marker's window by one TTL (LAB-1425). Called by a gate on its ALLOW path,
+# so the window measures time since the last SANCTIONED operation rather than since `set`.
+#
+# Why this and not a bigger TTL: a /workflow run, or a bulk pass over many issues, routinely
+# exceeds ten minutes between setting the marker and its next gated call, and would then be
+# refused mid-run — which is how "authorised bypasses" get manufactured. Widening the window
+# would weaken the gate for every caller; this only helps a run that is demonstrably active.
+# An abandoned marker is never touched, so it still expires on schedule.
+#
+# Deliberately silent and non-fatal: a gate must never fail because it could not bump an
+# mtime. If the touch fails the caller simply gets the original window.
+skill_marker_touch() {
+  local p
+  p="$(skill_marker_path "${1:-}")"
+  [ -f "$p" ] || return 0
+  touch "$p" 2>/dev/null || true
+  return 0
+}
+
 skill_marker_set() {
   local skill="$1" ticket="${2:-}" p dir tk
   p="$(skill_marker_path)"

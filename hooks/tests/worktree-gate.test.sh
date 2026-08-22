@@ -14,7 +14,18 @@ BOOT="$HOOKS_DIR/session-bootstrap.sh"
 PASS=0
 FAIL=0
 
-SANDBOX="$(mktemp -d)"
+# The sandbox must NOT live anywhere wf_is_scratch() calls scratch — /tmp, /private/tmp,
+# /var/folders, $TMPDIR — because the gate exits 0 on those paths without ever consulting
+# its rules. A sandbox there turns every "must block" assertion into a silent pass.
+#
+# This suite was macOS-only by accident until LAB-1425. There `mktemp -d` yields
+# /var/folders/…, which wf_abspath resolves through the /private symlink to
+# /private/var/folders/… — matching none of the scratch patterns, so the gate guarded it and
+# the tests were real. On Linux `mktemp -d` yields /tmp/…, which matches /tmp/* directly:
+# 21 of the block assertions passed as allows the first time this ran on a hosted runner.
+#
+# $HOME is scratch on neither platform. Overridable for a machine where it is unusual.
+SANDBOX="$(mktemp -d "${WF_TEST_ROOT:-$HOME}/wf-gate-test.XXXXXX")"
 trap 'rm -rf "$SANDBOX"' EXIT
 
 # --- sandbox: a primary checkout, a linked worktree, and an out-of-scope repo -----

@@ -48,19 +48,25 @@ fi
 OWNER="${OWNER:-fredabood}"
 ISSUE_REF="${REPO:-?}#${ISSUE_NUM:-?}"
 
-# Allow path 1: fresh skill execution context (skill is managing the lifecycle)
-MARKER="${CLAUDE_PROJECT_DIR:-.}/.skill-execution-context.json"
-if [ -f "$MARKER" ]; then
-    if [ "$(uname)" = "Darwin" ]; then
-        MARKER_AGE=$(( $(date +%s) - $(stat -f %m "$MARKER") ))
-    else
-        MARKER_AGE=$(( $(date +%s) - $(stat -c %Y "$MARKER") ))
-    fi
+# Allow path 1: fresh skill execution context (skill is managing the lifecycle).
+#
+# The marker lives under $TMPDIR keyed on the session, not in the repo root (LAB-1426) —
+# the root is a deploy mirror the worktree gate blocks, so 14 skills could not write it at
+# all from a primary-rooted session. lib/skill-marker.sh owns path resolution and the
+# freshness window so this hook and github-skill-gate.sh cannot drift apart.
+. "$(dirname "$0")/lib/skill-marker.sh"
 
-    if [ "$MARKER_AGE" -lt 600 ]; then
-        echo "LIFECYCLE GATE: $ISSUE_REF -> closed/completed (via skill)"
-        exit 0
-    fi
+SESSION_ID=$(echo "$INPUT" | python3 -c "
+import json, sys
+try:
+    print(json.load(sys.stdin).get('session_id', '') or '')
+except Exception:
+    print('')
+" 2>/dev/null || echo "")
+
+if skill_marker_fresh "$SESSION_ID"; then
+    echo "LIFECYCLE GATE: $ISSUE_REF -> closed/completed (via skill)"
+    exit 0
 fi
 
 # Allow path 2: verification report comment already posted (read-only check)

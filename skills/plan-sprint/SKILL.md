@@ -6,8 +6,8 @@ user_invocable: true
 
 # /plan-sprint
 
-**Before any GitHub issue operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "plan-sprint", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
+**Before any GitHub issue operations**, set the skill execution context marker:
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set plan-sprint`
 
 Run a structured planning process that analyzes current project state, gathers requirements, and produces an actionable plan for the next work cycle.
 
@@ -202,4 +202,4 @@ LAB-X → LAB-Y → LAB-Z (N sequential issues)
 - `gh api .../dependencies/blocked_by` (dependency create/read — no MCP tool)
 - `docker exec postgres-memory psql ...` — mirror analytics (read-only)
 
-**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.
+**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

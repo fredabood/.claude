@@ -32,7 +32,7 @@ Example: `/jira-issue LAB-113`
 
 ### Step 1: Write execution context marker
 
-Write `.skill-execution-context.json` with: `{"skill": "jira-issue", "started_at": "<ISO8601>", "ticket_key": "<KEY>"}`
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set jira-issue "<issue key>"` — omit the key argument if it is not known yet
 
 ### Step 2: Resolve the key to (repo, number)
 
@@ -164,7 +164,7 @@ If no comments, display: "No comments."
 
 ### Step 7: Cleanup
 
-Delete `.skill-execution-context.json`.
+Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear`.
 
 ## Required tools
 

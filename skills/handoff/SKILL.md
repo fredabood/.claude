@@ -6,8 +6,8 @@ user_invocable: true
 
 # /handoff
 
-**Before any GitHub issue operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "handoff", "started_at": "<current ISO8601 timestamp>", "ticket_key": null}`
+**Before any GitHub issue operations**, set the skill execution context marker:
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set handoff`
 
 Generate a session handoff summary and persist it to the active GitHub issue(s) and memory for continuity across conversations.
 
@@ -104,4 +104,4 @@ If project-level documentation or conventions changed during the session, ensure
 - `mcp__github__issue_read` (method `get` — confirm issue state before commenting)
 - `gh api .../dependencies/blocked_by` (blocker readback, optional)
 
-**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.
+**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

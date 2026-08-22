@@ -36,19 +36,27 @@ if [ "$IS_WRITE" = false ]; then
   exit 0
 fi
 
-# Check for skill execution context marker
-MARKER="${CLAUDE_PROJECT_DIR:-.}/.skill-execution-context.json"
-if [ -f "$MARKER" ]; then
-  # Check if marker is fresh (< 10 minutes old)
-  if [ "$(uname)" = "Darwin" ]; then
-    MARKER_AGE=$(( $(date +%s) - $(stat -f %m "$MARKER") ))
-  else
-    MARKER_AGE=$(( $(date +%s) - $(stat -c %Y "$MARKER") ))
-  fi
+# Allow while a sanctioned skill run is in progress.
+#
+# The marker no longer lives in the repo root (LAB-1426): 14 skills could not write it at
+# all from the primary checkout, because the worktree gate blocks writes to a deploy mirror.
+# It now lives under $TMPDIR, keyed on the session. Path resolution and the freshness
+# window are owned by lib/skill-marker.sh so this hook and lifecycle-field-check.sh cannot
+# drift apart.
+. "$(dirname "$0")/lib/skill-marker.sh"
 
-  if [ "$MARKER_AGE" -lt 600 ]; then
-    exit 0
-  fi
+# Prefer the session id from the hook payload; skill_marker_fresh falls back to the
+# environment, and then to a project-scoped name, when it is absent.
+SESSION_ID=$(printf '%s' "$INPUT" | python3 -c "
+import json, sys
+try:
+    print(json.load(sys.stdin).get('session_id', '') or '')
+except Exception:
+    print('')
+" 2>/dev/null)
+
+if skill_marker_fresh "$SESSION_ID"; then
+  exit 0
 fi
 
 # Block with helpful message

@@ -6,8 +6,12 @@ user_invocable: true
 
 # /workflow
 
-**Before any GitHub issue operations**, write the skill execution context marker:
-Write `.skill-execution-context.json` with content: `{"skill": "workflow", "started_at": "<current ISO8601 timestamp>", "ticket_key": "<issue key if known, null otherwise>"}`
+**This skill does repo work and must run from a worktree.** Before anything else:
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" require-worktree workflow`
+If it exits non-zero, stop and report its message verbatim — do not continue.
+
+**Before any GitHub issue operations**, set the skill execution context marker:
+Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set workflow "<issue key>"` — omit the key argument if it is not known yet
 
 End-to-end 12-phase development lifecycle with deterministic gates at every phase.
 Phases 1-6: planning + implementation. Phase 7: Implementation Complete (post-mortem). Phases 8-9: Doc Review + Review Complete. Phases 10-12: memory persistence, PR landing, handoff.
@@ -455,4 +459,4 @@ If the user needs to abort an active workflow:
 
 Use the stable IDs from `.claude/rules/custom-fields.md` (project `PVT_kwHOAM5y1M4BcqrU`, Status field `PVTSSF_lAHOAM5y1M4BcqrUzhXRxK4`). If a mutation rejects them, re-derive via `gh api graphql` — fail loudly, do not guess.
 
-**Cleanup:** Delete `.skill-execution-context.json` to release the skill gate.
+**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

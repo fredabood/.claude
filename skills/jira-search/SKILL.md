@@ -24,7 +24,7 @@ Examples:
 
 ## Steps
 
-1. **Write skill execution context marker:** Write `.skill-execution-context.json` with: `{"skill": "jira-search", "started_at": "<ISO8601>", "ticket_key": null}`
+1. **Write skill execution context marker:** Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set jira-search`
 
 2. **Choose the backend:**
    - **Listing/filtering searches** → `mcp__github__search_issues`
@@ -80,7 +80,7 @@ Examples:
    - Format updated date as YYYY-MM-DD (date only, no time)
    - Show assignee login if set, or "-" if unassigned
 
-6. **Cleanup:** Delete `.skill-execution-context.json`.
+6. **Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear`.
 
 ## Required tools
 

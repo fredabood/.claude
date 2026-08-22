@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+# skill-marker.sh — THE single definition of the skill execution marker (LAB-1426).
+#
+# The marker proves "a sanctioned skill run is in progress" to github-skill-gate.sh and
+# lifecycle-field-check.sh. Both readers consult only its MTIME; the JSON body is
+# informational, except that /oreilly --jira reads ticket_key.
+#
+# Why it does not live in the repo root any more:
+#   14 skills used to write a bare `.skill-execution-context.json`, which resolves against
+#   $CWD — the repo root. In the PRIMARY checkout that is a deploy mirror, so worktree-gate.sh
+#   blocks the write (Write tool AND `>` redirect alike; there is no shell escape hatch).
+#   Every one of those skills therefore failed at step 1 from a primary-rooted session.
+#   The marker is ephemeral session state, gitignored in both .gitignore and .claude/.gitignore
+#   precisely because it is not project content, so the fix is to stop putting it in the repo.
+#
+# Why $TMPDIR specifically: wf_is_scratch() in worktree-facts.sh already allowlists
+# /tmp, /private/tmp, /var/folders and $TMPDIR. Landing here needs NO new gate exemption —
+# it is a path the gate was already written to permit.
+#
+# Bash 3.2-compatible (macOS ships 3.2.57). Sourced by the two reader hooks and the test
+# suite; also runnable directly as the writer, which is how skills invoke it.
+
+set -u
+
+# Freshness window. Overridable so the test suite can age a marker without sleeping.
+SKILL_MARKER_TTL="${SKILL_MARKER_TTL:-600}"
+
+skill_marker_dir() {
+  local base="${TMPDIR:-/tmp}"
+  printf '%s/claude-skill-context' "${base%/}"
+}
+
+# Reduce an arbitrary string to something safe as a single filename component.
+# Load-bearing: the reader's session id arrives from a hook's JSON payload, so an id of
+# "../../etc/passwd" must not escape the marker directory.
+skill_marker_slug() { printf '%s' "$1" | tr -c 'A-Za-z0-9._-' '_'; }
+
+# Resolved marker path. $1 = session id, optional.
+#
+# Keyed on the session when one is known, which is TIGHTER than the old repo-root marker:
+# two sessions sharing a checkout can no longer authorize each other's GitHub writes.
+# When no session id is available both sides fall back to the project directory, which is
+# exactly the isolation the old marker had — never worse.
+#
+# UNVERIFIED ASSUMPTION, stated deliberately: that a hook subprocess sees the same
+# CLAUDE_CODE_SESSION_ID as the Bash tool. Confirming it needs a probe inside a security
+# hook. If the two ever disagree the reader looks for a file the writer did not create,
+# finds nothing, and BLOCKS — the fail-closed direction. A false block is visible and
+# fixable; a false allow would not be.
+skill_marker_path() {
+  local sid="${1:-}"
+  [ -n "$sid" ] || sid="${CLAUDE_CODE_SESSION_ID:-}"
+  [ -n "$sid" ] || sid="project-${CLAUDE_PROJECT_DIR:-unknown}"
+  printf '%s/%s.json' "$(skill_marker_dir)" "$(skill_marker_slug "$sid")"
+}
+
+# Exit 0 when a marker exists AND is younger than the TTL. Absent and stale are the same
+# answer on purpose — the readers treat both as "no sanctioned skill run", and block.
+skill_marker_fresh() {
+  local p age now mtime
+  p="$(skill_marker_path "${1:-}")"
+  [ -f "$p" ] || return 1
+  now="$(date +%s)"
+  if [ "$(uname)" = "Darwin" ]; then
+    mtime="$(stat -f %m "$p" 2>/dev/null)" || return 1
+  else
+    mtime="$(stat -c %Y "$p" 2>/dev/null)" || return 1
+  fi
+  [ -n "$mtime" ] || return 1
+  age=$(( now - mtime ))
+  [ "$age" -lt "$SKILL_MARKER_TTL" ]
+}
+
+skill_marker_set() {
+  local skill="$1" ticket="${2:-}" p dir tk
+  p="$(skill_marker_path)"
+  dir="$(dirname "$p")"
+  mkdir -p "$dir" || return 1
+  if [ -n "$ticket" ]; then tk="\"$ticket\""; else tk="null"; fi
+  printf '{"skill": "%s", "started_at": "%s", "ticket_key": %s}\n' \
+    "$skill" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$tk" > "$p" || return 1
+  printf '%s\n' "$p"
+}
+
+skill_marker_clear() { rm -f "$(skill_marker_path)"; }
+
+# Refuse to start in the primary checkout. This is an ERGONOMICS guard, not a security
+# boundary: it converts an opaque failure several steps later into an immediate message
+# naming the remedy. The real enforcement is worktree-gate.sh.
+#
+# Only PRIMARY refuses. UNRESOLVABLE deliberately does not — over-blocking is the
+# demonstrated failure mode of every gate in this tree, and the worktree gate will still
+# block any actual edit with its own message.
+skill_marker_require_worktree() {
+  local skill="$1" lib mode
+  if [ "${SKILL_ALLOW_PRIMARY:-}" = "1" ]; then
+    echo "[skill-marker] SKILL_ALLOW_PRIMARY=1 — running /$skill in the primary checkout anyway." >&2
+    return 0
+  fi
+  lib="$(dirname "${BASH_SOURCE[0]:-$0}")/worktree-facts.sh"
+  [ -f "$lib" ] || return 0   # gate lib absent: not this script's business to invent a verdict
+  # shellcheck source=/dev/null
+  . "$lib"
+  mode="$(wf_mode "$PWD")"
+  [ "$mode" = "PRIMARY" ] || return 0
+  cat >&2 <<MSG
+[skill-marker] BLOCKED: /$skill does repo work and cannot run from the primary checkout.
+
+The primary checkout is a deploy mirror — its files are bind-mounted into running
+containers and its HEAD is shared by every concurrent session, so edits here are blocked.
+
+Remedy — start a worktree:
+    claude --worktree <KEY>-<kebab-description>
+or ask to work in a worktree in this session, then re-run /$skill.
+
+Override for a run that genuinely needs no repo write:
+    SKILL_ALLOW_PRIMARY=1
+MSG
+  return 2
+}
+
+# Direct invocation = writer/CLI. Sourcing = reader.
+if [ "${BASH_SOURCE[0]:-$0}" = "$0" ]; then
+  cmd="${1:-}"
+  shift 2>/dev/null || true
+  case "$cmd" in
+    path)  skill_marker_path "${1:-}" ;;
+    fresh) skill_marker_fresh "${1:-}" ;;
+    set)
+      [ $# -ge 1 ] || { echo "usage: skill-marker.sh set <skill> [ticket-key]" >&2; exit 64; }
+      skill_marker_set "$1" "${2:-}"
+      ;;
+    clear) skill_marker_clear ;;
+    require-worktree)
+      [ $# -ge 1 ] || { echo "usage: skill-marker.sh require-worktree <skill>" >&2; exit 64; }
+      skill_marker_require_worktree "$1"
+      ;;
+    *)
+      echo "usage: skill-marker.sh {path|fresh|set <skill> [ticket]|clear|require-worktree <skill>}" >&2
+      exit 64
+      ;;
+  esac
+fi

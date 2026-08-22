@@ -7,9 +7,15 @@ When `/workflow` is active, git phases become mandatory gates enforced by hooks.
 
 ## Branch Strategy
 
-- **Non-trivial work:** create a feature branch named `<KEY>-kebab-description` (e.g., `LAB-963-add-user-profile`)
-- **Trivial changes** (typos, config, formatting): direct commits to `main` are acceptable
-- Before creating a new branch: check `git status` for uncommitted changes — stash or commit them first
+- **All work — trivial included — happens in a worktree, and lands through a PR.** Start with
+  `claude --worktree <KEY>-kebab-description`, or ask to work in a worktree mid-session.
+- Direct commits to `main` are **not** possible: the primary checkout is a deploy mirror whose
+  files are bind-mounted into running containers and whose `HEAD` is shared by every concurrent
+  session, so the worktree gate blocks the write; and `main` is protected server-side by ruleset
+  `21157484`, which requires a PR and four green checks.
+- **Do not `git stash`** to clear the way for a branch. In a shared tree the unstaged changes may
+  be another session's in-flight work. A fresh worktree has nothing to stash.
+- Full convention, the gate's allow/deny matrix, and the bootstrap steps: `docs/development/worktrees.md`.
 
 ## Commit Hygiene
 

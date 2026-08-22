@@ -51,7 +51,7 @@ skill_marker_path() {
   local sid="${1:-}"
   [ -n "$sid" ] || sid="${CLAUDE_CODE_SESSION_ID:-}"
   [ -n "$sid" ] || sid="project-${CLAUDE_PROJECT_DIR:-unknown}"
-  printf '%s/%s.json' "$(skill_marker_dir)" "$(skill_marker_slug "$sid")"
+  printf '%s/%s.json\n' "$(skill_marker_dir)" "$(skill_marker_slug "$sid")"
 }
 
 # Exit 0 when a marker exists AND is younger than the TTL. Absent and stale are the same

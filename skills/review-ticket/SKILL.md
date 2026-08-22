@@ -7,7 +7,7 @@ user_invocable: true
 # /review-ticket
 
 **Before any GitHub operations**, set the skill execution context marker:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set review-ticket "<issue key>"` — omit the key argument if it is not known yet
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set review-ticket "<issue key>"` — omit the key argument if it is not known yet
 
 Verify all acceptance criteria for a GitHub issue before completion. Runs tests, checks conditions, posts a verification report, and sets board Status to "Review Complete" on pass.
 
@@ -95,4 +95,4 @@ Use `mcp__github__add_issue_comment` to post the verification report on the issu
 
 Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board and Status option IDs: `.claude/rules/custom-fields.md`.
 
-**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.
+**Cleanup:** Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

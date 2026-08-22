@@ -7,11 +7,11 @@ user_invocable: true
 # /implement-feature
 
 **This skill does repo work and must run from a worktree.** Before anything else:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" require-worktree implement-feature`
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" require-worktree implement-feature`
 If it exits non-zero, stop and report its message verbatim — do not continue.
 
 **Before any GitHub issue operations**, set the skill execution context marker:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set implement-feature "<issue key>"` — omit the key argument if it is not known yet
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set implement-feature "<issue key>"` — omit the key argument if it is not known yet
 
 Walk through a complete feature development lifecycle in 7 steps with quality gates between each phase.
 
@@ -141,4 +141,4 @@ If any quality check fails, stop and fix the issue before proceeding. Do not ski
 - `mcp__github__projects_write` (board Status)
 - `gh api .../dependencies/blocked_by` (blocker check — no MCP tool)
 
-**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.
+**Cleanup:** Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

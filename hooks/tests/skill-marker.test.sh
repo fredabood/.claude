@@ -117,6 +117,38 @@ else
   no "no-session fallback is deterministic" "$P_NS1 vs $P_NS2"
 fi
 
+echo "== the invocation form the skills actually use =="
+
+# $CLAUDE_PROJECT_DIR is exported to HOOK subprocesses but NOT to the Bash tool, so a skill
+# instruction written as "$CLAUDE_PROJECT_DIR/.claude/..." expands to /.claude/... and dies
+# with rc=127. That shipped once and was only caught by invoking /status for real; these two
+# assertions are what would have caught it in CI.
+SKILLS_DIR="$(cd "$HOOKS_DIR/../skills" 2>/dev/null && pwd || true)"
+if [ -n "$SKILLS_DIR" ]; then
+  BARE="$(grep -rl '"\$CLAUDE_PROJECT_DIR/\.claude/hooks/lib/skill-marker\.sh"' "$SKILLS_DIR" 2>/dev/null || true)"
+  if [ -z "$BARE" ]; then
+    ok "no skill uses the unguarded \$CLAUDE_PROJECT_DIR form"
+  else
+    no "no skill uses the unguarded \$CLAUDE_PROJECT_DIR form" "$BARE"
+  fi
+else
+  ok "skills directory not present (hooks checked out alone) — skipped"
+fi
+
+# The documented form must resolve with the variable unset. Works whether this repo is the
+# homelab superproject (.claude/hooks/...) or the .claude submodule checked out alone.
+if [ -d "$HOOKS_DIR/../../.claude/hooks" ]; then
+  FORM_BASE="$HOOKS_DIR/../.."; FORM_REL=".claude/hooks/lib/skill-marker.sh"
+else
+  FORM_BASE="$HOOKS_DIR/.."; FORM_REL="hooks/lib/skill-marker.sh"
+fi
+(
+  unset CLAUDE_PROJECT_DIR
+  cd "$FORM_BASE" || exit 1
+  bash "${CLAUDE_PROJECT_DIR:-.}/$FORM_REL" path
+) >/dev/null 2>&1
+expect_rc 0 $? "the \${CLAUDE_PROJECT_DIR:-.} form resolves with the variable unset"
+
 echo "== set / fresh / clear =="
 
 CLAUDE_CODE_SESSION_ID=sess-a bash "$LIB" set demo LAB-1426 >/dev/null

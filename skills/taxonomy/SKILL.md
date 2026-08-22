@@ -7,7 +7,7 @@ user_invocable: true
 # /taxonomy
 
 **Before any GitHub issue operations**, set the skill execution context marker:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set taxonomy`
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set taxonomy`
 
 Audit, report, and manage work taxonomy labels across **both repos**: `fredabood/homelab` and `fredabood/dirtydata`. The label taxonomy (7 work patterns + 4 layers, per `.claude/rules/label-taxonomy.md`) exists identically in both repos.
 
@@ -175,4 +175,4 @@ See `.claude/rules/label-taxonomy.md` for canonical definitions of Planned, Bloc
 - `gh label list` / `gh label create` / `gh issue edit` — repo label ops
 - `gh api .../dependencies/blocked_by` — authoritative blocker readback
 
-**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.
+**Cleanup:** Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

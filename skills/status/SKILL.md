@@ -7,7 +7,7 @@ user_invocable: true
 # /status
 
 **Before any GitHub issue operations**, set the skill execution context marker:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set status`
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set status`
 
 Show a project overview from the "Homelab Work" board and the postgres mirror: open work by Status, blockers, next-eligible issues, and recent completions.
 
@@ -117,4 +117,4 @@ Example: `/status` (both repos) or `/status homelab` or `/status dirtydata`
 - `mcp__github__issue_read` (method `get_comments` — Planned check)
 - `mcp__github__list_issues` / `mcp__github__projects_get` — live fallback if the mirror is stale
 
-**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.
+**Cleanup:** Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

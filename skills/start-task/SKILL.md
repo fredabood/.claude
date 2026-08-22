@@ -7,11 +7,11 @@ user_invocable: true
 # /start-task
 
 **This skill does repo work and must run from a worktree.** Before anything else:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" require-worktree start-task`
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" require-worktree start-task`
 If it exits non-zero, stop and report its message verbatim — do not continue.
 
 **Before any GitHub operations**, set the skill execution context marker:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set start-task "<issue key>"` — omit the key argument if it is not known yet
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set start-task "<issue key>"` — omit the key argument if it is not known yet
 
 Start working on a GitHub issue. Checks acceptance criteria, sets the board Status to "In Progress", posts an assignment comment, and sets up the working context for the session.
 
@@ -143,4 +143,4 @@ Display a brief summary confirming the task is started and what needs to be done
 
 Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board and Status option IDs: `.claude/rules/custom-fields.md`.
 
-**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.
+**Cleanup:** Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

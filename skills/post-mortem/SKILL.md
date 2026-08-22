@@ -7,7 +7,7 @@ user_invocable: true
 # /post-mortem
 
 **Before any GitHub operations**, set the skill execution context marker:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set post-mortem "<issue key>"` — omit the key argument if it is not known yet
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set post-mortem "<issue key>"` — omit the key argument if it is not known yet
 
 Generate and post a structured post-mortem for a GitHub issue. Captures outcomes, issues, lessons, and follow-up items.
 
@@ -98,4 +98,4 @@ If follow-up items were identified:
 
 Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board and Status option IDs: `.claude/rules/custom-fields.md`.
 
-**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.
+**Cleanup:** Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

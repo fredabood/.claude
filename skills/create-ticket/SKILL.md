@@ -7,7 +7,7 @@ user_invocable: true
 # /create-ticket
 
 **Before any GitHub operations**, set the skill execution context marker:
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set create-ticket`
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set create-ticket`
 
 Create a well-structured GitHub issue with acceptance criteria, after checking for duplicates.
 
@@ -211,4 +211,4 @@ Display:
 
 Repos: `fredabood/homelab`, `fredabood/dirtydata`. Board "Homelab Work" IDs: see `.claude/rules/custom-fields.md` (new issues are auto-added as Backlog — no board write needed here).
 
-**Cleanup:** Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.
+**Cleanup:** Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear` to release the skill gate.

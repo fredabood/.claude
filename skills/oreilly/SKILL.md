@@ -54,10 +54,10 @@ substitute a default.
 
 ### Step 1: Set execution context marker
 
-Run: `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" set oreilly`
+Run: `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" set oreilly`
 
 If `--jira` is set, resolve the active ticket (same logic as `/complete-task` etc. — check the marker
-(`bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" path`) from a previous skill, a prior `/start-task` marker, or
+(`bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" path`) from a previous skill, a prior `/start-task` marker, or
 the most recent commit's `KEY-###` prefix on the current branch). Once the key is known,
 re-run the marker command with it: `... skill-marker.sh set oreilly "<KEY>"`.
 
@@ -137,7 +137,7 @@ it landed.
 
 ### Step 6: Cleanup
 
-Run `bash "$CLAUDE_PROJECT_DIR/.claude/hooks/lib/skill-marker.sh" clear`.
+Run `bash "${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/lib/skill-marker.sh" clear`.
 
 ## Design notes
 
